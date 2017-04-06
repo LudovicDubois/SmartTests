@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Case.cs" />
     <Compile Include="Criteria.cs" />
     <Compile Include="Criterias\MaxExcluded.cs" />
     <Compile Include="Criterias\MinExcluded.cs" />
