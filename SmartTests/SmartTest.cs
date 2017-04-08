@@ -39,6 +39,9 @@ namespace SmartTests
         {
             switch( @this.NodeType )
             {
+                case ExpressionType.New:
+                    return ( (NewExpression)@this ).Constructor;
+
                 case ExpressionType.MemberAccess:
                     return ( (MemberExpression)@this ).Member;
 
