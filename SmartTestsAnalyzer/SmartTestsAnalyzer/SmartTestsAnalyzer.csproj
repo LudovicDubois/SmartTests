@@ -35,17 +35,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CodeFixProvider.cs" />
+    <Compile Include="Criterias\AndCriteria.cs" />
+    <Compile Include="Criterias\AtomicCriteria.cs" />
+    <Compile Include="Criterias\BinaryCriteria.cs" />
+    <Compile Include="Criterias\CriteriaSymbolExpression.cs" />
+    <Compile Include="Criterias\ImpliesCriteria.cs" />
+    <Compile Include="Criterias\OrCriteria.cs" />
+    <Compile Include="CriteriaVisitor.cs" />
     <Compile Include="DiagnosticAnalyzer.cs" />
+    <Compile Include="Helpers\FullSymbolVisitor.cs" />
     <Compile Include="Helpers\InvocationExpressionSyntaxHelper.cs" />
     <Compile Include="Helpers\SemanticModelHelper.cs" />
     <Compile Include="Helpers\TypeSymbolHelper.cs" />
+    <Compile Include="MembersTestCases.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="MemberTestCase.cs" />
     <Compile Include="TestingFrameworkStrategy.cs" />
+    <Compile Include="TestVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

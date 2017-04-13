@@ -14,7 +14,7 @@ using SmartTestsAnalyzer.Helpers;
 namespace SmartTestsAnalyzer
 {
     [DiagnosticAnalyzer( LanguageNames.CSharp )]
-    public class SmartTestsAnalyzerAnalyzer: DiagnosticAnalyzer
+    public partial class SmartTestsAnalyzerAnalyzer: DiagnosticAnalyzer
     {
         public const string DiagnosticId = "SmartTestsAnalyzer";
 
@@ -33,92 +33,23 @@ namespace SmartTestsAnalyzer
         public override void Initialize( AnalysisContext context )
         {
             // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Analyzer%20Actions%20Semantics.md for more information
-            context.RegisterSyntaxNodeAction( AnalyzeMethod, SyntaxKind.MethodDeclaration ); // Tests are methods
+            context.RegisterSemanticModelAction( Analyze );
         }
 
 
-        private static void AnalyzeMethod( SyntaxNodeAnalysisContext analysisContext )
+        private void Analyze( SemanticModelAnalysisContext context )
         {
             try
             {
-                var methodSyntax = (MethodDeclarationSyntax)analysisContext.Node;
-                var methodSymbol = analysisContext.SemanticModel.GetDeclaredSymbol( methodSyntax );
+                var visitor = new TestVisitor( context );
+                context.SemanticModel.Compilation.SourceModule.Accept( visitor );
 
-                ExpressionSyntax criterias;
-                ISymbol memberSymbol;
-                if( !FindCriterias( analysisContext, methodSymbol, out criterias, out memberSymbol ) )
-                    return;
-
-                var diagnostic = Diagnostic.Create( _Rule, methodSymbol.Locations[ 0 ], methodSymbol.Name );
-                analysisContext.ReportDiagnostic( diagnostic );
+                //context.ReportDiagnostic( new );
             }
             catch( Exception e )
             {
                 throw;
             }
-        }
-
-
-        private const string _SmartTestClassName = "SmartTests.SmartTest";
-
-
-        private static bool FindCriterias( SyntaxNodeAnalysisContext context, IMethodSymbol method,
-                                           out ExpressionSyntax criterias, out ISymbol memberSymbol )
-        {
-            criterias = null;
-            memberSymbol = null;
-            if( method.MethodKind != MethodKind.Ordinary )
-                return false;
-
-            var model = context.SemanticModel;
-            if( !method.IsTestMethod( model ) )
-                return false;
-
-            var declaringType = method.ReceiverType;
-            if( !declaringType.IsTestClass( model ) )
-                return false;
-
-            // It is a test
-            // Does it has criterias?
-            var invocations = context.Node.DescendantNodes().OfType<InvocationExpressionSyntax>();
-            var smartTest = model.Compilation.GetTypeByMetadataName( _SmartTestClassName );
-            var runTestMethods = smartTest.GetMethods( "RunTest" );
-            var caseMethods = smartTest.GetMethods( "Case" );
-            foreach( var runTestInvocationSyntax in invocations )
-                if( FindCriterias( model, runTestInvocationSyntax, runTestMethods, caseMethods,
-                                   ref criterias, ref memberSymbol ) )
-                    return true;
-            return false;
-        }
-
-
-        private static bool FindCriterias( SemanticModel model, InvocationExpressionSyntax runTestInvocationSyntax, IMethodSymbol[] runTestMethods, IMethodSymbol[] caseMethods,
-                                           ref ExpressionSyntax criterias, ref ISymbol memberSymbol )
-        {
-            criterias = null;
-            memberSymbol = null;
-            if( !model.HasMethod( runTestInvocationSyntax, runTestMethods ) )
-                return false;
-
-            // We have a call to SmartTest.RunTests method
-            // => Collect criterias
-            var argument0Syntax = runTestInvocationSyntax.GetArgument( 0 );
-            if( argument0Syntax == null )
-                return false;
-
-            var arg0InvocationSyntax = argument0Syntax.Expression as InvocationExpressionSyntax;
-            if( !model.HasMethod( arg0InvocationSyntax, caseMethods ) )
-                return false;
-            // ReSharper disable once AssignNullToNotNullAttribute
-            criterias = arg0InvocationSyntax.GetArgument( 0 )?.Expression;
-
-            // Search for the tests method
-            var argument1Syntax = runTestInvocationSyntax.GetArgument( 1 );
-            var lambda = argument1Syntax.Expression as ParenthesizedLambdaExpressionSyntax;
-            if( lambda == null )
-                return false;
-            memberSymbol = model.GetSymbolInfo( lambda.Body ).Symbol;
-            return memberSymbol != null;
         }
     }
 }
