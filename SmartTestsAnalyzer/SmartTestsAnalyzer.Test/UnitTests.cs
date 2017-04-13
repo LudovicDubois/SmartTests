@@ -1,25 +1,58 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+
 using TestHelper;
-using SmartTestsAnalyzer;
+
+
 
 namespace SmartTestsAnalyzer.Test
 {
     [TestClass]
-    public class UnitTest : CodeFixVerifier
+    public class UnitTest: CodeFixVerifier
     {
-
         //No diagnostics expected to show up
         [TestMethod]
-        public void TestMethod1()
+        public void SimpleTest()
         {
-            var test = @"";
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-            VerifyCSharpDiagnostic(test);
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ValidValue.Valid ), () => Math.Sqrt(4) );
+
+            Assert.That( result, Is.EqualTo(2) );
         }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer",
+                               Message = $"Type name '{"TypeName"}' contains lowercase letters",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations =
+                                   new[]
+                                   {
+                                       new DiagnosticResultLocation( "Test0.cs", 11, 15 )
+                                   }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
 
         //Diagnostic and CodeFix both triggered and checked for
         [TestMethod]
@@ -40,17 +73,18 @@ namespace SmartTestsAnalyzer.Test
         }
     }";
             var expected = new DiagnosticResult
-            {
-                Id = "SmartTestsAnalyzer",
-                Message = String.Format("Type name '{0}' contains lowercase letters", "TypeName"),
-                Severity = DiagnosticSeverity.Warning,
-                Locations =
-                    new[] {
-                            new DiagnosticResultLocation("Test0.cs", 11, 15)
-                        }
-            };
+                           {
+                               Id = "SmartTestsAnalyzer",
+                               Message = String.Format( "Type name '{0}' contains lowercase letters", "TypeName" ),
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations =
+                                   new[]
+                                   {
+                                       new DiagnosticResultLocation( "Test0.cs", 11, 15 )
+                                   }
+                           };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
 
             var fixtest = @"
     using System;
@@ -66,13 +100,15 @@ namespace SmartTestsAnalyzer.Test
         {   
         }
     }";
-            VerifyCSharpFix(test, fixtest);
+            VerifyCSharpFix( test, fixtest );
         }
+
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
             return new SmartTestsAnalyzerCodeFixProvider();
         }
+
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
