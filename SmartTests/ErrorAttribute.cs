@@ -8,6 +8,6 @@ namespace SmartTests
 {
     [PublicAPI]
     [AttributeUsage( AttributeTargets.Field )]
-    public class Error: Attribute
+    public class ErrorAttribute: Attribute
     {}
 }

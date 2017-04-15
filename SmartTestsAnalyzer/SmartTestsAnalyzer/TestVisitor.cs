@@ -1,37 +1,46 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-using SmartTestsAnalyzer.Criterias;
 using SmartTestsAnalyzer.Helpers;
 
 
 
 namespace SmartTestsAnalyzer
 {
-    partial class TestVisitor: FullSymbolVisitor
+    class TestVisitor: FullSymbolVisitor
     {
+        private const string _SmartTestClassName = "SmartTests.SmartTest";
+
+
         public TestVisitor( SemanticModelAnalysisContext context )
         {
             _Context = context;
             _Model = context.SemanticModel;
+            _TestingFrameworks = new TestingFrameworks( _Model );
+            var smartTest = _Model.Compilation.GetTypeByMetadataName( _SmartTestClassName );
+            Debug.Assert( smartTest != null );
+            _RunTestMethods = smartTest.GetMethods( "RunTest" );
+            _CaseMethods = smartTest.GetMethods( "Case" );
         }
 
 
         private readonly SemanticModelAnalysisContext _Context;
         private readonly SemanticModel _Model;
+        private readonly TestingFrameworks _TestingFrameworks;
+        private IMethodSymbol[] _RunTestMethods;
+        private IMethodSymbol[] _CaseMethods;
 
 
         public MembersTestCases MembersTestCases { get; } = new MembersTestCases();
 
-        private const string _SmartTestClassName = "SmartTests.SmartTest";
-
 
         public override void VisitNamedType( INamedTypeSymbol symbol )
         {
-            if( symbol.IsTestClass( _Model ) )
+            if( _TestingFrameworks.IsTestClass( symbol ) )
                 base.VisitNamedType( symbol );
         }
 
@@ -40,7 +49,7 @@ namespace SmartTestsAnalyzer
         {
             // Is it a test?
             if( method.MethodKind == MethodKind.Ordinary &&
-                method.IsTestMethod( _Model ) )
+                _TestingFrameworks.IsTestMethod( method ) )
                 AnalyzeRunTest( method );
         }
 
@@ -48,48 +57,30 @@ namespace SmartTestsAnalyzer
         private void AnalyzeRunTest( IMethodSymbol method )
         {
             var methodDecl = method.DeclaringSyntaxReferences[ 0 ].GetSyntax( _Context.CancellationToken );
-            var invocations = methodDecl.DescendantNodes().OfType<InvocationExpressionSyntax>();
-            var smartTest = _Model.Compilation.GetTypeByMetadataName( _SmartTestClassName );
-            var runTestMethods = smartTest.GetMethods( "RunTest" );
-            var caseMethods = smartTest.GetMethods( "Case" );
-            foreach( var runTest in invocations )
+            var runTests = methodDecl.DescendantNodes().OfType<InvocationExpressionSyntax>().Where( m => _Model.HasMethod( m, _RunTestMethods ) );
+            foreach( var runTest in runTests )
             {
-                if( !_Model.HasMethod( runTest, runTestMethods ) )
+                // Get Tested Member
+                var argument1Syntax = runTest.GetArgument( 1 );
+                if( argument1Syntax == null )
+                    // ?!?!?
+                    continue;
+                var testedMember = AnalyzeMember( argument1Syntax.Expression );
+                if( testedMember == null )
+                    // ?!?!?
                     continue;
 
-                // We have a call to SmartTest.RunTests method
-                // => Collect Test Member & criterias
+
+                // Collect criterias
                 var argument0Syntax = runTest.GetArgument( 0 );
                 if( argument0Syntax == null )
+                    // ?!?!?
                     continue;
 
-                var memberTestCase = GetCases( argument0Syntax, caseMethods, runTest );
-                if( memberTestCase == null )
-                    continue;
-
-                MembersTestCases.Add( memberTestCase );
+                var memberTestCases = MembersTestCases.GetOrCreate( testedMember );
+                AddCases( argument0Syntax, memberTestCases );
             }
         }
-
-
-        private MemberTestCase GetCases( ArgumentSyntax argument0Syntax, IMethodSymbol[] caseMethods, InvocationExpressionSyntax runTest )
-        {
-            var arg0InvocationSyntax = argument0Syntax.Expression as InvocationExpressionSyntax;
-            if( !_Model.HasMethod( arg0InvocationSyntax, caseMethods ) )
-                return null;
-
-            var criteria = AnalyzeCriteria( arg0InvocationSyntax.GetArgument( 0 )?.Expression );
-            if( criteria == null )
-                return null;
-            var member = AnalyzeMember( runTest.GetArgument( 1 ).Expression );
-            if( member == null )
-                return null;
-
-            return new MemberTestCase( member, criteria );
-        }
-
-
-        private CriteriaSymbolExpression AnalyzeCriteria( ExpressionSyntax criterias ) => criterias?.Accept( new CriteriaVisitor( _Model ) );
 
 
         private ISymbol AnalyzeMember( ExpressionSyntax expression )
@@ -98,6 +89,38 @@ namespace SmartTestsAnalyzer
             return lambda != null
                        ? _Model.GetSymbolInfo( lambda.Body ).Symbol
                        : null;
+        }
+
+
+        private void AddCases( ArgumentSyntax argument0Syntax, MemberTestCases memberTestCases )
+        {
+            var arg0InvocationSyntax = argument0Syntax.Expression as InvocationExpressionSyntax;
+            if( arg0InvocationSyntax == null )
+                // ?!?!?
+                return;
+            var caseMethod = _Model.FindMethodSymbol( arg0InvocationSyntax, _CaseMethods );
+            if( caseMethod == null )
+                // ?!?!?
+                return;
+
+            string parameterName;
+            ExpressionSyntax criterias;
+            if( caseMethod.Parameters.Length == 1 )
+            {
+                parameterName = null;
+                criterias = arg0InvocationSyntax.GetArgument( 0 )?.Expression;
+            }
+            else
+            {
+                parameterName = _Model.GetConstantValue( arg0InvocationSyntax.GetArgument( 0 )?.Expression ).Value as string;
+                criterias = arg0InvocationSyntax.GetArgument( 1 )?.Expression;
+            }
+            if( criterias == null )
+                // ?!?!?
+                return;
+
+            var criteriasCollection = criterias.Accept( new CriteriaVisitor( _Model ) );
+            memberTestCases.Criterias.Add( parameterName ?? MembersTestCases.NoParameter, criteriasCollection );
         }
     }
 }

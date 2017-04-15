@@ -44,6 +44,7 @@ namespace SmartTestsAnalyzer
                 var visitor = new TestVisitor( context );
                 context.SemanticModel.Compilation.SourceModule.Accept( visitor );
 
+                visitor.MembersTestCases.Validate();
                 //context.ReportDiagnostic( new );
             }
             catch( Exception e )

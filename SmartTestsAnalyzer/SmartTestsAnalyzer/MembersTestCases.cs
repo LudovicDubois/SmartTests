@@ -6,21 +6,44 @@ using Microsoft.CodeAnalysis;
 
 namespace SmartTestsAnalyzer
 {
+    /// <summary>
+    ///     Test cases for all tested members, i.e. all combined criteria (normalized form) for all tested members.
+    /// </summary>
     class MembersTestCases
     {
-        public Dictionary<ISymbol, List<MemberTestCase>> MemberCases { get; } = new Dictionary<ISymbol, List<MemberTestCase>>();
+        public Dictionary<ISymbol, MemberTestCases> MemberCases { get; } = new Dictionary<ISymbol, MemberTestCases>();
+
+        public static string NoParameter => "<No Parameter!>";
 
 
-        public void Add( MemberTestCase testCase )
+        public MemberTestCases GetOrCreate( ISymbol testedMember )
         {
-            List<MemberTestCase> cases;
-            if( !MemberCases.TryGetValue( testCase.Member, out cases ) )
-            {
-                cases = new List<MemberTestCase>();
-                MemberCases[ testCase.Member ] = cases;
-            }
+            MemberTestCases cases;
+            if( MemberCases.TryGetValue( testedMember, out cases ) )
+                return cases;
 
-            cases.Add( testCase );
+            cases = new MemberTestCases( testedMember );
+            MemberCases[ testedMember ] = cases;
+            return cases;
+        }
+
+
+        public void Add( ISymbol testedMember, string parameterName, CombinedCriteriasCollection criterias )
+        {
+            MemberTestCases cases;
+            if( !MemberCases.TryGetValue( testedMember, out cases ) )
+            {
+                cases = new MemberTestCases( testedMember );
+                MemberCases[ testedMember ] = cases;
+            }
+            cases.Add( parameterName, criterias );
+        }
+
+
+        public void Validate()
+        {
+            foreach( var memberCasesValue in MemberCases.Values )
+                memberCasesValue.Validate();
         }
     }
 }

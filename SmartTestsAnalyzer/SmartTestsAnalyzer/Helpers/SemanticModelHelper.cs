@@ -10,12 +10,12 @@ namespace SmartTestsAnalyzer.Helpers
 {
     public static class SemanticModelHelper
     {
-        public static IMethodSymbol FindMethodSymbol( [NotNull] this SemanticModel @this, SyntaxNode node, [NotNull] params IMethodSymbol[] methods )
+        public static IMethodSymbol FindMethodSymbol( [NotNull] this SemanticModel @this, [NotNull] SyntaxNode node, [NotNull] params IMethodSymbol[] methods )
         {
             if( @this == null )
                 throw new ArgumentNullException( nameof( @this ) );
             if( node == null )
-                return null;
+                throw new ArgumentNullException( nameof( node ) );
             if( methods == null )
                 throw new ArgumentNullException( nameof( methods ) );
 
@@ -37,6 +37,6 @@ namespace SmartTestsAnalyzer.Helpers
         }
 
 
-        public static bool HasMethod( [NotNull] this SemanticModel @this, SyntaxNode node, [NotNull] params IMethodSymbol[] methods ) => @this.FindMethodSymbol( node, methods ) != null;
+        public static bool HasMethod( [NotNull] this SemanticModel @this, [NotNull]SyntaxNode node, [NotNull] params IMethodSymbol[] methods ) => @this.FindMethodSymbol( node, methods ) != null;
     }
 }

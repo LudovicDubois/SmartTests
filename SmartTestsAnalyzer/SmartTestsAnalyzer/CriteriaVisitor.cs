@@ -1,34 +1,39 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Diagnostics;
+
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SmartTestsAnalyzer.Criterias;
+using SmartTestsAnalyzer.Helpers;
 
 
 
 namespace SmartTestsAnalyzer
 {
-    class CriteriaVisitor: CSharpSyntaxVisitor<CriteriaSymbolExpression>
+    class CriteriaVisitor: CSharpSyntaxVisitor<CombinedCriteriasCollection>
     {
         public CriteriaVisitor( SemanticModel model )
         {
             _Model = model;
+            _ErrorAttribute = _Model.Compilation.GetTypeByMetadataName( "SmartTests.ErrorAttribute" );
+            Debug.Assert( _ErrorAttribute != null );
         }
 
 
         private readonly SemanticModel _Model;
+        private readonly INamedTypeSymbol _ErrorAttribute;
 
 
-        public override CriteriaSymbolExpression VisitMemberAccessExpression( MemberAccessExpressionSyntax node )
+        public override CombinedCriteriasCollection VisitMemberAccessExpression( MemberAccessExpressionSyntax node )
         {
-            var criteria = _Model.GetSymbolInfo( node ).Symbol;
+            var criteria = _Model.GetSymbolInfo( node ).Symbol as IFieldSymbol;
             return criteria != null
-                       ? new AtomicCriteria( criteria )
+                       ? new CombinedCriteriasCollection( criteria, criteria.HasAttribute( _ErrorAttribute ) )
                        : null;
         }
 
 
-        public override CriteriaSymbolExpression VisitBinaryExpression( BinaryExpressionSyntax node )
+        public override CombinedCriteriasCollection VisitBinaryExpression( BinaryExpressionSyntax node )
         {
             var leftCriteria = node.Left.Accept( this );
             if( leftCriteria == null )
@@ -40,7 +45,8 @@ namespace SmartTestsAnalyzer
             switch( node.OperatorToken.Kind() )
             {
                 case SyntaxKind.AmpersandToken:
-                    return new AndCriteria( leftCriteria, rightCriteria );
+                    leftCriteria.CombineAnd( rightCriteria );
+                    return leftCriteria;
 
                 default:
                     return null;
