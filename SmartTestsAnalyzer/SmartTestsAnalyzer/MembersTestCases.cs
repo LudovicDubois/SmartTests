@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.CodeAnalysis;
 
@@ -12,8 +13,6 @@ namespace SmartTestsAnalyzer
     class MembersTestCases
     {
         public Dictionary<ISymbol, MemberTestCases> MemberCases { get; } = new Dictionary<ISymbol, MemberTestCases>();
-
-        public static string NoParameter => "<No Parameter!>";
 
 
         public MemberTestCases GetOrCreate( ISymbol testedMember )
@@ -40,10 +39,10 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate()
+        public void Validate( Action<IMethodSymbol,ISymbol,string> reportError )
         {
             foreach( var memberCasesValue in MemberCases.Values )
-                memberCasesValue.Validate();
+                memberCasesValue.Validate( reportError );
         }
     }
 }

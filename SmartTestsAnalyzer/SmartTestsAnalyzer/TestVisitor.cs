@@ -31,8 +31,8 @@ namespace SmartTestsAnalyzer
         private readonly SemanticModelAnalysisContext _Context;
         private readonly SemanticModel _Model;
         private readonly TestingFrameworks _TestingFrameworks;
-        private IMethodSymbol[] _RunTestMethods;
-        private IMethodSymbol[] _CaseMethods;
+        private readonly IMethodSymbol[] _RunTestMethods;
+        private readonly IMethodSymbol[] _CaseMethods;
 
 
         public MembersTestCases MembersTestCases { get; } = new MembersTestCases();
@@ -78,7 +78,7 @@ namespace SmartTestsAnalyzer
                     continue;
 
                 var memberTestCases = MembersTestCases.GetOrCreate( testedMember );
-                AddCases( argument0Syntax, memberTestCases );
+                AddCases( method, argument0Syntax, memberTestCases );
             }
         }
 
@@ -92,7 +92,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void AddCases( ArgumentSyntax argument0Syntax, MemberTestCases memberTestCases )
+        private void AddCases( IMethodSymbol testMethod, ArgumentSyntax argument0Syntax, MemberTestCases memberTestCases )
         {
             var arg0InvocationSyntax = argument0Syntax.Expression as InvocationExpressionSyntax;
             if( arg0InvocationSyntax == null )
@@ -119,8 +119,8 @@ namespace SmartTestsAnalyzer
                 // ?!?!?
                 return;
 
-            var criteriasCollection = criterias.Accept( new CriteriaVisitor( _Model ) );
-            memberTestCases.Criterias.Add( parameterName ?? MembersTestCases.NoParameter, criteriasCollection );
+            var criteriasCollection = criterias.Accept( new CriteriaVisitor( _Model, testMethod ) );
+            memberTestCases.Criterias.Add( parameterName ?? MemberTestCases.NoParameter, criteriasCollection );
         }
     }
 }

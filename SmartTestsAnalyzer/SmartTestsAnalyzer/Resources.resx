@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnalyzerDescription" xml:space="preserve">
-    <value>Some Test Cases are missing</value>
+  <data name="MissingCases_Description" xml:space="preserve">
+    <value>Some Test Cases are missing to have complete logical coverage.</value>
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
-  <data name="AnalyzerMessageFormat" xml:space="preserve">
-    <value>Member '{0}' has some missing Test Cases</value>
+  <data name="MissingCases_MessageFormat" xml:space="preserve">
+    <value>Tests for '{0}' has some missing Test Cases: {1}</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
-  <data name="AnalyzerTitle" xml:space="preserve">
-    <value>Member has some missing Test Cases</value>
+  <data name="MissingCases_Title" xml:space="preserve">
+    <value>Missing Test Cases</value>
     <comment>The title of the diagnostic.</comment>
   </data>
 </root>

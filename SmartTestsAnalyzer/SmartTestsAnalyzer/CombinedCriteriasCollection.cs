@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 using Microsoft.CodeAnalysis;
+
+using SmartTestsAnalyzer.Helpers;
 
 
 
@@ -24,9 +29,13 @@ namespace SmartTestsAnalyzer
     /// </example>
     class CombinedCriteriasCollection
     {
-        public CombinedCriteriasCollection( IFieldSymbol criteria, bool hasError )
+        private CombinedCriteriasCollection()
+        {}
+
+
+        public CombinedCriteriasCollection( IMethodSymbol testMethod, IFieldSymbol criteria, bool hasError )
         {
-            Criterias.Add( new CombinedCriterias( criteria, hasError ) );
+            Criterias.Add( new CombinedCriterias( testMethod, criteria, hasError ) );
         }
 
 
@@ -42,6 +51,14 @@ namespace SmartTestsAnalyzer
 
         public void CombineAnd( CombinedCriteriasCollection criterias )
         {
+            if( Criterias.Count == 0 )
+            {
+                // No criteria yet!
+                // => Take it as it
+                Criterias = criterias.Criterias;
+                return;
+            }
+
             var currentCriterias = Criterias;
             Criterias = new List<CombinedCriterias>();
             foreach( var combinedCriterias in currentCriterias )
@@ -50,9 +67,65 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate()
+        public void CombineOr( CombinedCriteriasCollection criterias )
         {
-            
+            Criterias.AddRange( criterias.Criterias );
+        }
+
+
+        private void CombineOr( IFieldSymbol criteria )
+        {
+            Criterias.Add( new CombinedCriterias( null, criteria, false ) ); //Todo: Not false!
+        }
+
+
+        private void Remove( CombinedCriteriasCollection criterias )
+        {
+            foreach( var criteria in criterias.Criterias )
+                Criterias.Remove( criteria );
+        }
+
+
+        public void Validate( Action<IMethodSymbol, string> reportError )
+        {
+            var allCriterias = ComputeAllCriteriaCombinations();
+            allCriterias.Remove( this );
+
+            var testMethod = Criterias[0].TestMethods[0];
+            foreach( var criterias in allCriterias.Criterias )
+            {
+                var text = new StringBuilder();
+                foreach( var criteria in criterias.Criterias )
+                {
+                    text.Append( criteria.GetTypeAndMemberName() );
+                    text.Append( " & " );
+                }
+                text.Length -= 3;
+                reportError( testMethod, text.ToString() );
+            }
+        }
+
+
+        private CombinedCriteriasCollection ComputeAllCriteriaCombinations()
+        {
+            var result = new CombinedCriteriasCollection();
+            foreach( var criteriaType in GetAllCriteriaTypes() )
+            {
+                var typeCriterias = new CombinedCriteriasCollection();
+                foreach( var criteria in  criteriaType.GetMembers().Where( member => member is IFieldSymbol ).Cast<IFieldSymbol>() )
+                    typeCriterias.CombineOr( new CombinedCriteriasCollection( null, criteria, false ) ); // TODO: Not false!
+                result.CombineAnd( typeCriterias );
+            }
+            return result;
+        }
+
+
+        private HashSet<ITypeSymbol> GetAllCriteriaTypes()
+        {
+            var result = new HashSet<ITypeSymbol>();
+            foreach( var criteria in Criterias )
+                criteria.FillWithCriteriaTypes( result );
+            return result;
         }
     }
 }

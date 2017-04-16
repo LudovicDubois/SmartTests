@@ -14,6 +14,9 @@ namespace SmartTestsAnalyzer
     /// </summary>
     class MemberTestCases
     {
+        public static string NoParameter => "<No Parameter!>";
+
+
         public MemberTestCases( ISymbol testedMember )
         {
             TestedMember = testedMember;
@@ -30,9 +33,9 @@ namespace SmartTestsAnalyzer
                 throw new ArgumentNullException( nameof( criterias ) );
 
             CombinedCriteriasCollection currentCriterias;
-            if( !Criterias.TryGetValue( parameterName, out currentCriterias ) )
+            if( !Criterias.TryGetValue( parameterName ?? NoParameter, out currentCriterias ) )
             {
-                Criterias[ parameterName ] = criterias;
+                Criterias[ parameterName ?? NoParameter ] = criterias;
                 return;
             }
 
@@ -40,10 +43,23 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate()
+        public void Validate( Action<IMethodSymbol, ISymbol, string> reportError )
+        {
+            ValidateParameterNames( reportError );
+            ValidateCriterias( reportError );
+        }
+
+
+        private void ValidateParameterNames( Action<IMethodSymbol, ISymbol, string> reportError )
+        {
+            //TODO: implementing this
+        }
+
+
+        private void ValidateCriterias( Action<IMethodSymbol, ISymbol, string> reportError )
         {
             foreach( var criterias in Criterias.Values )
-                criterias.Validate();
+                criterias.Validate( ( testMethod, error ) => reportError( testMethod, TestedMember, error ) );
         }
     }
 }

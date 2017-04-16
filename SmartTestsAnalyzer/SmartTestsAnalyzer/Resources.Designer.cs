@@ -62,29 +62,29 @@ namespace SmartTestsAnalyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Some Test Cases are missing.
+        ///   Looks up a localized string similar to Some Test Cases are missing to have complete logical coverage..
         /// </summary>
-        internal static string AnalyzerDescription {
+        internal static string MissingCases_Description {
             get {
-                return ResourceManager.GetString("AnalyzerDescription", resourceCulture);
+                return ResourceManager.GetString("MissingCases_Description", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Member &apos;{0}&apos; has some missing Test Cases.
+        ///   Looks up a localized string similar to Tests for &apos;{0}&apos; has some missing Test Cases: {1}.
         /// </summary>
-        internal static string AnalyzerMessageFormat {
+        internal static string MissingCases_MessageFormat {
             get {
-                return ResourceManager.GetString("AnalyzerMessageFormat", resourceCulture);
+                return ResourceManager.GetString("MissingCases_MessageFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Member has some missing Test Cases.
+        ///   Looks up a localized string similar to Missing Test Cases.
         /// </summary>
-        internal static string AnalyzerTitle {
+        internal static string MissingCases_Title {
             get {
-                return ResourceManager.GetString("AnalyzerTitle", resourceCulture);
+                return ResourceManager.GetString("MissingCases_Title", resourceCulture);
             }
         }
     }

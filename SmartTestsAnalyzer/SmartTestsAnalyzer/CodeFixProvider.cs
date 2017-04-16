@@ -20,7 +20,7 @@ namespace SmartTestsAnalyzer
     {
         private const string _Title = "Add Test Cases";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create( SmartTestsAnalyzerAnalyzer.DiagnosticId );
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create( "SmartTestsAnalyzer.MissingCases" );
 
 
         public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;

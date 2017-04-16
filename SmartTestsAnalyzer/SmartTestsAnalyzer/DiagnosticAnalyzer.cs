@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Immutable;
-using System.Linq;
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 using SmartTestsAnalyzer.Helpers;
@@ -16,18 +13,20 @@ namespace SmartTestsAnalyzer
     [DiagnosticAnalyzer( LanguageNames.CSharp )]
     public partial class SmartTestsAnalyzerAnalyzer: DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "SmartTestsAnalyzer";
-
         // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
         // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Localizing%20Analyzers.md for more on localization
-        private static readonly LocalizableString _Title = new LocalizableResourceString( nameof( Resources.AnalyzerTitle ), Resources.ResourceManager, typeof(Resources) );
-        private static readonly LocalizableString _MessageFormat = new LocalizableResourceString( nameof( Resources.AnalyzerMessageFormat ), Resources.ResourceManager, typeof(Resources) );
-        private static readonly LocalizableString _Description = new LocalizableResourceString( nameof( Resources.AnalyzerDescription ), Resources.ResourceManager, typeof(Resources) );
         private const string _Category = "Tests";
 
-        private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor( DiagnosticId, _Title, _MessageFormat, _Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: _Description );
+        private static LocalizableResourceString LocalizeString( string resourceId ) => new LocalizableResourceString( resourceId, Resources.ResourceManager, typeof(Resources) );
+        private static readonly DiagnosticDescriptor _MissingCases = new DiagnosticDescriptor( "SmartTestsAnalyzer.MissingCases",
+                                                                                               LocalizeString( nameof( Resources.MissingCases_Title ) ),
+                                                                                               LocalizeString( nameof( Resources.MissingCases_MessageFormat ) ),
+                                                                                               _Category,
+                                                                                               DiagnosticSeverity.Warning,
+                                                                                               true,
+                                                                                               LocalizeString( nameof( Resources.MissingCases_Description ) ) );
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create( _Rule );
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create( _MissingCases );
 
 
         public override void Initialize( AnalysisContext context )
@@ -44,8 +43,10 @@ namespace SmartTestsAnalyzer
                 var visitor = new TestVisitor( context );
                 context.SemanticModel.Compilation.SourceModule.Accept( visitor );
 
-                visitor.MembersTestCases.Validate();
-                //context.ReportDiagnostic( new );
+                visitor.MembersTestCases.Validate( ( testMethod, testedMember, errorMessage ) => context.ReportDiagnostic( Diagnostic.Create( _MissingCases,
+                                                                                                                                              testMethod.GetLocation(),
+                                                                                                                                              testedMember.GetTypeAndMemberName(),
+                                                                                                                                              errorMessage ) ) );
             }
             catch( Exception e )
             {

@@ -40,13 +40,13 @@ namespace TestingProject
 }";
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer",
-                               Message = $"Type name '{"TypeName"}' contains lowercase letters",
+                               Id = "SmartTestsAnalyzer.MissingCases",
+                               Message = "Tests for 'Math.Sqrt' has some missing Test Cases: ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations =
                                    new[]
                                    {
-                                       new DiagnosticResultLocation( "Test0.cs", 11, 15 )
+                                       new DiagnosticResultLocation( "Test0.cs", 12, 9 )
                                    }
                            };
 
