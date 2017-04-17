@@ -18,7 +18,7 @@ namespace SmartTestsAnalyzer
         private const string _Category = "Tests";
 
         private static LocalizableResourceString LocalizeString( string resourceId ) => new LocalizableResourceString( resourceId, Resources.ResourceManager, typeof(Resources) );
-        private static readonly DiagnosticDescriptor _MissingCases = new DiagnosticDescriptor( "SmartTestsAnalyzer.MissingCases",
+        private static readonly DiagnosticDescriptor _MissingCases = new DiagnosticDescriptor( "SmartTestsAnalyzer_MissingCases",
                                                                                                LocalizeString( nameof( Resources.MissingCases_Title ) ),
                                                                                                LocalizeString( nameof( Resources.MissingCases_MessageFormat ) ),
                                                                                                _Category,
@@ -41,6 +41,7 @@ namespace SmartTestsAnalyzer
             try
             {
                 var visitor = new TestVisitor( context );
+
                 context.SemanticModel.Compilation.SourceModule.Accept( visitor );
 
                 visitor.MembersTestCases.Validate( ( testMethod, testedMember, errorMessage ) => context.ReportDiagnostic( Diagnostic.Create( _MissingCases,
