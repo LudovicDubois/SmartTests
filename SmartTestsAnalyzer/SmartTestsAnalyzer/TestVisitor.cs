@@ -21,6 +21,9 @@ namespace SmartTestsAnalyzer
             _Context = context;
             _Model = context.SemanticModel;
             _TestingFrameworks = new TestingFrameworks( _Model );
+            if( !IsTestProject )
+                return;
+
             var smartTest = _Model.Compilation.GetTypeByMetadataName( _SmartTestClassName );
             Debug.Assert( smartTest != null );
             _RunTestMethods = smartTest.GetMethods( "RunTest" );
@@ -34,6 +37,8 @@ namespace SmartTestsAnalyzer
         private readonly IMethodSymbol[] _RunTestMethods;
         private readonly IMethodSymbol[] _CaseMethods;
 
+
+        public bool IsTestProject => _TestingFrameworks.IsTestProject;
 
         public MembersTestCases MembersTestCases { get; } = new MembersTestCases();
 

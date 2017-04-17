@@ -41,6 +41,8 @@ namespace SmartTestsAnalyzer
             try
             {
                 var visitor = new TestVisitor( context );
+                if( !visitor.IsTestProject )
+                    return;
 
                 context.SemanticModel.Compilation.SourceModule.Accept( visitor );
 
