@@ -1,6 +1,4 @@
-﻿using System;
-
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -15,9 +13,8 @@ namespace SmartTestsAnalyzer.Test
     [TestFixture]
     public class UnitTest: CodeFixVerifier
     {
-        //No diagnostics expected to show up
         [Test]
-        public void SimpleTest()
+        public void Missing1CaseFrom2Test()
         {
             var test = @"
 using System;
@@ -55,53 +52,38 @@ namespace TestingProject
         }
 
 
-        //Diagnostic and CodeFix both triggered and checked for
         [Test]
-        public void TestMethod2()
+        public void Missing0CaseFrom2Test()
         {
             var test = @"
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Diagnostics;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-    namespace ConsoleApplication1
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
     {
-        class TypeName
-        {   
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ValidValue.Valid ), () => Math.Sqrt(4) );
+
+            Assert.That( result, Is.EqualTo(2) );
         }
-    }";
-            var expected = new DiagnosticResult
-                           {
-                               Id = "SmartTestsAnalyzer",
-                               Message = String.Format( "Type name '{0}' contains lowercase letters", "TypeName" ),
-                               Severity = DiagnosticSeverity.Warning,
-                               Locations =
-                                   new[]
-                                   {
-                                       new DiagnosticResultLocation( "Test0.cs", 11, 15 )
-                                   }
-                           };
 
-            VerifyCSharpDiagnostic( test, expected );
 
-            var fixtest = @"
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Diagnostics;
-
-    namespace ConsoleApplication1
-    {
-        class TYPENAME
-        {   
+        [Test]
+        public void TestMethod()
+        {
+            Assert.Throws<IndexOutOfRangeException>( () => RunTest( Case( ValidValue.Invalid ), () => Math.Sqrt(-4) ) );
         }
-    }";
-            VerifyCSharpFix( test, fixtest );
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
         }
 
 
