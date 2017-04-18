@@ -93,17 +93,19 @@ namespace SmartTestsAnalyzer
             allCriterias.Remove( this );
 
             var criteriaExpression = (ExpressionSyntax)Criterias[ 0 ].CriteriaExpressions[ 0 ];
+            var text = new StringBuilder();
             foreach( var criterias in allCriterias.Criterias )
             {
-                var text = new StringBuilder();
                 foreach( var criteria in criterias.Criterias )
                 {
                     text.Append( criteria.GetTypeAndMemberName() );
                     text.Append( " & " );
                 }
                 text.Length -= 3;
-                reportError( criteriaExpression, text.ToString() );
+                text.Append( " and " );
             }
+            text.Length -= 5;
+            reportError( criteriaExpression, text.ToString() );
         }
 
 

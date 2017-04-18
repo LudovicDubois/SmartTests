@@ -41,11 +41,10 @@ namespace TestingProject
                                Id = "SmartTestsAnalyzer_MissingCases",
                                Message = "Tests for 'Math.Sqrt' has some missing Test Cases: ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
-                               Locations =
-                                   new[]
-                                   {
-                                       new DiagnosticResultLocation( "Test0.cs", 15, 41 )
-                                   }
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 15, 41 )
+                                           }
                            };
 
             VerifyCSharpDiagnostic( test, expected );
@@ -171,6 +170,44 @@ namespace TestingProject
 }";
 
             VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void MissingFirstAndSecondCasesFrom3Test()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( MinIncluded.IsAboveMin ), () => Math.Sqrt(4) );
+
+            Assert.That( result, Is.EqualTo(2) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'Math.Sqrt' has some missing Test Cases: MinIncluded.IsBelowMin and MinIncluded.IsMin",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 15, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
