@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
 
@@ -43,23 +44,23 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( Action<IMethodSymbol, ISymbol, string> reportError )
+        public void Validate( Action<ExpressionSyntax, ISymbol, string> reportError )
         {
             ValidateParameterNames( reportError );
             ValidateCriterias( reportError );
         }
 
 
-        private void ValidateParameterNames( Action<IMethodSymbol, ISymbol, string> reportError )
+        private void ValidateParameterNames( Action<ExpressionSyntax, ISymbol, string> reportError )
         {
             //TODO: implementing this
         }
 
 
-        private void ValidateCriterias( Action<IMethodSymbol, ISymbol, string> reportError )
+        private void ValidateCriterias( Action<ExpressionSyntax, ISymbol, string> reportError )
         {
             foreach( var criterias in Criterias.Values )
-                criterias.Validate( ( testMethod, error ) => reportError( testMethod, TestedMember, error ) );
+                criterias.Validate( ( criteriaExpression, error ) => reportError( criteriaExpression, TestedMember, error ) );
         }
     }
 }

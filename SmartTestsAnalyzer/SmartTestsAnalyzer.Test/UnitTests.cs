@@ -41,13 +41,13 @@ namespace TestingProject
 }";
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer.MissingCases",
+                               Id = "SmartTestsAnalyzer_MissingCases",
                                Message = "Tests for 'Math.Sqrt' has some missing Test Cases: ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations =
                                    new[]
                                    {
-                                       new DiagnosticResultLocation( "Test0.cs", 12, 9 )
+                                       new DiagnosticResultLocation( "Test0.cs", 15, 41 )
                                    }
                            };
 

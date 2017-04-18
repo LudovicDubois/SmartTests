@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
 
@@ -13,17 +14,17 @@ namespace SmartTestsAnalyzer
         {}
 
 
-        public CombinedCriterias( IMethodSymbol testMethod, IFieldSymbol criteria, bool hasError )
+        public CombinedCriterias( ExpressionSyntax criteriasExpression, IFieldSymbol criteria, bool hasError )
         {
-            if( testMethod != null )
-                TestMethods.Add( testMethod );
+            if( criteriasExpression != null )
+                CriteriaExpressions.Add( criteriasExpression );
             Criterias.Add( criteria );
             HasError = hasError;
         }
 
 
         public List<IFieldSymbol> Criterias { get; } = new List<IFieldSymbol>();
-        public List<IMethodSymbol> TestMethods { get; } = new List<IMethodSymbol>();
+        public List<SyntaxNode> CriteriaExpressions { get; } = new List<SyntaxNode>();
         public bool HasError { get; private set; }
 
 

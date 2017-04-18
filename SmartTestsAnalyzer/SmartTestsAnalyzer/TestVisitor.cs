@@ -124,7 +124,7 @@ namespace SmartTestsAnalyzer
                 // ?!?!?
                 return;
 
-            var criteriasCollection = criterias.Accept( new CriteriaVisitor( _Model, testMethod ) );
+            var criteriasCollection = criterias.Accept( new CriteriaVisitor( _Model, criterias ) );
             memberTestCases.Criterias.Add( parameterName ?? MemberTestCases.NoParameter, criteriasCollection );
         }
     }

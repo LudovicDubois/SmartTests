@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
 
@@ -39,7 +40,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( Action<IMethodSymbol,ISymbol,string> reportError )
+        public void Validate( Action<ExpressionSyntax, ISymbol, string> reportError )
         {
             foreach( var memberCasesValue in MemberCases.Values )
                 memberCasesValue.Validate( reportError );

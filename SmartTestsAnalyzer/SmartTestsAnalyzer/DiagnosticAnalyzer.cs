@@ -46,10 +46,10 @@ namespace SmartTestsAnalyzer
 
                 context.SemanticModel.Compilation.SourceModule.Accept( visitor );
 
-                visitor.MembersTestCases.Validate( ( testMethod, testedMember, errorMessage ) => context.ReportDiagnostic( Diagnostic.Create( _MissingCases,
-                                                                                                                                              testMethod.GetLocation(),
-                                                                                                                                              testedMember.GetTypeAndMemberName(),
-                                                                                                                                              errorMessage ) ) );
+                visitor.MembersTestCases.Validate( ( criteriaExpression, testedMember, errorMessage ) => context.ReportDiagnostic( Diagnostic.Create( _MissingCases,
+                                                                                                                                                      criteriaExpression.GetLocation(),
+                                                                                                                                                      testedMember.GetTypeAndMemberName(),
+                                                                                                                                                      errorMessage ) ) );
             }
             catch( Exception e )
             {

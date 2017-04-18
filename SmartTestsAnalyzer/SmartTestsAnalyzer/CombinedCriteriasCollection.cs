@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SmartTestsAnalyzer.Helpers;
 
@@ -33,9 +34,9 @@ namespace SmartTestsAnalyzer
         {}
 
 
-        public CombinedCriteriasCollection( IMethodSymbol testMethod, IFieldSymbol criteria, bool hasError )
+        public CombinedCriteriasCollection( ExpressionSyntax criteriaExpression, IFieldSymbol criteria, bool hasError )
         {
-            Criterias.Add( new CombinedCriterias( testMethod, criteria, hasError ) );
+            Criterias.Add( new CombinedCriterias( criteriaExpression, criteria, hasError ) );
         }
 
 
@@ -86,12 +87,12 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( Action<IMethodSymbol, string> reportError )
+        public void Validate( Action<ExpressionSyntax, string> reportError )
         {
             var allCriterias = ComputeAllCriteriaCombinations();
             allCriterias.Remove( this );
 
-            var testMethod = Criterias[0].TestMethods[0];
+            var criteriaExpression = (ExpressionSyntax)Criterias[ 0 ].CriteriaExpressions[ 0 ];
             foreach( var criterias in allCriterias.Criterias )
             {
                 var text = new StringBuilder();
@@ -101,7 +102,7 @@ namespace SmartTestsAnalyzer
                     text.Append( " & " );
                 }
                 text.Length -= 3;
-                reportError( testMethod, text.ToString() );
+                reportError( criteriaExpression, text.ToString() );
             }
         }
 
