@@ -60,10 +60,6 @@
       <Project>{51fe4134-1e3b-4281-8330-be415f66fd39}</Project>
       <Name>SmartTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestedProject\TestedProject.csproj">
-      <Project>{345afc85-ca83-4fa5-b456-cf334dbadd27}</Project>
-      <Name>TestedProject</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

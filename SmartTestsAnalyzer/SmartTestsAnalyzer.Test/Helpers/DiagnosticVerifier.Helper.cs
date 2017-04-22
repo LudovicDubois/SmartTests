@@ -11,9 +11,6 @@ using NUnit.Framework.Internal;
 
 using SmartTests;
 
-using TestedProject;
-
-
 
 namespace TestHelper
 {
@@ -29,7 +26,6 @@ namespace TestHelper
         private static readonly MetadataReference CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
         private static readonly MetadataReference SmartTestReference = MetadataReference.CreateFromFile(typeof(SmartTest).Assembly.Location);
         private static readonly MetadataReference NUnitReference = MetadataReference.CreateFromFile(typeof(TestFixture).Assembly.Location);
-        private static readonly MetadataReference TestedProjectReference = MetadataReference.CreateFromFile(typeof(Product).Assembly.Location);
 
         internal static string DefaultFilePathPrefix = "Test";
         internal static string CSharpDefaultFileExt = "cs";
@@ -159,14 +155,13 @@ namespace TestHelper
 
             var solution = new AdhocWorkspace()
                 .CurrentSolution
-                .AddProject(projectId, TestProjectName, TestProjectName, language)
-                .AddMetadataReference(projectId, CorlibReference)
-                .AddMetadataReference(projectId, SystemCoreReference)
-                .AddMetadataReference(projectId, CSharpSymbolsReference)
-                .AddMetadataReference(projectId, CodeAnalysisReference)
-                .AddMetadataReference(projectId, SmartTestReference)
-                .AddMetadataReference(projectId, NUnitReference)
-                .AddMetadataReference(projectId, TestedProjectReference);
+                .AddProject( projectId, TestProjectName, TestProjectName, language )
+                .AddMetadataReference( projectId, CorlibReference )
+                .AddMetadataReference( projectId, SystemCoreReference )
+                .AddMetadataReference( projectId, CSharpSymbolsReference )
+                .AddMetadataReference( projectId, CodeAnalysisReference )
+                .AddMetadataReference( projectId, SmartTestReference )
+                .AddMetadataReference( projectId, NUnitReference );
 
             int count = 0;
             foreach (var source in sources)
