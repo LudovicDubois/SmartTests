@@ -87,5 +87,32 @@ namespace SmartTestsAnalyzer {
                 return ResourceManager.GetString("MissingCases_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some Parameter Test Cases are missing to have complete logical coverage..
+        /// </summary>
+        internal static string MissingParameterCases_Description {
+            get {
+                return ResourceManager.GetString("MissingParameterCases_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tests for &apos;{0}&apos; has some missing Test Cases for parameter &apos;{2}&apos;: {1}.
+        /// </summary>
+        internal static string MissingParameterCases_MessageFormat {
+            get {
+                return ResourceManager.GetString("MissingParameterCases_MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing Parameter Test Cases.
+        /// </summary>
+        internal static string MissingParameterCases_Title {
+            get {
+                return ResourceManager.GetString("MissingParameterCases_Title", resourceCulture);
+            }
+        }
     }
 }

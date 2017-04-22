@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ThreeCasesTests.cs" />
+    <Compile Include="TwoCasesWithParameterNameTests.cs" />
     <Compile Include="TwoCasesWithNoCaseMethodTests.cs" />
     <Compile Include="TwoCasesTests.cs" />
     <Compile Include="Verifiers\CodeFixVerifier.cs" />

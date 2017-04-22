@@ -26,8 +26,16 @@ namespace SmartTestsAnalyzer
                                                                                                DiagnosticSeverity.Warning,
                                                                                                true,
                                                                                                LocalizeString( nameof( Resources.MissingCases_Description ) ) );
+        private static readonly DiagnosticDescriptor _MissingParameterCases = new DiagnosticDescriptor( "SmartTestsAnalyzer_MissingParameterCases",
+                                                                                                        LocalizeString( nameof( Resources.MissingParameterCases_Title ) ),
+                                                                                                        LocalizeString( nameof( Resources.MissingParameterCases_MessageFormat ) ),
+                                                                                                        _Category,
+                                                                                                        DiagnosticSeverity.Warning,
+                                                                                                        true,
+                                                                                                        LocalizeString( nameof( Resources.MissingParameterCases_Description ) ) );
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create( _MissingCases );
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create( _MissingCases,
+                                                                                                            _MissingParameterCases );
 
 
         public override void Initialize( AnalysisContext context )
@@ -47,11 +55,16 @@ namespace SmartTestsAnalyzer
 
                 context.SemanticModel.Compilation.SourceModule.Accept( visitor );
 
-                visitor.MembersTestCases.Validate( ( criteriaExpression, testedMember, errorMessage ) => context.ReportDiagnostic( Diagnostic.Create( _MissingCases,
-                                                                                                                                                      criteriaExpression.First().GetLocation(),
-                                                                                                                                                      criteriaExpression.Skip( 1 ).Select( criteria => criteria.GetLocation() ),
-                                                                                                                                                      testedMember.GetTypeAndMemberName(),
-                                                                                                                                                      errorMessage ) ) );
+                visitor.MembersTestCases.Validate( ( criteriaExpression, testedMember, parameterName, errorMessage ) =>
+                                                   {
+                                                       var rule = string.IsNullOrEmpty( parameterName ) ? _MissingCases : _MissingParameterCases;
+                                                       context.ReportDiagnostic( Diagnostic.Create( rule,
+                                                                                                    criteriaExpression.First().GetLocation(),
+                                                                                                    criteriaExpression.Skip( 1 ).Select( criteria => criteria.GetLocation() ),
+                                                                                                    testedMember.GetTypeAndMemberName(),
+                                                                                                    errorMessage,
+                                                                                                    parameterName ) );
+                                                   } );
             }
             catch( Exception e )
             {
