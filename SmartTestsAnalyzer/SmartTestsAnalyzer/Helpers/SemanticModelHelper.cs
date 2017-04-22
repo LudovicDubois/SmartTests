@@ -38,5 +38,7 @@ namespace SmartTestsAnalyzer.Helpers
 
 
         public static bool HasMethod( [NotNull] this SemanticModel @this, [NotNull]SyntaxNode node, [NotNull] params IMethodSymbol[] methods ) => @this.FindMethodSymbol( node, methods ) != null;
+
+        public static ISymbol GetSymbol( [NotNull] this SemanticModel @this, SyntaxNode node ) => @this.GetSymbolInfo( node ).Symbol;
     }
 }

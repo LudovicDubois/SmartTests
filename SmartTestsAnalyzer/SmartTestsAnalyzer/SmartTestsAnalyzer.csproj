@@ -42,6 +42,7 @@
     <Compile Include="Helpers\CompilationHelper.cs" />
     <Compile Include="Helpers\FullSymbolVisitor.cs" />
     <Compile Include="Helpers\InvocationExpressionSyntaxHelper.cs" />
+    <Compile Include="Helpers\MethodSymbolHelper.cs" />
     <Compile Include="Helpers\SemanticModelHelper.cs" />
     <Compile Include="Helpers\SymbolHelper.cs" />
     <Compile Include="Helpers\TypeSymbolHelper.cs" />

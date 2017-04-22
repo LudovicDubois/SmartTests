@@ -18,7 +18,6 @@ namespace SmartTestsAnalyzer
 
         public TestVisitor( SemanticModelAnalysisContext context )
         {
-            _Context = context;
             _Compilation = context.SemanticModel.Compilation;
             _TestingFrameworks = new TestingFrameworks( _Compilation );
             if( !IsTestProject )
@@ -31,7 +30,6 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private readonly SemanticModelAnalysisContext _Context;
         private readonly Compilation _Compilation;
         private readonly TestingFrameworks _TestingFrameworks;
         private readonly IMethodSymbol[] _RunTestMethods;
@@ -61,8 +59,8 @@ namespace SmartTestsAnalyzer
 
         private void AnalyzeRunTest( IMethodSymbol method )
         {
-            var methodDecl = method.DeclaringSyntaxReferences[ 0 ].GetSyntax( _Context.CancellationToken );
-            var runTests = methodDecl.DescendantNodes().OfType<InvocationExpressionSyntax>().Where( m => _Compilation.HasMethod( m, _RunTestMethods ) );
+            SemanticModel model = null;
+            var runTests = method.GetDescendantNodes<InvocationExpressionSyntax>().Where( m => _Compilation.HasMethod( m, _RunTestMethods ) );
             foreach( var runTest in runTests )
             {
                 // Get Tested Member
@@ -70,7 +68,13 @@ namespace SmartTestsAnalyzer
                 if( argument1Syntax == null )
                     // ?!?!?
                     continue;
-                var testedMember = AnalyzeMember( argument1Syntax.Expression );
+
+                if( model == null )
+                {
+                    model = _Compilation.GetSemanticModel( runTest.SyntaxTree );
+                    Debug.Assert( model != null );
+                }
+                var testedMember = AnalyzeMember( model, argument1Syntax.Expression );
                 if( testedMember == null )
                     // ?!?!?
                     continue;
@@ -83,28 +87,27 @@ namespace SmartTestsAnalyzer
                     continue;
 
                 var memberTestCases = MembersTestCases.GetOrCreate( testedMember );
-                AddCases( argument0Syntax, memberTestCases );
+                AddCases( model, argument0Syntax, memberTestCases );
             }
         }
 
 
-        private ISymbol AnalyzeMember( ExpressionSyntax expression )
+        private ISymbol AnalyzeMember( SemanticModel model, ExpressionSyntax expression )
         {
             var lambda = expression as ParenthesizedLambdaExpressionSyntax;
             return lambda != null
-                       ? _Compilation.GetSymbol( lambda.Body )
+                       ? model.GetSymbol( lambda.Body )
                        : null;
         }
 
 
-        private void AddCases( ArgumentSyntax argument0Syntax, MemberTestCases memberTestCases )
+        private void AddCases( SemanticModel model, ArgumentSyntax argument0Syntax, MemberTestCases memberTestCases )
         {
-            var semanticModel = _Compilation.GetSemanticModel( argument0Syntax.SyntaxTree );
             var arg0InvocationSyntax = argument0Syntax.Expression as InvocationExpressionSyntax;
             if( arg0InvocationSyntax == null )
                 // ?!?!?
                 return;
-            var caseMethod = semanticModel.FindMethodSymbol( arg0InvocationSyntax, _CaseMethods );
+            var caseMethod = model.FindMethodSymbol( arg0InvocationSyntax, _CaseMethods );
             if( caseMethod == null )
                 // ?!?!?
                 return;
@@ -118,14 +121,14 @@ namespace SmartTestsAnalyzer
             }
             else
             {
-                parameterName = semanticModel.GetConstantValue( arg0InvocationSyntax.GetArgument( 0 )?.Expression ).Value as string;
+                parameterName = model.GetConstantValue( arg0InvocationSyntax.GetArgument( 0 )?.Expression ).Value as string;
                 criterias = arg0InvocationSyntax.GetArgument( 1 )?.Expression;
             }
             if( criterias == null )
                 // ?!?!?
                 return;
 
-            var criteriasCollection = criterias.Accept( new CriteriaVisitor( semanticModel, criterias ) );
+            var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, criterias ) );
             memberTestCases.Add( parameterName ?? MemberTestCases.NoParameter, criteriasCollection );
         }
     }
