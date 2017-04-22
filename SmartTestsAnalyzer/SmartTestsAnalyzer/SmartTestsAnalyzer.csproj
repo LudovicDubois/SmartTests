@@ -39,6 +39,7 @@
     <Compile Include="CombinedCriteriasCollection.cs" />
     <Compile Include="CriteriaVisitor.cs" />
     <Compile Include="DiagnosticAnalyzer.cs" />
+    <Compile Include="Helpers\CompilationHelper.cs" />
     <Compile Include="Helpers\FullSymbolVisitor.cs" />
     <Compile Include="Helpers\InvocationExpressionSyntaxHelper.cs" />
     <Compile Include="Helpers\SemanticModelHelper.cs" />

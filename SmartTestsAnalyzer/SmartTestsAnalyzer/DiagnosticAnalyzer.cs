@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Immutable;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -47,7 +48,8 @@ namespace SmartTestsAnalyzer
                 context.SemanticModel.Compilation.SourceModule.Accept( visitor );
 
                 visitor.MembersTestCases.Validate( ( criteriaExpression, testedMember, errorMessage ) => context.ReportDiagnostic( Diagnostic.Create( _MissingCases,
-                                                                                                                                                      criteriaExpression.GetLocation(),
+                                                                                                                                                      criteriaExpression.First().GetLocation(),
+                                                                                                                                                      criteriaExpression.Skip( 1 ).Select( criteria => criteria.GetLocation() ),
                                                                                                                                                       testedMember.GetTypeAndMemberName(),
                                                                                                                                                       errorMessage ) ) );
             }

@@ -87,12 +87,14 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( Action<ExpressionSyntax, string> reportError )
+        public void Validate( Action<IList<ExpressionSyntax>, string> reportError )
         {
             var allCriterias = ComputeAllCriteriaCombinations();
             allCriterias.Remove( this );
+            if( allCriterias.Criterias.Count == 0 )
+                // No missing cases
+                return;
 
-            var criteriaExpression = (ExpressionSyntax)Criterias[ 0 ].CriteriaExpressions[ 0 ];
             var text = new StringBuilder();
             foreach( var criterias in allCriterias.Criterias )
             {
@@ -105,7 +107,16 @@ namespace SmartTestsAnalyzer
                 text.Append( " and " );
             }
             text.Length -= 5;
-            reportError( criteriaExpression, text.ToString() );
+            reportError( GetExpressionSyntaxes(), text.ToString() );
+        }
+
+
+        private IList<ExpressionSyntax> GetExpressionSyntaxes()
+        {
+            var result = new List<ExpressionSyntax>();
+            foreach( var combinedCriteriase in Criterias )
+                result.AddRange( combinedCriteriase.CriteriaExpressions );
+            return result;
         }
 
 

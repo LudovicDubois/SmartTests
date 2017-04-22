@@ -12,9 +12,9 @@ namespace SmartTestsAnalyzer
 {
     public class TestingFrameworks
     {
-        public TestingFrameworks( SemanticModel model )
+        public TestingFrameworks( Compilation compilation )
         {
-            var nunit = new NUnitStrategy( model );
+            var nunit = new NUnitStrategy( compilation );
             if( nunit.IsValid )
                 _TestingFrameworks.Add( nunit );
         }
@@ -38,13 +38,13 @@ namespace SmartTestsAnalyzer
 
     public class NUnitStrategy: TestingFrameworkStrategy
     {
-        public NUnitStrategy( SemanticModel model )
+        public NUnitStrategy( Compilation compilation )
         {
-            _TestFixtureAttribute = model.Compilation.GetTypeByMetadataName( "NUnit.Framework.TestFixtureAttribute" );
+            _TestFixtureAttribute = compilation.GetTypeByMetadataName( "NUnit.Framework.TestFixtureAttribute" );
             if( _TestFixtureAttribute == null )
                 // This project does not contain NUnit
                 return;
-            _TestAttribute = model.Compilation.GetTypeByMetadataName( "NUnit.Framework.TestAttribute" );
+            _TestAttribute = compilation.GetTypeByMetadataName( "NUnit.Framework.TestAttribute" );
             Debug.Assert( _TestAttribute != null );
         }
 

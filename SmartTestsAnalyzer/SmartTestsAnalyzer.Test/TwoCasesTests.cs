@@ -75,7 +75,7 @@ namespace TestingProject
 
 
         [Test]
-        public void TestMethod()
+        public void TestMethod2()
         {
             Assert.Throws<IndexOutOfRangeException>( () => RunTest( Case( ValidValue.Invalid ), () => Math.Sqrt(-4) ) );
         }

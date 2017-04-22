@@ -44,7 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SimpleTest.cs" />
+    <Compile Include="ThreeCasesTests\MissingFirstCase.cs" />
+    <Compile Include="ThreeCasesTests\MissingFirstAndThirdCasesTest.cs" />
+    <Compile Include="ThreeCasesTests\MissingFirstAndSecondCasesTest.cs" />
+    <Compile Include="TwoCasesTests\MissingNoCaseTest.cs" />
+    <Compile Include="TwoCasesTests\MissingSecondCaseTest.cs" />
+    <Compile Include="TwoCasesTests\MissingFirstCaseTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

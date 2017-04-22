@@ -24,7 +24,7 @@ namespace SmartTestsAnalyzer
 
 
         public List<IFieldSymbol> Criterias { get; } = new List<IFieldSymbol>();
-        public List<SyntaxNode> CriteriaExpressions { get; } = new List<SyntaxNode>();
+        public List<ExpressionSyntax> CriteriaExpressions { get; } = new List<ExpressionSyntax>();
         public bool HasError { get; private set; }
 
 

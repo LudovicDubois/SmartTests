@@ -44,20 +44,20 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( Action<ExpressionSyntax, ISymbol, string> reportError )
+        public void Validate( Action<IList<ExpressionSyntax>, ISymbol, string> reportError )
         {
             ValidateParameterNames( reportError );
             ValidateCriterias( reportError );
         }
 
 
-        private void ValidateParameterNames( Action<ExpressionSyntax, ISymbol, string> reportError )
+        private void ValidateParameterNames( Action<IList<ExpressionSyntax>, ISymbol, string> reportError )
         {
             //TODO: implementing this
         }
 
 
-        private void ValidateCriterias( Action<ExpressionSyntax, ISymbol, string> reportError )
+        private void ValidateCriterias( Action<IList<ExpressionSyntax>, ISymbol, string> reportError )
         {
             foreach( var criterias in Criterias.Values )
                 criterias.Validate( ( criteriaExpression, error ) => reportError( criteriaExpression, TestedMember, error ) );
