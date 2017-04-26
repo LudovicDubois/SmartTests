@@ -20,7 +20,16 @@ namespace TestingProject.TwoCasesTests
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Case( "value", ValidValue.Valid ), () => Math.Sqrt( 4 ) );
+            var result = RunTest( Case( "value", ValidValue.Valid ), () => Sqrt( 4 ) );
+
+            Assert.That( result, Is.EqualTo( 2 ) );
+        }
+
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( "d", ValidValue.Valid ), () => Sqrt( 4 ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
         }

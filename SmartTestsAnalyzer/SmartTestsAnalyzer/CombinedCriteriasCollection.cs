@@ -34,11 +34,14 @@ namespace SmartTestsAnalyzer
         {}
 
 
-        public CombinedCriteriasCollection( ExpressionSyntax criteriaExpression, IFieldSymbol criteria, bool hasError )
+        public CombinedCriteriasCollection( ExpressionSyntax parameterNameExpression, ExpressionSyntax criteriaExpression, IFieldSymbol criteria, bool hasError )
         {
+            ParameterNameExpression = parameterNameExpression;
             Criterias.Add( new CombinedCriterias( criteriaExpression, criteria, hasError ) );
         }
 
+
+        public ExpressionSyntax ParameterNameExpression { get; }
 
         public List<CombinedCriterias> Criterias { get; private set; } = new List<CombinedCriterias>();
 
@@ -87,7 +90,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( Action<IList<ExpressionSyntax>, string> reportError )
+        public void Validate( ISymbol testedMember, string parameterName, Action<Diagnostic> reportError )
         {
             var allCriterias = ComputeAllCriteriaCombinations();
             allCriterias.Remove( this );
@@ -107,7 +110,7 @@ namespace SmartTestsAnalyzer
                 text.Append( " and " );
             }
             text.Length -= 5;
-            reportError( GetExpressionSyntaxes(), text.ToString() );
+            reportError( SmartTestsDiagnostics.CreateMissingCase( testedMember, parameterName, GetExpressionSyntaxes(), text.ToString() ) );
         }
 
 
@@ -127,7 +130,7 @@ namespace SmartTestsAnalyzer
             {
                 var typeCriterias = new CombinedCriteriasCollection();
                 foreach( var criteria in  criteriaType.GetMembers().Where( member => member is IFieldSymbol ).Cast<IFieldSymbol>() )
-                    typeCriterias.CombineOr( new CombinedCriteriasCollection( null, criteria, false ) ); // TODO: Not false!
+                    typeCriterias.CombineOr( new CombinedCriteriasCollection( null, null, criteria, false ) ); // TODO: Not false!
                 result.CombineAnd( typeCriterias );
             }
             return result;

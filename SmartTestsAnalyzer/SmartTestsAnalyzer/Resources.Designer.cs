@@ -114,5 +114,32 @@ namespace SmartTestsAnalyzer {
                 return ResourceManager.GetString("MissingParameterCases_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A Test Case has a wrong Parameter Name..
+        /// </summary>
+        internal static string WrongParameterName_Description {
+            get {
+                return ResourceManager.GetString("WrongParameterName_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test for &apos;{0}&apos; has some invalid parameter name &apos;{1}&apos;..
+        /// </summary>
+        internal static string WrongParameterName_MessageFormat {
+            get {
+                return ResourceManager.GetString("WrongParameterName_MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong Parameter Name.
+        /// </summary>
+        internal static string WrongParameterName_Title {
+            get {
+                return ResourceManager.GetString("WrongParameterName_Title", resourceCulture);
+            }
+        }
     }
 }

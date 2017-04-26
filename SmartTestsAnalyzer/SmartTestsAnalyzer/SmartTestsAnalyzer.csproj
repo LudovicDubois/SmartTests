@@ -54,6 +54,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SmartTestsDiagnostics.cs" />
     <Compile Include="TestingFrameworkStrategy.cs" />
     <Compile Include="TestVisitor.cs" />
   </ItemGroup>

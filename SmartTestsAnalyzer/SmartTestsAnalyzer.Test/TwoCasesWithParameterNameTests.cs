@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -30,7 +32,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Case( ""value"", ValidValue.Valid ), () => Math.Sqrt(4) );
+            var result = RunTest( Case( ""d"", ValidValue.Valid ), () => Math.Sqrt(4) );
 
             Assert.That( result, Is.EqualTo(2) );
         }
@@ -39,11 +41,49 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingParameterCases",
-                Message = "Tests for 'Math.Sqrt' has some missing Test Cases for parameter 'value': ValidValue.Invalid",
+                Message = "Tests for 'Math.Sqrt' has some missing Test Cases for parameter 'd': ValidValue.Invalid",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 15, 50 )
+                                               new DiagnosticResultLocation( "Test0.cs", 15, 46 )
+                                           }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
+        public void WrongParameterName()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ""value"", ValidValue.Valid ), () => Math.Sqrt(4) );
+
+            Assert.That( result, Is.EqualTo(2) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_WrongParameterName",
+                Message = "Test for 'Math.Sqrt' has some invalid parameter name 'value'.",
+                Severity = DiagnosticSeverity.Error,
+                Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 15, 41 )
                                            }
             };
 

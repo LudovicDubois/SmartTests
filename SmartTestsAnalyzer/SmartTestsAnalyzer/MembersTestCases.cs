@@ -40,7 +40,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( Action<IList<ExpressionSyntax>, ISymbol, string, string> reportError )
+        public void Validate( Action<Diagnostic> reportError )
         {
             foreach( var memberCasesValue in MemberCases.Values )
                 memberCasesValue.Validate( reportError );

@@ -114,22 +114,25 @@ namespace SmartTestsAnalyzer
 
             string parameterName;
             ExpressionSyntax criterias;
+            ExpressionSyntax parameterNameExpression;
             if( caseMethod.Parameters.Length == 1 )
             {
+                parameterNameExpression = null;
                 parameterName = null;
                 criterias = arg0InvocationSyntax.GetArgument( 0 )?.Expression;
             }
             else
             {
-                parameterName = model.GetConstantValue( arg0InvocationSyntax.GetArgument( 0 )?.Expression ).Value as string;
+                parameterNameExpression = arg0InvocationSyntax.GetArgument( 0 )?.Expression;
+                parameterName = model.GetConstantValue( parameterNameExpression ).Value as string;
                 criterias = arg0InvocationSyntax.GetArgument( 1 )?.Expression;
             }
             if( criterias == null )
                 // ?!?!?
                 return;
 
-            var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, criterias ) );
-            memberTestCases.Add( parameterName ?? MemberTestCases.NoParameter, criteriasCollection );
+            var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, parameterNameExpression, criterias ) );
+            memberTestCases.Add( parameterName, criteriasCollection );
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using JetBrains.Annotations;
 
@@ -44,23 +45,60 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( Action<IList<ExpressionSyntax>, ISymbol, string, string> reportError )
+        public void Validate( Action<Diagnostic> reportError )
         {
-            ValidateParameterNames( reportError );
-            ValidateCriterias( reportError );
+            if( ValidateParameterNames( reportError ) )
+                ValidateCriterias( reportError );
         }
 
 
-        private void ValidateParameterNames( Action<IList<ExpressionSyntax>, ISymbol, string, string> reportError )
+        private bool ValidateParameterNames( Action<Diagnostic> reportError )
         {
-            //TODO: implementing this
+            var methodSymbol = TestedMember as IMethodSymbol;
+            return methodSymbol == null 
+                ? ValidateNoParameterNames( reportError ) 
+                : ValidateParameterNames( reportError, methodSymbol );
         }
 
 
-        private void ValidateCriterias( Action<IList<ExpressionSyntax>, ISymbol, string, string> reportError )
+        private bool ValidateNoParameterNames( Action<Diagnostic> reportError )
+        {
+            return true;
+        }
+
+
+        private bool ValidateParameterNames( Action<Diagnostic> reportError, IMethodSymbol methodSymbol )
+        {
+            if( methodSymbol.Parameters.Length <= 1 )
+            {
+                // 0 or 1 parameter: the parameter name is not mandatory
+                if( Criterias.Count == 1 && Criterias.First().Key == NoParameter )
+                    return true;
+            }
+
+            var parameters = methodSymbol.Parameters.ToDictionary( par => par.Name );
+            var result = true;
+            foreach( var criterias in Criterias )
+            {
+                var parameterName = criterias.Key;
+                if( parameterName == null )
+                    continue;
+
+                if( parameters.Remove( parameterName ) )
+                    continue;
+
+                // This parameter name does not exist
+                result = false;
+                reportError( SmartTestsDiagnostics.CreateWrongParameterName( methodSymbol, parameterName, criterias.Value.ParameterNameExpression ) );
+            }
+            return result;
+        }
+
+
+        private void ValidateCriterias( Action<Diagnostic> reportError )
         {
             foreach( var criterias in Criterias )
-                criterias.Value.Validate( ( criteriaExpression, error ) => reportError( criteriaExpression, TestedMember, criterias.Key, error ) );
+                criterias.Value.Validate( TestedMember, criterias.Key, reportError );
         }
     }
 }
