@@ -44,7 +44,7 @@ namespace TestingProject.TwoCasesTests
         public void Missing1ParameterName()
         {
             var reminder = default(int);
-            var result = RunTest( Case( "a", ValidValue.Valid ),
+            var result = RunTest( Case( "a", AnyValue.Valid ),
                                   () => DivRem( 7, 3, out reminder ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );

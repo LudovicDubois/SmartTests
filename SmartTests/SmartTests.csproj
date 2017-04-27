@@ -50,6 +50,7 @@
     <Compile Include="Criterias\MinExcluded.cs" />
     <Compile Include="Criterias\MaxIncluded.cs" />
     <Compile Include="Criterias\MinIncluded.cs" />
+    <Compile Include="Criterias\AnyValue.cs" />
     <Compile Include="Criterias\ValidValue.cs" />
     <Compile Include="ErrorAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

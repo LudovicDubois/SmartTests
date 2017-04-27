@@ -127,7 +127,7 @@ namespace TestingProject
         public void TestMethod()
         {
             var reminder = default(int);
-            var result = RunTest( Case( ""a"", ValidValue.Valid ),
+            var result = RunTest( Case( ""a"", AnyValue.Valid ),
                                   () => Math.DivRem( 7, 3, out reminder ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
@@ -146,19 +146,8 @@ namespace TestingProject
                                                new DiagnosticResultLocation( "Test0.cs", 16, 35 )
                                            }
                            };
-            var expectedMissingCases = new DiagnosticResult
-                           {
-                               Id = "SmartTestsAnalyzer_MissingParameterCases",
-                               Message = "Tests for 'Math.DivRem' has some missing Test Cases for parameter 'a': ValidValue.Invalid",
-                               Severity = DiagnosticSeverity.Warning,
-                               Locations = new[]
-                                           {
-                                               new DiagnosticResultLocation( "Test0.cs", 16, 46 )
-                                           }
-                           };
 
-
-            VerifyCSharpDiagnostic( test, expectedMissingCase, expectedMissingCases );
+            VerifyCSharpDiagnostic( test, expectedMissingCase );
         }
 
 
