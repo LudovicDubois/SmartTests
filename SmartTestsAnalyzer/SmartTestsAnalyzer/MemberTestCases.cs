@@ -76,7 +76,7 @@ namespace SmartTestsAnalyzer
                     return true;
             }
 
-            var parameters = methodSymbol.Parameters.ToDictionary( par => par.Name );
+            var parameters = methodSymbol.Parameters.Where( p => p.RefKind != RefKind.Out ).ToDictionary( par => par.Name );
             var result = true;
             foreach( var criterias in Criterias )
             {
@@ -91,6 +91,10 @@ namespace SmartTestsAnalyzer
                 result = false;
                 reportError( SmartTestsDiagnostics.CreateWrongParameterName( methodSymbol, parameterName, criterias.Value.ParameterNameExpression ) );
             }
+
+            // Remaining parameters have no Case!
+            foreach( var parameter in parameters )
+                reportError( SmartTestsDiagnostics.CreateMissingParameterCase( methodSymbol, parameter.Key, Criterias.First().Value.CasesExpression ) );
             return result;
         }
 

@@ -12,9 +12,10 @@ namespace SmartTestsAnalyzer
 {
     class CriteriaVisitor: CSharpSyntaxVisitor<CombinedCriteriasCollection>
     {
-        public CriteriaVisitor( SemanticModel model, ExpressionSyntax parameterNameExpression, ExpressionSyntax criterias )
+        public CriteriaVisitor( SemanticModel model, ArgumentSyntax casesExpression, ExpressionSyntax parameterNameExpression, ExpressionSyntax criterias )
         {
             _Model = model;
+            _CasesExpression = casesExpression;
             _ParameterNameExpression = parameterNameExpression;
             _Criterias = criterias;
             _ErrorAttribute = _Model.Compilation.GetTypeByMetadataName( "SmartTests.ErrorAttribute" );
@@ -23,6 +24,7 @@ namespace SmartTestsAnalyzer
 
 
         private readonly SemanticModel _Model;
+        private readonly ArgumentSyntax _CasesExpression;
         private readonly ExpressionSyntax _ParameterNameExpression;
         private readonly ExpressionSyntax _Criterias;
         private readonly INamedTypeSymbol _ErrorAttribute;
@@ -32,7 +34,7 @@ namespace SmartTestsAnalyzer
         {
             var criteria = _Model.GetSymbolInfo( node ).Symbol as IFieldSymbol;
             return criteria != null
-                       ? new CombinedCriteriasCollection( _ParameterNameExpression,  _Criterias, criteria, criteria.HasAttribute( _ErrorAttribute ) )
+                       ? new CombinedCriteriasCollection( _CasesExpression, _ParameterNameExpression,  _Criterias, criteria, criteria.HasAttribute( _ErrorAttribute ) )
                        : null;
         }
 

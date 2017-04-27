@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -20,31 +19,40 @@ namespace SmartTestsAnalyzer
 
         private static LocalizableResourceString LocalizeString( string resourceId ) => new LocalizableResourceString( resourceId, Resources.ResourceManager, typeof(Resources) );
         private static readonly DiagnosticDescriptor _MissingCases = new DiagnosticDescriptor( "SmartTestsAnalyzer_MissingCases",
-                                                                                               LocalizeString( nameof( Resources.MissingCases_Title ) ),
-                                                                                               LocalizeString( nameof( Resources.MissingCases_MessageFormat ) ),
+                                                                                               LocalizeString( nameof(Resources.MissingCases_Title) ),
+                                                                                               LocalizeString( nameof(Resources.MissingCases_MessageFormat) ),
                                                                                                _Category,
                                                                                                DiagnosticSeverity.Warning,
                                                                                                true,
-                                                                                               LocalizeString( nameof( Resources.MissingCases_Description ) ) );
+                                                                                               LocalizeString( nameof(Resources.MissingCases_Description) ) );
         private static readonly DiagnosticDescriptor _MissingParameterCases = new DiagnosticDescriptor( "SmartTestsAnalyzer_MissingParameterCases",
-                                                                                                        LocalizeString( nameof( Resources.MissingParameterCases_Title ) ),
-                                                                                                        LocalizeString( nameof( Resources.MissingParameterCases_MessageFormat ) ),
+                                                                                                        LocalizeString( nameof(Resources.MissingParameterCases_Title) ),
+                                                                                                        LocalizeString( nameof(Resources.MissingParameterCases_MessageFormat) ),
                                                                                                         _Category,
                                                                                                         DiagnosticSeverity.Warning,
                                                                                                         true,
-                                                                                                        LocalizeString( nameof( Resources.MissingParameterCases_Description ) ) );
+                                                                                                        LocalizeString( nameof(Resources.MissingParameterCases_Description) ) );
 
         private static readonly DiagnosticDescriptor _WrongParameterName = new DiagnosticDescriptor( "SmartTestsAnalyzer_WrongParameterName",
-                                                                                                     LocalizeString( nameof( Resources.WrongParameterName_Title ) ),
-                                                                                                     LocalizeString( nameof( Resources.WrongParameterName_MessageFormat ) ),
+                                                                                                     LocalizeString( nameof(Resources.WrongParameterName_Title) ),
+                                                                                                     LocalizeString( nameof(Resources.WrongParameterName_MessageFormat) ),
                                                                                                      _Category,
                                                                                                      DiagnosticSeverity.Error,
                                                                                                      true,
-                                                                                                     LocalizeString( nameof( Resources.WrongParameterName_Description ) ) );
+                                                                                                     LocalizeString( nameof(Resources.WrongParameterName_Description) ) );
+
+        private static readonly DiagnosticDescriptor _MissingParameterCase = new DiagnosticDescriptor( "SmartTestsAnalyzer_MissingParameterCase",
+                                                                                                       LocalizeString( nameof(Resources.MissingParameterCase_Title) ),
+                                                                                                       LocalizeString( nameof(Resources.MissingParameterCase_MessageFormat) ),
+                                                                                                       _Category,
+                                                                                                       DiagnosticSeverity.Error,
+                                                                                                       true,
+                                                                                                       LocalizeString( nameof(Resources.MissingParameterCase_Description) ) );
 
         public static ImmutableArray<DiagnosticDescriptor> DiagnosticDescriptors { get; } = ImmutableArray.Create( _MissingCases,
                                                                                                                    _MissingParameterCases,
-                                                                                                                   _WrongParameterName
+                                                                                                                   _WrongParameterName,
+                                                                                                                   _MissingParameterCase
                                                                                                                  );
 
 
@@ -60,6 +68,7 @@ namespace SmartTestsAnalyzer
                                     );
         }
 
+
         public static Diagnostic CreateWrongParameterName( ISymbol testedMember, string parameterName, ExpressionSyntax parameterNameExpression )
         {
             return Diagnostic.Create( _WrongParameterName,
@@ -69,14 +78,14 @@ namespace SmartTestsAnalyzer
                                     );
         }
 
-        /*
-                context.ReportDiagnostic(Diagnostic.Create(rule,
-                                                             criteriaExpression.First().GetLocation(),
-                                                             criteriaExpression.Skip(1).Select(criteria => criteria.GetLocation()),
-                                                             testedMember.GetTypeAndMemberName(),
-                                                             errorMessage,
-                                                             parameterName));
-*/
 
+        public static Diagnostic CreateMissingParameterCase( ISymbol testedMember, string parameterName, SyntaxNode parameterNameExpression )
+        {
+            return Diagnostic.Create( _MissingParameterCase,
+                                      parameterNameExpression?.GetLocation(),
+                                      testedMember.GetTypeAndMemberName(),
+                                      parameterName
+                                    );
+        }
     }
 }

@@ -131,7 +131,7 @@ namespace SmartTestsAnalyzer
                 // ?!?!?
                 return;
 
-            var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, parameterNameExpression, criterias ) );
+            var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, argument0Syntax, parameterNameExpression, criterias ) );
             memberTestCases.Add( parameterName, criteriasCollection );
         }
     }

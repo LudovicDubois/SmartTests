@@ -89,6 +89,33 @@ namespace SmartTestsAnalyzer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A Parameter of the tested method has no associated case..
+        /// </summary>
+        internal static string MissingParameterCase_Description {
+            get {
+                return ResourceManager.GetString("MissingParameterCase_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test for &apos;{0}&apos; has no Case for parameter &apos;{1}&apos;..
+        /// </summary>
+        internal static string MissingParameterCase_MessageFormat {
+            get {
+                return ResourceManager.GetString("MissingParameterCase_MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing Parameter Case.
+        /// </summary>
+        internal static string MissingParameterCase_Title {
+            get {
+                return ResourceManager.GetString("MissingParameterCase_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Some Parameter Test Cases are missing to have complete logical coverage..
         /// </summary>
         internal static string MissingParameterCases_Description {
@@ -125,7 +152,7 @@ namespace SmartTestsAnalyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Test for &apos;{0}&apos; has some invalid parameter name &apos;{1}&apos;..
+        ///   Looks up a localized string similar to Test for &apos;{0}&apos; has some invalid parameter &apos;{1}&apos;..
         /// </summary>
         internal static string WrongParameterName_MessageFormat {
             get {
