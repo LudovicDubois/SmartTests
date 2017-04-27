@@ -151,6 +151,58 @@ namespace TestingProject
         }
 
 
+        [Test]
+        public void Missing2ParameterCases()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var reminder = default(int);
+            var result = RunTest( Case( AnyValue.Valid ),
+                                  () => Math.DivRem( 7, 3, out reminder ) );
+
+            Assert.That( result, Is.EqualTo( 2 ) );
+            Assert.That( reminder, Is.EqualTo( 1 ) );
+        }
+    }
+}";
+
+            var expectedMissingCaseA = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingParameterCase",
+                               Message = "Test for 'Math.DivRem' has no Case for parameter 'a'.",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 16, 35 )
+                                           }
+                           };
+            var expectedMissingCaseB = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingParameterCase",
+                               Message = "Test for 'Math.DivRem' has no Case for parameter 'b'.",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 16, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expectedMissingCaseA, expectedMissingCaseB );
+        }
+
+
         protected override CodeFixProvider GetCSharpCodeFixProvider() => new SmartTestsAnalyzerCodeFixProvider();
 
 

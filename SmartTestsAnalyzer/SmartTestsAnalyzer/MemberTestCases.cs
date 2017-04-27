@@ -81,7 +81,7 @@ namespace SmartTestsAnalyzer
             foreach( var criterias in Criterias )
             {
                 var parameterName = criterias.Key;
-                if( parameterName == null )
+                if( parameterName == NoParameter )
                     continue;
 
                 if( parameters.Remove( parameterName ) )
