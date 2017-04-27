@@ -63,5 +63,27 @@ namespace TestingProject.TwoCasesTests
             Assert.That( result, Is.EqualTo( 2 ) );
             Assert.That( reminder, Is.EqualTo( 1 ) );
         }
+
+
+        [Test]
+        public void MissingNoParameterCases1()
+        {
+            var reminder = default(int);
+            var result = RunTest( Case( "a", AnyValue.Valid ) &
+                                  Case( "b", ValidValue.Valid ),
+                                  () => DivRem2( 7, 3, out reminder ) );
+
+            Assert.That( result, Is.EqualTo( 2 ) );
+            Assert.That( reminder, Is.EqualTo( 1 ) );
+        }
+
+        [Test]
+        public void MissingNoParameterCases2()
+        {
+            int reminder;
+            Assert.Throws<DivideByZeroException>( () => RunTest( Case( "a", AnyValue.Valid ) &
+                                                                 Case( "b", ValidValue.Invalid ),
+                                                                 () => DivRem2( 7, 0, out reminder ) ) );
+        }
     }
 }
