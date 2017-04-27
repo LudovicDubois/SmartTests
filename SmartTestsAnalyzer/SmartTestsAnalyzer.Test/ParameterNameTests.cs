@@ -11,7 +11,7 @@ using TestHelper;
 namespace SmartTestsAnalyzer.Test
 {
     [TestFixture]
-    public class TwoCasesWithParameterNameTests: CodeFixVerifier
+    public class ParameterNameTests: CodeFixVerifier
     {
         [Test]
         public void RightParameterName()

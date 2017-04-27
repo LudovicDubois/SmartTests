@@ -11,7 +11,7 @@ using static SmartTests.SmartTest;
 namespace TestingProject.TwoCasesTests
 {
     [TestFixture]
-    public class CaseWithParameterNameTest
+    public class ParameterNameTest
     {
         // This method is here to be independent of the other tests
         private static double Sqrt( double value ) => Math.Sqrt( value );

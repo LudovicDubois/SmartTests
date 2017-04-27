@@ -51,7 +51,7 @@
     <Compile Include="ThreeCasesTests\MissingFirstCase.cs" />
     <Compile Include="ThreeCasesTests\MissingFirstAndThirdCasesTest.cs" />
     <Compile Include="ThreeCasesTests\MissingFirstAndSecondCasesTest.cs" />
-    <Compile Include="TwoCasesTests\CaseWithParameterNameTest.cs" />
+    <Compile Include="TwoCasesTests\ParameterNameTest.cs" />
     <Compile Include="TwoCasesTests\NoCaseMethodTest.cs" />
     <Compile Include="TwoCasesTests\MissingNoCaseTest.cs" />
     <Compile Include="TwoCasesTests\MissingSecondCaseTest.cs" />
