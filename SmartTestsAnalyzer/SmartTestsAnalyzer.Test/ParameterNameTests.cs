@@ -232,9 +232,8 @@ namespace TestingProject
         [Test]
         public void TestMethod2()
         {
-            var reminder;
-            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""a"", AnyValue.Valid ) &
-                                                                 Case( ""b"", ValidValue.Invalid ),
+            int reminder;
+            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""b"", ValidValue.Invalid ),
                                                                  () => Math.DivRem( 7, 0, out reminder ) ) );
         }
     }
@@ -245,7 +244,7 @@ namespace TestingProject
 
 
         [Test]
-        public void MissingNoParameterCases2()
+        public void MissingNoParameterCases_ErrorNotAlone()
         {
             var test = @"
 using System;
@@ -264,7 +263,7 @@ namespace TestingProject
             var reminder = default(int);
             var result = RunTest( Case( ""a"", AnyValue.Valid ) &
                                   Case( ""b"", ValidValue.Valid ),
-                                  () => Console.WriteLine() );
+                                  () => Math.DivRem( 7, 3, out reminder ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
             Assert.That( reminder, Is.EqualTo( 1 ) );
@@ -273,10 +272,10 @@ namespace TestingProject
         [Test]
         public void TestMethod2()
         {
-            var reminder;
+            int reminder;
             Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""a"", AnyValue.Valid ) &
-                                                                 Case(""b"", ValidValue.Invalid),
-                                                                 () => DivRem2(7, 0, out reminder) ) );
+                                                                 Case( ""b"", ValidValue.Invalid ),
+                                                                 () => Math.DivRem( 7, 0, out reminder ) ) );
         }
     }
 }";

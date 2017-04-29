@@ -93,7 +93,7 @@ namespace SmartTestsAnalyzer
 
             // Remaining parameters have no Case!
             foreach( var parameter in parameters )
-                reportError( SmartTestsDiagnostics.CreateMissingParameterCase( methodSymbol, parameter.Key, Criterias.First().Value.CasesExpression ) );
+                reportError( SmartTestsDiagnostics.CreateMissingParameterCase( methodSymbol, parameter.Key, Criterias.First().Value.CaseExpression ) );
             return result;
         }
 

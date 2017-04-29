@@ -97,9 +97,9 @@ namespace SmartTestsAnalyzer
 
                 var memberTestCases = MembersTestCases.GetOrCreate( testedMember );
                 if( runTestSymbol.Parameters[ 0 ].Type == _CaseType )
-                    AddCases( model, argument0Syntax, memberTestCases );
+                    AddCases( model, argument0Syntax.Expression, memberTestCases );
                 else
-                    AddCase( model, argument0Syntax, null, null, argument0Syntax.Expression, memberTestCases );
+                    AddCase( model, argument0Syntax.Expression, null, null, argument0Syntax.Expression, memberTestCases );
             }
         }
 
@@ -113,23 +113,17 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void AddCases( SemanticModel model, ArgumentSyntax argument, MemberTestCases memberTestCases )
+        private void AddCases( SemanticModel model, ExpressionSyntax expression, MemberTestCases memberTestCases )
         {
-/*
-            var binaryExpressionSyntax = argument.Expression as BinaryExpressionSyntax;
-            if( binaryExpressionSyntax != null &&
-                binaryExpressionSyntax.OperatorToken.IsKind( SyntaxKind.BitwiseAndExpression ) )
+            var binaryExpression = expression as BinaryExpressionSyntax;
+            if( binaryExpression != null )
             {
-                binaryExpressionSyntax.Left
+                AddCases( model, binaryExpression.Left, memberTestCases );
+                AddCases( model, binaryExpression.Right, memberTestCases );
+                return;
             }
 
-
-*/
-            var argumentInvocation = argument.Expression as InvocationExpressionSyntax;
-            if( argumentInvocation == null )
-                // ?!??!
-                return;
-
+            var argumentInvocation = (InvocationExpressionSyntax)expression;
             var caseMethod = model.FindMethodSymbol( argumentInvocation, _CaseMethods );
             if( caseMethod == null )
                 // ?!?!?
@@ -151,13 +145,13 @@ namespace SmartTestsAnalyzer
                 criterias = argumentInvocation.GetArgument( 1 )?.Expression;
             }
             if( criterias != null )
-                AddCase( model, argument, parameterNameExpression, parameterName, criterias, memberTestCases );
+                AddCase( model, expression, parameterNameExpression, parameterName, criterias, memberTestCases );
         }
 
 
-        private static void AddCase( SemanticModel model, ArgumentSyntax argument, ExpressionSyntax parameterNameExpression, string parameterName, ExpressionSyntax criterias, MemberTestCases memberTestCases )
+        private static void AddCase( SemanticModel model, ExpressionSyntax expression, ExpressionSyntax parameterNameExpression, string parameterName, ExpressionSyntax criterias, MemberTestCases memberTestCases )
         {
-            var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, argument, parameterNameExpression, criterias ) );
+            var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, expression, parameterNameExpression, criterias ) );
             memberTestCases.Add( parameterName, criteriasCollection );
         }
     }

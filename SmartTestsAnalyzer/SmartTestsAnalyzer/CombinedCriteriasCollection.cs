@@ -34,15 +34,15 @@ namespace SmartTestsAnalyzer
         {}
 
 
-        public CombinedCriteriasCollection( ArgumentSyntax casesExpression, ExpressionSyntax parameterNameExpression, ExpressionSyntax criteriaExpression, IFieldSymbol criteria, bool hasError )
+        public CombinedCriteriasCollection( ExpressionSyntax caseExpression, ExpressionSyntax parameterNameExpression, ExpressionSyntax criteriaExpression, IFieldSymbol criteria, bool hasError )
         {
-            CasesExpression = casesExpression;
+            CaseExpression = caseExpression;
             ParameterNameExpression = parameterNameExpression;
             Criterias.Add( new CombinedCriterias( criteriaExpression, criteria, hasError ) );
         }
 
 
-        public ArgumentSyntax CasesExpression { get; }
+        public ExpressionSyntax CaseExpression { get; }
         public ExpressionSyntax ParameterNameExpression { get; }
 
         public List<CombinedCriterias> Criterias { get; private set; } = new List<CombinedCriterias>();
