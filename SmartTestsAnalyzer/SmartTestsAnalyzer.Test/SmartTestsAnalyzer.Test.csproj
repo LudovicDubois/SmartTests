@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MemberTests.cs" />
     <Compile Include="ThreeCasesTests.cs" />
     <Compile Include="ParameterNameTests.cs" />
     <Compile Include="TwoCasesWithNoCaseMethodTests.cs" />

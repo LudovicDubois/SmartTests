@@ -234,8 +234,8 @@ namespace TestingProject
         {
             var reminder;
             Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""a"", AnyValue.Valid ) &
-                                                                 Case(""b"", ValidValue.Invalid),
-                                                                 () => DivRem2(7, 0, out reminder) ) );
+                                                                 Case( ""b"", ValidValue.Invalid ),
+                                                                 () => Math.DivRem( 7, 0, out reminder ) ) );
         }
     }
 }";

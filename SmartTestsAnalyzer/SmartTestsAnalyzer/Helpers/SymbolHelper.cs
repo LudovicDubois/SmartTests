@@ -14,6 +14,16 @@ namespace SmartTestsAnalyzer.Helpers
 
         public static Location GetLocation( this ISymbol symbol ) => symbol.DeclaringSyntaxReferences[ 0 ].SyntaxTree.GetLocation( symbol.DeclaringSyntaxReferences[ 0 ].Span );
 
-        public static string GetTypeAndMemberName( this ISymbol symbol ) => symbol.ContainingType.Name + "." + symbol.Name;
+        public static string GetTypeAndMemberName( this ISymbol symbol )
+        {
+            var result = symbol.Name;
+            var type = symbol.ContainingType;
+            while( type != null )
+            {
+                result = type.Name + '.' + result;
+                type = type.ContainingType;
+            }
+            return result;
+        }
     }
 }

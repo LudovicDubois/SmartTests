@@ -10,10 +10,10 @@ using TestHelper;
 namespace SmartTestsAnalyzer.Test
 {
     [TestFixture]
-    public class TwoCasesWithNoCaseMethodTests: CodeFixVerifier
+    public class MemberTests: CodeFixVerifier
     {
         [Test]
-        public void MissingNoCase()
+        public void Constructor()
         {
             var test = @"
 using System;
@@ -24,21 +24,25 @@ using static SmartTests.SmartTest;
 namespace TestingProject
 {
     [TestFixture]
-    public class MyTestClass
+    public class ConstructorTests
     {
-        [Test]
-        public void TestMethod()
+        public class MyClass
         {
-            var result = RunTest( ValidValue.Valid, () => Math.Sqrt(4) );
+            public MyClass( int property )
+            {
+                Property = property;
+            }
 
-            Assert.That( result, Is.EqualTo(2) );
+            public int Property { get; }
         }
 
-
         [Test]
-        public void TestMethod2()
+        public void Valid()
         {
-            Assert.Throws<IndexOutOfRangeException>( () => RunTest( ValidValue.Invalid, () => Math.Sqrt(-4) ) );
+            var result = RunTest( AnyValue.Valid,
+                                  () => new MyClass( 10 ) );
+
+            Assert.That( result.Property, Is.EqualTo( 10 ) );
         }
     }
 }";
@@ -48,7 +52,7 @@ namespace TestingProject
 
 
         [Test]
-        public void MissingCase()
+        public void ConstructorMissingCase()
         {
             var test = @"
 using System;
@@ -59,26 +63,36 @@ using static SmartTests.SmartTest;
 namespace TestingProject
 {
     [TestFixture]
-    public class MyTestClass
+    public class ConstructorTests
     {
-        [Test]
-        public void TestMethod()
+        public class MyClass
         {
-            var result = RunTest( ValidValue.Valid, () => Math.Sqrt(4) );
+            public MyClass( int property )
+            {
+                Property = property;
+            }
 
-            Assert.That( result, Is.EqualTo(2) );
+            public int Property { get; }
+        }
+
+        [Test]
+        public void Missing1()
+        {
+            var result = RunTest( ValidValue.Valid,
+                                  () => new MyClass( 10 ) );
+
+            Assert.That( result.Property, Is.EqualTo( 10 ) );
         }
     }
 }";
-
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'Math.Sqrt' has some missing Test Cases: ValidValue.Invalid",
+                               Message = "Tests for 'ConstructorTests.MyClass..ctor' has some missing Test Cases: ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 15, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 25, 35 )
                                            }
                            };
 

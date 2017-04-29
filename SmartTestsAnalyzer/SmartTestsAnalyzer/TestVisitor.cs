@@ -105,8 +105,11 @@ namespace SmartTestsAnalyzer
         {
             var arg0InvocationSyntax = argument0Syntax.Expression as InvocationExpressionSyntax;
             if( arg0InvocationSyntax == null )
-                // ?!?!?
+            { 
+                // Criterias directly without Case()?
+                AddCases( model, argument0Syntax, null, null, argument0Syntax.Expression, memberTestCases );
                 return;
+            }
             var caseMethod = model.FindMethodSymbol( arg0InvocationSyntax, _CaseMethods );
             if( caseMethod == null )
                 // ?!?!?
@@ -127,10 +130,13 @@ namespace SmartTestsAnalyzer
                 parameterName = model.GetConstantValue( parameterNameExpression ).Value as string;
                 criterias = arg0InvocationSyntax.GetArgument( 1 )?.Expression;
             }
-            if( criterias == null )
-                // ?!?!?
-                return;
+            if( criterias != null )
+                AddCases( model, argument0Syntax, parameterNameExpression, parameterName, criterias, memberTestCases );
+        }
 
+
+        private static void AddCases( SemanticModel model, ArgumentSyntax argument0Syntax, ExpressionSyntax parameterNameExpression, string parameterName, ExpressionSyntax criterias, MemberTestCases memberTestCases )
+        {
             var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, argument0Syntax, parameterNameExpression, criterias ) );
             memberTestCases.Add( parameterName, criteriasCollection );
         }
