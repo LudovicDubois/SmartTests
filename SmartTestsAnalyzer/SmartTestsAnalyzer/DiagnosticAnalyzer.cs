@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -12,6 +14,9 @@ namespace SmartTestsAnalyzer
     public partial class SmartTestsAnalyzerAnalyzer: DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => SmartTestsDiagnostics.DiagnosticDescriptors;
+
+
+        public Dictionary<ISymbol, MemberTestCases> Tests { get; private set; }
 
 
         public override void Initialize( AnalysisContext context )
@@ -30,11 +35,13 @@ namespace SmartTestsAnalyzer
                     return;
 
                 context.SemanticModel.Compilation.SourceModule.Accept( visitor );
+                Tests = visitor.MembersTestCases.MemberCases;
 
                 visitor.MembersTestCases.Validate( context.ReportDiagnostic );
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
+                Debug.WriteLine( e.Message );
                 throw;
             }
         }

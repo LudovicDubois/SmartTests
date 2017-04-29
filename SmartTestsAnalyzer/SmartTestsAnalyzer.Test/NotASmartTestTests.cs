@@ -36,7 +36,7 @@ namespace TestingProject
     }
 }";
 
-            VerifyCSharpDiagnostic( test );
+            VerifyCSharpDiagnostic( test, 0 );
         }
 
 
@@ -64,7 +64,7 @@ namespace TestingProject
     }
 }";
 
-            VerifyCSharpDiagnostic( test );
+            VerifyCSharpDiagnostic( test, 0 );
         }
 
 
@@ -95,13 +95,13 @@ namespace TestingProject
     }
 }";
 
-            VerifyCSharpDiagnostic( test );
+            VerifyCSharpDiagnostic( test, 0 );
         }
 
 
         protected override CodeFixProvider GetCSharpCodeFixProvider() => new SmartTestsAnalyzerCodeFixProvider();
 
 
-        protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();
+        protected override SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SmartTestsAnalyzer
 {
-    class CombinedCriterias
+    public class CombinedCriterias
     {
         private CombinedCriterias()
         {}

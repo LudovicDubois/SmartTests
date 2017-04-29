@@ -27,11 +27,25 @@ namespace SmartTests
         private static T RunTest<T>( Case cases, [NotNull] MemberInfo member, Func<T> act )
         {
             if( member == null )
-                throw new ArgumentNullException( nameof( member ) );
+                throw new ArgumentNullException( nameof(member) );
             if( act == null )
-                throw new ArgumentNullException( nameof( act ) );
+                throw new ArgumentNullException( nameof(act) );
 
             return act.Invoke();
+        }
+
+
+        public static void RunTest( Case cases, Expression<Action> act ) => RunTest( cases, act.GetMember(), act.Compile() );
+
+
+        private static void RunTest( Case cases, [NotNull] MemberInfo member, Action act )
+        {
+            if( member == null )
+                throw new ArgumentNullException( nameof(member) );
+            if( act == null )
+                throw new ArgumentNullException( nameof(act) );
+
+            act.Invoke();
         }
 
 

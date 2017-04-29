@@ -5,7 +5,6 @@ using System.Linq;
 using JetBrains.Annotations;
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
 
@@ -14,7 +13,7 @@ namespace SmartTestsAnalyzer
     /// <summary>
     ///     Test Cases for a tested member, i.e. all combined criteria (normalized form) for a tested member.
     /// </summary>
-    class MemberTestCases
+    public class MemberTestCases
     {
         public static string NoParameter => "<No Parameter!>";
 
@@ -32,7 +31,7 @@ namespace SmartTestsAnalyzer
         public void Add( string parameterName, [NotNull] CombinedCriteriasCollection criterias )
         {
             if( criterias == null )
-                throw new ArgumentNullException( nameof( criterias ) );
+                throw new ArgumentNullException( nameof(criterias) );
 
             CombinedCriteriasCollection currentCriterias;
             if( !Criterias.TryGetValue( parameterName ?? NoParameter, out currentCriterias ) )
@@ -55,9 +54,9 @@ namespace SmartTestsAnalyzer
         private bool ValidateParameterNames( Action<Diagnostic> reportError )
         {
             var methodSymbol = TestedMember as IMethodSymbol;
-            return methodSymbol == null 
-                ? ValidateNoParameterNames( reportError ) 
-                : ValidateParameterNames( reportError, methodSymbol );
+            return methodSymbol == null
+                       ? ValidateNoParameterNames( reportError )
+                       : ValidateParameterNames( reportError, methodSymbol );
         }
 
 

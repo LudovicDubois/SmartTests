@@ -28,7 +28,7 @@ namespace SmartTestsAnalyzer
     ///     'Case( Criteria1.Good1 > Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
     ///     CombinedCriterias
     /// </example>
-    class CombinedCriteriasCollection
+    public class CombinedCriteriasCollection
     {
         private CombinedCriteriasCollection()
         {}
