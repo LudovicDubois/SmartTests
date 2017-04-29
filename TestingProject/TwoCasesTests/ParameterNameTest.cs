@@ -77,6 +77,7 @@ namespace TestingProject.TwoCasesTests
             Assert.That( reminder, Is.EqualTo( 1 ) );
         }
 
+
         [Test]
         public void MissingNoParameterCases2()
         {
@@ -84,6 +85,40 @@ namespace TestingProject.TwoCasesTests
             Assert.Throws<DivideByZeroException>( () => RunTest( Case( "a", AnyValue.Valid ) &
                                                                  Case( "b", ValidValue.Invalid ),
                                                                  () => DivRem2( 7, 0, out reminder ) ) );
+        }
+
+
+        private static void NoParameter()
+        { }
+
+
+        [Test]
+        public void NoParameterNeeded_NoCase()
+        {
+            RunTest( AnyValue.Valid,
+                     () => NoParameter() );
+        }
+
+
+        [Test]
+        public void NoParameterNeeded_Case()
+        {
+            RunTest( Case( AnyValue.Valid ),
+                     () => NoParameter() );
+        }
+
+        [Test]
+        public void NoParameterNeeded_NullCase()
+        {
+            RunTest( Case( null, AnyValue.Valid ),
+                     () => NoParameter() );
+        }
+
+        [Test]
+        public void NoParameterNeeded_ParameterCase()
+        {
+            RunTest( Case( "value", AnyValue.Valid ),
+                     () => NoParameter() );
         }
     }
 }
