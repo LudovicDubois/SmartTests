@@ -12,13 +12,13 @@ namespace SmartTests
     public class Case: IEnumerable<Case>
     {
         protected Case()
-        {}
+        { }
 
 
         public Case( [NotNull] Criteria criteria )
         {
             if( criteria == null )
-                throw new ArgumentNullException( nameof( criteria ) );
+                throw new ArgumentNullException( nameof(criteria) );
             Criteria = criteria;
         }
 
@@ -26,7 +26,7 @@ namespace SmartTests
         public Case( string parameterName, [NotNull] Criteria criteria )
         {
             if( criteria == null )
-                throw new ArgumentNullException( nameof( criteria ) );
+                throw new ArgumentNullException( nameof(criteria) );
             ParameterName = parameterName;
             Criteria = criteria;
         }
@@ -36,15 +36,12 @@ namespace SmartTests
         public Criteria Criteria { get; }
 
 
-        public static implicit operator Case( [NotNull] Criteria criteria ) => new Case( criteria );
-
-
         public static Case operator &( [NotNull] Case case1, [NotNull] Case case2 )
         {
             if( case1 == null )
-                throw new ArgumentNullException( nameof( case1 ) );
+                throw new ArgumentNullException( nameof(case1) );
             if( case2 == null )
-                throw new ArgumentNullException( nameof( case2 ) );
+                throw new ArgumentNullException( nameof(case2) );
 
             return case1.Combine( case2 );
         }
@@ -53,7 +50,7 @@ namespace SmartTests
         protected virtual Case Combine( [NotNull] Case other )
         {
             if( other == null )
-                throw new ArgumentNullException( nameof( other ) );
+                throw new ArgumentNullException( nameof(other) );
             return new MultiCase
                    {
                        this,

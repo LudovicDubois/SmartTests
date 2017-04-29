@@ -21,6 +21,7 @@ namespace SmartTests
         public static Case Case( string parameterName, Criteria criteria ) => new Case( parameterName, criteria );
 
 
+        public static T RunTest<T>( Criteria cases, Expression<Func<T>> act ) => RunTest( Case( cases ), act.GetMember(), act.Compile() );
         public static T RunTest<T>( Case cases, Expression<Func<T>> act ) => RunTest( cases, act.GetMember(), act.Compile() );
 
 
@@ -35,6 +36,7 @@ namespace SmartTests
         }
 
 
+        public static void RunTest( Criteria cases, Expression<Action> act ) => RunTest( Case( cases ), act.GetMember(), act.Compile() );
         public static void RunTest( Case cases, Expression<Action> act ) => RunTest( cases, act.GetMember(), act.Compile() );
 
 
