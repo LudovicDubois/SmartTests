@@ -62,7 +62,15 @@ namespace SmartTestsAnalyzer
 
         private bool ValidateNoParameterNames( Action<Diagnostic> reportError )
         {
-            return true;
+            // Should not have any parameter name in cases
+            var result = true;
+            foreach( var criteria in Criterias )
+                if( criteria.Key != NoParameter )
+                {
+                    result = false;
+                    reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, criteria.Key, criteria.Value.ParameterNameExpression ) );
+                }
+            return result;
         }
 
 
