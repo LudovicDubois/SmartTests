@@ -128,6 +128,8 @@ namespace TestHelper
         {
             var diagnostics = GetSortedDiagnostics( sources, language, analyzer );
             Assert.That( analyzer.Tests.Count, Is.EqualTo( memberCount ) );
+            foreach( var cases in analyzer.Tests )
+                Assert.That( cases.Value.Criterias.Count, Is.GreaterThan( 0 ) );
             VerifyDiagnosticResults( diagnostics, analyzer, expected );
         }
 
