@@ -2,7 +2,6 @@
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -22,10 +21,15 @@ namespace SmartTestsAnalyzer
             _Compilation = context.SemanticModel.Compilation;
             _TestingFrameworks = new TestingFrameworks( _Compilation );
             if( !IsTestProject )
+                // This is not a Testing Project
                 return;
 
             var smartTest = _Compilation.GetTypeByMetadataName( _SmartTestClassName );
-            Debug.Assert( smartTest != null );
+            if( smartTest == null )
+                // This is not a SmartTest Project!
+                return;
+
+            IsSmartTestProject = IsTestProject;
             _CaseType = _Compilation.GetTypeByMetadataName( "SmartTests.Case" );
             Debug.Assert( _CaseType != null );
             _RunTestMethods = smartTest.GetMethods( "RunTest" );
@@ -43,6 +47,7 @@ namespace SmartTestsAnalyzer
 
 
         public bool IsTestProject => _TestingFrameworks.IsTestProject;
+        public bool IsSmartTestProject { get; private set; }
 
         public MembersTestCases MembersTestCases { get; } = new MembersTestCases();
 
@@ -110,7 +115,7 @@ namespace SmartTestsAnalyzer
         {
             var lambda = expression as ParenthesizedLambdaExpressionSyntax;
             if( lambda != null )
-                       return model.GetSymbol( lambda.Body );
+                return model.GetSymbol( lambda.Body );
 
             var invocation = expression as InvocationExpressionSyntax;
             if( invocation != null )
