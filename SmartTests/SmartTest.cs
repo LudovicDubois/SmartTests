@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Reflection;
 
 using JetBrains.Annotations;
+
+using SmartTests.Acts;
 
 
 
@@ -21,14 +22,18 @@ namespace SmartTests
         public static Case Case( string parameterName, Criteria criteria ) => new Case( parameterName, criteria );
 
 
-        public static T RunTest<T>( Criteria cases, Expression<Func<T>> act ) => RunTest( Case( cases ), act.GetMember(), act.Compile() );
-        public static T RunTest<T>( Case cases, Expression<Func<T>> act ) => RunTest( cases, act.GetMember(), act.Compile() );
+        public static Act<T> Assign<T>( Expression<Func<T>> property, T value ) => new AssignAct<T>( property, value );
 
 
-        private static T RunTest<T>( Case cases, [NotNull] MemberInfo member, Func<T> act )
+        public static T RunTest<T>( Criteria cases, Expression<Func<T>> act ) => RunTest( Case( cases ), new InvokeAct<T>( act ) );
+        public static T RunTest<T>( Case cases, Expression<Func<T>> act ) => RunTest( cases, new InvokeAct<T>( act ) );
+
+
+        public static T RunTest<T>( Criteria cases, [NotNull] Act<T> act ) => RunTest( Case( cases ), act );
+
+
+        public static T RunTest<T>( Case cases, [NotNull] Act<T> act )
         {
-            if( member == null )
-                throw new ArgumentNullException( nameof(member) );
             if( act == null )
                 throw new ArgumentNullException( nameof(act) );
 
@@ -36,37 +41,16 @@ namespace SmartTests
         }
 
 
-        public static void RunTest( Criteria cases, Expression<Action> act ) => RunTest( Case( cases ), act.GetMember(), act.Compile() );
-        public static void RunTest( Case cases, Expression<Action> act ) => RunTest( cases, act.GetMember(), act.Compile() );
+        public static void RunTest( Criteria cases, Expression<Action> act ) => RunTest( Case( cases ), new InvokeAct( act ) );
+        public static void RunTest( Case cases, Expression<Action> act ) => RunTest( cases, new InvokeAct( act ) );
 
 
-        private static void RunTest( Case cases, [NotNull] MemberInfo member, Action act )
+        public static void RunTest( Case cases, [NotNull] Act act )
         {
-            if( member == null )
-                throw new ArgumentNullException( nameof(member) );
             if( act == null )
                 throw new ArgumentNullException( nameof(act) );
 
             act.Invoke();
         }
-
-
-        private static MemberInfo GetMember( this Expression @this )
-        {
-            switch( @this.NodeType )
-            {
-                case ExpressionType.New:
-                    return ( (NewExpression)@this ).Constructor;
-
-                case ExpressionType.MemberAccess:
-                    return ( (MemberExpression)@this ).Member;
-
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-
-        private static MemberInfo GetMember<T>( this Expression<Func<T>> @this ) => @this.Body.GetMember();
     }
 }

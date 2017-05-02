@@ -30,6 +30,7 @@ namespace SmartTestsAnalyzer
             Debug.Assert( _CaseType != null );
             _RunTestMethods = smartTest.GetMethods( "RunTest" );
             _CaseMethods = smartTest.GetMethods( "Case" );
+            _AssignMethods = smartTest.GetMethods( "Assign" );
         }
 
 
@@ -38,6 +39,7 @@ namespace SmartTestsAnalyzer
         private readonly INamedTypeSymbol _CaseType;
         private readonly IMethodSymbol[] _RunTestMethods;
         private readonly IMethodSymbol[] _CaseMethods;
+        private readonly IMethodSymbol[] _AssignMethods;
 
 
         public bool IsTestProject => _TestingFrameworks.IsTestProject;
@@ -107,9 +109,19 @@ namespace SmartTestsAnalyzer
         private ISymbol AnalyzeMember( SemanticModel model, ExpressionSyntax expression )
         {
             var lambda = expression as ParenthesizedLambdaExpressionSyntax;
-            return lambda != null
-                       ? model.GetSymbol( lambda.Body )
-                       : null;
+            if( lambda != null )
+                       return model.GetSymbol( lambda.Body );
+
+            var invocation = expression as InvocationExpressionSyntax;
+            if( invocation != null )
+            {
+                // Can be Assign method
+                var invoked = model.FindMethodSymbol( invocation, _AssignMethods );
+                if( invoked != null )
+                    return AnalyzeMember( model, invocation.ArgumentList.Arguments[ 0 ].Expression );
+            }
+
+            return null;
         }
 
 

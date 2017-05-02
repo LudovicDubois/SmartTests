@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MemberTests\PropertyTests.cs" />
     <Compile Include="ThreeCasesTests\MissingNoCaseTest.cs" />
     <Compile Include="ThreeCasesTests\MissingThirdCaseTest.cs" />
     <Compile Include="ThreeCasesTests\MissingSecondCaseTest.cs" />

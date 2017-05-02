@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Act.cs" />
+    <Compile Include="Acts\InvokeAct.cs" />
+    <Compile Include="Acts\AssignAct.cs" />
     <Compile Include="Case.cs" />
     <Compile Include="Criteria.cs" />
     <Compile Include="Criterias\MaxExcluded.cs" />
@@ -53,6 +56,7 @@
     <Compile Include="Criterias\AnyValue.cs" />
     <Compile Include="Criterias\ValidValue.cs" />
     <Compile Include="ErrorAttribute.cs" />
+    <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartTest.cs" />
   </ItemGroup>
