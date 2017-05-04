@@ -44,6 +44,7 @@ namespace TestingProject.MemberTests
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
+            Assert.That( mc.Property, Is.EqualTo( 11 ) );
         }
 
 
@@ -68,6 +69,7 @@ namespace TestingProject.MemberTests
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
+            Assert.That( mc.Property, Is.EqualTo( 11 ) );
         }
 
 
@@ -80,6 +82,7 @@ namespace TestingProject.MemberTests
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
+            Assert.That( mc.Property, Is.EqualTo( 11 ) );
         }
     }
 }
