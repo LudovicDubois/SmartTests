@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
@@ -85,8 +86,8 @@ namespace SmartTestsAnalyzer
                     model = _Compilation.GetSemanticModel( runTest.SyntaxTree );
                     Debug.Assert( model != null );
                 }
-                var testedMember = AnalyzeMember( model, argument1Syntax.Expression );
-                if( testedMember == null )
+                var member = AnalyzeMember( model, argument1Syntax.Expression );
+                if( member == null )
                     // ?!?!?
                     continue;
 
@@ -102,11 +103,36 @@ namespace SmartTestsAnalyzer
                     // ?!?!?
                     return;
 
+                var testedMember = CreateTestedMember( model, member, runTest.ArgumentList.Arguments[ 1 ].Expression );
                 var memberTestCases = MembersTestCases.GetOrCreate( testedMember );
                 if( runTestSymbol.Parameters[ 0 ].Type == _CaseType )
                     AddCases( model, argument0Syntax.Expression, memberTestCases );
                 else
                     AddCase( model, argument0Syntax.Expression, null, null, argument0Syntax.Expression, memberTestCases );
+            }
+        }
+
+
+        private TestedMember CreateTestedMember( SemanticModel model, ISymbol testedMember, ExpressionSyntax actExpression )
+        {
+            switch( testedMember.Kind )
+            {
+                case SymbolKind.Method:
+                    return new TestedMember( testedMember, TestedMemberKind.Method );
+
+                case SymbolKind.Property:
+                    var isIndexer = ( (IPropertySymbol)testedMember ).IsIndexer;
+                    var isAssignment = model.FindMethodSymbol( actExpression, _AssignMethods ) != null;
+                    return new TestedMember( testedMember,
+                                             isIndexer
+                                                 ? isAssignment
+                                                       ? TestedMemberKind.IndexerSet
+                                                       : TestedMemberKind.IndexerGet
+                                                 : isAssignment
+                                                     ? TestedMemberKind.PropertySet
+                                                     : TestedMemberKind.PropertyGet );
+                default:
+                    throw new NotImplementedException();
             }
         }
 

@@ -34,7 +34,7 @@ namespace SmartTestsAnalyzer
         {
             var criteria = _Model.GetSymbolInfo( node ).Symbol as IFieldSymbol;
             return criteria != null
-                       ? new CombinedCriteriasCollection( _CasesExpression, _ParameterNameExpression,  _Criterias, criteria, criteria.HasAttribute( _ErrorAttribute ) )
+                       ? new CombinedCriteriasCollection( _CasesExpression, _ParameterNameExpression, _Criterias, criteria, criteria.HasAttribute( _ErrorAttribute ) )
                        : null;
         }
 

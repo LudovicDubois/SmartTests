@@ -42,7 +42,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 15, 41 )
+                                               new DiagnosticResultLocation( "Test0.cs", 15, 35 )
                                            }
                            };
 
@@ -80,7 +80,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 15, 41 )
+                                               new DiagnosticResultLocation( "Test0.cs", 15, 35 )
                                            }
                            };
 
@@ -127,8 +127,8 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 15, 41 ),
-                                               new DiagnosticResultLocation( "Test0.cs", 24, 41 )
+                                               new DiagnosticResultLocation( "Test0.cs", 15, 35 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 24, 35 )
                                            }
                            };
 

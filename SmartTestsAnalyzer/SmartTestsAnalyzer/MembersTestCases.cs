@@ -12,30 +12,20 @@ namespace SmartTestsAnalyzer
     /// </summary>
     class MembersTestCases
     {
-        public Dictionary<ISymbol, MemberTestCases> MemberCases { get; } = new Dictionary<ISymbol, MemberTestCases>();
+        public Dictionary<TestedMember, MemberTestCases> MemberCases { get; } = new Dictionary<TestedMember, MemberTestCases>();
 
 
-        public MemberTestCases GetOrCreate( ISymbol testedMember )
+        public MemberTestCases GetOrCreate( TestedMember testedMember )
         {
             MemberTestCases cases;
             if( MemberCases.TryGetValue( testedMember, out cases ) )
+            {
                 return cases;
+            }
 
             cases = new MemberTestCases( testedMember );
             MemberCases[ testedMember ] = cases;
             return cases;
-        }
-
-
-        public void Add( ISymbol testedMember, string parameterName, CombinedCriteriasCollection criterias )
-        {
-            MemberTestCases cases;
-            if( !MemberCases.TryGetValue( testedMember, out cases ) )
-            {
-                cases = new MemberTestCases( testedMember );
-                MemberCases[ testedMember ] = cases;
-            }
-            cases.Add( parameterName, criterias );
         }
 
 

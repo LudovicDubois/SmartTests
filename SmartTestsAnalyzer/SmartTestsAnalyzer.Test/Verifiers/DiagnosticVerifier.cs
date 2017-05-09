@@ -59,7 +59,7 @@ namespace TestHelper
         ///     Note: input a DiagnosticResult for each Diagnostic expected
         /// </summary>
         /// <param name="source">A class in the form of a string to run the analyzer on</param>
-        /// <param name="expectedMemberCount">Count of Expected Member in <paramref name="source" /></param>
+        /// <param name="expectedMemberCount">Count of Expected Symbol in <paramref name="source" /></param>
         /// <param name="expected"> DiagnosticResults that should appear after the analyzer is run on the source</param>
         protected void VerifyCSharpDiagnostic( string source, int expectedMemberCount, params DiagnosticResult[] expected )
         {
@@ -96,7 +96,7 @@ namespace TestHelper
         ///     Note: input a DiagnosticResult for each Diagnostic expected
         /// </summary>
         /// <param name="sources">An array of strings to create source documents from to run the analyzers on</param>
-        /// <param name="expectedMemberCount">Count of Expected Member in <paramref name="sources" /></param>
+        /// <param name="expectedMemberCount">Count of Expected Symbol in <paramref name="sources" /></param>
         /// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the sources</param>
         protected void VerifyCSharpDiagnostic( string[] sources, int expectedMemberCount, params DiagnosticResult[] expected )
         {

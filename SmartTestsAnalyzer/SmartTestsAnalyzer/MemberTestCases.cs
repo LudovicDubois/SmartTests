@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 using JetBrains.Annotations;
@@ -18,13 +19,13 @@ namespace SmartTestsAnalyzer
         public static string NoParameter => "<No Parameter!>";
 
 
-        public MemberTestCases( ISymbol testedMember )
+        public MemberTestCases( TestedMember testedMember )
         {
             TestedMember = testedMember;
         }
 
 
-        public ISymbol TestedMember { get; }
+        public TestedMember TestedMember { get; }
         public Dictionary<string, CombinedCriteriasCollection> Criterias { get; } = new Dictionary<string, CombinedCriteriasCollection>();
 
 
@@ -51,12 +52,38 @@ namespace SmartTestsAnalyzer
         }
 
 
+        private static readonly List<string> _Value = new List<string>
+                                                      {
+                                                          "value"
+                                                      };
+
+
         private bool ValidateParameterNames( Action<Diagnostic> reportError )
         {
-            var methodSymbol = TestedMember as IMethodSymbol;
-            return methodSymbol == null
-                       ? ValidateNoParameterNames( reportError )
-                       : ValidateParameterNames( reportError, methodSymbol );
+            switch( TestedMember.Kind )
+            {
+                case TestedMemberKind.Method:
+                    return ValidateParameterNames( reportError,
+                                                   GetTestedParameterNames( ( (IMethodSymbol)TestedMember.Symbol ).Parameters ) );
+
+                case TestedMemberKind.PropertyGet:
+                    return ValidateNoParameterNames( reportError );
+
+                case TestedMemberKind.PropertySet:
+                    return ValidateParameterNames( reportError, _Value );
+
+                case TestedMemberKind.IndexerGet:
+                    return ValidateParameterNames( reportError,
+                                                   GetTestedParameterNames( ( (IPropertySymbol)TestedMember.Symbol ).Parameters ) );
+
+                case TestedMemberKind.IndexerSet:
+                    var names = GetTestedParameterNames( ( (IPropertySymbol)TestedMember.Symbol ).Parameters );
+                    names.Add( "value" );
+                    return ValidateParameterNames( reportError, names );
+
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
 
@@ -74,16 +101,19 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private bool ValidateParameterNames( Action<Diagnostic> reportError, IMethodSymbol methodSymbol )
+        private List<string> GetTestedParameterNames( ImmutableArray<IParameterSymbol> parameters )
+            => parameters.Where( p => p.RefKind != RefKind.Out ).Select( p => p.Name ).ToList();
+
+
+        private bool ValidateParameterNames( Action<Diagnostic> reportError, List<string> parameters )
         {
-            if( methodSymbol.Parameters.Length <= 1 )
+            if( parameters.Count <= 1 )
             {
                 // 0 or 1 parameter: the parameter name is not mandatory
                 if( Criterias.Count == 1 && Criterias.First().Key == NoParameter )
                     return true;
             }
 
-            var parameters = methodSymbol.Parameters.Where( p => p.RefKind != RefKind.Out ).ToDictionary( par => par.Name );
             var result = true;
             foreach( var criterias in Criterias )
             {
@@ -96,12 +126,12 @@ namespace SmartTestsAnalyzer
 
                 // This parameter name does not exist
                 result = false;
-                reportError( SmartTestsDiagnostics.CreateWrongParameterName( methodSymbol, parameterName, criterias.Value.ParameterNameExpression ) );
+                reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, parameterName, criterias.Value.ParameterNameExpression ) );
             }
 
             // Remaining parameters have no Case!
             foreach( var parameter in parameters )
-                reportError( SmartTestsDiagnostics.CreateMissingParameterCase( methodSymbol, parameter.Key, Criterias.First().Value.CaseExpression ) );
+                reportError( SmartTestsDiagnostics.CreateMissingParameterCase( TestedMember, parameter, Criterias.First().Value.CaseExpression ) );
             return result;
         }
 

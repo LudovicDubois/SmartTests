@@ -31,14 +31,14 @@ namespace SmartTestsAnalyzer
     public class CombinedCriteriasCollection
     {
         private CombinedCriteriasCollection()
-        {}
+        { }
 
 
         public CombinedCriteriasCollection( ExpressionSyntax caseExpression, ExpressionSyntax parameterNameExpression, ExpressionSyntax criteriaExpression, IFieldSymbol criteria, bool hasError )
         {
             CaseExpression = caseExpression;
             ParameterNameExpression = parameterNameExpression;
-            Criterias.Add( new CombinedCriterias( criteriaExpression, criteria, hasError ) );
+            Criterias.Add( new CombinedCriterias( caseExpression, criteria, hasError ) );
         }
 
 
@@ -73,10 +73,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void CombineOr( CombinedCriteriasCollection criterias )
-        {
-            Criterias.AddRange( criterias.Criterias );
-        }
+        public void CombineOr( CombinedCriteriasCollection criterias ) => Criterias.AddRange( criterias.Criterias );
 
 
         private void CombineOr( IFieldSymbol criteria )
@@ -92,7 +89,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( ISymbol testedMember, string parameterName, Action<Diagnostic> reportError )
+        public void Validate( TestedMember testedMember, string parameterName, Action<Diagnostic> reportError )
         {
             var allCriterias = ComputeAllCriteriaCombinations();
             allCriterias.Remove( this );
@@ -131,7 +128,7 @@ namespace SmartTestsAnalyzer
             foreach( var criteriaType in GetAllCriteriaTypes() )
             {
                 var typeCriterias = new CombinedCriteriasCollection();
-                foreach( var criteria in  criteriaType.GetMembers().Where( member => member is IFieldSymbol ).Cast<IFieldSymbol>() )
+                foreach( var criteria in criteriaType.GetMembers().Where( member => member is IFieldSymbol ).Cast<IFieldSymbol>() )
                     typeCriterias.CombineOr( new CombinedCriteriasCollection( null, null, null, criteria, false ) ); // TODO: Not false!
                 result.CombineAnd( typeCriterias );
             }

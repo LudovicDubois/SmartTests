@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 using NUnit.Framework;
 
@@ -44,7 +43,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 15, 46 )
+                                               new DiagnosticResultLocation( "Test0.cs", 15, 35 )
                                            }
                            };
 

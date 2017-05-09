@@ -16,7 +16,7 @@ namespace SmartTestsAnalyzer
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => SmartTestsDiagnostics.DiagnosticDescriptors;
 
 
-        public Dictionary<ISymbol, MemberTestCases> Tests { get; private set; }
+        public Dictionary<TestedMember, MemberTestCases> Tests { get; private set; }
 
 
         public override void Initialize( AnalysisContext context )

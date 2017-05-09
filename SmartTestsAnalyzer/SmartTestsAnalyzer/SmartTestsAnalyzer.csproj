@@ -55,6 +55,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SmartTestsDiagnostics.cs" />
+    <Compile Include="TestedMember.cs" />
     <Compile Include="TestingFrameworkStrategy.cs" />
     <Compile Include="TestVisitor.cs" />
   </ItemGroup>

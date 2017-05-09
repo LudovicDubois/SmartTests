@@ -11,7 +11,7 @@ namespace SmartTestsAnalyzer
     public class CombinedCriterias
     {
         private CombinedCriterias()
-        {}
+        { }
 
 
         public CombinedCriterias( ExpressionSyntax criteriasExpression, IFieldSymbol criteria, bool hasError )

@@ -10,9 +10,10 @@ using TestHelper;
 namespace SmartTestsAnalyzer.Test
 {
     [TestFixture]
-    public class TwoCasesTests: CodeFixVerifier
+    public class MultipleCriteriasTests: CodeFixVerifier
     {
         [Test]
+        [Ignore("Pas pret! à faire!")]
         public void MissingFirstCase()
         {
             var test = @"
@@ -29,7 +30,8 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Case( ValidValue.Valid ), () => Math.Sqrt(4) );
+            var result = RunTest( Case( ValidValue.Valid ), 
+                                  () => Math.Sqrt(4) );
 
             Assert.That( result, Is.EqualTo(2) );
         }
@@ -42,7 +44,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 15, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 15, 41 )
                                            }
                            };
 
@@ -51,6 +53,7 @@ namespace TestingProject
 
 
         [Test]
+        [Ignore("Pas pret!")]
         public void MissingNoCase()
         {
             var test = @"

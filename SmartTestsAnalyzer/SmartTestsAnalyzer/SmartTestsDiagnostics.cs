@@ -5,8 +5,6 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SmartTestsAnalyzer.Helpers;
-
 
 
 namespace SmartTestsAnalyzer
@@ -56,34 +54,37 @@ namespace SmartTestsAnalyzer
                                                                                                                  );
 
 
-        public static Diagnostic CreateMissingCase( ISymbol testedMember, string parameterName, IEnumerable<ExpressionSyntax> criterias, string errorMessage )
+        public static Diagnostic CreateMissingCase( TestedMember testedMember, string parameterName, IEnumerable<ExpressionSyntax> criterias, string errorMessage )
         {
+            var criteriaList = criterias.ToList();
+            var first = criteriaList.First();
+            criteriaList.RemoveAt( 0 );
             var rule = parameterName == MemberTestCases.NoParameter ? _MissingCases : _MissingParameterCases;
             return Diagnostic.Create( rule,
-                                      criterias.First().GetLocation(),
-                                      criterias.Skip( 1 ).Select( criteria => criteria.GetLocation() ),
-                                      testedMember.GetTypeAndMemberName(),
+                                      first.GetLocation(),
+                                      criteriaList.Select( criteria => criteria.GetLocation() ),
+                                      testedMember.ToString(),
                                       errorMessage,
                                       parameterName
                                     );
         }
 
 
-        public static Diagnostic CreateWrongParameterName( ISymbol testedMember, string parameterName, ExpressionSyntax parameterNameExpression )
+        public static Diagnostic CreateWrongParameterName( TestedMember testedMember, string parameterName, ExpressionSyntax parameterNameExpression )
         {
             return Diagnostic.Create( _WrongParameterName,
                                       parameterNameExpression?.GetLocation(),
-                                      testedMember.GetTypeAndMemberName(),
+                                      testedMember.ToString(),
                                       parameterName
                                     );
         }
 
 
-        public static Diagnostic CreateMissingParameterCase( ISymbol testedMember, string parameterName, SyntaxNode parameterNameExpression )
+        public static Diagnostic CreateMissingParameterCase( TestedMember testedMember, string parameterName, SyntaxNode criteriaExpression )
         {
             return Diagnostic.Create( _MissingParameterCase,
-                                      parameterNameExpression?.GetLocation(),
-                                      testedMember.GetTypeAndMemberName(),
+                                      criteriaExpression.GetLocation(),
+                                      testedMember.ToString(),
                                       parameterName
                                     );
         }
