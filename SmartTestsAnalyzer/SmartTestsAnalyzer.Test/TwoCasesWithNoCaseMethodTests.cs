@@ -74,7 +74,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'Math.Sqrt' has some missing Test Cases: ValidValue.Invalid",
+                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {

@@ -152,7 +152,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'ConstructorTests.MyClass.this[]' has some missing Test Cases: ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.ConstructorTests.MyClass.this[int]' has some missing Test Cases: ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {

@@ -38,7 +38,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'Math.Sqrt' has some missing Test Cases: MinIncluded.IsBelowMin and MinIncluded.IsMin",
+                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: MinIncluded.IsBelowMin and MinIncluded.IsMin",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -76,7 +76,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'Math.Sqrt' has some missing Test Cases: MinIncluded.IsBelowMin and MinIncluded.IsAboveMin",
+                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: MinIncluded.IsBelowMin and MinIncluded.IsAboveMin",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -123,7 +123,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'Math.Sqrt' has some missing Test Cases: MinIncluded.IsBelowMin",
+                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: MinIncluded.IsBelowMin",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {

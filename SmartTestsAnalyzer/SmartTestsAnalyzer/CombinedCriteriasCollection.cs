@@ -102,7 +102,7 @@ namespace SmartTestsAnalyzer
             {
                 foreach( var criteria in criterias.Criterias )
                 {
-                    text.Append( criteria.GetTypeAndMemberName() );
+                    text.Append( criteria.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) );
                     text.Append( " & " );
                 }
                 text.Length -= 3;

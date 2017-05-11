@@ -39,7 +39,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingParameterCases",
-                               Message = "Tests for 'Math.Sqrt' has some missing Test Cases for parameter 'd': ValidValue.Invalid",
+                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases for parameter 'd': ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -86,7 +86,7 @@ namespace TestingProject
             var expectedMissing = new DiagnosticResult
                                   {
                                       Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                      Message = "Test for 'Math.Sqrt' has no Case for parameter 'd'.",
+                                      Message = "Test for 'System.Math.Sqrt(double)' has no Case for parameter 'd'.",
                                       Severity = DiagnosticSeverity.Error,
                                       Locations = new[]
                                                   {
@@ -96,7 +96,7 @@ namespace TestingProject
             var expectedWrong = new DiagnosticResult
                                 {
                                     Id = "SmartTestsAnalyzer_WrongParameterName",
-                                    Message = "Test for 'Math.Sqrt' has some invalid parameter 'value'.",
+                                    Message = "Test for 'System.Math.Sqrt(double)' has some invalid parameter 'value'.",
                                     Severity = DiagnosticSeverity.Error,
                                     Locations = new[]
                                                 {
@@ -138,7 +138,7 @@ namespace TestingProject
             var expectedMissingCase = new DiagnosticResult
                                       {
                                           Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                          Message = "Test for 'Math.DivRem' has no Case for parameter 'b'.",
+                                          Message = "Test for 'System.Math.DivRem(int, int, out int)' has no Case for parameter 'b'.",
                                           Severity = DiagnosticSeverity.Error,
                                           Locations = new[]
                                                       {
@@ -180,7 +180,7 @@ namespace TestingProject
             var expectedMissingCaseA = new DiagnosticResult
                                        {
                                            Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                           Message = "Test for 'Math.DivRem' has no Case for parameter 'a'.",
+                                           Message = "Test for 'System.Math.DivRem(int, int, out int)' has no Case for parameter 'a'.",
                                            Severity = DiagnosticSeverity.Error,
                                            Locations = new[]
                                                        {
@@ -190,7 +190,7 @@ namespace TestingProject
             var expectedMissingCaseB = new DiagnosticResult
                                        {
                                            Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                           Message = "Test for 'Math.DivRem' has no Case for parameter 'b'.",
+                                           Message = "Test for 'System.Math.DivRem(int, int, out int)' has no Case for parameter 'b'.",
                                            Severity = DiagnosticSeverity.Error,
                                            Locations = new[]
                                                        {
@@ -402,7 +402,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_WrongParameterName",
-                               Message = "Test for 'MyTestClass.NoParameter' has some invalid parameter 'value'.",
+                               Message = "Test for 'TestingProject.MyTestClass.NoParameter()' has some invalid parameter 'value'.",
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {

@@ -48,7 +48,7 @@ namespace SmartTestsAnalyzer
 
         public override string ToString()
         {
-            var typeAndMemberName = Symbol.GetTypeAndMemberName();
+            var typeAndMemberName = Symbol.ToDisplayString( SymbolDisplayFormat.CSharpErrorMessageFormat );
 
             switch( Kind )
             {
