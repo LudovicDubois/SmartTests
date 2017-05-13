@@ -44,7 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MemberTests\IndexerTests.cs" />
+    <Compile Include="MemberTests\IndexerTests\GetMissingCaseTest.cs" />
+    <Compile Include="MemberTests\IndexerTests\SetMissingValueCaseTest.cs" />
+    <Compile Include="MemberTests\IndexerTests\SetMissingIndexCaseTest.cs" />
+    <Compile Include="MemberTests\IndexerTests\SetNoParameterNameTest.cs" />
+    <Compile Include="MemberTests\IndexerTests\SetValueParameterNameTest.cs" />
+    <Compile Include="MemberTests\IndexerTests\SetIndexParameterNameTest.cs" />
+    <Compile Include="MemberTests\IndexerTests\SetValidTest.cs" />
+    <Compile Include="MemberTests\IndexerTests\GetWrongCaseParameterTest.cs" />
+    <Compile Include="MemberTests\IndexerTests\GetValidTest.cs" />
     <Compile Include="MemberTests\PropertyTests.cs" />
     <Compile Include="ThreeCasesTests\MissingNoCaseTest.cs" />
     <Compile Include="ThreeCasesTests\MissingThirdCaseTest.cs" />

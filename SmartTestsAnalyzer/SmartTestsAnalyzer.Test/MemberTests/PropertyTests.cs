@@ -105,7 +105,7 @@ namespace TestingProject
 
 
         [Test]
-        public void PropertyGetCaseParameter()
+        public void PropertyGetWrongCaseParameter()
         {
             var test = @"
 using System;

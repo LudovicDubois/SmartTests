@@ -24,7 +24,7 @@ using static SmartTests.SmartTest;
 namespace TestingProject
 {
     [TestFixture]
-    public class ConstructorTests
+    public class IndexerTests
     {
         public class MyClass
         {
@@ -43,7 +43,7 @@ namespace TestingProject
 
      
         [Test]
-        public void GetValid()
+        public void MyTest()
         {
             var mc = new MyClass( 10 );
 
@@ -60,6 +60,130 @@ namespace TestingProject
 
 
         [Test]
+        public void GetMissingCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class IndexerTests
+    {
+        public class MyClass
+        {
+            public MyClass( int value )
+            {
+                _List.Add(value);
+            }
+
+            private readonly List<int> _List = new List<int>();
+
+            public int this[ int index ] {
+                get { return _List[ index ]; }
+                set { _List[ index ] = value; }
+            }
+        }
+
+        [Test]
+        public void MyTest()
+        {
+            var mc = new MyClass( 10 );
+
+            var result = RunTest( ValidValue.Valid,
+                                  () => mc[ 0 ] );
+
+            Assert.That( result, Is.EqualTo( 10 ) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [get]' has some missing Test Cases: ValidValue.Invalid",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 32, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void GetWrongCaseParameter()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class IndexerTests
+    {
+        public class MyClass
+        {
+            public MyClass( int value )
+            {
+                _List.Add(value);
+            }
+
+            private readonly List<int> _List = new List<int>();
+
+            public int this[ int index ] {
+                get { return _List[ index ]; }
+                set { _List[ index ] = value; }
+            }
+        }
+
+     
+        [Test]
+        public void MyTest()
+        {
+            var mc = new MyClass( 10 );
+
+            var result = RunTest( Case( ""value"", AnyValue.Valid ),
+                                  () => mc[ 0 ] );
+
+            Assert.That( result, Is.EqualTo( 10 ) );
+        }
+    }
+}";
+
+            var expectedMissing = new DiagnosticResult
+                                  {
+                                      Id = "SmartTestsAnalyzer_MissingParameterCase",
+                                      Message = "Test for 'TestingProject.IndexerTests.MyClass.this[int] [get]' has no Case for parameter 'index'.",
+                                      Severity = DiagnosticSeverity.Error,
+                                      Locations = new[]
+                                                  {
+                                                      new DiagnosticResultLocation( "Test0.cs", 33, 35 )
+                                                  }
+                                  };
+            var expectedWrong = new DiagnosticResult
+                                {
+                                    Id = "SmartTestsAnalyzer_WrongParameterName",
+                                    Message = "Test for 'TestingProject.IndexerTests.MyClass.this[int] [get]' has some invalid parameter 'value'.",
+                                    Severity = DiagnosticSeverity.Error,
+                                    Locations = new[]
+                                                {
+                                                    new DiagnosticResultLocation( "Test0.cs", 33, 41 )
+                                                }
+                                };
+
+            VerifyCSharpDiagnostic( test, expectedMissing, expectedWrong );
+        }
+
+
+        [Test]
         public void SetValid()
         {
             var test = @"
@@ -71,7 +195,7 @@ using static SmartTests.SmartTest;
 namespace TestingProject
 {
     [TestFixture]
-    public class ConstructorTests
+    public class IndexerTests
     {
         public class MyClass
         {
@@ -90,7 +214,170 @@ namespace TestingProject
 
 
         [Test]
-        public void SetValid()
+        public void MyTest()
+        {
+            var mc = new MyClass( 10 );
+
+            var result = RunTest( Case( ""index"", AnyValue.Valid ) &
+                                  Case( ""value"", AnyValue.Value ),
+                                  Assign( () => mc[0], 11 ) );
+
+            Assert.That( result, Is.EqualTo( 11 ) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test, 0 );
+        }
+
+
+        [Test]
+        public void SetIndexParameterName()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class IndexerTests
+    {
+        public class MyClass
+        {
+            public MyClass( int value )
+            {
+                _List.Add(value);
+            }
+
+            private readonly List<int> _List = new List<int>();
+
+            public int this[ int index ] {
+                get { return _List[ index ]; }
+                set { _List[ index ] = value; }
+            }
+        }
+
+
+        [Test]
+        public void MyTest()
+        {
+            var mc = new MyClass( 10 );
+
+            var result = RunTest( Case( ""index"", AnyValue.Valid ),
+                                  Assign( () => mc[0], 11 ) );
+
+            Assert.That( result, Is.EqualTo( 11 ) );
+        }
+    }
+}";
+            var expectedValue = new DiagnosticResult
+                                {
+                                    Id = "SmartTestsAnalyzer_MissingParameterCase",
+                                    Message = "Test for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has no Case for parameter 'value'.",
+                                    Severity = DiagnosticSeverity.Error,
+                                    Locations = new[]
+                                                {
+                                                    new DiagnosticResultLocation( "Test0.cs", 33, 35 )
+                                                }
+                                };
+
+            VerifyCSharpDiagnostic( test, expectedValue );
+        }
+
+
+        [Test]
+        public void SetValueParameterName()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class IndexerTests
+    {
+        public class MyClass
+        {
+            public MyClass( int value )
+            {
+                _List.Add(value);
+            }
+
+            private readonly List<int> _List = new List<int>();
+
+            public int this[ int index ] {
+                get { return _List[ index ]; }
+                set { _List[ index ] = value; }
+            }
+        }
+
+
+        [Test]
+        public void MyTest()
+        {
+            var mc = new MyClass( 10 );
+
+            var result = RunTest( Case( ""value"", AnyValue.Valid ),
+                                  Assign( () => mc[0], 11 ) );
+
+            Assert.That( result, Is.EqualTo( 11 ) );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingParameterCase",
+                               Message = "Test for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has no Case for parameter 'index'.",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 33, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void SetNoParameterName()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class IndexerTests
+    {
+        public class MyClass
+        {
+            public MyClass( int value )
+            {
+                _List.Add(value);
+            }
+
+            private readonly List<int> _List = new List<int>();
+
+            public int this[ int index ] {
+                get { return _List[ index ]; }
+                set { _List[ index ] = value; }
+            }
+        }
+
+
+        [Test]
+        public void MyTest()
         {
             var mc = new MyClass( 10 );
 
@@ -102,12 +389,33 @@ namespace TestingProject
     }
 }";
 
-            VerifyCSharpDiagnostic( test );
+            var expectedIndex = new DiagnosticResult
+                                {
+                                    Id = "SmartTestsAnalyzer_MissingParameterCase",
+                                    Message = "Test for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has no Case for parameter 'index'.",
+                                    Severity = DiagnosticSeverity.Error,
+                                    Locations = new[]
+                                                {
+                                                    new DiagnosticResultLocation( "Test0.cs", 33, 35 )
+                                                }
+                                };
+            var expectedValue = new DiagnosticResult
+                                {
+                                    Id = "SmartTestsAnalyzer_MissingParameterCase",
+                                    Message = "Test for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has no Case for parameter 'value'.",
+                                    Severity = DiagnosticSeverity.Error,
+                                    Locations = new[]
+                                                {
+                                                    new DiagnosticResultLocation( "Test0.cs", 33, 35 )
+                                                }
+                                };
+
+            VerifyCSharpDiagnostic( test, expectedIndex, expectedValue );
         }
 
 
         [Test]
-        public void SetMissingCase()
+        public void SetMissingIndexCase()
         {
             var test = @"
 using System;
@@ -118,7 +426,7 @@ using static SmartTests.SmartTest;
 namespace TestingProject
 {
     [TestFixture]
-    public class ConstructorTests
+    public class IndexerTests
     {
         public class MyClass
         {
@@ -137,11 +445,12 @@ namespace TestingProject
 
 
         [Test]
-        public void SetMissingCase()
+        public void MyTest()
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( ValidValue.Valid,
+            var result = RunTest( Case( ""index"", ValidValue.Valid ) &
+                                  Case( ""value"", AnyValue.Valid ),
                                   Assign( () => mc[0], 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -151,8 +460,8 @@ namespace TestingProject
 
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.ConstructorTests.MyClass.this[int]' has some missing Test Cases: ValidValue.Invalid",
+                               Id = "SmartTestsAnalyzer_MissingParameterCases",
+                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases for parameter 'index': ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -160,13 +469,12 @@ namespace TestingProject
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
-        /*
         [Test]
-        public void PropertyGetMissingCase()
+        public void SetMissingValueCase()
         {
             var test = @"
 using System;
@@ -177,244 +485,52 @@ using static SmartTests.SmartTest;
 namespace TestingProject
 {
     [TestFixture]
-    public class ConstructorTests
+    public class IndexerTests
     {
         public class MyClass
         {
-            public MyClass( int property )
+            public MyClass( int value )
             {
-                Property = property;
+                _List.Add(value);
             }
 
-            public int Property { get; }
+            private readonly List<int> _List = new List<int>();
+
+            public int this[ int index ] {
+                get { return _List[ index ]; }
+                set { _List[ index ] = value; }
+            }
         }
 
+
         [Test]
-        public void Missing1()
+        public void MyTest()
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( ValidValue.Valid,
-                                  () => mc.Property );
+            var result = RunTest( Case( ""index"", AnyValue.Valid ) &
+                                  Case( ""value"", ValidValue.Valid ),
+                                  Assign( () => mc[0], 11 ) );
 
-            Assert.That( result, Is.EqualTo( 10 ) );
+            Assert.That( result, Is.EqualTo( 11 ) );
         }
     }
 }";
+
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'ConstructorTests.MyClass.Property' has some missing Test Cases: ValidValue.Invalid",
+                               Id = "SmartTestsAnalyzer_MissingParameterCases",
+                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases for parameter 'value': ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 27, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 34, 35 )
                                            }
                            };
 
             VerifyCSharpDiagnostic( test, expected );
         }
 
-
-        [Test]
-        public void PropertyGetCaseParameter()
-        {
-            var test = @"
-using System;
-using NUnit.Framework;
-using SmartTests.Criterias;
-using static SmartTests.SmartTest;
-
-namespace TestingProject
-{
-    [TestFixture]
-    public class ConstructorTests
-    {
-        public class MyClass
-        {
-            public MyClass( int property )
-            {
-                Property = property;
-            }
-
-            public int Property { get; }
-        }
-
-        [Test]
-        public void WrongParameter()
-        {
-            var mc = new MyClass( 10 );
-
-            var result = RunTest( Case( ""value"", ValidValue.Valid ),
-                                  () => mc.Property );
-
-            Assert.That( result, Is.EqualTo( 10 ) );
-        }
-    }
-}";
-            var expected = new DiagnosticResult
-                           {
-                               Id = "SmartTestsAnalyzer_WrongParameterName",
-                               Message = "Test for 'ConstructorTests.MyClass.Property' has some invalid parameter 'value'.",
-                               Severity = DiagnosticSeverity.Error,
-                               Locations = new[]
-                                           {
-                                               new DiagnosticResultLocation( "Test0.cs", 27, 41 )
-                                           }
-                           };
-
-            VerifyCSharpDiagnostic( test, expected );
-        }
-
-
-        [Test]
-        public void PropertySet()
-        {
-            var test = @"
-using System;
-using NUnit.Framework;
-using SmartTests.Criterias;
-using static SmartTests.SmartTest;
-
-namespace TestingProject
-{
-    [TestFixture]
-    public class ConstructorTests
-    {
-        public class MyClass
-        {
-            public MyClass( int property )
-            {
-                Property = property;
-            }
-
-            public int Property { get; set; }
-        }
-
-        [Test]
-        public void Valid()
-        {
-            var mc = new MyClass( 10 );
-            Assert.That( mc.Property, Is.EqualTo( 10 ) );
-
-            var result = RunTest( AnyValue.Valid,
-                                  Assign( () => mc.Property, 11 ) );
-
-            Assert.That( result, Is.EqualTo( 11 ) );
-            Assert.That( mc.Property, Is.EqualTo( 11 ) );
-        }
-    }
-}";
-
-            VerifyCSharpDiagnostic( test );
-        }
-
-
-        [Test]
-        public void PropertySetMissingCase()
-        {
-            var test = @"
-using System;
-using NUnit.Framework;
-using SmartTests.Criterias;
-using static SmartTests.SmartTest;
-
-namespace TestingProject
-{
-    [TestFixture]
-    public class ConstructorTests
-    {
-        public class MyClass
-        {
-            public MyClass( int property )
-            {
-                Property = property;
-            }
-
-            public int Property { get; set; }
-        }
-
-        [Test]
-        public void Missing1()
-        {
-            var mc = new MyClass( 10 );
-            Assert.That( mc.Property, Is.EqualTo( 10 ) );
-
-            var result = RunTest( ValidValue.Valid,
-                                  Assign( () => mc.Property, 11 ) );
-
-            Assert.That( result, Is.EqualTo( 11 ) );
-            Assert.That( mc.Property, Is.EqualTo( 11 ) );
-        }
-    }
-}";
-            var expected = new DiagnosticResult
-                           {
-                               Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'ConstructorTests.MyClass.Property' has some missing Test Cases: ValidValue.Invalid",
-                               Severity = DiagnosticSeverity.Warning,
-                               Locations = new[]
-                                           {
-                                               new DiagnosticResultLocation( "Test0.cs", 28, 35 )
-                                           }
-                           };
-
-            VerifyCSharpDiagnostic( test, expected );
-        }
-
-
-        [Test]
-        public void PropertySetCaseParameter()
-        {
-            var test = @"
-using System;
-using NUnit.Framework;
-using SmartTests.Criterias;
-using static SmartTests.SmartTest;
-
-namespace TestingProject
-{
-    [TestFixture]
-    public class ConstructorTests
-    {
-        public class MyClass
-        {
-            public MyClass( int property )
-            {
-                Property = property;
-            }
-
-            public int Property { get; set; }
-        }
-
-        [Test]
-        public void WrongParameter()
-        {
-            var mc = new MyClass( 10 );
-            Assert.That( mc.Property, Is.EqualTo( 10 ) );
-
-            var result = RunTest( Case( ""value"", ValidValue.Valid ),
-                                  Assign( () => mc.Property, 11 ) );
-
-            Assert.That( result, Is.EqualTo( 11 ) );
-            Assert.That( mc.Property, Is.EqualTo( 11 ) );
-        }
-    }
-}";
-            var expected = new DiagnosticResult
-                           {
-                               Id = "SmartTestsAnalyzer_WrongParameterName",
-                               Message = "Test for 'ConstructorTests.MyClass.Property' has some invalid parameter 'value'.",
-                               Severity = DiagnosticSeverity.Error,
-                               Locations = new[]
-                                           {
-                                               new DiagnosticResultLocation( "Test0.cs", 28, 41 )
-                                           }
-                           };
-
-            VerifyCSharpDiagnostic( test, expected );
-        }
-        */
 
         protected override CodeFixProvider GetCSharpCodeFixProvider() => new SmartTestsAnalyzerCodeFixProvider();
 
