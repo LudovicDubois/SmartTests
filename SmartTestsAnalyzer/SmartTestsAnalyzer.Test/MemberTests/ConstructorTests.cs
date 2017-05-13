@@ -13,7 +13,7 @@ namespace SmartTestsAnalyzer.Test.MemberTests
     public class ConstructorTests: CodeFixVerifier
     {
         [Test]
-        public void Constructor()
+        public void Valid()
         {
             var test = @"
 using System;
@@ -37,7 +37,7 @@ namespace TestingProject
         }
 
         [Test]
-        public void Valid()
+        public void MyTest()
         {
             var result = RunTest( AnyValue.Valid,
                                   () => new MyClass( 10 ) );
@@ -52,7 +52,7 @@ namespace TestingProject
 
 
         [Test]
-        public void ConstructorMissingCase()
+        public void MissingCase()
         {
             var test = @"
 using System;
@@ -76,7 +76,7 @@ namespace TestingProject
         }
 
         [Test]
-        public void Missing1()
+        public void MyTest()
         {
             var result = RunTest( ValidValue.Valid,
                                   () => new MyClass( 10 ) );
