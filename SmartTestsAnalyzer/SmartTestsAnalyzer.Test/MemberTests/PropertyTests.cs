@@ -13,7 +13,7 @@ namespace SmartTestsAnalyzer.Test.MemberTests
     public class PropertyTests: CodeFixVerifier
     {
         [Test]
-        public void PropertyGet()
+        public void GetValidTest()
         {
             var test = @"
 using System;
@@ -37,7 +37,7 @@ namespace TestingProject
         }
 
         [Test]
-        public void Valid()
+        public void MyTest()
         {
             var mc = new MyClass( 10 );
 
@@ -54,7 +54,7 @@ namespace TestingProject
 
 
         [Test]
-        public void PropertyGetMissingCase()
+        public void GetMissingCase()
         {
             var test = @"
 using System;
@@ -78,7 +78,7 @@ namespace TestingProject
         }
 
         [Test]
-        public void Missing1()
+        public void MyTest()
         {
             var mc = new MyClass( 10 );
 
@@ -89,6 +89,7 @@ namespace TestingProject
         }
     }
 }";
+
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
@@ -105,7 +106,7 @@ namespace TestingProject
 
 
         [Test]
-        public void PropertyGetWrongCaseParameter()
+        public void GetWrongCaseParameter()
         {
             var test = @"
 using System;
@@ -129,7 +130,7 @@ namespace TestingProject
         }
 
         [Test]
-        public void WrongParameter()
+        public void MyTest()
         {
             var mc = new MyClass( 10 );
 
@@ -140,6 +141,7 @@ namespace TestingProject
         }
     }
 }";
+
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_WrongParameterName",
@@ -156,7 +158,7 @@ namespace TestingProject
 
 
         [Test]
-        public void PropertySet()
+        public void SetValid()
         {
             var test = @"
 using System;
@@ -180,7 +182,7 @@ namespace TestingProject
         }
 
         [Test]
-        public void Valid()
+        public void MyTest()
         {
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
@@ -199,7 +201,7 @@ namespace TestingProject
 
 
         [Test]
-        public void PropertySetMissingCase()
+        public void SetMissingCase()
         {
             var test = @"
 using System;
@@ -223,7 +225,7 @@ namespace TestingProject
         }
 
         [Test]
-        public void Missing1()
+        public void MyTest()
         {
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
@@ -236,6 +238,7 @@ namespace TestingProject
         }
     }
 }";
+
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
@@ -252,7 +255,7 @@ namespace TestingProject
 
 
         [Test]
-        public void PropertySetCaseParameter()
+        public void SetCaseWrongParameter()
         {
             var test = @"
 using System;
@@ -276,7 +279,7 @@ namespace TestingProject
         }
 
         [Test]
-        public void WrongParameter()
+        public void MyTest()
         {
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );

@@ -53,7 +53,12 @@
     <Compile Include="MemberTests\IndexerTests\SetValidTest.cs" />
     <Compile Include="MemberTests\IndexerTests\GetWrongCaseParameterTest.cs" />
     <Compile Include="MemberTests\IndexerTests\GetValidTest.cs" />
-    <Compile Include="MemberTests\PropertyTests.cs" />
+    <Compile Include="MemberTests\PropertyTests\GetWrongCaseParameterTest.cs" />
+    <Compile Include="MemberTests\PropertyTests\SetCaseWrongParameterTest.cs" />
+    <Compile Include="MemberTests\PropertyTests\SetMissingCaseTest.cs" />
+    <Compile Include="MemberTests\PropertyTests\SetValidTest.cs" />
+    <Compile Include="MemberTests\PropertyTests\GetMissingCaseTest.cs" />
+    <Compile Include="MemberTests\PropertyTests\GetValidTest.cs" />
     <Compile Include="ThreeCasesTests\MissingNoCaseTest.cs" />
     <Compile Include="ThreeCasesTests\MissingThirdCaseTest.cs" />
     <Compile Include="ThreeCasesTests\MissingSecondCaseTest.cs" />
