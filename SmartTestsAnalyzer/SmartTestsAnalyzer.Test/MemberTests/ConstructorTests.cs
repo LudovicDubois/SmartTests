@@ -16,7 +16,6 @@ namespace SmartTestsAnalyzer.Test.MemberTests
         public void Valid()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -55,7 +54,6 @@ namespace TestingProject
         public void MissingCase()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -92,7 +90,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 25, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 24, 35 )
                                            }
                            };
 

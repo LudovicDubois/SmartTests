@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MemberTests\ConstructorTests\MissingCaseTest.cs" />
     <Compile Include="MemberTests\IndexerTests\GetMissingCaseTest.cs" />
     <Compile Include="MemberTests\IndexerTests\SetMissingValueCaseTest.cs" />
     <Compile Include="MemberTests\IndexerTests\SetMissingIndexCaseTest.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="TwoCasesTests\MissingSecondCaseTest.cs" />
     <Compile Include="TwoCasesTests\MissingFirstCaseTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MemberTests\ConstructorTests.cs" />
+    <Compile Include="MemberTests\ConstructorTests\ValidTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

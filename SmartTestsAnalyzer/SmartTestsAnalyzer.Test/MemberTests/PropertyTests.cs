@@ -13,10 +13,9 @@ namespace SmartTestsAnalyzer.Test.MemberTests
     public class PropertyTests: CodeFixVerifier
     {
         [Test]
-        public void GetValidTest()
+        public void GetValid()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -57,7 +56,6 @@ namespace TestingProject
         public void GetMissingCase()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -97,7 +95,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 27, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 26, 35 )
                                            }
                            };
 
@@ -109,7 +107,6 @@ namespace TestingProject
         public void GetWrongCaseParameter()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -149,7 +146,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 27, 41 )
+                                               new DiagnosticResultLocation( "Test0.cs", 26, 41 )
                                            }
                            };
 
@@ -161,7 +158,6 @@ namespace TestingProject
         public void SetValid()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -204,7 +200,6 @@ namespace TestingProject
         public void SetMissingCase()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -246,7 +241,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 28, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 27, 35 )
                                            }
                            };
 
@@ -258,7 +253,6 @@ namespace TestingProject
         public void SetCaseWrongParameter()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -299,7 +293,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 28, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 27, 35 )
                                            }
                            };
 

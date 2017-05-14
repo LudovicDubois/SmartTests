@@ -13,7 +13,7 @@ namespace SmartTestsAnalyzer.Test
     public class ParameterNameTests: CodeFixVerifier
     {
         [Test]
-        public void RightParameterName()
+        public void RightParameterName_NotMissingCases()
         {
             var test = @"
 using System;
@@ -27,7 +27,36 @@ namespace TestingProject
     public class MyTestClass
     {
         [Test]
-        public void RightParameterName()
+        public void MyTest()
+        {
+            var result = RunTest( Case( ""d"", AnyValue.Valid ), 
+                                  () => Math.Sqrt(4) );
+
+            Assert.That( result, Is.EqualTo(2) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void RightParameterName_MissingCases()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest()
         {
             var result = RunTest( Case( ""d"", ValidValue.Valid ), 
                                   () => Math.Sqrt(4) );
@@ -66,20 +95,12 @@ namespace TestingProject
     public class MyTestClass
     {
         [Test]
-        public void WrongParameterName()
+        public void MyTest1()
         {
-            var result = RunTest( Case( ""value"", ValidValue.Valid ), 
+            var result = RunTest( Case( ""value"", AnyValue.Valid ), 
                                   () => Math.Sqrt(4) );
 
             Assert.That( result, Is.EqualTo(2) );
-        }
-
-        [Test]
-        public void WrongParameterName2()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>( 
-              () => RunTest( Case( ""value"", ValidValue.Invalid ), 
-                             () => Math.Sqrt(-2) ) );
         }
     }
 }";
@@ -123,7 +144,7 @@ namespace TestingProject
     public class MyTestClass
     {
         [Test]
-        public void TestMethod()
+        public void MyTest()
         {
             var reminder = default(int);
             var result = RunTest( Case( ""a"", AnyValue.Valid ),
@@ -165,7 +186,7 @@ namespace TestingProject
     public class MyTestClass
     {
         [Test]
-        public void TestMethod()
+        public void MyTest()
         {
             var reminder = default(int);
             var result = RunTest( Case( AnyValue.Valid ),
@@ -217,7 +238,7 @@ namespace TestingProject
     public class MyTestClass
     {
         [Test]
-        public void TestMethod()
+        public void MyTest1()
         {
             var reminder = default(int);
             var result = RunTest( Case( ""a"", AnyValue.Valid ) &
@@ -229,7 +250,7 @@ namespace TestingProject
         }
 
         [Test]
-        public void TestMethod2()
+        public void MyTest2()
         {
             int reminder;
             Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""b"", ValidValue.Invalid ),
@@ -257,7 +278,7 @@ namespace TestingProject
     public class MyTestClass
     {
         [Test]
-        public void TestMethod()
+        public void MyTest1()
         {
             var reminder = default(int);
             var result = RunTest( Case( ""a"", AnyValue.Valid ) &
@@ -269,7 +290,7 @@ namespace TestingProject
         }
 
         [Test]
-        public void TestMethod2()
+        public void Mytest2()
         {
             int reminder;
             Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""a"", AnyValue.Valid ) &
@@ -287,7 +308,6 @@ namespace TestingProject
         public void NoParameterNeeded_NoCase()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -301,7 +321,7 @@ namespace TestingProject
         { }
 
         [Test]
-        public void NoCase()
+        public void MyTest()
         {
             RunTest( AnyValue.Valid,
                      () => NoParameter() );
@@ -317,7 +337,6 @@ namespace TestingProject
         public void NoParameterNeeded_Case()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -331,7 +350,7 @@ namespace TestingProject
         { }
 
         [Test]
-        public void CaseNoParameter()
+        public void MyTest()
         {
             RunTest( Case( AnyValue.Valid ),
                      () => NoParameter() );
@@ -347,7 +366,6 @@ namespace TestingProject
         public void NoParameterNeeded_NullCase()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -361,7 +379,7 @@ namespace TestingProject
         { }
 
         [Test]
-        public void NullCase()
+        public void MyTest()
         {
             RunTest( Case( null, AnyValue.Valid ),
                      () => NoParameter() );
@@ -377,7 +395,6 @@ namespace TestingProject
         public void NoParameterNeeded_ParameterCase()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -391,7 +408,7 @@ namespace TestingProject
         { }
 
         [Test]
-        public void ParameterCase()
+        public void MyTest()
         {
             RunTest( Case( ""value"", AnyValue.Valid ),
                      () => NoParameter() );
@@ -406,7 +423,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 18, 28 )
+                                               new DiagnosticResultLocation( "Test0.cs", 17, 28 )
                                            }
                            };
 

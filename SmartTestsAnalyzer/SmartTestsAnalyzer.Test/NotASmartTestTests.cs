@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 using NUnit.Framework;
 
@@ -27,7 +26,7 @@ namespace TestingProject
     public class MyTestClass
     {
         [Test]
-        public void TestMethod()
+        public void MyTest()
         {
             var result = RunTest( Case( ValidValue.Valid ), () => Math.Sqrt(4) );
 
@@ -55,7 +54,7 @@ namespace TestingProject
     public class MyTestClass
     {
         //[Test]
-        public void TestMethod()
+        public void MyTest()
         {
             var result = RunTest( Case( ValidValue.Valid ), () => Math.Sqrt(4) );
 
@@ -74,8 +73,6 @@ namespace TestingProject
             var test = @"
 using System;
 using NUnit.Framework;
-using SmartTests.Criterias;
-using static SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -83,7 +80,7 @@ namespace TestingProject
     public class MyTestClass
     {
         [Test]
-        public void TestMethod()
+        public void MyTest()
         {
             // Arrange
             // Act

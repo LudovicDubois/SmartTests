@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
+using NUnit.Framework;
 using NUnit.Framework.Internal;
 
 using SmartTests;
@@ -65,6 +66,8 @@ namespace TestHelper
             foreach (var project in projects)
             {
                 var compilationWithAnalyzers = project.GetCompilationAsync().Result.WithAnalyzers(ImmutableArray.Create(analyzer));
+                var compilationErrors = compilationWithAnalyzers.Compilation.GetDiagnostics().Where( diag => diag.Id != "CS5001" ).ToList();
+                Assert.That( compilationErrors.Count, Is.EqualTo( 0 ), () => string.Join( " --- ", compilationErrors.Select( diag => diag.GetMessage() +  " " + diag.Location ) ) );
                 var diags = compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync().Result;
                 foreach (var diag in diags)
                 {
