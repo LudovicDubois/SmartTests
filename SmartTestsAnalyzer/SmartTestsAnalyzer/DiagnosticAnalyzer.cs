@@ -37,7 +37,7 @@ namespace SmartTestsAnalyzer
                 context.SemanticModel.Compilation.SourceModule.Accept( visitor );
                 Tests = visitor.MembersTestCases.MemberCases;
 
-                visitor.MembersTestCases.Validate( context.ReportDiagnostic );
+                visitor.Validate( context.ReportDiagnostic );
             }
             catch( Exception e )
             {

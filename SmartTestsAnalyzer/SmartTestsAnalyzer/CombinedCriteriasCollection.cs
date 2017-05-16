@@ -34,7 +34,7 @@ namespace SmartTestsAnalyzer
         { }
 
 
-        public CombinedCriteriasCollection( ExpressionSyntax caseExpression, ExpressionSyntax parameterNameExpression, ExpressionSyntax criteriaExpression, IFieldSymbol criteria, bool hasError )
+        public CombinedCriteriasCollection( ExpressionSyntax caseExpression, ExpressionSyntax parameterNameExpression, IFieldSymbol criteria, bool hasError )
         {
             CaseExpression = caseExpression;
             ParameterNameExpression = parameterNameExpression;
@@ -67,9 +67,30 @@ namespace SmartTestsAnalyzer
 
             var currentCriterias = Criterias;
             Criterias = new List<CombinedCriterias>();
+            var otherErrors = new HashSet<CombinedCriterias>();
             foreach( var combinedCriterias in currentCriterias )
-            foreach( var otherCriterias in criterias.Criterias )
-                Criterias.Add( combinedCriterias.CombineAnd( otherCriterias ) );
+            {
+                if( combinedCriterias.HasError )
+                {
+                    // Do not combine it
+                    Criterias.Add( combinedCriterias );
+                    continue;
+                    ;
+                }
+
+                foreach( var otherCriterias in criterias.Criterias )
+                {
+                    if( otherCriterias.HasError )
+                    {
+                        if( otherErrors.Add( otherCriterias ) )
+                            // Do not combine it
+                            Criterias.Add( otherCriterias );
+                        continue;
+                    }
+
+                    Criterias.Add( combinedCriterias.CombineAnd( otherCriterias ) );
+                }
+            }
         }
 
 
@@ -89,27 +110,36 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( TestedMember testedMember, string parameterName, Action<Diagnostic> reportError )
+        public void Validate( TestedMember testedMember, string parameterName, INamedTypeSymbol errorType, Action<Diagnostic> reportError )
         {
-            var allCriterias = ComputeAllCriteriaCombinations();
+            var allCriterias = ComputeAllCriteriaCombinations( errorType );
             allCriterias.Remove( this );
             if( allCriterias.Criterias.Count == 0 )
                 // No missing cases
                 return;
 
-            var text = new StringBuilder();
+            reportError( SmartTestsDiagnostics.CreateMissingCase( testedMember,
+                                                                  parameterName,
+                                                                  GetExpressionSyntaxes(),
+                                                                  CreateMessage( allCriterias ) ) );
+        }
+
+
+        private static string CreateMessage( CombinedCriteriasCollection allCriterias )
+        {
+            var result = new StringBuilder();
             foreach( var criterias in allCriterias.Criterias )
             {
                 foreach( var criteria in criterias.Criterias )
                 {
-                    text.Append( criteria.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) );
-                    text.Append( " & " );
+                    result.Append( criteria.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) );
+                    result.Append( " & " );
                 }
-                text.Length -= 3;
-                text.Append( " and " );
+                result.Length -= 3;
+                result.Append( " and " );
             }
-            text.Length -= 5;
-            reportError( SmartTestsDiagnostics.CreateMissingCase( testedMember, parameterName, GetExpressionSyntaxes(), text.ToString() ) );
+            result.Length -= 5;
+            return result.ToString();
         }
 
 
@@ -122,14 +152,14 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private CombinedCriteriasCollection ComputeAllCriteriaCombinations()
+        private CombinedCriteriasCollection ComputeAllCriteriaCombinations( INamedTypeSymbol errorType )
         {
             var result = new CombinedCriteriasCollection();
             foreach( var criteriaType in GetAllCriteriaTypes() )
             {
                 var typeCriterias = new CombinedCriteriasCollection();
                 foreach( var criteria in criteriaType.GetMembers().Where( member => member is IFieldSymbol ).Cast<IFieldSymbol>() )
-                    typeCriterias.CombineOr( new CombinedCriteriasCollection( null, null, null, criteria, false ) ); // TODO: Not false!
+                    typeCriterias.CombineOr( new CombinedCriteriasCollection( null, null, criteria, criteria.HasAttribute( errorType ) ) );
                 result.CombineAnd( typeCriterias );
             }
             return result;

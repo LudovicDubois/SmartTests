@@ -33,6 +33,7 @@ namespace SmartTestsAnalyzer
             var result = new CombinedCriterias();
             result.Criterias.AddRange( Criterias );
             result.Criterias.AddRange( otherCriterias.Criterias );
+            result.CriteriaExpressions.AddRange( CriteriaExpressions );
             result.HasError = HasError || otherCriterias.HasError;
             return result;
         }

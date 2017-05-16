@@ -29,10 +29,10 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( Action<Diagnostic> reportError )
+        public void Validate( INamedTypeSymbol errorType, Action<Diagnostic> reportError )
         {
             foreach( var memberCasesValue in MemberCases.Values )
-                memberCasesValue.Validate( reportError );
+                memberCasesValue.Validate( errorType, reportError );
         }
     }
 }

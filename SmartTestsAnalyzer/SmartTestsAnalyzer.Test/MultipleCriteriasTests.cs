@@ -13,11 +13,9 @@ namespace SmartTestsAnalyzer.Test
     public class MultipleCriteriasTests: CodeFixVerifier
     {
         [Test]
-        [Ignore("Pas pret! à faire!")]
-        public void MissingFirstCase()
+        public void AndMissing3Cases()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -27,24 +25,39 @@ namespace TestingProject
     [TestFixture]
     public class MyTestClass
     {
-        [Test]
-        public void TestMethod()
+        public class MyClass
         {
-            var result = RunTest( Case( ValidValue.Valid ), 
-                                  () => Math.Sqrt(4) );
+            public MyClass( int property )
+            {
+                Property = property;
+            }
 
-            Assert.That( result, Is.EqualTo(2) );
+            public int Property { get; set; }
+        }
+
+        [Test]
+        public void MyTest()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber, 
+                                  Assign( () => mc.Property, 11 ) );
+
+            Assert.That( result, Is.EqualTo( 11 ) );
+            Assert.That( mc.Property, Is.EqualTo( 11 ) );
         }
     }
 }";
+
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'Math.Sqrt' has some missing Test Cases: ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue and ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 15, 41 )
+                                               new DiagnosticResultLocation( "Test0.cs", 27, 35 )
                                            }
                            };
 
@@ -53,11 +66,9 @@ namespace TestingProject
 
 
         [Test]
-        [Ignore("Pas pret!")]
-        public void MissingNoCase()
+        public void AndMissing3OppositesCases()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using SmartTests.Criterias;
 using static SmartTests.SmartTest;
@@ -67,19 +78,264 @@ namespace TestingProject
     [TestFixture]
     public class MyTestClass
     {
-        [Test]
-        public void TestMethod()
+        public class MyClass
         {
-            var result = RunTest( Case( ValidValue.Valid ), () => Math.Sqrt(4) );
+            public MyClass( int property )
+            {
+                Property = property;
+            }
 
-            Assert.That( result, Is.EqualTo(2) );
+            public int Property { get; set; }
+        }
+
+        [Test]
+        public void MyTest()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            var result = RunTest( NotifyPropertyChanged.HasNoSubscriber & ValidValue.Valid, 
+                                  Assign( () => mc.Property, 11 ) );
+
+            Assert.That( result, Is.EqualTo( 11 ) );
+            Assert.That( mc.Property, Is.EqualTo( 11 ) );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Invalid and NotifyPropertyChanged.HasSubscriberSameValue & ValidValue.Valid and NotifyPropertyChanged.HasSubscriberOtherValue & ValidValue.Valid",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 27, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
         [Test]
-        public void TestMethod2()
+        public void AndMissing2Cases()
         {
-            Assert.Throws<IndexOutOfRangeException>( () => RunTest( Case( ValidValue.Invalid ), () => Math.Sqrt(-4) ) );
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public class MyClass
+        {
+            public MyClass( int property )
+            {
+                Property = property;
+            }
+
+            public int Property { get; set; }
+        }
+
+        [Test]
+        public void MyTest()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber, 
+                                  Assign( () => mc.Property, 11 ) );
+
+            Assert.That( result, Is.EqualTo( 11 ) );
+            Assert.That( mc.Property, Is.EqualTo( 11 ) );
+        }
+
+        [Test]
+        public void MyTest2()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue, 
+                                  Assign( () => mc.Property, 10 ) );
+
+            Assert.That( result, Is.EqualTo( 10 ) );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.Invalid",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 27, 35 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 40, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void AndMissing1Case()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public class MyClass
+        {
+            public MyClass( int property )
+            {
+                Property = property;
+            }
+
+            public int Property { get; set; }
+        }
+
+        [Test]
+        public void MyTest()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber, 
+                                  Assign( () => mc.Property, 11 ) );
+
+            Assert.That( result, Is.EqualTo( 11 ) );
+            Assert.That( mc.Property, Is.EqualTo( 11 ) );
+        }
+
+        [Test]
+        public void MyTest2()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue, 
+                                  Assign( () => mc.Property, 10 ) );
+
+            Assert.That( result, Is.EqualTo( 10 ) );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+        }
+
+        [Test]
+        public void MyTest3()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue, 
+                                  Assign( () => mc.Property, 11 ) );
+
+            Assert.That( result, Is.EqualTo( 11 ) );
+            Assert.That( mc.Property, Is.EqualTo( 11 ) );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Invalid",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 27, 35 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 40, 35 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 53, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void AndMissingNoCase()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public class MyClass
+        {
+            public MyClass( int property )
+            {
+                Property = property;
+            }
+
+            public int Property { get; set; }
+        }
+
+        [Test]
+        public void MyTest()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber, 
+                                  Assign( () => mc.Property, 11 ) );
+
+            Assert.That( result, Is.EqualTo( 11 ) );
+            Assert.That( mc.Property, Is.EqualTo( 11 ) );
+        }
+
+        [Test]
+        public void MyTest2()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue, 
+                                  Assign( () => mc.Property, 10 ) );
+
+            Assert.That( result, Is.EqualTo( 10 ) );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+        }
+
+        [Test]
+        public void MyTest3()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue, 
+                                  Assign( () => mc.Property, 11 ) );
+
+            Assert.That( result, Is.EqualTo( 11 ) );
+            Assert.That( mc.Property, Is.EqualTo( 11 ) );
+        }
+
+        [Test]
+        public void MyTest4()
+        {
+            var mc = new MyClass( 10 );
+            Assert.That( mc.Property, Is.EqualTo( 10 ) );
+
+            RunTest( ValidValue.Invalid, 
+                     Assign( () => mc.Property, -1 ) );
         }
     }
 }";

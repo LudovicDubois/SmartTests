@@ -45,10 +45,10 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void Validate( Action<Diagnostic> reportError )
+        public void Validate( INamedTypeSymbol errorType, Action<Diagnostic> reportError )
         {
             if( ValidateParameterNames( reportError ) )
-                ValidateCriterias( reportError );
+                ValidateCriterias( errorType, reportError );
         }
 
 
@@ -136,10 +136,10 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void ValidateCriterias( Action<Diagnostic> reportError )
+        private void ValidateCriterias( INamedTypeSymbol errorType, Action<Diagnostic> reportError )
         {
             foreach( var criterias in Criterias )
-                criterias.Value.Validate( TestedMember, criterias.Key, reportError );
+                criterias.Value.Validate( TestedMember, criterias.Key, errorType, reportError );
         }
     }
 }

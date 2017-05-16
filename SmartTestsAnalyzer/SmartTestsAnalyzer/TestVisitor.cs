@@ -33,6 +33,8 @@ namespace SmartTestsAnalyzer
             IsSmartTestProject = IsTestProject;
             _CaseType = _Compilation.GetTypeByMetadataName( "SmartTests.Case" );
             Debug.Assert( _CaseType != null );
+            _ErrorType = _Compilation.GetTypeByMetadataName( "SmartTests.ErrorAttribute" );
+            Debug.Assert( _ErrorType != null );
             _RunTestMethods = smartTest.GetMethods( "RunTest" );
             _CaseMethods = smartTest.GetMethods( "Case" );
             _AssignMethods = smartTest.GetMethods( "Assign" );
@@ -42,6 +44,7 @@ namespace SmartTestsAnalyzer
         private readonly Compilation _Compilation;
         private readonly TestingFrameworks _TestingFrameworks;
         private readonly INamedTypeSymbol _CaseType;
+        private readonly INamedTypeSymbol _ErrorType;
         private readonly IMethodSymbol[] _RunTestMethods;
         private readonly IMethodSymbol[] _CaseMethods;
         private readonly IMethodSymbol[] _AssignMethods;
@@ -194,8 +197,11 @@ namespace SmartTestsAnalyzer
 
         private static void AddCase( SemanticModel model, ExpressionSyntax expression, ExpressionSyntax parameterNameExpression, string parameterName, ExpressionSyntax criterias, MemberTestCases memberTestCases )
         {
-            var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, expression, parameterNameExpression, criterias ) );
+            var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, expression, parameterNameExpression ) );
             memberTestCases.Add( parameterName, criteriasCollection );
         }
+
+
+        public void Validate( Action<Diagnostic> reportDiagnostic ) => MembersTestCases.Validate( _ErrorType, reportDiagnostic );
     }
 }
