@@ -60,6 +60,13 @@
     <Compile Include="MemberTests\PropertyTests\SetValidTest.cs" />
     <Compile Include="MemberTests\PropertyTests\GetMissingCaseTest.cs" />
     <Compile Include="MemberTests\PropertyTests\GetValidTest.cs" />
+    <Compile Include="MultipleCriteriasTests\OrMissingNoCaseTest.cs" />
+    <Compile Include="MultipleCriteriasTests\OrMissing1CaseTest.cs" />
+    <Compile Include="MultipleCriteriasTests\AndMissingNoCaseTest.cs" />
+    <Compile Include="MultipleCriteriasTests\AndMissing1CaseTest.cs" />
+    <Compile Include="MultipleCriteriasTests\AndMissing2CasesTest.cs" />
+    <Compile Include="MultipleCriteriasTests\AndMissing3OppositesCasesTest.cs" />
+    <Compile Include="MultipleCriteriasTests\AndMissing3CasesTest.cs" />
     <Compile Include="ThreeCasesTests\MissingNoCaseTest.cs" />
     <Compile Include="ThreeCasesTests\MissingThirdCaseTest.cs" />
     <Compile Include="ThreeCasesTests\MissingSecondCaseTest.cs" />

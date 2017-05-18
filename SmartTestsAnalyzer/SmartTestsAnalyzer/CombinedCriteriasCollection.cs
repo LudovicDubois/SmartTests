@@ -147,7 +147,9 @@ namespace SmartTestsAnalyzer
         {
             var result = new List<ExpressionSyntax>();
             foreach( var combinedCriteriase in Criterias )
-                result.AddRange( combinedCriteriase.CriteriaExpressions );
+            foreach( var criteriaExpression in combinedCriteriase.CriteriaExpressions )
+                if( !result.Contains( criteriaExpression ) )
+                    result.Add( criteriaExpression );
             return result;
         }
 

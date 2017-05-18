@@ -52,6 +52,10 @@ namespace SmartTestsAnalyzer
                     leftCriteria.CombineAnd( rightCriteria );
                     return leftCriteria;
 
+                case SyntaxKind.BarToken:
+                    leftCriteria.CombineOr( rightCriteria );
+                    return leftCriteria;
+
                 default:
                     return null;
             }
