@@ -37,6 +37,12 @@ namespace SmartTestsAnalyzer
         }
 
 
+        public override CombinedCriteriasCollection VisitParenthesizedExpression( ParenthesizedExpressionSyntax node )
+        {
+            return node.Expression.Accept( this );
+        }
+
+
         public override CombinedCriteriasCollection VisitBinaryExpression( BinaryExpressionSyntax node )
         {
             var leftCriteria = node.Left.Accept( this );
