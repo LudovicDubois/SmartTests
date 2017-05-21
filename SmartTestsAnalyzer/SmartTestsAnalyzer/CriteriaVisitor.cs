@@ -10,7 +10,7 @@ using SmartTestsAnalyzer.Helpers;
 
 namespace SmartTestsAnalyzer
 {
-    class CriteriaVisitor: CSharpSyntaxVisitor<CombinedCriteriasCollection>
+    class CriteriaVisitor: CSharpSyntaxVisitor<CriteriasAndOr>
     {
         public CriteriaVisitor( SemanticModel model, ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression )
         {
@@ -28,22 +28,22 @@ namespace SmartTestsAnalyzer
         private readonly INamedTypeSymbol _ErrorAttribute;
 
 
-        public override CombinedCriteriasCollection VisitMemberAccessExpression( MemberAccessExpressionSyntax node )
+        public override CriteriasAndOr VisitMemberAccessExpression( MemberAccessExpressionSyntax node )
         {
             var criteria = _Model.GetSymbolInfo( node ).Symbol as IFieldSymbol;
             return criteria != null
-                       ? new CombinedCriteriasCollection( _CasesExpression, _ParameterNameExpression, criteria, criteria.HasAttribute( _ErrorAttribute ) )
+                       ? new CriteriasAndOr( _CasesExpression, _ParameterNameExpression, criteria, criteria.HasAttribute( _ErrorAttribute ) )
                        : null;
         }
 
 
-        public override CombinedCriteriasCollection VisitParenthesizedExpression( ParenthesizedExpressionSyntax node )
+        public override CriteriasAndOr VisitParenthesizedExpression( ParenthesizedExpressionSyntax node )
         {
             return node.Expression.Accept( this );
         }
 
 
-        public override CombinedCriteriasCollection VisitBinaryExpression( BinaryExpressionSyntax node )
+        public override CriteriasAndOr VisitBinaryExpression( BinaryExpressionSyntax node )
         {
             var leftCriteria = node.Left.Accept( this );
             if( leftCriteria == null )

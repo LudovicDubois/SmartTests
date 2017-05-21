@@ -35,8 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CodeFixProvider.cs" />
-    <Compile Include="CombinedCriterias.cs" />
-    <Compile Include="CombinedCriteriasCollection.cs" />
+    <Compile Include="CriteriasAnd.cs" />
+    <Compile Include="CriteriasAndOr.cs" />
     <Compile Include="CriteriaVisitor.cs" />
     <Compile Include="DiagnosticAnalyzer.cs" />
     <Compile Include="Helpers\CompilationHelper.cs" />

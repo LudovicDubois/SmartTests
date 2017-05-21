@@ -197,8 +197,8 @@ namespace SmartTestsAnalyzer
 
         private static void AddCase( SemanticModel model, ExpressionSyntax expression, ExpressionSyntax parameterNameExpression, string parameterName, ExpressionSyntax criterias, MemberTestCases memberTestCases )
         {
-            var criteriasCollection = criterias.Accept( new CriteriaVisitor( model, expression, parameterNameExpression ) );
-            memberTestCases.Add( parameterName ?? MemberTestCases.NoParameter, criteriasCollection );
+            var criteria = criterias.Accept( new CriteriaVisitor( model, expression, parameterNameExpression ) );
+            memberTestCases.Add( parameterName ?? MemberTestCases.NoParameter, criteria );
         }
 
 

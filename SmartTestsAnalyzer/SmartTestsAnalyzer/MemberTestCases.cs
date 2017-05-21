@@ -26,15 +26,15 @@ namespace SmartTestsAnalyzer
 
 
         public TestedMember TestedMember { get; }
-        public Dictionary<string, CombinedCriteriasCollection> Criterias { get; } = new Dictionary<string, CombinedCriteriasCollection>();
+        public Dictionary<string, CriteriasAndOr> Criterias { get; } = new Dictionary<string, CriteriasAndOr>();
 
 
-        public void Add( string parameterName, [NotNull] CombinedCriteriasCollection criterias )
+        public void Add( string parameterName, [NotNull] CriteriasAndOr criterias )
         {
             if( criterias == null )
                 throw new ArgumentNullException( nameof(criterias) );
 
-            CombinedCriteriasCollection currentCriterias;
+            CriteriasAndOr currentCriterias;
             if( !Criterias.TryGetValue( parameterName ?? NoParameter, out currentCriterias ) )
             {
                 Criterias[ parameterName ?? NoParameter ] = criterias;

@@ -8,13 +8,13 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SmartTestsAnalyzer
 {
-    public class CombinedCriterias
+    public class CriteriasAnd
     {
-        private CombinedCriterias()
+        private CriteriasAnd()
         { }
 
 
-        public CombinedCriterias( ExpressionSyntax criteriasExpression, IFieldSymbol criteria, bool hasError )
+        public CriteriasAnd( ExpressionSyntax criteriasExpression, IFieldSymbol criteria, bool hasError )
         {
             if( criteriasExpression != null )
                 CriteriaExpressions.Add( criteriasExpression );
@@ -28,9 +28,9 @@ namespace SmartTestsAnalyzer
         public bool HasError { get; private set; }
 
 
-        public CombinedCriterias CombineAnd( CombinedCriterias otherCriterias )
+        public CriteriasAnd CombineAnd( CriteriasAnd otherCriterias )
         {
-            var result = new CombinedCriterias();
+            var result = new CriteriasAnd();
             result.Criterias.AddRange( Criterias );
             result.Criterias.AddRange( otherCriterias.Criterias );
             result.CriteriaExpressions.AddRange( CriteriaExpressions );
@@ -48,7 +48,7 @@ namespace SmartTestsAnalyzer
 
         public override bool Equals( object other )
         {
-            var otherCriterias = other as CombinedCriterias;
+            var otherCriterias = other as CriteriasAnd;
             if( otherCriterias == null )
                 return false;
 

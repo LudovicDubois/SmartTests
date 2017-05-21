@@ -21,41 +21,41 @@ namespace SmartTestsAnalyzer
     /// </remarks>
     /// <example>
     ///     'Case( Criteria1.Good1 )': Good1 field of Criteria1
-    ///     'Case( Criteria1.Good1 | Criteria1.Good2 )': Good1 field of Criteria1 is one CombinedCriterias and Good2 field of
+    ///     'Case( Criteria1.Good1 | Criteria1.Good2 )': Good1 field of Criteria1 is one CriteriaAnd and Good2 field of
     ///     Criteria1 is another one
     ///     'Case( Criteria1.Good1 & Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
-    ///     CombinedCriterias
+    ///     CriteriaAnd
     ///     'Case( Criteria1.Good1 > Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
-    ///     CombinedCriterias
+    ///     CriteriaAnd
     /// </example>
-    public class CombinedCriteriasCollection
+    public class CriteriasAndOr
     {
-        private CombinedCriteriasCollection()
+        private CriteriasAndOr()
         { }
 
 
-        public CombinedCriteriasCollection( ExpressionSyntax caseExpression, ExpressionSyntax parameterNameExpression, IFieldSymbol criteria, bool hasError )
+        public CriteriasAndOr( ExpressionSyntax caseExpression, ExpressionSyntax parameterNameExpression, IFieldSymbol criteria, bool hasError )
         {
             CaseExpression = caseExpression;
             ParameterNameExpression = parameterNameExpression;
-            Criterias.Add( new CombinedCriterias( caseExpression, criteria, hasError ) );
+            Criterias.Add( new CriteriasAnd( caseExpression, criteria, hasError ) );
         }
 
 
         public ExpressionSyntax CaseExpression { get; }
         public ExpressionSyntax ParameterNameExpression { get; }
 
-        public List<CombinedCriterias> Criterias { get; private set; } = new List<CombinedCriterias>();
+        public List<CriteriasAnd> Criterias { get; private set; } = new List<CriteriasAnd>();
 
 
-        public void Add( CombinedCriteriasCollection criterias )
+        public void Add( CriteriasAndOr criterias )
         {
             foreach( var combinedCriterias in criterias.Criterias )
                 Criterias.Add( combinedCriterias );
         }
 
 
-        public void CombineAnd( CombinedCriteriasCollection criterias )
+        public void CombineAnd( CriteriasAndOr criterias )
         {
             if( Criterias.Count == 0 )
             {
@@ -66,8 +66,8 @@ namespace SmartTestsAnalyzer
             }
 
             var currentCriterias = Criterias;
-            Criterias = new List<CombinedCriterias>();
-            var otherErrors = new HashSet<CombinedCriterias>();
+            Criterias = new List<CriteriasAnd>();
+            var otherErrors = new HashSet<CriteriasAnd>();
             foreach( var combinedCriterias in currentCriterias )
             {
                 if( combinedCriterias.HasError )
@@ -94,16 +94,16 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void CombineOr( CombinedCriteriasCollection criterias ) => Criterias.AddRange( criterias.Criterias );
+        public void CombineOr( CriteriasAndOr criterias ) => Criterias.AddRange( criterias.Criterias );
 
 
         private void CombineOr( IFieldSymbol criteria )
         {
-            Criterias.Add( new CombinedCriterias( null, criteria, false ) ); //Todo: Not false!
+            Criterias.Add( new CriteriasAnd( null, criteria, false ) ); //Todo: Not false!
         }
 
 
-        private void Remove( CombinedCriteriasCollection criterias )
+        private void Remove( CriteriasAndOr criterias )
         {
             foreach( var criteria in criterias.Criterias )
                 Criterias.Remove( criteria );
@@ -125,7 +125,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private static string CreateMessage( CombinedCriteriasCollection allCriterias )
+        private static string CreateMessage( CriteriasAndOr allCriterias )
         {
             var result = new StringBuilder();
             foreach( var criterias in allCriterias.Criterias )
@@ -154,14 +154,14 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private CombinedCriteriasCollection ComputeAllCriteriaCombinations( INamedTypeSymbol errorType )
+        private CriteriasAndOr ComputeAllCriteriaCombinations( INamedTypeSymbol errorType )
         {
-            var result = new CombinedCriteriasCollection();
+            var result = new CriteriasAndOr();
             foreach( var criteriaType in GetAllCriteriaTypes() )
             {
-                var typeCriterias = new CombinedCriteriasCollection();
+                var typeCriterias = new CriteriasAndOr();
                 foreach( var criteria in criteriaType.GetMembers().Where( member => member is IFieldSymbol ).Cast<IFieldSymbol>() )
-                    typeCriterias.CombineOr( new CombinedCriteriasCollection( null, null, criteria, criteria.HasAttribute( errorType ) ) );
+                    typeCriterias.CombineOr( new CriteriasAndOr( null, null, criteria, criteria.HasAttribute( errorType ) ) );
                 result.CombineAnd( typeCriterias );
             }
             return result;
