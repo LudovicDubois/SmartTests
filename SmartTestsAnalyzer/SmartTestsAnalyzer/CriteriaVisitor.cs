@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
 
-using JetBrains.Annotations;
-
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -14,13 +12,11 @@ namespace SmartTestsAnalyzer
 {
     class CriteriaVisitor: CSharpSyntaxVisitor<CasesAndOr>
     {
-        public CriteriaVisitor( SemanticModel model, ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression, string parameterName )
+        public CriteriaVisitor( SemanticModel model, ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression )
         {
-            Debug.Assert( parameterName != null );
             _Model = model;
             _CasesExpression = casesExpression;
             _ParameterNameExpression = parameterNameExpression;
-            _ParameterName = parameterName;
             _ErrorAttribute = _Model.Compilation.GetTypeByMetadataName( "SmartTests.ErrorAttribute" );
             Debug.Assert( _ErrorAttribute != null );
         }
@@ -29,16 +25,19 @@ namespace SmartTestsAnalyzer
         private readonly SemanticModel _Model;
         private readonly ExpressionSyntax _CasesExpression;
         private readonly ExpressionSyntax _ParameterNameExpression;
-        private readonly string _ParameterName;
         private readonly INamedTypeSymbol _ErrorAttribute;
 
 
         public override CasesAndOr VisitMemberAccessExpression( MemberAccessExpressionSyntax node )
         {
             var criteria = _Model.GetSymbolInfo( node ).Symbol as IFieldSymbol;
-            return criteria != null
-                       ? new CasesAndOr( _CasesExpression, _ParameterNameExpression, _ParameterName, criteria, criteria.HasAttribute( _ErrorAttribute ) )
-                       : null;
+            if( criteria == null )
+                return null;
+
+            var parameterName = _ParameterNameExpression != null
+                                    ? _Model.GetConstantValue( _ParameterNameExpression ).Value as string
+                                    : null;
+            return new CasesAndOr( _CasesExpression, _ParameterNameExpression, parameterName ?? Case.NoParameter, criteria, criteria.HasAttribute( _ErrorAttribute ) );
         }
 
 

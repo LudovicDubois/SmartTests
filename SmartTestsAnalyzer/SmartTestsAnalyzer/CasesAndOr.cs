@@ -34,22 +34,23 @@ namespace SmartTestsAnalyzer
         { }
 
 
+        private CasesAndOr( string parameterName, IFieldSymbol criteria, bool hasError )
+        {
+            CasesAnd.Add( new CasesAnd( null, parameterName, null, criteria, hasError ) );
+        }
+
+
         public CasesAndOr( ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression, string parameterName, IFieldSymbol criteria, bool hasError )
         {
             CasesAnd.Add( new CasesAnd( parameterNameExpression, parameterName, casesExpression, criteria, hasError ) );
         }
 
 
-        public ExpressionSyntax CasesExpression => CasesAnd.First().Cases.First().Value.CaseExpressions.First();
-
         public List<CasesAnd> CasesAnd { get; } = new List<CasesAnd>();
 
 
         public void CombineAnd( CasesAndOr cases )
         {
-            if( cases == null )
-                return;
-
             if( CasesAnd.Count == 0 )
             {
                 // No criteria yet!
@@ -70,6 +71,7 @@ namespace SmartTestsAnalyzer
                     continue;
                 }
 
+                // Combine it
                 foreach( var otherCriterias in cases.CasesAnd )
                 {
                     if( otherCriterias.HasError )
@@ -135,7 +137,7 @@ namespace SmartTestsAnalyzer
             {
                 var typeCases = new CasesAndOr();
                 foreach( var criterion in typeSymbol.GetMembers().Where( member => member is IFieldSymbol ).Cast<IFieldSymbol>() )
-                    typeCases.CombineOr( new CasesAndOr( null, null, parameterName, criterion, criterion.HasAttribute( errorType ) ) );
+                    typeCases.CombineOr( new CasesAndOr( parameterName, criterion, criterion.HasAttribute( errorType ) ) );
                 result.CombineAnd( typeCases );
             }
             return result;
@@ -151,15 +153,21 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public override string ToString()
+        public void ToString( StringBuilder result )
         {
-            var result = new StringBuilder();
             foreach( var criterias in CasesAnd )
             {
                 criterias.ToString( result );
                 result.Append( " and " );
             }
             result.Length -= 5;
+        }
+
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+            ToString( result );
             return result.ToString();
         }
     }

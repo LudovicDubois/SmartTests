@@ -108,7 +108,7 @@ namespace SmartTestsAnalyzer
 
                 var aCase = runTestSymbol.Parameters[ 0 ].Type == _CaseType
                                 ? GetCases( model, argument0Syntax.Expression, argument0Syntax.Expression )
-                                : argument0Syntax.Expression.Accept( new CriteriaVisitor( model, argument0Syntax.Expression, null, Case.NoParameter ) );
+                                : argument0Syntax.Expression.Accept( new CriteriaVisitor( model, argument0Syntax.Expression, null ) );
                 if( aCase == null )
                     // ?!?
                     continue;
@@ -168,9 +168,14 @@ namespace SmartTestsAnalyzer
             var binaryExpression = caseExpression as BinaryExpressionSyntax;
             if( binaryExpression != null )
             {
-                var result = GetCases( model, casesExpression, binaryExpression.Left );
-                result?.CombineAnd( GetCases( model, casesExpression, binaryExpression.Right ) );
-                return result;
+                var left = GetCases( model, casesExpression, binaryExpression.Left );
+                if( left == null )
+                    return null;
+                var right = GetCases( model, casesExpression, binaryExpression.Right );
+                if( right == null )
+                    return null;
+                left.CombineAnd( right );
+                return left;
             }
 
             var argumentInvocation = (InvocationExpressionSyntax)caseExpression;
@@ -178,23 +183,20 @@ namespace SmartTestsAnalyzer
             if( caseMethod == null )
                 return null;
 
-            string parameterName;
             ExpressionSyntax criterias;
             ExpressionSyntax parameterNameExpression;
             if( caseMethod.Parameters.Length == 1 )
             {
                 parameterNameExpression = null;
-                parameterName = null;
                 criterias = argumentInvocation.GetArgument( 0 )?.Expression;
             }
             else
             {
                 parameterNameExpression = argumentInvocation.GetArgument( 0 )?.Expression;
-                parameterName = model.GetConstantValue( parameterNameExpression ).Value as string;
                 criterias = argumentInvocation.GetArgument( 1 )?.Expression;
             }
 
-            return criterias?.Accept( new CriteriaVisitor( model, casesExpression, parameterNameExpression, parameterName ?? Case.NoParameter ) );
+            return criterias?.Accept( new CriteriaVisitor( model, casesExpression, parameterNameExpression ) );
         }
 
 
