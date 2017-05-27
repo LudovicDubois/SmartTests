@@ -108,7 +108,7 @@ namespace SmartTestsAnalyzer
 
                 var aCase = runTestSymbol.Parameters[ 0 ].Type == _CaseType
                                 ? GetCases( model, argument0Syntax.Expression, argument0Syntax.Expression )
-                                : argument0Syntax.Expression.Accept( new CriteriaVisitor( model, argument0Syntax.Expression, null, null ) );
+                                : argument0Syntax.Expression.Accept( new CriteriaVisitor( model, argument0Syntax.Expression, null, Case.NoParameter ) );
                 if( aCase == null )
                     // ?!?
                     continue;
@@ -194,7 +194,7 @@ namespace SmartTestsAnalyzer
                 criterias = argumentInvocation.GetArgument( 1 )?.Expression;
             }
 
-            return criterias?.Accept( new CriteriaVisitor( model, casesExpression, parameterNameExpression, parameterName ) );
+            return criterias?.Accept( new CriteriaVisitor( model, casesExpression, parameterNameExpression, parameterName ?? Case.NoParameter ) );
         }
 
 

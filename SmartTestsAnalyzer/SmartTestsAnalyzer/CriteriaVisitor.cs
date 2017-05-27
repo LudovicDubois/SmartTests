@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 
+using JetBrains.Annotations;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -14,6 +16,7 @@ namespace SmartTestsAnalyzer
     {
         public CriteriaVisitor( SemanticModel model, ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression, string parameterName )
         {
+            Debug.Assert( parameterName != null );
             _Model = model;
             _CasesExpression = casesExpression;
             _ParameterNameExpression = parameterNameExpression;

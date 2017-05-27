@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -17,8 +18,7 @@ namespace SmartTestsAnalyzer
 
         public CasesAnd( ExpressionSyntax parameterNameExpression, string parameterName, ExpressionSyntax caseExpression, IFieldSymbol criterion, bool hasError )
         {
-            if( parameterName == null )
-                parameterName = MemberTestCases.NoParameter;
+            Debug.Assert( parameterName != null );
 
             Case currentCase;
             if( !Cases.TryGetValue( parameterName, out currentCase ) )
@@ -48,20 +48,21 @@ namespace SmartTestsAnalyzer
 
         private void FillCasesWith( Dictionary<string, Case> other )
         {
-            foreach( var aCase in other.Values )
+            foreach( var otherCase in other.Values )
             {
+                var parameterName = otherCase.ParameterName;
                 Case parameterCase;
-                if( !Cases.TryGetValue( aCase.ParameterName, out parameterCase ) )
+                if( !Cases.TryGetValue( parameterName, out parameterCase ) )
                 {
-                    parameterCase = new Case( aCase.ParameterNameExpression, aCase.ParameterName );
-                    Cases[ aCase.ParameterName ] = parameterCase;
+                    parameterCase = new Case( otherCase.ParameterNameExpression, parameterName );
+                    Cases[ parameterName ] = parameterCase;
                 }
-                parameterCase.FillWith( aCase );
+                parameterCase.FillWith( otherCase );
             }
         }
 
 
-        public void FillWithCriteriaTypes( Dictionary<string, HashSet<ITypeSymbol>> criteriaTypes )
+        public void FillCriteriaTypes( Dictionary<string, HashSet<ITypeSymbol>> criteriaTypes )
         {
             foreach( var pair in Cases )
             {
@@ -72,15 +73,15 @@ namespace SmartTestsAnalyzer
                     criteriaTypes[ pair.Key ] = types;
                 }
 
-                pair.Value.FillWithCriteriaTypes( types );
+                pair.Value.FillCriteriaTypes( types );
             }
         }
 
 
-        public void FillWithExpressionSyntaxes( List<ExpressionSyntax> result )
+        public void FillExpressionSyntaxes( List<ExpressionSyntax> result )
         {
             foreach( var aCase in Cases.Values )
-                aCase.FillWithExpressionSyntaxes( result );
+                aCase.FillExpressionSyntaxes( result );
         }
 
 
@@ -90,14 +91,14 @@ namespace SmartTestsAnalyzer
             if( otherCriterias?.Cases.Count != Cases.Count )
                 return false;
 
-            foreach( var pair in otherCriterias.Cases )
+            foreach( var otherCase in otherCriterias.Cases )
             {
                 Case parameterCase;
-                if( !Cases.TryGetValue( pair.Key, out parameterCase ) )
-                    // Not samne parameter name
+                if( !Cases.TryGetValue( otherCase.Key, out parameterCase ) )
+                    // Not same parameter name!
                     return false;
 
-                if( !Equals( pair.Value, parameterCase ) )
+                if( !Equals( otherCase.Value, parameterCase ) )
                     return false;
             }
             return true;
@@ -112,9 +113,9 @@ namespace SmartTestsAnalyzer
 
         public void ToString( StringBuilder result )
         {
-            foreach( var caseValue in Cases.Values )
+            foreach( var aCase in Cases.Values )
             {
-                caseValue.ToString( result );
+                aCase.ToString( result );
                 result.Append( " & " );
             }
             result.Length -= 3;

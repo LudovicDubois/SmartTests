@@ -89,12 +89,6 @@ namespace SmartTestsAnalyzer
         public void CombineOr( CasesAndOr cases ) => CasesAnd.AddRange( cases.CasesAnd );
 
 
-        private void CombineOr( IFieldSymbol criteria )
-        {
-            CasesAnd.Add( new CasesAnd( null, null, null, criteria, false ) ); //Todo: Not false!
-        }
-
-
         private void Remove( CasesAndOr cases )
         {
             foreach( var criteria in cases.CasesAnd )
@@ -120,7 +114,7 @@ namespace SmartTestsAnalyzer
         {
             var result = new List<ExpressionSyntax>();
             foreach( var caseAnd in CasesAnd )
-                caseAnd.FillWithExpressionSyntaxes( result );
+                caseAnd.FillExpressionSyntaxes( result );
             return result;
         }
 
@@ -152,7 +146,7 @@ namespace SmartTestsAnalyzer
         {
             var result = new Dictionary<string, HashSet<ITypeSymbol>>();
             foreach( var criteria in CasesAnd )
-                criteria.FillWithCriteriaTypes( result );
+                criteria.FillCriteriaTypes( result );
             return result;
         }
 

@@ -14,10 +14,14 @@ namespace SmartTestsAnalyzer
 {
     public class Case
     {
+        public static string NoParameter => "<No Parameter!>";
+
+
         public Case( ExpressionSyntax parameterNameExpression, string parameterName )
         {
-            ParameterName = parameterName ?? MemberTestCases.NoParameter;
+            Debug.Assert( parameterName != null );
             ParameterNameExpression = parameterNameExpression;
+            ParameterName = parameterName;
         }
 
 
@@ -39,6 +43,13 @@ namespace SmartTestsAnalyzer
         }
 
 
+        public void FillCriteriaTypes( HashSet<ITypeSymbol> types )
+        {
+            foreach( var field in CriteriaFields )
+                types.Add( field.ContainingType );
+        }
+
+
         public void FillWith( Case otherCase )
         {
             Debug.Assert( otherCase.ParameterName == ParameterName );
@@ -49,14 +60,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void FillWithCriteriaTypes( HashSet<ITypeSymbol> types )
-        {
-            foreach( var field in CriteriaFields )
-                types.Add( field.ContainingType );
-        }
-
-
-        public void FillWithExpressionSyntaxes( List<ExpressionSyntax> result )
+        public void FillExpressionSyntaxes( List<ExpressionSyntax> result )
         {
             foreach( var expression in CaseExpressions )
                 if( !result.Contains( expression ) )
@@ -68,24 +72,21 @@ namespace SmartTestsAnalyzer
 
 
         private bool Equals( Case other ) => string.Equals( ParameterName, other?.ParameterName ) &&
+                                             // ReSharper disable once PossibleNullReferenceException
                                              CriteriaFields.Equivalent( other.CriteriaFields );
 
 
-        public override int GetHashCode()
-        {
-            var hashCode = ParameterName.GetHashCode();
-            return CriteriaFields.Aggregate( hashCode, ( current, field ) => current ^ field.GetHashCode() );
-        }
+        public override int GetHashCode() => CriteriaFields.Aggregate( ParameterName.GetHashCode(), ( current, field ) => current ^ field.GetHashCode() );
 
 
         public void ToString( StringBuilder result )
         {
-            if( ParameterName != MemberTestCases.NoParameter )
+            if( ParameterName != NoParameter )
             {
                 result.Append( ParameterName );
                 result.Append( ':' );
             }
-            foreach ( var field in CriteriaFields )
+            foreach( var field in CriteriaFields )
             {
                 result.Append( field.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) );
                 result.Append( " & " );

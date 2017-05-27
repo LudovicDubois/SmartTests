@@ -16,9 +16,6 @@ namespace SmartTestsAnalyzer
     /// </summary>
     public class MemberTestCases
     {
-        public static string NoParameter => "<No Parameter!>";
-
-
         public MemberTestCases( TestedMember testedMember )
         {
             TestedMember = testedMember;
@@ -94,7 +91,7 @@ namespace SmartTestsAnalyzer
             var result = true;
             foreach( var casesAnd in Cases.CasesAnd )
             foreach( var pair in casesAnd.Cases )
-                if( pair.Key != NoParameter )
+                if( pair.Key != Case.NoParameter )
                 {
                     result = false;
                     reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, pair.Key, pair.Value.ParameterNameExpression ) );
@@ -114,7 +111,7 @@ namespace SmartTestsAnalyzer
                 // 0 or 1 parameter: the parameter name is not mandatory
                 if( Cases.CasesAnd.Count == 1 &&
                     Cases.CasesAnd[ 0 ].Cases.Count == 1 &&
-                    Cases.CasesAnd.First().Cases.Keys.First() == NoParameter )
+                    Cases.CasesAnd.First().Cases.Keys.First() == Case.NoParameter )
                     return true;
             }
 
@@ -125,7 +122,7 @@ namespace SmartTestsAnalyzer
                 bool hasAnonymousCase = false;
                 foreach( var aCase in casesAnd.Cases.Values )
                 {
-                    if( aCase.ParameterName == NoParameter )
+                    if( aCase.ParameterName == Case.NoParameter )
                     {
                         hasAnonymousCase = true;
                         continue;
