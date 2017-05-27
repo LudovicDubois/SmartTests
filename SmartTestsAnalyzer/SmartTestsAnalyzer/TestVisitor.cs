@@ -106,12 +106,16 @@ namespace SmartTestsAnalyzer
                     // ?!?!?
                     return;
 
+                var aCase = runTestSymbol.Parameters[ 0 ].Type == _CaseType
+                                ? GetCases( model, argument0Syntax.Expression, argument0Syntax.Expression )
+                                : argument0Syntax.Expression.Accept( new CriteriaVisitor( model, argument0Syntax.Expression, null, null ) );
+                if( aCase == null )
+                    // ?!?
+                    continue;
+
                 var testedMember = CreateTestedMember( model, member, runTest.ArgumentList.Arguments[ 1 ].Expression );
                 var memberTestCases = MembersTestCases.GetOrCreate( testedMember );
-                if( runTestSymbol.Parameters[ 0 ].Type == _CaseType )
-                    AddCases( model, argument0Syntax.Expression, memberTestCases );
-                else
-                    AddCase( model, argument0Syntax.Expression, null, null, argument0Syntax.Expression, memberTestCases );
+                memberTestCases.CombineOr( aCase );
             }
         }
 
@@ -159,21 +163,20 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void AddCases( SemanticModel model, ExpressionSyntax expression, MemberTestCases memberTestCases )
+        private CasesAndOr GetCases( SemanticModel model, ExpressionSyntax casesExpression, ExpressionSyntax caseExpression )
         {
-            var binaryExpression = expression as BinaryExpressionSyntax;
+            var binaryExpression = caseExpression as BinaryExpressionSyntax;
             if( binaryExpression != null )
             {
-                AddCases( model, binaryExpression.Left, memberTestCases );
-                AddCases( model, binaryExpression.Right, memberTestCases );
-                return;
+                var result = GetCases( model, casesExpression, binaryExpression.Left );
+                result?.CombineAnd( GetCases( model, casesExpression, binaryExpression.Right ) );
+                return result;
             }
 
-            var argumentInvocation = (InvocationExpressionSyntax)expression;
+            var argumentInvocation = (InvocationExpressionSyntax)caseExpression;
             var caseMethod = model.FindMethodSymbol( argumentInvocation, _CaseMethods );
             if( caseMethod == null )
-                // ?!?!?
-                return;
+                return null;
 
             string parameterName;
             ExpressionSyntax criterias;
@@ -190,15 +193,8 @@ namespace SmartTestsAnalyzer
                 parameterName = model.GetConstantValue( parameterNameExpression ).Value as string;
                 criterias = argumentInvocation.GetArgument( 1 )?.Expression;
             }
-            if( criterias != null )
-                AddCase( model, expression, parameterNameExpression, parameterName, criterias, memberTestCases );
-        }
 
-
-        private static void AddCase( SemanticModel model, ExpressionSyntax expression, ExpressionSyntax parameterNameExpression, string parameterName, ExpressionSyntax criterias, MemberTestCases memberTestCases )
-        {
-            var criteria = criterias.Accept( new CriteriaVisitor( model, expression, parameterNameExpression ) );
-            memberTestCases.Add( parameterName ?? MemberTestCases.NoParameter, criteria );
+            return criterias?.Accept( new CriteriaVisitor( model, casesExpression, parameterNameExpression, parameterName ) );
         }
 
 

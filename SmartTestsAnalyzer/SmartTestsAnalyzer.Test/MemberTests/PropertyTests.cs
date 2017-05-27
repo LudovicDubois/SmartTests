@@ -288,8 +288,8 @@ namespace TestingProject
 }";
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_MissingParameterCases",
-                               Message = "Tests for 'TestingProject.ConstructorTests.MyClass.Property [set]' has some missing Test Cases for parameter 'value': ValidValue.Invalid",
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.ConstructorTests.MyClass.Property [set]' has some missing Test Cases: value:ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {

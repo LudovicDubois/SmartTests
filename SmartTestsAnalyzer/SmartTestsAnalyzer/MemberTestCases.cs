@@ -12,7 +12,7 @@ using Microsoft.CodeAnalysis;
 namespace SmartTestsAnalyzer
 {
     /// <summary>
-    ///     Test Cases for a tested member, i.e. all combined criteria (normalized form) for a tested member.
+    ///     Test Cases for a tested member, i.e. all combined cases (normalized form) for a tested member.
     /// </summary>
     public class MemberTestCases
     {
@@ -26,22 +26,24 @@ namespace SmartTestsAnalyzer
 
 
         public TestedMember TestedMember { get; }
-        public Dictionary<string, CriteriasAndOr> Criterias { get; } = new Dictionary<string, CriteriasAndOr>();
+        public CasesAndOr Cases { get; } = new CasesAndOr();
 
 
-        public void Add( string parameterName, [NotNull] CriteriasAndOr criterias )
+        public void CombineAnd( [NotNull] CasesAndOr cases )
         {
-            if( criterias == null )
-                throw new ArgumentNullException( nameof(criterias) );
+            if( cases == null )
+                throw new ArgumentNullException( nameof(cases) );
 
-            CriteriasAndOr currentCriterias;
-            if( !Criterias.TryGetValue( parameterName ?? NoParameter, out currentCriterias ) )
-            {
-                Criterias[ parameterName ?? NoParameter ] = criterias;
-                return;
-            }
+            Cases.CombineAnd( cases );
+        }
 
-            currentCriterias.Add( criterias );
+
+        public void CombineOr( [NotNull] CasesAndOr cases )
+        {
+            if( cases == null )
+                throw new ArgumentNullException( nameof(cases) );
+
+            Cases.CombineOr( cases );
         }
 
 
@@ -89,13 +91,13 @@ namespace SmartTestsAnalyzer
 
         private bool ValidateNoParameterNames( Action<Diagnostic> reportError )
         {
-            // Should not have any parameter name in cases
             var result = true;
-            foreach( var criteria in Criterias )
-                if( criteria.Key != NoParameter )
+            foreach( var casesAnd in Cases.CasesAnd )
+            foreach( var pair in casesAnd.Cases )
+                if( pair.Key != NoParameter )
                 {
                     result = false;
-                    reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, criteria.Key, criteria.Value.ParameterNameExpression ) );
+                    reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, pair.Key, pair.Value.ParameterNameExpression ) );
                 }
             return result;
         }
@@ -110,36 +112,56 @@ namespace SmartTestsAnalyzer
             if( parameters.Count <= 1 )
             {
                 // 0 or 1 parameter: the parameter name is not mandatory
-                if( Criterias.Count == 1 && Criterias.First().Key == NoParameter )
+                if( Cases.CasesAnd.Count == 1 &&
+                    Cases.CasesAnd[ 0 ].Cases.Count == 1 &&
+                    Cases.CasesAnd.First().Cases.Keys.First() == NoParameter )
                     return true;
             }
 
             var result = true;
-            foreach( var criterias in Criterias )
+            foreach( var casesAnd in Cases.CasesAnd )
             {
-                var parameterName = criterias.Key;
-                if( parameterName == NoParameter )
+                var unusedParameters = parameters.ToList();
+                bool hasAnonymousCase = false;
+                foreach( var aCase in casesAnd.Cases.Values )
+                {
+                    if( aCase.ParameterName == NoParameter )
+                    {
+                        hasAnonymousCase = true;
+                        continue;
+                    }
+
+                    if( unusedParameters.Remove( aCase.ParameterName ) )
+                        continue;
+
+                    // This parameter name does not exist
+                    result = false;
+                    reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, aCase.ParameterName, aCase.ParameterNameExpression ) );
+                }
+
+                if( casesAnd.HasError )
                     continue;
 
-                if( parameters.Remove( parameterName ) )
+                // Remaining parameters have no Case!
+                if( parameters.Count == 1 &&
+                    hasAnonymousCase )
+                    // When 1 parameter, parameter name is not mandatory
                     continue;
 
-                // This parameter name does not exist
-                result = false;
-                reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, parameterName, criterias.Value.ParameterNameExpression ) );
+                foreach( var parameter in unusedParameters )
+                {
+                    result = false;
+                    reportError( SmartTestsDiagnostics.CreateMissingParameterCase( TestedMember, parameter, casesAnd.Cases.First().Value.CaseExpressions.First() ) );
+                }
             }
 
-            // Remaining parameters have no Case!
-            foreach( var parameter in parameters )
-                reportError( SmartTestsDiagnostics.CreateMissingParameterCase( TestedMember, parameter, Criterias.First().Value.CaseExpression ) );
             return result;
         }
 
 
         private void ValidateCriterias( INamedTypeSymbol errorType, Action<Diagnostic> reportError )
         {
-            foreach( var criterias in Criterias )
-                criterias.Value.Validate( TestedMember, criterias.Key, errorType, reportError );
+            Cases.Validate( TestedMember, errorType, reportError );
         }
     }
 }

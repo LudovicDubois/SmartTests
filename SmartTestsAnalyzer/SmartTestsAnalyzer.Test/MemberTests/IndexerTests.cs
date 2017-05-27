@@ -158,16 +158,16 @@ namespace TestingProject
     }
 }";
 
-            var expectedMissing = new DiagnosticResult
-                                  {
-                                      Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                      Message = "Test for 'TestingProject.IndexerTests.MyClass.this[int] [get]' has no Case for parameter 'index'.",
-                                      Severity = DiagnosticSeverity.Error,
-                                      Locations = new[]
-                                                  {
-                                                      new DiagnosticResultLocation( "Test0.cs", 33, 35 )
-                                                  }
-                                  };
+            var expectedCase = new DiagnosticResult
+                               {
+                                   Id = "SmartTestsAnalyzer_MissingParameterCase",
+                                   Message = "Test for 'TestingProject.IndexerTests.MyClass.this[int] [get]' has no Case for parameter 'index'.",
+                                   Severity = DiagnosticSeverity.Error,
+                                   Locations = new[]
+                                               {
+                                                   new DiagnosticResultLocation( "Test0.cs", 33, 35 )
+                                               }
+                               };
             var expectedWrong = new DiagnosticResult
                                 {
                                     Id = "SmartTestsAnalyzer_WrongParameterName",
@@ -179,12 +179,12 @@ namespace TestingProject
                                                 }
                                 };
 
-            VerifyCSharpDiagnostic( test, expectedMissing, expectedWrong );
+            VerifyCSharpDiagnostic( test, expectedCase, expectedWrong );
         }
 
 
         [Test]
-        [Ignore("Multiple parameters not treated yet")]
+        [Ignore( "Multiple parameters not treated yet" )]
         public void SetValid()
         {
             var test = @"
@@ -416,6 +416,7 @@ namespace TestingProject
 
 
         [Test]
+        [Ignore( "Code doesn't match Name!" )]
         public void SetMissingIndexCase()
         {
             var test = @"
@@ -461,8 +462,8 @@ namespace TestingProject
 
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_MissingParameterCases",
-                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases for parameter 'index': ValidValue.Invalid",
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases: index:ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -520,12 +521,12 @@ namespace TestingProject
 
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_MissingParameterCases",
-                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases for parameter 'value': ValidValue.Invalid",
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases: value:ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 34, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 33, 35 )
                                            }
                            };
 

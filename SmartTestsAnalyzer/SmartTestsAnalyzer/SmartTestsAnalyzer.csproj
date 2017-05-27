@@ -34,11 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Case.cs" />
     <Compile Include="CodeFixProvider.cs" />
-    <Compile Include="CriteriasAnd.cs" />
-    <Compile Include="CriteriasAndOr.cs" />
+    <Compile Include="CasesAnd.cs" />
+    <Compile Include="CasesAndOr.cs" />
     <Compile Include="CriteriaVisitor.cs" />
     <Compile Include="DiagnosticAnalyzer.cs" />
+    <Compile Include="Helpers\CollectionHelper.cs" />
     <Compile Include="Helpers\CompilationHelper.cs" />
     <Compile Include="Helpers\FullSymbolVisitor.cs" />
     <Compile Include="Helpers\InvocationExpressionSyntaxHelper.cs" />

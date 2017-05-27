@@ -67,8 +67,8 @@ namespace TestingProject
 }";
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_MissingParameterCases",
-                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases for parameter 'd': ValidValue.Invalid",
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: d:ValidValue.Invalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -104,16 +104,17 @@ namespace TestingProject
         }
     }
 }";
-            var expectedMissing = new DiagnosticResult
-                                  {
-                                      Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                      Message = "Test for 'System.Math.Sqrt(double)' has no Case for parameter 'd'.",
-                                      Severity = DiagnosticSeverity.Error,
-                                      Locations = new[]
-                                                  {
-                                                      new DiagnosticResultLocation( "Test0.cs", 15, 35 )
-                                                  }
-                                  };
+
+            var expectedCase = new DiagnosticResult
+                               {
+                                   Id = "SmartTestsAnalyzer_MissingParameterCase",
+                                   Message = "Test for 'System.Math.Sqrt(double)' has no Case for parameter 'd'.",
+                                   Severity = DiagnosticSeverity.Error,
+                                   Locations = new[]
+                                               {
+                                                   new DiagnosticResultLocation( "Test0.cs", 15, 35 )
+                                               }
+                               };
             var expectedWrong = new DiagnosticResult
                                 {
                                     Id = "SmartTestsAnalyzer_WrongParameterName",
@@ -125,7 +126,7 @@ namespace TestingProject
                                                 }
                                 };
 
-            VerifyCSharpDiagnostic( test, expectedMissing, expectedWrong );
+            VerifyCSharpDiagnostic( test, expectedCase, expectedWrong );
         }
 
 

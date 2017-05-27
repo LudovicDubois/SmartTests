@@ -23,13 +23,6 @@ namespace SmartTestsAnalyzer
                                                                                                DiagnosticSeverity.Warning,
                                                                                                true,
                                                                                                LocalizeString( nameof(Resources.MissingCases_Description) ) );
-        private static readonly DiagnosticDescriptor _MissingParameterCases = new DiagnosticDescriptor( "SmartTestsAnalyzer_MissingParameterCases",
-                                                                                                        LocalizeString( nameof(Resources.MissingParameterCases_Title) ),
-                                                                                                        LocalizeString( nameof(Resources.MissingParameterCases_MessageFormat) ),
-                                                                                                        _Category,
-                                                                                                        DiagnosticSeverity.Warning,
-                                                                                                        true,
-                                                                                                        LocalizeString( nameof(Resources.MissingParameterCases_Description) ) );
 
         private static readonly DiagnosticDescriptor _WrongParameterName = new DiagnosticDescriptor( "SmartTestsAnalyzer_WrongParameterName",
                                                                                                      LocalizeString( nameof(Resources.WrongParameterName_Title) ),
@@ -48,24 +41,21 @@ namespace SmartTestsAnalyzer
                                                                                                        LocalizeString( nameof(Resources.MissingParameterCase_Description) ) );
 
         public static ImmutableArray<DiagnosticDescriptor> DiagnosticDescriptors { get; } = ImmutableArray.Create( _MissingCases,
-                                                                                                                   _MissingParameterCases,
                                                                                                                    _WrongParameterName,
                                                                                                                    _MissingParameterCase
                                                                                                                  );
 
 
-        public static Diagnostic CreateMissingCase( TestedMember testedMember, string parameterName, IEnumerable<ExpressionSyntax> criterias, string errorMessage )
+        public static Diagnostic CreateMissingCases( TestedMember testedMember, IEnumerable<ExpressionSyntax> criterias, string errorMessage )
         {
             var criteriaList = criterias.ToList();
             var first = criteriaList.First();
             criteriaList.RemoveAt( 0 );
-            var rule = parameterName == MemberTestCases.NoParameter ? _MissingCases : _MissingParameterCases;
-            return Diagnostic.Create( rule,
+            return Diagnostic.Create( _MissingCases,
                                       first.GetLocation(),
                                       criteriaList.Select( criteria => criteria.GetLocation() ),
                                       testedMember.ToString(),
-                                      errorMessage,
-                                      parameterName
+                                      errorMessage
                                     );
         }
 
@@ -80,10 +70,10 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public static Diagnostic CreateMissingParameterCase( TestedMember testedMember, string parameterName, SyntaxNode criteriaExpression )
+        public static Diagnostic CreateMissingParameterCase( TestedMember testedMember, string parameterName, SyntaxNode casesExpression )
         {
             return Diagnostic.Create( _MissingParameterCase,
-                                      criteriaExpression.GetLocation(),
+                                      casesExpression.GetLocation(),
                                       testedMember.ToString(),
                                       parameterName
                                     );
