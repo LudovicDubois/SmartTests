@@ -184,7 +184,6 @@ namespace TestingProject
 
 
         [Test]
-        [Ignore( "Multiple parameters not treated yet" )]
         public void SetValid()
         {
             var test = @"
@@ -228,7 +227,7 @@ namespace TestingProject
     }
 }";
 
-            VerifyCSharpDiagnostic( test, 0 );
+            VerifyCSharpDiagnostic( test );
         }
 
 
@@ -416,7 +415,6 @@ namespace TestingProject
 
 
         [Test]
-        [Ignore( "Code doesn't match Name!" )]
         public void SetMissingIndexCase()
         {
             var test = @"
