@@ -26,15 +26,6 @@ namespace SmartTestsAnalyzer
         public CasesAndOr Cases { get; } = new CasesAndOr();
 
 
-        public void CombineAnd( [NotNull] CasesAndOr cases )
-        {
-            if( cases == null )
-                throw new ArgumentNullException( nameof(cases) );
-
-            Cases.CombineAnd( cases );
-        }
-
-
         public void CombineOr( [NotNull] CasesAndOr cases )
         {
             if( cases == null )
@@ -119,7 +110,7 @@ namespace SmartTestsAnalyzer
             foreach( var casesAnd in Cases.CasesAnd )
             {
                 var unusedParameters = parameters.ToList();
-                bool hasAnonymousCase = false;
+                var hasAnonymousCase = false;
                 foreach( var aCase in casesAnd.Cases.Values )
                 {
                     if( aCase.ParameterName == Case.NoParameter )
@@ -156,9 +147,6 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void ValidateCriterias( INamedTypeSymbol errorType, Action<Diagnostic> reportError )
-        {
-            Cases.Validate( TestedMember, errorType, reportError );
-        }
+        private void ValidateCriterias( INamedTypeSymbol errorType, Action<Diagnostic> reportError ) => Cases.Validate( TestedMember, errorType, reportError );
     }
 }
