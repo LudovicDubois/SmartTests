@@ -60,6 +60,12 @@
     <Compile Include="MemberTests\PropertyTests\SetValidTest.cs" />
     <Compile Include="MemberTests\PropertyTests\GetMissingCaseTest.cs" />
     <Compile Include="MemberTests\PropertyTests\GetValidTest.cs" />
+    <Compile Include="MultipleCasesTests\Missing5Cases.cs" />
+    <Compile Include="MultipleCasesTests\Missing4Cases.cs" />
+    <Compile Include="MultipleCasesTests\Missing3Cases.cs" />
+    <Compile Include="MultipleCasesTests\Missing2Cases.cs" />
+    <Compile Include="MultipleCasesTests\Missing1Case.cs" />
+    <Compile Include="MultipleCasesTests\MissingNoCase.cs" />
     <Compile Include="MultipleCriteriasTests\AndOrParenthesisMissing1CaseTest.cs" />
     <Compile Include="MultipleCriteriasTests\AndOrParenthesisMissing2CasesTest.cs" />
     <Compile Include="MultipleCriteriasTests\AndOrMissingNoCaseTest.cs" />
