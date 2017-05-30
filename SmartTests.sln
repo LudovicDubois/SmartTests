@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTests", "SmartTests\SmartTests.csproj", "{51FE4134-1E3B-4281-8330-BE415F66FD39}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTestsAnalyzer.Test", "SmartTestsAnalyzer\SmartTestsAnalyzer.Test\SmartTestsAnalyzer.Test.csproj", "{60EB4D1B-E47A-4AF2-B024-E9BB37D4D6A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTestsAnalyzer.Vsix", "SmartTestsAnalyzer\SmartTestsAnalyzer.Vsix\SmartTestsAnalyzer.Vsix.csproj", "{2C249C25-A8A6-4F7F-A688-93981A50A83F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTestsAnalyzer.Runtime.Test", "SmartTestsAnalyzer.Runtime.Test\SmartTestsAnalyzer.Runtime.Test.csproj", "{556C56F3-2971-4264-938C-997812F3F9AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{2C249C25-A8A6-4F7F-A688-93981A50A83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C249C25-A8A6-4F7F-A688-93981A50A83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C249C25-A8A6-4F7F-A688-93981A50A83F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{556C56F3-2971-4264-938C-997812F3F9AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{556C56F3-2971-4264-938C-997812F3F9AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{556C56F3-2971-4264-938C-997812F3F9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{556C56F3-2971-4264-938C-997812F3F9AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
