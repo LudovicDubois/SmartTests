@@ -61,7 +61,7 @@ namespace SmartTests {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Event {0} was not expected.
+        ///   Looks up a localized string similar to Event {0} was unexpected.
         /// </summary>
         internal static string ExpectedNotRaisedEvent {
             get {
@@ -75,6 +75,15 @@ namespace SmartTests {
         internal static string ExpectedRaisedEvent {
             get {
                 return ResourceManager.GetString("ExpectedRaisedEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected property name {0} when PropertyChanged event was raised.
+        /// </summary>
+        internal static string UnexpectedPropertyNameWhenPropertyChangedRaised {
+            get {
+                return ResourceManager.GetString("UnexpectedPropertyNameWhenPropertyChangedRaised", resourceCulture);
             }
         }
     }

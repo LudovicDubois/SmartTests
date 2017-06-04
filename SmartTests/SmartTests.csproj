@@ -59,6 +59,7 @@
     <Compile Include="Criterias\NotifyPropertyChanged.cs" />
     <Compile Include="Criterias\ValidValue.cs" />
     <Compile Include="ErrorAttribute.cs" />
+    <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs">

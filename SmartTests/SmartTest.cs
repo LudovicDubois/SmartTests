@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using JetBrains.Annotations;
 
 using SmartTests.Acts;
+using SmartTests.Helpers;
 
 
 
@@ -61,8 +62,9 @@ namespace SmartTests
             }
             catch( Exception e )
             {
+                e = e.NoInvocation();
                 AfterAct( assertions, e );
-                throw;
+                throw e;
             }
         }
 
@@ -98,7 +100,7 @@ namespace SmartTests
             }
             catch( Exception e )
             {
-                AfterAct( assertions, e );
+                AfterAct( assertions, e.NoInvocation() );
                 throw;
             }
         }
