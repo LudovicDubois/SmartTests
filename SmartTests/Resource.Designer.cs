@@ -61,6 +61,33 @@ namespace SmartTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: class &apos;{0}&apos; does not implement INotifyPropertyChanged.
+        /// </summary>
+        internal static string BadTest_NotINotifyPropertyChanged {
+            get {
+                return ResourceManager.GetString("BadTest_NotINotifyPropertyChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a property.
+        /// </summary>
+        internal static string BadTest_NotProperty {
+            get {
+                return ResourceManager.GetString("BadTest_NotProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a writable property.
+        /// </summary>
+        internal static string BadTest_NotWritableProperty {
+            get {
+                return ResourceManager.GetString("BadTest_NotWritableProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event {0} was unexpected.
         /// </summary>
         internal static string ExpectedNotRaisedEvent {

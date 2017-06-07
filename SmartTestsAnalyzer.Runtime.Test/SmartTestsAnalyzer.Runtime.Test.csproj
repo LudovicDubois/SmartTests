@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedImplicitTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedWithPropertyNameTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedTests.cs" />
     <Compile Include="Properties\Annotations.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 using JetBrains.Annotations;
 
@@ -19,16 +20,25 @@ namespace SmartTests
     [PublicAPI]
     public static class SmartTest
     {
-        static SmartTest()
-        { }
-
-
         #region Case
 
         public static Case Case( Criteria criteria ) => new Case( criteria );
         public static Case Case( string parameterName, Criteria criteria ) => new Case( parameterName, criteria );
 
         #endregion
+
+
+        [ThreadStatic]
+        private static object _Instance;
+        [ThreadStatic]
+        private static MethodBase _Method;
+
+
+        internal static void SetInfo( object instance, MethodBase method )
+        {
+            _Instance = instance;
+            _Method = method;
+        }
 
 
         #region Assign
@@ -53,33 +63,20 @@ namespace SmartTests
                 throw new ArgumentNullException( nameof(act) );
 
 
-            BeforeAct( assertions );
+            act.BeforeAct( assertions );
             try
             {
                 var result = act.Invoke();
-                AfterAct( assertions, null );
+                act.AfterAct( assertions );
                 return result;
             }
             catch( Exception e )
             {
                 e = e.NoInvocation();
-                AfterAct( assertions, e );
+                act.Exception = e;
+                act.AfterAct( assertions );
                 throw e;
             }
-        }
-
-
-        private static void BeforeAct( Assertion[] assertions )
-        {
-            foreach( var assertion in assertions )
-                assertion.BeforeAct();
-        }
-
-
-        private static void AfterAct( Assertion[] assertions, Exception exception )
-        {
-            foreach( var assertion in assertions )
-                assertion.AfterAct( exception );
         }
 
 
@@ -92,16 +89,18 @@ namespace SmartTests
             if( act == null )
                 throw new ArgumentNullException( nameof(act) );
 
-            BeforeAct( assertions );
+            act.BeforeAct( assertions );
             try
             {
                 act.Invoke();
-                AfterAct( assertions, null );
+                act.AfterAct( assertions );
             }
             catch( Exception e )
             {
-                AfterAct( assertions, e.NoInvocation() );
-                throw;
+                e = e.NoInvocation();
+                act.Exception = e;
+                act.AfterAct( assertions );
+                throw e;
             }
         }
 

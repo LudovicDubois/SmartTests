@@ -6,7 +6,7 @@ namespace SmartTests
 {
     public abstract class Assertion
     {
-        public abstract void BeforeAct();
-        public abstract void AfterAct( Exception e );
+        public abstract void BeforeAct( ActBase act );
+        public abstract void AfterAct( ActBase act );
     }
 }

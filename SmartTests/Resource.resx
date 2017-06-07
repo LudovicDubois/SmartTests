@@ -106,4 +106,13 @@
   <data name="UnexpectedPropertyNameWhenPropertyChangedRaised" xml:space="preserve">
     <value>Unexpected property name {0} when PropertyChanged event was raised</value>
   </data>
+  <data name="BadTest_NotINotifyPropertyChanged" xml:space="preserve">
+    <value>BAD TEST: class '{0}' does not implement INotifyPropertyChanged</value>
+  </data>
+  <data name="BadTest_NotProperty" xml:space="preserve">
+    <value>BAD TEST: '{0}' is not a property</value>
+  </data>
+  <data name="BadTest_NotWritableProperty" xml:space="preserve">
+    <value>BAD TEST: '{0}' is not a writable property</value>
+  </data>
 </root>

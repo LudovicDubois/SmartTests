@@ -41,6 +41,11 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
                 }
             }
 
+            public int ReadonlyProperty => 10;
+
+
+            public int Method() => 10;
+
 
             public event PropertyChangedEventHandler PropertyChanged;
 
@@ -136,6 +141,38 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
             RunTest( NotifyPropertyChanged.HasNoSubscriber,
                      Assign( () => mc.MyProperty, 20 ) );
+        }
+
+
+        [Test]
+        public void ReadonlyProperty()
+        {
+            var exception = Assert.Catch<SmartTestException>( () =>
+                                                              {
+                                                                  var mc = new MyClass( true );
+                                                                  Assert.AreNotEqual( 20, mc.MyProperty );
+
+                                                                  RunTest( NotifyPropertyChanged.HasNoSubscriber,
+                                                                           Assign( () => mc.Method(), 20 ) );
+                                                              } );
+
+            Assert.AreEqual( "BAD TEST: 'SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests.NotifyPropertyChangedTests+MyClass.Method' is not a writable property", exception.Message );
+        }
+
+
+        [Test]
+        public void NotAProperty()
+        {
+            var exception = Assert.Catch<SmartTestException>( () =>
+                                                              {
+                                                                  var mc = new MyClass( true );
+                                                                  Assert.AreNotEqual( 20, mc.MyProperty );
+
+                                                                  RunTest( NotifyPropertyChanged.HasNoSubscriber,
+                                                                           Assign( () => mc.Method(), 20 ) );
+                                                              } );
+
+            Assert.AreEqual( "BAD TEST: 'SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests.NotifyPropertyChangedTests+MyClass.Method' is not a writable property", exception.Message );
         }
     }
 }

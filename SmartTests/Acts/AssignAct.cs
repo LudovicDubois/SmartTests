@@ -1,7 +1,8 @@
 using System;
-using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
+
+using SmartTests.Helpers;
 
 
 
@@ -13,6 +14,17 @@ namespace SmartTests.Acts
         {
             _Property = property;
             _Value = value;
+
+            object instance;
+            MemberInfo member;
+            if( _Property.GetMemberContext( out instance, out member ) )
+            {
+                Instance = instance;
+                Property = member as PropertyInfo;
+                Method = Property?.GetSetMethod();
+            }
+            if( Method == null )
+                throw new SmartTestException( string.Format( Resource.BadTest_NotWritableProperty, member.DeclaringType?.FullName + "." + member.Name ) );
         }
 
 
@@ -22,15 +34,13 @@ namespace SmartTests.Acts
 
         public override T Invoke()
         {
-            var memberExpression = (MemberExpression)_Property.Body;
-            var instance = memberExpression.Expression;
-            Debug.Assert( instance != null );
-            var member = memberExpression.Member as PropertyInfo;
-            Debug.Assert( member != null );
+            var propertyGetExpression = (MemberExpression)_Property.Body;
+            var closureExpression = propertyGetExpression.Expression as MemberExpression;
 
+            var property = Expression.Property( closureExpression, (MethodInfo)Method );
+            var lambda = Expression.Lambda( Expression.Assign( property, Expression.Constant( _Value ) ) ).Compile();
 
-            var property = Expression.Property( instance, member );
-            return (T)Expression.Lambda( Expression.Assign( property, Expression.Constant( _Value ) ) ).Compile().DynamicInvoke();
+            return (T)lambda.DynamicInvoke();
         }
     }
 }
