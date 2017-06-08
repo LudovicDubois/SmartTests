@@ -64,7 +64,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
         [Test]
         public void BadProperty()
         {
-            var exception = Assert.Catch<SmartTestException>( () =>
+            var exception = Assert.Catch<BadTestException>( () =>
                                                               {
                                                                   var mc = new MyClass( false, false, false, false );
 
@@ -212,7 +212,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
         [Test]
         public void AllPropertiesChanged_ImplicitPublicWithNonPublic()
         {
-            var exception = Assert.Catch<SmartTestException>( () =>
+            var exception = Assert.Catch<BadTestException>( () =>
                                                               {
                                                                   var mc = new MyClass( true, true, true, true );
 

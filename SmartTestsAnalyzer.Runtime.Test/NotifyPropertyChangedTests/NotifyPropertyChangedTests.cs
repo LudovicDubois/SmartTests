@@ -66,7 +66,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
             RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                      Assign( () => mc.MyProperty, 10 ),
-                     SmartTest.SmartAssert.Raised_PropertyChanged( mc ) );
+                     SmartAssert.Raised_PropertyChanged( mc ) );
 
             Assert.AreEqual( 10, mc.MyProperty );
         }
@@ -82,7 +82,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
                                                                   RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                                                                            Assign( () => mc.MyProperty, 10 ),
-                                                                           SmartTest.SmartAssert.Raised_PropertyChanged( mc ) );
+                                                                           SmartAssert.Raised_PropertyChanged( mc ) );
                                                               }
                                                             );
             Assert.AreEqual( "Event PropertyChanged was expected", exception.Message );
@@ -97,7 +97,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
             RunTest( NotifyPropertyChanged.HasSubscriberSameValue,
                      Assign( () => mc.MyProperty, 0 ),
-                     SmartTest.SmartAssert.NotRaised_PropertyChanged( mc ) );
+                     SmartAssert.NotRaised_PropertyChanged( mc ) );
 
             Assert.AreEqual( 0, mc.MyProperty );
         }
@@ -113,7 +113,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
                                                                   RunTest( NotifyPropertyChanged.HasSubscriberSameValue,
                                                                            Assign( () => mc.MyProperty, 0 ),
-                                                                           SmartTest.SmartAssert.NotRaised_PropertyChanged( mc ) );
+                                                                           SmartAssert.NotRaised_PropertyChanged( mc ) );
                                                               } );
 
             Assert.AreEqual( "Event PropertyChanged was unexpected", exception.Message );
@@ -147,14 +147,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
         [Test]
         public void ReadonlyProperty()
         {
-            var exception = Assert.Catch<SmartTestException>( () =>
-                                                              {
-                                                                  var mc = new MyClass( true );
-                                                                  Assert.AreNotEqual( 20, mc.MyProperty );
+            var exception = Assert.Catch<BadTestException>( () =>
+                                                            {
+                                                                var mc = new MyClass( true );
+                                                                Assert.AreNotEqual( 20, mc.MyProperty );
 
-                                                                  RunTest( NotifyPropertyChanged.HasNoSubscriber,
-                                                                           Assign( () => mc.Method(), 20 ) );
-                                                              } );
+                                                                RunTest( NotifyPropertyChanged.HasNoSubscriber,
+                                                                         Assign( () => mc.Method(), 20 ) );
+                                                            } );
 
             Assert.AreEqual( "BAD TEST: 'NotifyPropertyChangedTests+MyClass.Method' is not a writable property", exception.Message );
         }
@@ -163,14 +163,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
         [Test]
         public void NotAProperty()
         {
-            var exception = Assert.Catch<SmartTestException>( () =>
-                                                              {
-                                                                  var mc = new MyClass( true );
-                                                                  Assert.AreNotEqual( 20, mc.MyProperty );
+            var exception = Assert.Catch<BadTestException>( () =>
+                                                            {
+                                                                var mc = new MyClass( true );
+                                                                Assert.AreNotEqual( 20, mc.MyProperty );
 
-                                                                  RunTest( NotifyPropertyChanged.HasNoSubscriber,
-                                                                           Assign( () => mc.Method(), 20 ) );
-                                                              } );
+                                                                RunTest( NotifyPropertyChanged.HasNoSubscriber,
+                                                                         Assign( () => mc.Method(), 20 ) );
+                                                            } );
 
             Assert.AreEqual( "BAD TEST: 'NotifyPropertyChangedTests+MyClass.Method' is not a writable property", exception.Message );
         }

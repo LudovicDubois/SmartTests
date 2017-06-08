@@ -60,12 +60,12 @@ namespace SmartTests.Assertions
                 if( _Instance == null )
                     _Instance = act.Instance as INotifyPropertyChanged;
                 if( _Instance == null )
-                    throw new SmartTestException( string.Format( Resource.BadTest_NotINotifyPropertyChanged, act.Instance?.GetType().FullName ) );
+                    throw new BadTestException( string.Format( Resource.BadTest_NotINotifyPropertyChanged, act.Instance?.GetType().FullName ) );
 
                 if( _PropertyNames == null )
                 {
                     if( act.Property == null )
-                        throw new SmartTestException( string.Format( Resource.BadTest_NotProperty, act.Method.GetFullName() ) );
+                        throw new BadTestException( string.Format( Resource.BadTest_NotProperty, act.Method.GetFullName() ) );
                     _PropertyNames = new List<string>
                                      {
                                          act.Property.Name

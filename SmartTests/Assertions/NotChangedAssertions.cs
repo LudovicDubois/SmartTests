@@ -112,7 +112,7 @@ namespace SmartTests.Assertions
                 }
 
                 if( message.Length > 0 )
-                    throw new SmartTestException( message.ToString( Environment.NewLine.Length, message.Length - Environment.NewLine.Length ) );
+                    throw new BadTestException( message.ToString( Environment.NewLine.Length, message.Length - Environment.NewLine.Length ) );
             }
 
 

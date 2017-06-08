@@ -24,7 +24,7 @@ namespace SmartTests.Acts
                 Method = Property?.GetSetMethod();
             }
             if( Method == null )
-                throw new SmartTestException( string.Format( Resource.BadTest_NotWritableProperty, member.GetFullName() ) );
+                throw new BadTestException( string.Format( Resource.BadTest_NotWritableProperty, member.GetFullName() ) );
         }
 
 
