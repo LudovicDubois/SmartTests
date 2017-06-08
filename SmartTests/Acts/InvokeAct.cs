@@ -13,6 +13,17 @@ namespace SmartTests.Acts
         public InvokeAct( Expression<Action> invocation )
         {
             _Invocation = invocation;
+
+            object instance;
+            MemberInfo member;
+            if( invocation.GetMemberContext( out instance, out member ) )
+            {
+                Instance = instance;
+                Method = member as MethodBase
+                         ?? ( member as PropertyInfo )?.GetMethod;
+            }
+            if( Method == null )
+                throw new SmartTestException();
         }
 
 

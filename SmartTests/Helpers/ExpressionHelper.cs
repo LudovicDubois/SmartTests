@@ -64,5 +64,31 @@ namespace SmartTests.Helpers
             member = null;
             return false;
         }
+
+
+        public static bool GetMemberContext( this Expression<Action> @this,
+                                             out object instance, out MemberInfo member )
+        {
+            var memberExpression = @this.Body as MemberExpression;
+            if( memberExpression != null )
+            {
+                instance = memberExpression.Expression.GetInstance();
+                member = memberExpression.Member;
+                Debug.Assert( member != null );
+                return true;
+            }
+
+            var methodCall = @this.Body as MethodCallExpression;
+            if( methodCall != null )
+            {
+                member = methodCall.Method;
+                instance = methodCall.Object.GetInstance();
+                return true;
+            }
+
+            instance = null;
+            member = null;
+            return false;
+        }
     }
 }
