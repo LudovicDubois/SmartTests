@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventTests\EventHandlerTestsAssertImplicit.cs" />
     <Compile Include="EventTests\EventHandlerTestsImplicit.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsExcept.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsImplicit.cs" />

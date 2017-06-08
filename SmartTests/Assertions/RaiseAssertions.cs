@@ -16,7 +16,21 @@ namespace SmartTests.Assertions
         public static Assertion Raised( this SmartAssertPlaceHolder @this, [NotNull] string expectedEventName ) => new RaiseAssertion( null, true, expectedEventName );
 
 
+        public static Assertion Raised<T>( this SmartAssertPlaceHolder @this, [NotNull] string expectedEventName, EventHandler<T> assert )
+            where T: EventArgs
+            => assert != null
+                   ? new RaiseAssertion<T>( null, true, expectedEventName, assert )
+                   : new RaiseAssertion( null, true, expectedEventName );
+
+
         public static Assertion Raised( this SmartAssertPlaceHolder @this, object instance, [NotNull] string expectedEventName ) => new RaiseAssertion( instance, true, expectedEventName );
+
+
+        public static Assertion Raised<T>( this SmartAssertPlaceHolder @this, object instance, [NotNull] string expectedEventName, EventHandler<T> assert )
+            where T: EventArgs
+            => assert != null
+                   ? new RaiseAssertion<T>( instance, true, expectedEventName, assert )
+                   : new RaiseAssertion( instance, true, expectedEventName );
 
 
         public static Assertion NotRaised( this SmartAssertPlaceHolder @this, [NotNull] string eventName ) => new RaiseAssertion( null, false, eventName );
@@ -79,6 +93,31 @@ namespace SmartTests.Assertions
             private void InstanceOnRaised( object sender, EventArgs args )
             {
                 _Raised = true;
+                Assert( sender, args );
+            }
+
+
+            protected virtual void Assert( object sender, EventArgs args )
+            { }
+        }
+
+
+        private class RaiseAssertion<T>: RaiseAssertion
+            where T: EventArgs
+        {
+            public RaiseAssertion( object instance, bool expectedRaised, [NotNull] string eventName, EventHandler<T> assert )
+                : base( instance, expectedRaised, eventName )
+            {
+                _Assert = assert;
+            }
+
+
+            private readonly EventHandler<T> _Assert;
+
+
+            protected override void Assert( object sender, EventArgs args )
+            {
+                _Assert.Invoke( sender, (T)args );
             }
         }
     }
