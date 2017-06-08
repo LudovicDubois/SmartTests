@@ -109,7 +109,7 @@ namespace SmartTests
 
         #region SmartAssert Extensions
 
-        public static SmartAssert SmartAssert { get; }
+        public static SmartAssertPlaceHolder SmartAssert { get; }
 
         #endregion
     }

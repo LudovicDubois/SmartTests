@@ -106,6 +106,15 @@ namespace SmartTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Property &apos;{0}&apos; has changed.
+        /// </summary>
+        internal static string PropertyChanged {
+            get {
+                return ResourceManager.GetString("PropertyChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unexpected property name {0} when PropertyChanged event was raised.
         /// </summary>
         internal static string UnexpectedPropertyNameWhenPropertyChangedRaised {

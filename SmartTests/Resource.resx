@@ -115,4 +115,7 @@
   <data name="BadTest_NotWritableProperty" xml:space="preserve">
     <value>BAD TEST: '{0}' is not a writable property</value>
   </data>
+  <data name="PropertyChanged" xml:space="preserve">
+    <value>Property '{0}' has changed</value>
+  </data>
 </root>

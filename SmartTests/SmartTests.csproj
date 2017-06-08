@@ -48,6 +48,7 @@
     <Compile Include="Acts\InvokeAct.cs" />
     <Compile Include="Acts\AssignAct.cs" />
     <Compile Include="Assertion.cs" />
+    <Compile Include="Assertions\NotChangedAssertions.cs" />
     <Compile Include="Assertions\PropertyChangedAssertions.cs" />
     <Compile Include="Case.cs" />
     <Compile Include="Criteria.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="ErrorAttribute.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
+    <Compile Include="Helpers\MemberInfoHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -69,7 +71,7 @@
     </Compile>
     <Compile Include="SmartTest.cs" />
     <Compile Include="SmartTestException.cs" />
-    <Compile Include="SmartAssert.cs" />
+    <Compile Include="SmartAssertPlaceHolder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

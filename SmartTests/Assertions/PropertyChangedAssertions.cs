@@ -5,6 +5,8 @@ using System.Linq;
 
 using JetBrains.Annotations;
 
+using SmartTests.Helpers;
+
 // ReSharper disable UnusedParameter.Global
 
 
@@ -12,30 +14,30 @@ namespace SmartTests.Assertions
 {
     public static class PropertyChangedAssertions
     {
-        public static Assertion Raised_PropertyChanged( this SmartAssert @this ) => new RaisePropertyChanged( null, true, null );
+        public static Assertion Raised_PropertyChanged( this SmartAssertPlaceHolder @this ) => new RaisePropertyChangedAssertion( null, true, null );
 
 
-        public static Assertion Raised_PropertyChanged<T>( this SmartAssert @this, [NotNull] T t, params string[] expectedPropertyNames )
+        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T t, params string[] expectedPropertyNames )
             where T: INotifyPropertyChanged
         {
             if( t == null )
                 throw new ArgumentNullException( nameof(t) );
-            return new RaisePropertyChanged( t, true, expectedPropertyNames );
+            return new RaisePropertyChangedAssertion( t, true, expectedPropertyNames );
         }
 
 
-        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssert @this, [NotNull] T t )
+        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T t )
             where T: INotifyPropertyChanged
         {
             if( t == null )
                 throw new ArgumentNullException( nameof(t) );
-            return new RaisePropertyChanged( t, false, null );
+            return new RaisePropertyChangedAssertion( t, false, null );
         }
 
 
-        private class RaisePropertyChanged: Assertion
+        private class RaisePropertyChangedAssertion: Assertion
         {
-            public RaisePropertyChanged( INotifyPropertyChanged instance, bool expectedRaised, string[] propertyNames )
+            public RaisePropertyChangedAssertion( INotifyPropertyChanged instance, bool expectedRaised, string[] propertyNames )
             {
                 _Instance = instance;
                 _ExpectedRaised = expectedRaised;
@@ -63,7 +65,7 @@ namespace SmartTests.Assertions
                 if( _PropertyNames == null )
                 {
                     if( act.Property == null )
-                        throw new SmartTestException( string.Format( Resource.BadTest_NotProperty, act.Method.DeclaringType?.FullName + "." + act.Method.Name ) );
+                        throw new SmartTestException( string.Format( Resource.BadTest_NotProperty, act.Method.GetFullName() ) );
                     _PropertyNames = new List<string>
                                      {
                                          act.Property.Name
