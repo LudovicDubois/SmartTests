@@ -11,7 +11,7 @@ using static SmartTests.SmartTest;
 namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 {
     [TestFixture]
-    public class NotChangedTests
+    public class NotChangedTestsNonPublic
     {
         public class MyClass
         {
@@ -51,73 +51,62 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
 
         [Test]
-        public void NotChanged()
+        public void NotChangedPublic()
         {
             var mc = new MyClass( false, false, false, false );
 
             RunTest( AnyValue.Valid,
                      () => mc.Method(),
-                     SmartAssert.NotChanged( mc ) );
+                     SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
         }
 
 
         [Test]
         public void Property1Changed()
         {
-            var exception = Assert.Catch<SmartTestException>( () =>
-                                                              {
-                                                                  var mc = new MyClass( true, false, false, false );
+            var mc = new MyClass( true, false, false, false );
 
-                                                                  RunTest( AnyValue.Valid,
-                                                                           () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
-                                                              } );
-
-            Assert.AreEqual( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
+            RunTest( AnyValue.Valid,
+                     () => mc.Method(),
+                     SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
         }
 
 
         [Test]
         public void Property2Changed()
         {
-            var exception = Assert.Catch<SmartTestException>( () =>
-                                                              {
-                                                                  var mc = new MyClass( false, true, false, false );
+            var mc = new MyClass( false, true, false, false );
 
-                                                                  RunTest( AnyValue.Valid,
-                                                                           () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
-                                                              } );
-
-            Assert.AreEqual( "Property 'NotChangedTests+MyClass.MyProperty2' has changed", exception.Message );
+            RunTest( AnyValue.Valid,
+                     () => mc.Method(),
+                     SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
         }
 
 
         [Test]
         public void Property1Property2Changed()
         {
-            var exception = Assert.Catch<SmartTestException>( () =>
-                                                              {
-                                                                  var mc = new MyClass( true, true, false, false );
+            var mc = new MyClass( true, true, false, false );
 
-                                                                  RunTest( AnyValue.Valid,
-                                                                           () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
-                                                              } );
-
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty2' has changed", exception.Message );
+            RunTest( AnyValue.Valid,
+                     () => mc.Method(),
+                     SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
         }
 
 
         [Test]
         public void Property3Changed()
         {
-            var mc = new MyClass( false, false, true, false );
+            var exception = Assert.Catch<SmartTestException>( () =>
+                                                              {
+                                                                  var mc = new MyClass( false, false, true, false );
 
-            RunTest( AnyValue.Valid,
-                     () => mc.Method(),
-                     SmartAssert.NotChanged( mc ) );
+                                                                  RunTest( AnyValue.Valid,
+                                                                           () => mc.Method(),
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
+                                                              } );
+
+            Assert.AreEqual( "Property 'NotChangedTestsNonPublic+MyClass.MyProperty3' has changed", exception.Message );
         }
 
 
@@ -130,10 +119,10 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
                                                               } );
 
-            Assert.AreEqual( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
+            Assert.AreEqual( "Property 'NotChangedTestsNonPublic+MyClass.MyProperty3' has changed", exception.Message );
         }
 
 
@@ -146,22 +135,26 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
                                                               } );
 
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty2' has changed", exception.Message );
+            Assert.AreEqual( "Property 'NotChangedTestsNonPublic+MyClass.MyProperty3' has changed", exception.Message );
         }
 
 
         [Test]
         public void Property4Changed()
         {
-            var mc = new MyClass( false, false, false, true );
+            var exception = Assert.Catch<SmartTestException>( () =>
+                                                              {
+                                                                  var mc = new MyClass( false, false, false, true );
 
-            RunTest( AnyValue.Valid,
-                     () => mc.Method(),
-                     SmartAssert.NotChanged( mc ) );
+                                                                  RunTest( AnyValue.Valid,
+                                                                           () => mc.Method(),
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
+                                                              } );
+
+            Assert.AreEqual( "Property 'NotChangedTestsNonPublic+MyClass.MyProperty4' has changed", exception.Message );
         }
 
 
@@ -174,10 +167,10 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
                                                               } );
 
-            Assert.AreEqual( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
+            Assert.AreEqual( "Property 'NotChangedTestsNonPublic+MyClass.MyProperty4' has changed", exception.Message );
         }
 
 
@@ -190,11 +183,10 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
                                                               } );
 
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty2' has changed", exception.Message );
+            Assert.AreEqual( "Property 'NotChangedTestsNonPublic+MyClass.MyProperty4' has changed", exception.Message );
         }
 
 
@@ -207,11 +199,11 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.NonPublicProperties ) );
                                                               } );
 
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty2' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsNonPublic+MyClass.MyProperty3' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsNonPublic+MyClass.MyProperty4' has changed", exception.Message );
         }
     }
 }

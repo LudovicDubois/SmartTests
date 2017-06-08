@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NotChangedTests\NotChangedTestsAll.cs" />
+    <Compile Include="NotChangedTests\NotChangedTestsNonPublic.cs" />
     <Compile Include="NotChangedTests\NotChangedTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedImplicitTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedWithPropertyNameTests.cs" />

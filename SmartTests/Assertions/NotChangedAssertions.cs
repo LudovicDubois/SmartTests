@@ -11,27 +11,46 @@ using SmartTests.Helpers;
 
 namespace SmartTests.Assertions
 {
+    [Flags]
+    public enum NoChangedKind
+    {
+        PublicProperties = 0b0000_00001,
+        NonPublicProperties = 0b0000_0010,
+        AllProperties = PublicProperties | NonPublicProperties,
+    }
+
+
     public static class NotChangedAssertions
     {
-        public static Assertion NotChanged( this SmartAssertPlaceHolder @this, object instance ) => new NotChangedAssertion( instance );
+        public static Assertion NotChanged( this SmartAssertPlaceHolder @this, object instance, NoChangedKind kind = NoChangedKind.PublicProperties ) => new NotChangedAssertion( instance, kind );
 
 
         private class NotChangedAssertion: Assertion
         {
-            public NotChangedAssertion( object instance )
+            public NotChangedAssertion( object instance, NoChangedKind kind )
             {
                 _Instance = instance;
+                _Kind = kind;
             }
 
 
             private readonly object _Instance;
+            private readonly NoChangedKind _Kind;
             private PropertyInfo[] _Properties;
             private readonly Dictionary<PropertyInfo, object> _PropertyValues = new Dictionary<PropertyInfo, object>();
 
 
+            private static readonly Dictionary<NoChangedKind, BindingFlags> _Flags = new Dictionary<NoChangedKind, BindingFlags>
+                                                                                     {
+                                                                                         [ NoChangedKind.NonPublicProperties ] = BindingFlags.Instance | BindingFlags.NonPublic,
+                                                                                         [ NoChangedKind.PublicProperties ] = BindingFlags.Instance | BindingFlags.Public,
+                                                                                         [ NoChangedKind.AllProperties ] = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                                                                                     };
+
+
             public override void BeforeAct( ActBase act )
             {
-                _Properties = _Instance.GetType().GetProperties();
+                _Properties = _Instance.GetType().GetProperties( _Flags[ _Kind ] );
                 foreach( var property in _Properties )
                     _PropertyValues[ property ] = property.GetValue( _Instance );
             }

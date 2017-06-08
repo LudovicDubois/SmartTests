@@ -11,7 +11,7 @@ using static SmartTests.SmartTest;
 namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 {
     [TestFixture]
-    public class NotChangedTests
+    public class NotChangedTestsAll
     {
         public class MyClass
         {
@@ -51,13 +51,13 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
 
         [Test]
-        public void NotChanged()
+        public void NotChangedPublic()
         {
             var mc = new MyClass( false, false, false, false );
 
             RunTest( AnyValue.Valid,
                      () => mc.Method(),
-                     SmartAssert.NotChanged( mc ) );
+                     SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
         }
 
 
@@ -70,10 +70,10 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
                                                               } );
 
-            Assert.AreEqual( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
+            Assert.AreEqual( "Property 'NotChangedTestsAll+MyClass.MyProperty1' has changed", exception.Message );
         }
 
 
@@ -86,10 +86,10 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
                                                               } );
 
-            Assert.AreEqual( "Property 'NotChangedTests+MyClass.MyProperty2' has changed", exception.Message );
+            Assert.AreEqual( "Property 'NotChangedTestsAll+MyClass.MyProperty2' has changed", exception.Message );
         }
 
 
@@ -102,22 +102,27 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
                                                               } );
 
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty2' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty1' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty2' has changed", exception.Message );
         }
 
 
         [Test]
         public void Property3Changed()
         {
-            var mc = new MyClass( false, false, true, false );
+            var exception = Assert.Catch<SmartTestException>( () =>
+                                                              {
+                                                                  var mc = new MyClass( false, false, true, false );
 
-            RunTest( AnyValue.Valid,
-                     () => mc.Method(),
-                     SmartAssert.NotChanged( mc ) );
+                                                                  RunTest( AnyValue.Valid,
+                                                                           () => mc.Method(),
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
+                                                              } );
+
+            Assert.AreEqual( "Property 'NotChangedTestsAll+MyClass.MyProperty3' has changed", exception.Message );
         }
 
 
@@ -130,10 +135,11 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
                                                               } );
 
-            Assert.AreEqual( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty1' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty3' has changed", exception.Message );
         }
 
 
@@ -146,22 +152,28 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
                                                               } );
 
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty2' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty1' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty2' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty3' has changed", exception.Message );
         }
 
 
         [Test]
         public void Property4Changed()
         {
-            var mc = new MyClass( false, false, false, true );
+            var exception = Assert.Catch<SmartTestException>( () =>
+                                                              {
+                                                                  var mc = new MyClass( false, false, false, true );
 
-            RunTest( AnyValue.Valid,
-                     () => mc.Method(),
-                     SmartAssert.NotChanged( mc ) );
+                                                                  RunTest( AnyValue.Valid,
+                                                                           () => mc.Method(),
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
+                                                              } );
+
+            Assert.AreEqual( "Property 'NotChangedTestsAll+MyClass.MyProperty4' has changed", exception.Message );
         }
 
 
@@ -174,10 +186,11 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
                                                               } );
 
-            Assert.AreEqual( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty1' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty4' has changed", exception.Message );
         }
 
 
@@ -190,11 +203,12 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
                                                               } );
 
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty2' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty1' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty2' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty4' has changed", exception.Message );
         }
 
 
@@ -207,11 +221,13 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.Valid,
                                                                            () => mc.Method(),
-                                                                           SmartAssert.NotChanged( mc ) );
+                                                                           SmartAssert.NotChanged( mc, NoChangedKind.AllProperties ) );
                                                               } );
 
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty1' has changed", exception.Message );
-            StringAssert.Contains( "Property 'NotChangedTests+MyClass.MyProperty2' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty1' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty2' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty3' has changed", exception.Message );
+            StringAssert.Contains( "Property 'NotChangedTestsAll+MyClass.MyProperty4' has changed", exception.Message );
         }
     }
 }
