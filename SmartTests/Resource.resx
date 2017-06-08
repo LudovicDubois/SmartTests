@@ -110,7 +110,7 @@
     <value>BAD TEST: class '{0}' does not implement INotifyPropertyChanged</value>
   </data>
   <data name="BadTest_NotProperty" xml:space="preserve">
-    <value>BAD TEST: '{0}' is not a property</value>
+    <value>BAD TEST: '{0}' is not a property of type '{1}'</value>
   </data>
   <data name="BadTest_NotWritableProperty" xml:space="preserve">
     <value>BAD TEST: '{0}' is not a writable property</value>

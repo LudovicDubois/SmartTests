@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NotChangedTests\NotChangedTestsExcept.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsImplicit.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsAll.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsNonPublic.cs" />

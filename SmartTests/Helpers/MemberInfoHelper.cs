@@ -12,7 +12,7 @@ namespace SmartTests.Helpers
         {
             var result = new StringBuilder();
             AppendType( @this.DeclaringType, result );
-            result.Append( '.' );
+            result.Append( @this.MemberType == MemberTypes.NestedType ? '+' : '.' );
             result.Append( @this.Name );
             return result.ToString();
         }

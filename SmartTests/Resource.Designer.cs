@@ -70,7 +70,7 @@ namespace SmartTests {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a property.
+        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a property of type &apos;{1}&apos;.
         /// </summary>
         internal static string BadTest_NotProperty {
             get {
