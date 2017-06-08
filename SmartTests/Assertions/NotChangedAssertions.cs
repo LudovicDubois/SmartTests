@@ -18,6 +18,10 @@ namespace SmartTests.Assertions
         PublicProperties = 0b0000_00001,
         NonPublicProperties = 0b0000_0010,
         AllProperties = PublicProperties | NonPublicProperties,
+        PublicFields = 0b0000_0100,
+        NonPublicFields = 0b0000_1000,
+        AllFields = PublicFields | NonPublicFields,
+        All = AllProperties | AllFields
     }
 
 
@@ -46,7 +50,9 @@ namespace SmartTests.Assertions
             private readonly NotChangedKind _Kind;
             private readonly string[] _Exceptions;
             private PropertyInfo[] _Properties;
+            private FieldInfo[] _Fields;
             private readonly Dictionary<PropertyInfo, object> _PropertyValues = new Dictionary<PropertyInfo, object>();
+            private readonly Dictionary<FieldInfo, object> _FieldValues = new Dictionary<FieldInfo, object>();
 
 
             private static readonly Dictionary<NotChangedKind, BindingFlags> _Flags = new Dictionary<NotChangedKind, BindingFlags>
@@ -54,6 +60,9 @@ namespace SmartTests.Assertions
                                                                                           [ NotChangedKind.NonPublicProperties ] = BindingFlags.Instance | BindingFlags.NonPublic,
                                                                                           [ NotChangedKind.PublicProperties ] = BindingFlags.Instance | BindingFlags.Public,
                                                                                           [ NotChangedKind.AllProperties ] = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                                                                                          [ NotChangedKind.NonPublicFields ] = BindingFlags.Instance | BindingFlags.NonPublic,
+                                                                                          [ NotChangedKind.PublicFields ] = BindingFlags.Instance | BindingFlags.Public,
+                                                                                          [ NotChangedKind.AllFields ] = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
                                                                                       };
 
 
@@ -62,29 +71,43 @@ namespace SmartTests.Assertions
                 if( _Instance == null )
                     _Instance = act.Instance;
 
-                _Properties = _Instance.GetType().GetProperties( _Flags[ _Kind ] );
+                var propertiesKind = _Kind & NotChangedKind.AllProperties;
+                var instanceType = _Instance.GetType();
+                _Properties = propertiesKind != 0
+                                  ? instanceType.GetProperties( _Flags[ propertiesKind ] )
+                                  : new PropertyInfo[0];
+
+                var fieldsKind = _Kind & NotChangedKind.AllFields;
+                _Fields = fieldsKind != 0
+                              ? instanceType.GetFields( _Flags[ fieldsKind ] )
+                              : new FieldInfo[0];
+
                 if( _Exceptions != null )
                 {
                     CheckExceptions();
-                    _Properties = Enumerable.ToArray( Enumerable.Where( _Properties, prop => !Enumerable.Contains( _Exceptions, prop.Name ) ) );
+                    _Properties = _Properties.Where( prop => !_Exceptions.Contains( prop.Name ) ).ToArray();
+                    _Fields = _Fields.Where( field => !_Exceptions.Contains( field.Name ) ).ToArray();
                 }
 
                 foreach( var property in _Properties )
                     _PropertyValues[ property ] = property.GetValue( _Instance );
+                foreach( var field in _Fields )
+                    _FieldValues[ field ] = field.GetValue( _Instance );
             }
 
 
             private void CheckExceptions()
             {
-                var propertyNames = _Properties.Select( prop => prop.Name ).ToList();
+                var names = _Properties.Select( prop => prop.Name ).ToList();
+                names.AddRange( _Fields.Select( field => field.Name ) );
 
                 var message = new StringBuilder();
                 foreach( var exception in _Exceptions )
                 {
-                    if( !propertyNames.Contains( exception ) )
+                    if( !names.Contains( exception ) )
                     {
                         message.AppendLine();
-                        message.Append( string.Format( Resource.BadTest_NotProperty, exception, _Instance.GetType().GetFullName() ) );
+                        message.Append( string.Format( Resource.BadTest_NotPropertyNorField, exception, _Instance.GetType().GetFullName() ) );
                     }
                 }
 
@@ -101,6 +124,12 @@ namespace SmartTests.Assertions
                     {
                         message.AppendLine();
                         message.Append( string.Format( Resource.PropertyChanged, pair.Key.GetFullName() ) );
+                    }
+                foreach( var pair in _FieldValues )
+                    if( !Equals( _FieldValues[ pair.Key ], pair.Key.GetValue( _Instance ) ) )
+                    {
+                        message.AppendLine();
+                        message.Append( string.Format( Resource.FieldChanged, pair.Key.GetFullName() ) );
                     }
 
                 if( message.Length > 0 )

@@ -118,4 +118,10 @@
   <data name="PropertyChanged" xml:space="preserve">
     <value>Property '{0}' has changed</value>
   </data>
+  <data name="BadTest_NotPropertyNorField" xml:space="preserve">
+    <value>BAD TEST: '{0}' is not a property nor a field of type '{1}'</value>
+  </data>
+  <data name="FieldChanged" xml:space="preserve">
+    <value>Field '{0}' has changed</value>
+  </data>
 </root>

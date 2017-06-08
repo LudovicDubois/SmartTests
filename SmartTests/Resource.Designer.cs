@@ -79,6 +79,15 @@ namespace SmartTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a property nor a field of type &apos;{1}&apos;.
+        /// </summary>
+        internal static string BadTest_NotPropertyNorField {
+            get {
+                return ResourceManager.GetString("BadTest_NotPropertyNorField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a writable property.
         /// </summary>
         internal static string BadTest_NotWritableProperty {
@@ -102,6 +111,15 @@ namespace SmartTests {
         internal static string ExpectedRaisedEvent {
             get {
                 return ResourceManager.GetString("ExpectedRaisedEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; has changed.
+        /// </summary>
+        internal static string FieldChanged {
+            get {
+                return ResourceManager.GetString("FieldChanged", resourceCulture);
             }
         }
         

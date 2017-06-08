@@ -73,7 +73,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                                            SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "BadProperty" ) );
                                                               } );
 
-            Assert.AreEqual( "BAD TEST: 'BadProperty' is not a property of type 'NotChangedTestsExcept+MyClass'", exception.Message );
+            Assert.AreEqual( "BAD TEST: 'BadProperty' is not a property nor a field of type 'NotChangedTestsExcept+MyClass'", exception.Message );
         }
 
 
@@ -221,7 +221,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                                            SmartAssert.NotChangedExcept( mc, "MyProperty1", "MyProperty3" ) );
                                                               } );
 
-            Assert.AreEqual( "BAD TEST: 'MyProperty3' is not a property of type 'NotChangedTestsExcept+MyClass'", exception.Message );
+            Assert.AreEqual( "BAD TEST: 'MyProperty3' is not a property nor a field of type 'NotChangedTestsExcept+MyClass'", exception.Message );
         }
 
 
