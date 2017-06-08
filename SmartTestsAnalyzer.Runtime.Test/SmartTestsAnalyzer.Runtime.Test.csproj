@@ -45,12 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventTests\EventHandlerTestsImplicit.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsExcept.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsImplicit.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsFieldsImplicit.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsAll.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsNonPublic.cs" />
     <Compile Include="NotChangedTests\NotChangedTests.cs" />
+    <Compile Include="EventTests\EventHandlerTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedImplicitTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedWithPropertyNameTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedTests.cs" />

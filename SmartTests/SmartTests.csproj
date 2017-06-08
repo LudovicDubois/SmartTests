@@ -50,6 +50,7 @@
     <Compile Include="Assertion.cs" />
     <Compile Include="Assertions\NotChangedAssertions.cs" />
     <Compile Include="Assertions\PropertyChangedAssertions.cs" />
+    <Compile Include="Assertions\RaiseAssertions.cs" />
     <Compile Include="Case.cs" />
     <Compile Include="Criteria.cs" />
     <Compile Include="Criterias\MaxExcluded.cs" />

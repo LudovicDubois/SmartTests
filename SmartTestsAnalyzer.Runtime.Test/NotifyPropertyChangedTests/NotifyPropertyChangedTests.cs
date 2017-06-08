@@ -85,7 +85,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
                                                                            SmartAssert.Raised_PropertyChanged( mc ) );
                                                               }
                                                             );
-            Assert.AreEqual( "Event PropertyChanged was expected", exception.Message );
+            Assert.AreEqual( "Event 'PropertyChanged' was expected", exception.Message );
         }
 
 
@@ -116,7 +116,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
                                                                            SmartAssert.NotRaised_PropertyChanged( mc ) );
                                                               } );
 
-            Assert.AreEqual( "Event PropertyChanged was unexpected", exception.Message );
+            Assert.AreEqual( "Event 'PropertyChanged' was unexpected", exception.Message );
         }
 
 

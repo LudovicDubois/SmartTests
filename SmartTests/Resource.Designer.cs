@@ -61,6 +61,15 @@ namespace SmartTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not an event of type &apos;{1}&apos;.
+        /// </summary>
+        internal static string BadTest_NotEvent {
+            get {
+                return ResourceManager.GetString("BadTest_NotEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BAD TEST: class &apos;{0}&apos; does not implement INotifyPropertyChanged.
         /// </summary>
         internal static string BadTest_NotINotifyPropertyChanged {
@@ -97,7 +106,7 @@ namespace SmartTests {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Event {0} was unexpected.
+        ///   Looks up a localized string similar to Event &apos;{0}&apos; was unexpected.
         /// </summary>
         internal static string ExpectedNotRaisedEvent {
             get {
@@ -106,7 +115,7 @@ namespace SmartTests {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Event {0} was expected.
+        ///   Looks up a localized string similar to Event &apos;{0}&apos; was expected.
         /// </summary>
         internal static string ExpectedRaisedEvent {
             get {
@@ -133,7 +142,7 @@ namespace SmartTests {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unexpected property name {0} when PropertyChanged event was raised.
+        ///   Looks up a localized string similar to Unexpected property name &apos;{0}&apos; when PropertyChanged event was raised.
         /// </summary>
         internal static string UnexpectedPropertyNameWhenPropertyChangedRaised {
             get {

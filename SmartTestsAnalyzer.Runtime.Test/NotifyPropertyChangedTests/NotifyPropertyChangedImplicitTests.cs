@@ -62,7 +62,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
             RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                      Assign( () => mc.MyProperty, 10 ),
-                     SmartTest.SmartAssert.Raised_PropertyChanged() );
+                     SmartAssert.Raised_PropertyChanged() );
 
             Assert.AreEqual( 10, mc.MyProperty );
         }
@@ -78,11 +78,11 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
                                                                   RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                                                                            Assign( () => mc.MyProperty, 10 ),
-                                                                           SmartTest.SmartAssert.Raised_PropertyChanged() );
+                                                                           SmartAssert.Raised_PropertyChanged() );
                                                               }
                                                             );
 
-            Assert.AreEqual( "Event PropertyChanged was expected", exception.Message );
+            Assert.AreEqual( "Event 'PropertyChanged' was expected", exception.Message );
         }
 
 
@@ -96,11 +96,11 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
                                                                   RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                                                                            Assign( () => mc.MyProperty, 10 ),
-                                                                           SmartTest.SmartAssert.Raised_PropertyChanged() );
+                                                                           SmartAssert.Raised_PropertyChanged() );
                                                               }
                                                             );
 
-            Assert.AreEqual( "Unexpected property name OtherProperty when PropertyChanged event was raised", exception.Message );
+            Assert.AreEqual( "Unexpected property name 'OtherProperty' when PropertyChanged event was raised", exception.Message );
         }
 
 
@@ -114,11 +114,11 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
                                                                   RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                                                                            Assign( () => mc.MyProperty, 10 ),
-                                                                           SmartTest.SmartAssert.Raised_PropertyChanged() );
+                                                                           SmartAssert.Raised_PropertyChanged() );
                                                               }
                                                             );
 
-            Assert.AreEqual( "Unexpected property name OtherProperty when PropertyChanged event was raised", exception.Message );
+            Assert.AreEqual( "Unexpected property name 'OtherProperty' when PropertyChanged event was raised", exception.Message );
         }
 
 
@@ -132,11 +132,11 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
                                                                   RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                                                                            Assign( () => mc.MyProperty, 10 ),
-                                                                           SmartTest.SmartAssert.Raised_PropertyChanged() );
+                                                                           SmartAssert.Raised_PropertyChanged() );
                                                               }
                                                             );
 
-            Assert.AreEqual( "Unexpected property name MyProperty when PropertyChanged event was raised", exception.Message );
+            Assert.AreEqual( "Unexpected property name 'MyProperty' when PropertyChanged event was raised", exception.Message );
         }
     }
 }

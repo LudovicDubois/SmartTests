@@ -81,6 +81,9 @@ namespace SmartTests.Assertions
 
             public override void AfterAct( ActBase act )
             {
+                if( _Instance != null )
+                    _Instance.PropertyChanged -= InstanceOnPropertyChanged;
+
                 if( _Raised != _ExpectedRaised )
                     throw new SmartTestException( string.Format( _ExpectedRaised
                                                                      ? Resource.ExpectedRaisedEvent
@@ -88,9 +91,6 @@ namespace SmartTests.Assertions
                                                                  "PropertyChanged"
                                                                )
                                                 );
-
-                if( _Instance != null )
-                    _Instance.PropertyChanged -= InstanceOnPropertyChanged;
             }
 
 
