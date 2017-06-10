@@ -127,4 +127,7 @@
   <data name="BadTest_NotEvent" xml:space="preserve">
     <value>BAD TEST: '{0}' is not an event of type '{1}'</value>
   </data>
+  <data name="ChangeWrongly" xml:space="preserve">
+    <value>Change is wrong. Expected {0}, but was {1}</value>
+  </data>
 </root>

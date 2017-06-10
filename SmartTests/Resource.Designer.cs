@@ -106,6 +106,15 @@ namespace SmartTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change is wrong. Expected {0}, but was {1}.
+        /// </summary>
+        internal static string ChangeWrongly {
+            get {
+                return ResourceManager.GetString("ChangeWrongly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event &apos;{0}&apos; was unexpected.
         /// </summary>
         internal static string ExpectedNotRaisedEvent {
