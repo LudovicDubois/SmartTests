@@ -25,14 +25,29 @@ namespace SmartTestsAnalyzer.Runtime.Test
 
             public static int MyMethod( int i ) => i;
 
+
+            public static void MyMethod( ref int i )
+            {
+                i++;
+            }
+
+
+            public static void MyMethodOut( out int i )
+            {
+                i = 2;
+            }
+
+
             public static int MyField;
         }
 
 
         private static readonly FieldInfo _MyField = typeof(MyClass).GetField( nameof(MyClass.MyField) );
-        private static readonly PropertyInfo _MyIndexer = typeof(MyClass).GetProperty( "Item", new Type[] { typeof(int) } );
+        private static readonly PropertyInfo _MyIndexer = typeof(MyClass).GetProperty( "Item", new[] { typeof(int) } );
         private static readonly MethodInfo _MyMethod0 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethod), Type.EmptyTypes );
-        private static readonly MethodInfo _MyMethod1 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethod), new Type[] { typeof(int) } );
+        private static readonly MethodInfo _MyMethod1 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethod), new[] { typeof(int) } );
+        private static readonly MethodInfo _MyMethodRef1 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethod), new[] { typeof(int).MakeByRefType() } );
+        private static readonly MethodInfo _MyMethodOut1 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethodOut), new[] { typeof(int).MakeByRefType() } );
         private static readonly PropertyInfo _MyProperty = typeof(MyClass).GetProperty( nameof(MyClass.MyProperty) );
 
 
@@ -69,6 +84,28 @@ namespace SmartTestsAnalyzer.Runtime.Test
             RunTest( AnyValue.Valid,
                      () => MyClass.MyMethod( 1 ),
                      new ActValidator( null, _MyMethod1 ) );
+        }
+
+
+        [Test]
+        public void MethodWithRefParameter()
+        {
+            var i = 0;
+            RunTest( AnyValue.Valid,
+                     () => MyClass.MyMethod( ref i ),
+                     new ActValidator( null, _MyMethodRef1 ) );
+            Assert.AreEqual( 1, i );
+        }
+
+
+        [Test]
+        public void MethodWithOutParameter()
+        {
+            var i = 0;
+            RunTest( AnyValue.Valid,
+                     () => MyClass.MyMethodOut( out i ),
+                     new ActValidator( null, _MyMethodOut1 ) );
+            Assert.AreEqual( 2, i );
         }
 
 

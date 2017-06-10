@@ -30,6 +30,18 @@ namespace SmartTestsAnalyzer.Runtime.Test
             { }
 
 
+            public void MyMethod( ref int i )
+            {
+                i++;
+            }
+
+
+            public void MyMethodOut( out int i )
+            {
+                i = 2;
+            }
+
+
             public int MyMethod( int i ) => i;
 
             public int MyField;
@@ -41,6 +53,8 @@ namespace SmartTestsAnalyzer.Runtime.Test
         private static readonly PropertyInfo _MyIndexer = typeof(MyClass).GetProperty( "Item", new Type[] { typeof(int) } );
         private static readonly MethodInfo _MyMethod0 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethod), Type.EmptyTypes );
         private static readonly MethodInfo _MyMethod1 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethod), new Type[] { typeof(int) } );
+        private static readonly MethodInfo _MyMethodRef1 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethod), new[] { typeof(int).MakeByRefType() } );
+        private static readonly MethodInfo _MyMethodOut1 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethodOut), new[] { typeof(int).MakeByRefType() } );
         private static readonly PropertyInfo _MyProperty = typeof(MyClass).GetProperty( nameof(MyClass.MyProperty) );
 
 
@@ -99,6 +113,28 @@ namespace SmartTestsAnalyzer.Runtime.Test
             RunTest( AnyValue.Valid,
                      () => _Mc.MyMethod( 1 ),
                      new ActValidator( _Mc, _MyMethod1 ) );
+        }
+
+
+        [Test]
+        public void MethodWithRefParameter()
+        {
+            var i = 0;
+            RunTest( AnyValue.Valid,
+                     () => _Mc.MyMethod( ref i ),
+                     new ActValidator( _Mc, _MyMethodRef1 ) );
+            Assert.AreEqual( 1, i );
+        }
+
+
+        [Test]
+        public void MethodWithOutParameter()
+        {
+            var i = 0;
+            RunTest( AnyValue.Valid,
+                     () => _Mc.MyMethodOut( out i ),
+                     new ActValidator( _Mc, _MyMethodOut1 ) );
+            Assert.AreEqual( 2, i );
         }
 
 
