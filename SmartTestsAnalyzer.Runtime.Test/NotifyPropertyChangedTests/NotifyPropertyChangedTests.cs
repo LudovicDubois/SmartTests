@@ -156,7 +156,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
                                                                          Assign( () => mc.Method(), 20 ) );
                                                             } );
 
-            Assert.AreEqual( "BAD TEST: 'NotifyPropertyChangedTests+MyClass.Method' is not a writable property", exception.Message );
+            Assert.AreEqual( "BAD TEST: 'NotifyPropertyChangedTests+MyClass.Method' is not a writable property nor indexer", exception.Message );
         }
 
 
@@ -172,7 +172,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
                                                                          Assign( () => mc.Method(), 20 ) );
                                                             } );
 
-            Assert.AreEqual( "BAD TEST: 'NotifyPropertyChangedTests+MyClass.Method' is not a writable property", exception.Message );
+            Assert.AreEqual( "BAD TEST: 'NotifyPropertyChangedTests+MyClass.Method' is not a writable property nor indexer", exception.Message );
         }
     }
 }

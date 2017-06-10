@@ -75,7 +75,9 @@ namespace SmartTests
                 e = e.NoInvocation();
                 act.Exception = e;
                 act.AfterAct( assertions );
-                throw e;
+                if( e is SmartTestException )
+                    throw e;
+                throw new SmartTestException( "Unexpected error occurred!", e );
             }
         }
 

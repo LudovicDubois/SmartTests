@@ -97,11 +97,20 @@ namespace SmartTests {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a writable property.
+        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a writable property nor indexer.
         /// </summary>
-        internal static string BadTest_NotWritableProperty {
+        internal static string BadTest_NotPropertyNorIndexer {
             get {
-                return ResourceManager.GetString("BadTest_NotWritableProperty", resourceCulture);
+                return ResourceManager.GetString("BadTest_NotPropertyNorIndexer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a writable property nor indexer.
+        /// </summary>
+        internal static string BadTest_NotWritablePropertyNorIndexer {
+            get {
+                return ResourceManager.GetString("BadTest_NotWritablePropertyNorIndexer", resourceCulture);
             }
         }
         

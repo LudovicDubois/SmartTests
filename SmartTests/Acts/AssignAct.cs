@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -10,37 +11,82 @@ namespace SmartTests.Acts
 {
     public class AssignAct<T>: Act<T>
     {
-        public AssignAct( Expression<Func<T>> property, T value )
+        public AssignAct( Expression<Func<T>> assignee, T value )
         {
-            _Property = property;
+            _Assignee = assignee;
             _Value = value;
 
             object instance;
             MemberInfo member;
-            if( _Property.GetMemberContext( out instance, out member ) )
+            if( _Assignee.GetMemberContext( out instance, out member, out _Arguments ) )
             {
                 Instance = instance;
-                Property = member as PropertyInfo;
-                Method = Property?.GetSetMethod();
+                Field = member as FieldInfo;
+                if( Field != null )
+                    return;
+
+                Constructor = member as ConstructorInfo;
+                if( Constructor != null )
+                    throw new BadTestException( string.Format( Resource.BadTest_NotWritablePropertyNorIndexer, member.GetFullName() ) );
+
+                Method = member as MethodInfo;
+                if( Method != null )
+                {
+                    if( !Method.IsSpecialName )
+                        throw new BadTestException( string.Format( Resource.BadTest_NotWritablePropertyNorIndexer, member.GetFullName() ) );
+                    //An indexer?
+                    foreach( var property in Method.DeclaringType.GetProperties() )
+                    {
+                        if( property.GetMethod == Method )
+                        {
+                            Property = property;
+                            Method = property.SetMethod;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    Property = (PropertyInfo)member;
+                    Method = Property.SetMethod;
+                }
             }
-            if( Method == null )
-                throw new BadTestException( string.Format( Resource.BadTest_NotWritableProperty, member.GetFullName() ) );
+            if( Property == null &&
+                Field == null &&
+                Method == null )
+                throw new BadTestException( string.Format( Resource.BadTest_NotWritablePropertyNorIndexer, member.GetFullName() ) );
         }
 
 
-        private readonly Expression<Func<T>> _Property;
+        private readonly Expression<Func<T>> _Assignee;
         private readonly T _Value;
+        private readonly Expression[] _Arguments;
 
 
         public override T Invoke()
         {
-            var propertyGetExpression = (MemberExpression)_Property.Body;
-            var closureExpression = propertyGetExpression.Expression as MemberExpression;
+            var memberGetExpression = _Assignee.Body as MemberExpression;
+            if( memberGetExpression != null )
+            {
+                var closureExpression = memberGetExpression.Expression as MemberExpression;
 
-            var property = Expression.Property( closureExpression, (MethodInfo)Method );
-            var lambda = Expression.Lambda( Expression.Assign( property, Expression.Constant( _Value ) ) ).Compile();
+                var member = Method != null
+                                 ? Expression.Property( closureExpression, Method )
+                                 : Expression.Field( closureExpression, Field );
+                var lambda = Expression.Lambda( Expression.Assign( member, Expression.Constant( _Value ) ) ).Compile();
 
-            return (T)lambda.DynamicInvoke();
+                return (T)lambda.DynamicInvoke();
+            }
+
+            var methodCall = (MethodCallExpression)_Assignee.Body;
+            var args = new List<Expression>( _Arguments )
+                       {
+                           Expression.Constant( _Value )
+                       };
+            var indexerCall = Expression.Call( methodCall.Object, Method, args.ToArray() );
+            Expression.Lambda( indexerCall ).Compile().DynamicInvoke();
+
+            return default(T);
         }
     }
 }

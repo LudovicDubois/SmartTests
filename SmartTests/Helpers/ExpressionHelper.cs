@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -41,7 +42,8 @@ namespace SmartTests.Helpers
 
 
         public static bool GetMemberContext<T>( this Expression<Func<T>> @this,
-                                                out object instance, out MemberInfo member )
+                                                out object instance,
+                                                out MemberInfo member )
         {
             var memberExpression = @this.Body as MemberExpression;
             if( memberExpression != null )
@@ -55,13 +57,45 @@ namespace SmartTests.Helpers
             var methodCall = @this.Body as MethodCallExpression;
             if( methodCall != null )
             {
-                member = methodCall.Method;
                 instance = methodCall.Object.GetInstance();
+                member = methodCall.Method;
                 return true;
             }
 
             instance = null;
             member = null;
+            return false;
+        }
+
+
+        public static bool GetMemberContext<T>( this Expression<Func<T>> @this,
+                                                out object instance,
+                                                out MemberInfo member,
+                                                out Expression[] arguments )
+        {
+            var memberExpression = @this.Body as MemberExpression;
+            if( memberExpression != null )
+            {
+                instance = memberExpression.Expression.GetInstance();
+                member = memberExpression.Member;
+                arguments = null;
+                Debug.Assert( member != null );
+                return true;
+            }
+
+            var methodCall = @this.Body as MethodCallExpression;
+            if( methodCall != null )
+            {
+                instance = methodCall.Object.GetInstance();
+                var method = methodCall.Method;
+                member = method;
+                arguments = methodCall.Arguments.ToArray();
+                return true;
+            }
+
+            instance = null;
+            member = null;
+            arguments = null;
             return false;
         }
 

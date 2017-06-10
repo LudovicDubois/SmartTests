@@ -112,8 +112,8 @@
   <data name="BadTest_NotProperty" xml:space="preserve">
     <value>BAD TEST: '{0}' is not a property of type '{1}'</value>
   </data>
-  <data name="BadTest_NotWritableProperty" xml:space="preserve">
-    <value>BAD TEST: '{0}' is not a writable property</value>
+  <data name="BadTest_NotWritablePropertyNorIndexer" xml:space="preserve">
+    <value>BAD TEST: '{0}' is not a writable property nor indexer</value>
   </data>
   <data name="PropertyChanged" xml:space="preserve">
     <value>Property '{0}' has changed</value>
@@ -129,5 +129,8 @@
   </data>
   <data name="ChangeWrongly" xml:space="preserve">
     <value>Change is wrong. Expected {0}, but was {1}</value>
+  </data>
+  <data name="BadTest_NotPropertyNorIndexer" xml:space="preserve">
+    <value>BAD TEST: '{0}' is not a writable property nor indexer</value>
   </data>
 </root>

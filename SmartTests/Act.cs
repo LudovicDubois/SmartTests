@@ -8,8 +8,10 @@ namespace SmartTests
     public abstract class ActBase
     {
         public object Instance { get; internal set; }
+        public ConstructorInfo Constructor { get; internal set; }
+        public FieldInfo Field { get; internal set; }
+        public MethodInfo Method { get; internal set; }
         public PropertyInfo Property { get; internal set; }
-        public MethodBase Method { get; internal set; }
 
         public Exception Exception { get; internal set; }
 

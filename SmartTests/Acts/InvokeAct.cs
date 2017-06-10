@@ -19,8 +19,8 @@ namespace SmartTests.Acts
             if( invocation.GetMemberContext( out instance, out member ) )
             {
                 Instance = instance;
-                Method = member as MethodBase
-                         ?? ( member as PropertyInfo )?.GetMethod;
+                Constructor = member as ConstructorInfo;
+                Method = member as MethodInfo;
             }
             if( Method == null )
                 throw new SmartTestException();
@@ -44,11 +44,26 @@ namespace SmartTests.Acts
             if( invocation.GetMemberContext( out instance, out member ) )
             {
                 Instance = instance;
-                Method = member as MethodBase
-                         ?? ( member as PropertyInfo )?.GetMethod;
+                Method = member as MethodInfo;
+                if( Method == null )
+                {
+                    Property = member as PropertyInfo;
+                    if( Property != null )
+                        Method = Property.GetMethod;
+                    else
+                        Field = member as FieldInfo;
+                }
+                else if( Method.IsSpecialName )
+                    // An indexer
+                    foreach( var property in Method.DeclaringType.GetProperties() )
+                        if( property.GetMethod == Method )
+                        {
+                            Property = property;
+                            break;
+                        }
             }
-            if( Method == null )
-                throw new SmartTestException();
+            if( Method == null && Field == null )
+                throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() ) );
         }
 
 
