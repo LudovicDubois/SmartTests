@@ -62,6 +62,14 @@ namespace SmartTests.Helpers
                 return true;
             }
 
+            var newExpression = @this.Body as NewExpression;
+            if( newExpression != null )
+            {
+                instance = null;
+                member = newExpression.Constructor;
+                return true;
+            }
+
             instance = null;
             member = null;
             return false;

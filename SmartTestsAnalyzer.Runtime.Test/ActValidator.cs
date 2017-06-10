@@ -10,6 +10,12 @@ namespace SmartTestsAnalyzer.Runtime.Test
 {
     public class ActValidator: Assertion
     {
+        public ActValidator( ConstructorInfo constructor )
+        {
+            _Constructor = constructor;
+        }
+
+
         public ActValidator( object instance, FieldInfo field )
         {
             _Instance = instance;
@@ -17,14 +23,14 @@ namespace SmartTestsAnalyzer.Runtime.Test
         }
 
 
-        public ActValidator( object instance, MethodBase method )
+        public ActValidator( object instance, MethodInfo method )
         {
             _Instance = instance;
             _Method = method;
         }
 
 
-        public ActValidator( object instance, PropertyInfo property, MethodBase method )
+        public ActValidator( object instance, PropertyInfo property, MethodInfo method )
         {
             _Instance = instance;
             _Method = method;
@@ -33,8 +39,9 @@ namespace SmartTestsAnalyzer.Runtime.Test
 
 
         private readonly object _Instance;
+        private readonly ConstructorInfo _Constructor;
         private readonly FieldInfo _Field;
-        private readonly MethodBase _Method;
+        private readonly MethodInfo _Method;
         private readonly PropertyInfo _Property;
 
 
@@ -45,6 +52,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
         public override void AfterAct( ActBase act )
         {
             Assert.AreEqual( _Instance, act.Instance );
+            Assert.AreEqual( _Constructor, act.Constructor );
             Assert.AreEqual( _Field, act.Field );
             Assert.AreEqual( _Method, act.Method );
             Assert.AreEqual( _Property, act.Property );

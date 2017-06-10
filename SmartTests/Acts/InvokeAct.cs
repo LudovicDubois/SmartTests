@@ -44,6 +44,9 @@ namespace SmartTests.Acts
             if( invocation.GetMemberContext( out instance, out member ) )
             {
                 Instance = instance;
+                Constructor = member as ConstructorInfo;
+                if( Constructor != null )
+                    return;
                 Method = member as MethodInfo;
                 if( Method == null )
                 {
@@ -62,7 +65,7 @@ namespace SmartTests.Acts
                             break;
                         }
             }
-            if( Method == null && Field == null )
+            if( Constructor == null && Method == null && Field == null )
                 throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() ) );
         }
 
