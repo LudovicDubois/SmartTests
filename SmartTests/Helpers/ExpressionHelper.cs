@@ -35,7 +35,8 @@ namespace SmartTests.Helpers
         public static object GetInstance( this Expression @this )
         {
             var closureExpression = @this as MemberExpression;
-            Debug.Assert( closureExpression != null );
+            if( closureExpression == null )
+                return null;
             var closure = ( closureExpression.Expression as ConstantExpression )?.Value;
             return ( closureExpression.Member as FieldInfo )?.GetValue( closure );
         }
