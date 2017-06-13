@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActValidator.cs" />
+    <Compile Include="ChangedToTests\ChangedToTestsImplicit.cs" />
     <Compile Include="ChangedToTests\ChangedToTests.cs" />
     <Compile Include="ChangeTests\ChangeTestsSetup.cs" />
     <Compile Include="ChangeTests\ChangeTests.cs" />

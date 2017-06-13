@@ -9,7 +9,14 @@ using SmartTests.Helpers;
 
 namespace SmartTests.Acts
 {
-    public class AssignAct<T>: Act<T>
+    public interface IAssignee
+    {
+        object AssigneeValue { get; }
+        object AssignedValue { get; }
+    }
+
+
+    public class AssignAct<T>: Act<T>, IAssignee
     {
         public AssignAct( Expression<Func<T>> assignee, T value )
         {
@@ -59,6 +66,7 @@ namespace SmartTests.Acts
 
 
         private readonly Expression<Func<T>> _Assignee;
+        private Func<T> _CompiledAssignee;
         private readonly T _Value;
         private readonly Expression[] _Arguments;
 
@@ -87,6 +95,22 @@ namespace SmartTests.Acts
             Expression.Lambda( indexerCall ).Compile().DynamicInvoke();
 
             return default(T);
+        }
+
+
+        object IAssignee.AssigneeValue
+        {
+            get
+            {
+                if( _CompiledAssignee == null )
+                    _CompiledAssignee = _Assignee.Compile();
+                return _CompiledAssignee();
+            }
+        }
+
+        public object AssignedValue
+        {
+            get { return _Value; }
         }
     }
 }

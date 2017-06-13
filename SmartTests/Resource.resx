@@ -136,4 +136,7 @@
   <data name="BadTest_UnexpectedValue" xml:space="preserve">
     <value>BAD TEST: unexpected value {0}</value>
   </data>
+  <data name="BadTest_NotAssignment" xml:space="preserve">
+    <value>BAD TEST: Act is not an assignment</value>
+  </data>
 </root>

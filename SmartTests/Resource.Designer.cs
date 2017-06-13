@@ -61,6 +61,15 @@ namespace SmartTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: Act is not an assignment.
+        /// </summary>
+        internal static string BadTest_NotAssignment {
+            get {
+                return ResourceManager.GetString("BadTest_NotAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not an event of type &apos;{1}&apos;.
         /// </summary>
         internal static string BadTest_NotEvent {
