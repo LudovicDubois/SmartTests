@@ -49,6 +49,7 @@
     <Compile Include="Acts\AssignAct.cs" />
     <Compile Include="Assertion.cs" />
     <Compile Include="Assertions\ChangeAssertions.cs" />
+    <Compile Include="Assertions\ChangedToAssertions.cs" />
     <Compile Include="Assertions\NotChangedAssertions.cs" />
     <Compile Include="Assertions\PropertyChangedAssertions.cs" />
     <Compile Include="Assertions\RaiseAssertions.cs" />

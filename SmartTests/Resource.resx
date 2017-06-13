@@ -133,4 +133,7 @@
   <data name="BadTest_NotPropertyNorIndexer" xml:space="preserve">
     <value>BAD TEST: '{0}' is not a writable property nor indexer</value>
   </data>
+  <data name="BadTest_UnexpectedValue" xml:space="preserve">
+    <value>BAD TEST: unexpected value {0}</value>
+  </data>
 </root>

@@ -115,6 +115,15 @@ namespace SmartTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: unexpected value {0}.
+        /// </summary>
+        internal static string BadTest_UnexpectedValue {
+            get {
+                return ResourceManager.GetString("BadTest_UnexpectedValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change is wrong. Expected {0}, but was {1}.
         /// </summary>
         internal static string ChangeWrongly {
