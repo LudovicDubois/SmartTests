@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 
@@ -15,20 +17,26 @@ namespace SmartTests
 
         public Exception Exception { get; internal set; }
 
+        public Assertion[] Assertions { get; internal set; }
+        private readonly List<Assertion> _DoneAssertions = new List<Assertion>();
 
-        internal virtual void BeforeAct( Assertion[] assertions )
+
+        internal virtual void BeforeAct()
         {
+            var assertions = Assertions.ToList();
+            assertions.Reverse();
             foreach( var assertion in assertions )
+            {
                 assertion.BeforeAct( this );
+                _DoneAssertions.Insert( 0, assertion );
+            }
         }
 
 
-        internal void AfterAct( Assertion[] assertions )
+        internal void AfterAct()
         {
-            foreach( var assertion in assertions )
-            {
+            foreach( var assertion in _DoneAssertions )
                 assertion.AfterAct( this );
-            }
         }
     }
 

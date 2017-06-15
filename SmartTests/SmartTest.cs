@@ -62,23 +62,25 @@ namespace SmartTests
             if( act == null )
                 throw new ArgumentNullException( nameof(act) );
 
-
-            act.BeforeAct( assertions );
+            act.Assertions = assertions;
+            T result;
             try
             {
-                var result = act.Invoke();
-                act.AfterAct( assertions );
-                return result;
+                act.BeforeAct();
+                result = act.Invoke();
             }
             catch( Exception e )
             {
                 e = e.NoInvocation();
                 act.Exception = e;
-                act.AfterAct( assertions );
+                act.AfterAct();
                 if( e is SmartTestException )
                     throw e;
                 throw new SmartTestException( "Unexpected error occurred!", e );
             }
+
+            act.AfterAct();
+            return result;
         }
 
 
@@ -91,19 +93,22 @@ namespace SmartTests
             if( act == null )
                 throw new ArgumentNullException( nameof(act) );
 
-            act.BeforeAct( assertions );
+            act.Assertions = assertions;
             try
             {
+                act.BeforeAct();
                 act.Invoke();
-                act.AfterAct( assertions );
             }
             catch( Exception e )
             {
                 e = e.NoInvocation();
                 act.Exception = e;
-                act.AfterAct( assertions );
-                throw e;
+                act.AfterAct();
+                if( e is SmartTestException )
+                    throw e;
+                throw new SmartTestException( "Unexpected error occurred!", e );
             }
+            act.AfterAct();
         }
 
         #endregion
