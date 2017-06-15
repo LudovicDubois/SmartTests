@@ -75,6 +75,7 @@ namespace SmartTests
                 act.Exception = e;
                 act.AfterAct();
                 if( e is SmartTestException )
+                    // ReSharper disable once PossibleIntendedRethrow
                     throw e;
                 throw new SmartTestException( "Unexpected error occurred!", e );
             }
@@ -105,6 +106,7 @@ namespace SmartTests
                 act.Exception = e;
                 act.AfterAct();
                 if( e is SmartTestException )
+                    // ReSharper disable once PossibleIntendedRethrow
                     throw e;
                 throw new SmartTestException( "Unexpected error occurred!", e );
             }
