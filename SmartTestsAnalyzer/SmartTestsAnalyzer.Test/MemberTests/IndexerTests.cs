@@ -47,7 +47,7 @@ namespace TestingProject
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( AnyValue.Valid,
+            var result = RunTest( AnyValue.IsValid,
                                   () => mc[ 0 ] );
 
             Assert.That( result, Is.EqualTo( 10 ) );
@@ -150,7 +150,7 @@ namespace TestingProject
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( Case( ""value"", AnyValue.Valid ),
+            var result = RunTest( Case( ""value"", AnyValue.IsValid ),
                                   () => mc[ 0 ] );
 
             Assert.That( result, Is.EqualTo( 10 ) );
@@ -218,8 +218,8 @@ namespace TestingProject
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( Case( ""index"", AnyValue.Valid ) &
-                                  Case( ""value"", AnyValue.Valid ),
+            var result = RunTest( Case( ""index"", AnyValue.IsValid ) &
+                                  Case( ""value"", AnyValue.IsValid ),
                                   Assign( () => mc[0], 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -266,7 +266,7 @@ namespace TestingProject
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( Case( ""index"", AnyValue.Valid ),
+            var result = RunTest( Case( ""index"", AnyValue.IsValid ),
                                   Assign( () => mc[0], 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -323,7 +323,7 @@ namespace TestingProject
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( Case( ""value"", AnyValue.Valid ),
+            var result = RunTest( Case( ""value"", AnyValue.IsValid ),
                                   Assign( () => mc[0], 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -381,7 +381,7 @@ namespace TestingProject
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( AnyValue.Valid,
+            var result = RunTest( AnyValue.IsValid,
                                   Assign( () => mc[0], 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -450,7 +450,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
 
             var result = RunTest( Case( ""index"", ValidValue.IsValid ) &
-                                  Case( ""value"", AnyValue.Valid ),
+                                  Case( ""value"", AnyValue.IsValid ),
                                   Assign( () => mc[0], 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -508,7 +508,7 @@ namespace TestingProject
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( Case( ""index"", AnyValue.Valid ) &
+            var result = RunTest( Case( ""index"", AnyValue.IsValid ) &
                                   Case( ""value"", ValidValue.IsValid ),
                                   Assign( () => mc[0], 11 ) );
 

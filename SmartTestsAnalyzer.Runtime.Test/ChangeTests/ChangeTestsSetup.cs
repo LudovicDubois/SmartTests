@@ -63,7 +63,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
         {
             _Mc.ChangeProperty = true;
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => _Mc.Method(),
                      SmartAssert.Change( () => _Mc.MyProperty + 1 ) );
         }
@@ -76,7 +76,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
                                                               {
                                                                   _Mc.ChangeProperty = true;
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => _Mc.Method(),
                                                                            SmartAssert.Change( () => _Mc.MyProperty + 2 ) );
                                                               } );
@@ -90,7 +90,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
         {
             _Mc.ChangeIndirect = true;
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => _Mc.Method(),
                      SmartAssert.Change( () => _Mc.Items.Count + 1 ) );
         }
@@ -103,7 +103,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
                                                               {
                                                                   _Mc.ChangeIndirect = true;
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => _Mc.Method(),
                                                                            SmartAssert.Change( () => _Mc.Items.Count + 2 ) );
                                                               } );
@@ -117,7 +117,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
         {
             _Mc.ChangeIndexer = true;
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => _Mc.Method(),
                      SmartAssert.Change( () => _Mc[ 0 ] + 2 ) );
         }
@@ -130,7 +130,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
                                                               {
                                                                   _Mc.ChangeIndexer = true;
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => _Mc.Method(),
                                                                            SmartAssert.Change( () => _Mc[ 0 ] + 3 ) );
                                                               } );
@@ -144,7 +144,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
         {
             _Mc.ChangeProperty = true;
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => _Mc.Method(),
                      SmartAssert.Change( () => _Mc.MyMethod() + 1 ) );
         }
@@ -157,7 +157,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
                                                               {
                                                                   _Mc.ChangeProperty = true;
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => _Mc.Method(),
                                                                            SmartAssert.Change( () => _Mc.MyMethod() + 2 ) );
                                                               } );
@@ -171,7 +171,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
         {
             _Mc.ChangeField = true;
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => _Mc.Method(),
                      SmartAssert.Change( () => _Mc.MyField + 4 ) );
         }
@@ -184,7 +184,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
                                                               {
                                                                   _Mc.ChangeField = true;
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => _Mc.Method(),
                                                                            SmartAssert.Change( () => _Mc.MyField + 2 ) );
                                                               } );

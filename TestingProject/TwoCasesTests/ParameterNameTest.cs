@@ -45,7 +45,7 @@ namespace TestingProject.TwoCasesTests
         public void Missing1ParameterCase()
         {
             var reminder = default(int);
-            var result = RunTest( Case( "a", AnyValue.Valid ),
+            var result = RunTest( Case( "a", AnyValue.IsValid ),
                                   () => DivRem( 7, 3, out reminder ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
@@ -57,7 +57,7 @@ namespace TestingProject.TwoCasesTests
         public void Missing2ParameterCases()
         {
             var reminder = default(int);
-            var result = RunTest( Case( AnyValue.Valid ),
+            var result = RunTest( Case( AnyValue.IsValid ),
                                   () => DivRem2( 7, 3, out reminder ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
@@ -69,7 +69,7 @@ namespace TestingProject.TwoCasesTests
         public void MissingNoParameterCases1()
         {
             var reminder = default(int);
-            var result = RunTest( Case( "a", AnyValue.Valid ) &
+            var result = RunTest( Case( "a", AnyValue.IsValid ) &
                                   Case( "b", ValidValue.Valid ),
                                   () => DivRem2( 7, 3, out reminder ) );
 
@@ -82,7 +82,7 @@ namespace TestingProject.TwoCasesTests
         public void MissingNoParameterCases2()
         {
             int reminder;
-            Assert.Throws<DivideByZeroException>( () => RunTest( Case( "a", AnyValue.Valid ) &
+            Assert.Throws<DivideByZeroException>( () => RunTest( Case( "a", AnyValue.IsValid ) &
                                                                  Case( "b", ValidValue.Invalid ),
                                                                  () => DivRem2( 7, 0, out reminder ) ) );
         }
@@ -95,7 +95,7 @@ namespace TestingProject.TwoCasesTests
         [Test]
         public void NoParameterNeeded_NoCase()
         {
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => NoParameter() );
         }
 
@@ -103,21 +103,21 @@ namespace TestingProject.TwoCasesTests
         [Test]
         public void NoParameterNeeded_Case()
         {
-            RunTest( Case( AnyValue.Valid ),
+            RunTest( Case( AnyValue.IsValid ),
                      () => NoParameter() );
         }
 
         [Test]
         public void NoParameterNeeded_NullCase()
         {
-            RunTest( Case( null, AnyValue.Valid ),
+            RunTest( Case( null, AnyValue.IsValid ),
                      () => NoParameter() );
         }
 
         [Test]
         public void NoParameterNeeded_ParameterCase()
         {
-            RunTest( Case( "value", AnyValue.Valid ),
+            RunTest( Case( "value", AnyValue.IsValid ),
                      () => NoParameter() );
         }
     }

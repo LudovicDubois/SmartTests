@@ -54,7 +54,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
         [Test]
         public void PropertyGet()
         {
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => MyClass.MyProperty,
                      new ActValidator( null, _MyProperty, _MyProperty.GetMethod ) );
         }
@@ -63,7 +63,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
         [Test]
         public void PropertySet()
         {
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      Assign( () => MyClass.MyProperty, 1 ),
                      new ActValidator( null, _MyProperty, _MyProperty.SetMethod ) );
         }
@@ -72,7 +72,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
         [Test]
         public void MethodWithoutParameter()
         {
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => MyClass.MyMethod(),
                      new ActValidator( null, _MyMethod0 ) );
         }
@@ -81,7 +81,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
         [Test]
         public void MethodWithParameter()
         {
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => MyClass.MyMethod( 1 ),
                      new ActValidator( null, _MyMethod1 ) );
         }
@@ -91,7 +91,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
         public void MethodWithRefParameter()
         {
             var i = 0;
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => MyClass.MyMethod( ref i ),
                      new ActValidator( null, _MyMethodRef1 ) );
             Assert.AreEqual( 1, i );
@@ -102,7 +102,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
         public void MethodWithOutParameter()
         {
             var i = 0;
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => MyClass.MyMethodOut( out i ),
                      new ActValidator( null, _MyMethodOut1 ) );
             Assert.AreEqual( 2, i );
@@ -112,7 +112,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
         [Test]
         public void FieldGet()
         {
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => MyClass.MyField,
                      new ActValidator( null, _MyField ) );
         }
@@ -121,7 +121,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
         [Test]
         public void FieldSet()
         {
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      Assign( () => MyClass.MyField, 1 ),
                      new ActValidator( null, _MyField ) );
         }

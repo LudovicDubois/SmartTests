@@ -26,7 +26,7 @@ namespace TestingProject.MemberTests.ConstructorTests
         [Test]
         public void MyTest()
         {
-            var result = RunTest( AnyValue.Valid,
+            var result = RunTest( AnyValue.IsValid,
                                   () => new MyClass( 10 ) );
 
             Assert.That( result.Property, Is.EqualTo( 10 ) );

@@ -53,7 +53,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, false );
             var assert2 = new AssertionTest( false, false );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => Math.Sqrt( 0 ),
                      assert1,
                      assert2 );
@@ -71,7 +71,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, false );
             var assert2 = new AssertionTest( true, false );
 
-            Assert.Throws<SmartTestException>( () => RunTest( AnyValue.Valid,
+            Assert.Throws<SmartTestException>( () => RunTest( AnyValue.IsValid,
                                                               () => Math.Sqrt( 0 ),
                                                               assert1,
                                                               assert2 ) );
@@ -89,7 +89,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( true, false );
             var assert2 = new AssertionTest( false, false );
 
-            Assert.Throws<SmartTestException>( () => RunTest( AnyValue.Valid,
+            Assert.Throws<SmartTestException>( () => RunTest( AnyValue.IsValid,
                                                               () => Math.Sqrt( 0 ),
                                                               assert1,
                                                               assert2 ) );
@@ -107,7 +107,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, true );
             var assert2 = new AssertionTest( false, false );
 
-            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.Valid,
+            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.IsValid,
                                                                    () => Math.Sqrt( 0 ),
                                                                    assert1,
                                                                    assert2 ) );
@@ -125,7 +125,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, false );
             var assert2 = new AssertionTest( false, true );
 
-            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.Valid,
+            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.IsValid,
                                                                    () => Math.Sqrt( 0 ),
                                                                    assert1,
                                                                    assert2 ) );
@@ -147,7 +147,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, false );
             var assert2 = new AssertionTest( false, false );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => DoNothing(),
                      assert1,
                      assert2 );
@@ -165,7 +165,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, false );
             var assert2 = new AssertionTest( true, false );
 
-            Assert.Throws<SmartTestException>( () => RunTest( AnyValue.Valid,
+            Assert.Throws<SmartTestException>( () => RunTest( AnyValue.IsValid,
                                                               () => DoNothing(),
                                                               assert1,
                                                               assert2 ) );
@@ -183,7 +183,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( true, false );
             var assert2 = new AssertionTest( false, false );
 
-            Assert.Throws<SmartTestException>( () => RunTest( AnyValue.Valid,
+            Assert.Throws<SmartTestException>( () => RunTest( AnyValue.IsValid,
                                                               () => DoNothing(),
                                                               assert1,
                                                               assert2 ) );
@@ -201,7 +201,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, true );
             var assert2 = new AssertionTest( false, false );
 
-            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.Valid,
+            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.IsValid,
                                                                    () => DoNothing(),
                                                                    assert1,
                                                                    assert2 ) );
@@ -219,7 +219,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, false );
             var assert2 = new AssertionTest( false, true );
 
-            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.Valid,
+            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.IsValid,
                                                                    () => DoNothing(),
                                                                    assert1,
                                                                    assert2 ) );

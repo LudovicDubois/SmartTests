@@ -55,7 +55,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
         {
             var mc = new MyClass( false, false, false, false );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "MyProperty1" ) );
         }
@@ -68,7 +68,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                               {
                                                                   var mc = new MyClass( false, false, false, false );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "BadProperty" ) );
                                                               } );
@@ -82,7 +82,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
         {
             var mc = new MyClass( true, false, false, false );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "MyProperty1" ) );
         }
@@ -95,7 +95,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                               {
                                                                   var mc = new MyClass( false, true, false, false );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "MyProperty1" ) );
                                                               } );
@@ -109,7 +109,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
         {
             var mc = new MyClass( false, false, true, false );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "MyProperty3" ) );
         }
@@ -122,7 +122,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                               {
                                                                   var mc = new MyClass( false, false, false, true );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "MyProperty3" ) );
                                                               } );
@@ -138,7 +138,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                               {
                                                                   var mc = new MyClass( true, true, true, true );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "MyProperty1" ) );
                                                               } );
@@ -156,7 +156,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                               {
                                                                   var mc = new MyClass( true, true, true, true );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "MyProperty1", "MyProperty2" ) );
                                                               } );
@@ -173,7 +173,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                               {
                                                                   var mc = new MyClass( true, true, true, true );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "MyProperty1", "MyProperty2", "MyProperty3" ) );
                                                               } );
@@ -187,7 +187,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
         {
             var mc = new MyClass( true, true, true, true );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "MyProperty1", "MyProperty2", "MyProperty3", "MyProperty4" ) );
         }
@@ -200,7 +200,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                               {
                                                                   var mc = new MyClass( true, true, true, true );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotChangedExcept( mc, "MyProperty1" ) );
                                                               } );
@@ -216,7 +216,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                               {
                                                                   var mc = new MyClass( true, true, true, true );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotChangedExcept( mc, "MyProperty1", "MyProperty3" ) );
                                                               } );
@@ -232,7 +232,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                               {
                                                                   var mc = new MyClass( true, true, true, true );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotChangedExcept( NotChangedKind.AllProperties, "MyProperty1", "MyProperty3" ) );
                                                               } );
@@ -249,7 +249,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
                                                               {
                                                                   var mc = new MyClass( true, true, true, true );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotChangedExcept( "MyProperty1" ) );
                                                               } );

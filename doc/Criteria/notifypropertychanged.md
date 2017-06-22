@@ -20,7 +20,7 @@ Thus, the `NotifyPropertyChanged` criteria contains three criterions:
 
 ## Example
 
-As this Criteria is for a value of a property or an indexer, you should combine it with another criteria for the range of the value (not mandatory for `AnyValue.Valid`).
+As this Criteria is for a value of a property or an indexer, you should combine it with another criteria for the range of the value (not mandatory for `AnyValue.IsValid`).
 
 ```C#
 using NUnit.Framework;

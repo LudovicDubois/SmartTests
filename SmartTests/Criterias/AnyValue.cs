@@ -7,6 +7,6 @@ namespace SmartTests.Criterias
     [PublicAPI]
     public class AnyValue: Criteria
     {
-        public static readonly Criteria Valid = new AnyValue();
+        public static readonly Criteria IsValid = new AnyValue();
     }
 }

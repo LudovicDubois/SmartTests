@@ -28,7 +28,7 @@ namespace TestingProject.MemberTests.PropertyTests
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( AnyValue.Valid,
+            var result = RunTest( AnyValue.IsValid,
                                   () => mc.Property );
 
             Assert.That( result, Is.EqualTo( 10 ) );

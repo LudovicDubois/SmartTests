@@ -40,7 +40,7 @@ namespace TestingProject
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( AnyValue.Valid,
+            var result = RunTest( AnyValue.IsValid,
                                   () => mc.Property );
 
             Assert.That( result, Is.EqualTo( 10 ) );
@@ -183,7 +183,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( AnyValue.Valid,
+            var result = RunTest( AnyValue.IsValid,
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );

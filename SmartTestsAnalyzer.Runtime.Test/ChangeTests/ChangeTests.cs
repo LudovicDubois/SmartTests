@@ -65,7 +65,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
         {
             var mc = new MyClass( true, false, false, false );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.Change( () => mc.MyProperty + 1 ) );
         }
@@ -78,7 +78,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
                                                               {
                                                                   var mc = new MyClass( true, false, false, false );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.Change( () => mc.MyProperty + 2 ) );
                                                               } );
@@ -92,7 +92,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
         {
             var mc = new MyClass( false, false, true, false );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.Change( () => mc.Items.Count + 1 ) );
         }
@@ -105,7 +105,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
                                                               {
                                                                   var mc = new MyClass( false, false, true, false );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.Change( () => mc.Items.Count + 2 ) );
                                                               } );
@@ -119,7 +119,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
         {
             var mc = new MyClass( false, true, false, false );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.Change( () => mc[ 0 ] + 2 ) );
         }
@@ -132,7 +132,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
                                                               {
                                                                   var mc = new MyClass( false, true, false, false );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.Change( () => mc[ 0 ] + 3 ) );
                                                               } );
@@ -146,7 +146,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
         {
             var mc = new MyClass( true, false, false, false );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.Change( () => mc.MyMethod() + 1 ) );
         }
@@ -159,7 +159,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
                                                               {
                                                                   var mc = new MyClass( true, false, false, false );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.Change( () => mc.MyMethod() + 2 ) );
                                                               } );
@@ -173,7 +173,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
         {
             var mc = new MyClass( false, false, false, true );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.Change( () => mc.MyField + 4 ) );
         }
@@ -186,7 +186,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangeTests
                                                               {
                                                                   var mc = new MyClass( false, false, false, true );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.Change( () => mc.MyField + 2 ) );
                                                               } );

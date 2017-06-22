@@ -48,7 +48,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.EventTests
         {
             var mc = new MyClass( true );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.Raised( "MyEvent" ) );
         }
@@ -61,7 +61,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.EventTests
                                                             {
                                                                 var mc = new MyClass( true );
 
-                                                                RunTest( AnyValue.Valid,
+                                                                RunTest( AnyValue.IsValid,
                                                                          () => mc.Method(),
                                                                          SmartAssert.Raised( "NotEvent" ) );
                                                             } );
@@ -76,7 +76,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.EventTests
                                                               {
                                                                   var mc = new MyClass( false );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.Raised( "MyEvent" ) );
                                                               } );
@@ -92,7 +92,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.EventTests
                                                               {
                                                                   var mc = new MyClass( true );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.NotRaised( "MyEvent" ) );
                                                               } );
@@ -108,7 +108,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.EventTests
                                                             {
                                                                 var mc = new MyClass( true );
 
-                                                                RunTest( AnyValue.Valid,
+                                                                RunTest( AnyValue.IsValid,
                                                                          () => mc.Method(),
                                                                          SmartAssert.NotRaised( "NotEvent" ) );
                                                             } );
@@ -121,7 +121,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.EventTests
         {
             var mc = new MyClass( false );
 
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.NotRaised( "MyEvent" ) );
         }

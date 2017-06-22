@@ -20,7 +20,7 @@ public class MyClassTest
     {
         var mc = new MyClass();
 
-        RunTest( AnyValue.Valid,
+        RunTest( AnyValue.IsValid,
                  Assign( () => mc.MyProperty, 10 ) );
 
         Assert.AreEqual( 10, mc.MyProperty );

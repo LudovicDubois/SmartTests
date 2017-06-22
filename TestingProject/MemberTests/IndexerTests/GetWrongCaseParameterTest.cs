@@ -36,7 +36,7 @@ namespace TestingProject.MemberTests.IndexerTests
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( Case( "value", AnyValue.Valid ),
+            var result = RunTest( Case( "value", AnyValue.IsValid ),
                                   () => mc[ 0 ] );
 
             Assert.That( result, Is.EqualTo( 10 ) );

@@ -29,7 +29,7 @@ namespace TestingProject
         [Test]
         public void MyTest()
         {
-            var result = RunTest( Case( ""d"", AnyValue.Valid ), 
+            var result = RunTest( Case( ""d"", AnyValue.IsValid ), 
                                   () => Math.Sqrt(4) );
 
             Assert.That( result, Is.EqualTo(2) );
@@ -97,7 +97,7 @@ namespace TestingProject
         [Test]
         public void MyTest1()
         {
-            var result = RunTest( Case( ""value"", AnyValue.Valid ), 
+            var result = RunTest( Case( ""value"", AnyValue.IsValid ), 
                                   () => Math.Sqrt(4) );
 
             Assert.That( result, Is.EqualTo(2) );
@@ -148,7 +148,7 @@ namespace TestingProject
         public void MyTest()
         {
             var reminder = default(int);
-            var result = RunTest( Case( ""a"", AnyValue.Valid ),
+            var result = RunTest( Case( ""a"", AnyValue.IsValid ),
                                   () => Math.DivRem( 7, 3, out reminder ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
@@ -190,7 +190,7 @@ namespace TestingProject
         public void MyTest()
         {
             var reminder = default(int);
-            var result = RunTest( Case( AnyValue.Valid ),
+            var result = RunTest( Case( AnyValue.IsValid ),
                                   () => Math.DivRem( 7, 3, out reminder ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
@@ -242,7 +242,7 @@ namespace TestingProject
         public void MyTest1()
         {
             var reminder = default(int);
-            var result = RunTest( Case( ""a"", AnyValue.Valid ) &
+            var result = RunTest( Case( ""a"", AnyValue.IsValid ) &
                                   Case( ""b"", ValidValue.IsValid ),
                                   () => Math.DivRem( 7, 3, out reminder ) );
 
@@ -282,7 +282,7 @@ namespace TestingProject
         public void MyTest1()
         {
             var reminder = default(int);
-            var result = RunTest( Case( ""a"", AnyValue.Valid ) &
+            var result = RunTest( Case( ""a"", AnyValue.IsValid ) &
                                   Case( ""b"", ValidValue.IsValid ),
                                   () => Math.DivRem( 7, 3, out reminder ) );
 
@@ -294,7 +294,7 @@ namespace TestingProject
         public void Mytest2()
         {
             int reminder;
-            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""a"", AnyValue.Valid ) &
+            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""a"", AnyValue.IsValid ) &
                                                                  Case( ""b"", ValidValue.IsInvalid ),
                                                                  () => Math.DivRem( 7, 0, out reminder ) ) );
         }
@@ -324,7 +324,7 @@ namespace TestingProject
         [Test]
         public void MyTest()
         {
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => NoParameter() );
         }
     }
@@ -353,7 +353,7 @@ namespace TestingProject
         [Test]
         public void MyTest()
         {
-            RunTest( Case( AnyValue.Valid ),
+            RunTest( Case( AnyValue.IsValid ),
                      () => NoParameter() );
         }
     }
@@ -382,7 +382,7 @@ namespace TestingProject
         [Test]
         public void MyTest()
         {
-            RunTest( Case( null, AnyValue.Valid ),
+            RunTest( Case( null, AnyValue.IsValid ),
                      () => NoParameter() );
         }
     }
@@ -411,7 +411,7 @@ namespace TestingProject
         [Test]
         public void MyTest()
         {
-            RunTest( Case( ""value"", AnyValue.Valid ),
+            RunTest( Case( ""value"", AnyValue.IsValid ),
                      () => NoParameter() );
         }
     }

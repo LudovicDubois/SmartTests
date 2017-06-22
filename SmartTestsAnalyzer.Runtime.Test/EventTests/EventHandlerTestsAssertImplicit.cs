@@ -49,7 +49,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.EventTests
             var mc = new MyClass( true );
 
             var raised = false;
-            RunTest( AnyValue.Valid,
+            RunTest( AnyValue.IsValid,
                      () => mc.Method(),
                      SmartAssert.Raised<EventArgs>( "MyEvent", ( sender, args ) => raised = true ) );
             Assert.IsTrue( raised );
@@ -64,7 +64,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.EventTests
                                                               {
                                                                   var mc = new MyClass( false );
 
-                                                                  RunTest( AnyValue.Valid,
+                                                                  RunTest( AnyValue.IsValid,
                                                                            () => mc.Method(),
                                                                            SmartAssert.Raised<EventArgs>( "MyEvent", ( sender, args ) => raised = true ) );
                                                               } );
