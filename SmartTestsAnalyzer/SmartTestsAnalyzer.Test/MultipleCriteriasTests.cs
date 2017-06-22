@@ -41,7 +41,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasNoSubscriber, 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -53,7 +53,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue and ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberSameValue and ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -94,7 +94,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( NotifyPropertyChanged.HasNoSubscriber & ValidValue.Valid, 
+            var result = RunTest( NotifyPropertyChanged.HasNoSubscriber & ValidValue.IsValid, 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -106,7 +106,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Invalid and NotifyPropertyChanged.HasSubscriberSameValue & ValidValue.Valid and NotifyPropertyChanged.HasSubscriberOtherValue & ValidValue.Valid",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.IsInvalid and NotifyPropertyChanged.HasSubscriberSameValue & ValidValue.IsValid and NotifyPropertyChanged.HasSubscriberOtherValue & ValidValue.IsValid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -147,7 +147,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasNoSubscriber, 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -160,7 +160,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberSameValue, 
                                   Assign( () => mc.Property, 10 ) );
 
             Assert.That( result, Is.EqualTo( 10 ) );
@@ -172,7 +172,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -214,7 +214,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasNoSubscriber, 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -227,7 +227,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberSameValue, 
                                   Assign( () => mc.Property, 10 ) );
 
             Assert.That( result, Is.EqualTo( 10 ) );
@@ -240,7 +240,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberOtherValue, 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -252,7 +252,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -295,7 +295,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasNoSubscriber, 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -308,7 +308,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberSameValue, 
                                   Assign( () => mc.Property, 10 ) );
 
             Assert.That( result, Is.EqualTo( 10 ) );
@@ -321,7 +321,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberOtherValue, 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -334,7 +334,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            RunTest( ValidValue.Invalid, 
+            RunTest( ValidValue.IsInvalid, 
                      Assign( () => mc.Property, -1 ) );
         }
     }
@@ -468,7 +468,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber | ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasNoSubscriber | ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberSameValue, 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -480,7 +480,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -521,7 +521,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber | ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue | ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasNoSubscriber | ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberSameValue | ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberOtherValue, 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -533,7 +533,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -574,7 +574,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber | ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue | ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue | ValidValue.Invalid, 
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasNoSubscriber | ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberSameValue | ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberOtherValue | ValidValue.IsInvalid, 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -616,7 +616,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & ( NotifyPropertyChanged.HasNoSubscriber | NotifyPropertyChanged.HasSubscriberSameValue ), 
+            var result = RunTest( ValidValue.IsValid & ( NotifyPropertyChanged.HasNoSubscriber | NotifyPropertyChanged.HasSubscriberSameValue ), 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -628,7 +628,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -669,7 +669,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & ( NotifyPropertyChanged.HasNoSubscriber | NotifyPropertyChanged.HasSubscriberSameValue | NotifyPropertyChanged.HasSubscriberOtherValue ), 
+            var result = RunTest( ValidValue.IsValid & ( NotifyPropertyChanged.HasNoSubscriber | NotifyPropertyChanged.HasSubscriberSameValue | NotifyPropertyChanged.HasSubscriberOtherValue ), 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -681,7 +681,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -722,7 +722,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ( ValidValue.Valid | ValidValue.Invalid ) & ( NotifyPropertyChanged.HasNoSubscriber | NotifyPropertyChanged.HasSubscriberSameValue | NotifyPropertyChanged.HasSubscriberOtherValue ), 
+            var result = RunTest( ( ValidValue.IsValid | ValidValue.IsInvalid ) & ( NotifyPropertyChanged.HasNoSubscriber | NotifyPropertyChanged.HasSubscriberSameValue | NotifyPropertyChanged.HasSubscriberOtherValue ), 
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );

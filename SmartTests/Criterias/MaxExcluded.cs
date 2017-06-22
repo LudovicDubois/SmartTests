@@ -11,6 +11,6 @@ namespace SmartTests.Criterias
         [Error]
         public static readonly Criteria IsMax = new MaxExcluded();
         [Error]
-        public static readonly Criteria IsAboveaxn = new MaxExcluded();
+        public static readonly Criteria IsAboveMax = new MaxExcluded();
     }
 }

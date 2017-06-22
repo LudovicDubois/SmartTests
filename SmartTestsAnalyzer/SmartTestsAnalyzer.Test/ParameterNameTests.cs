@@ -58,7 +58,7 @@ namespace TestingProject
         [Test]
         public void MyTest()
         {
-            var result = RunTest( Case( ""d"", ValidValue.Valid ), 
+            var result = RunTest( Case( ""d"", ValidValue.IsValid ), 
                                   () => Math.Sqrt(4) );
 
             Assert.That( result, Is.EqualTo(2) );
@@ -68,7 +68,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: d:ValidValue.Invalid",
+                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: d:ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -243,7 +243,7 @@ namespace TestingProject
         {
             var reminder = default(int);
             var result = RunTest( Case( ""a"", AnyValue.Valid ) &
-                                  Case( ""b"", ValidValue.Valid ),
+                                  Case( ""b"", ValidValue.IsValid ),
                                   () => Math.DivRem( 7, 3, out reminder ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
@@ -254,7 +254,7 @@ namespace TestingProject
         public void MyTest2()
         {
             int reminder;
-            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""b"", ValidValue.Invalid ),
+            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""b"", ValidValue.IsInvalid ),
                                                                  () => Math.DivRem( 7, 0, out reminder ) ) );
         }
     }
@@ -283,7 +283,7 @@ namespace TestingProject
         {
             var reminder = default(int);
             var result = RunTest( Case( ""a"", AnyValue.Valid ) &
-                                  Case( ""b"", ValidValue.Valid ),
+                                  Case( ""b"", ValidValue.IsValid ),
                                   () => Math.DivRem( 7, 3, out reminder ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
@@ -295,7 +295,7 @@ namespace TestingProject
         {
             int reminder;
             Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""a"", AnyValue.Valid ) &
-                                                                 Case( ""b"", ValidValue.Invalid ),
+                                                                 Case( ""b"", ValidValue.IsInvalid ),
                                                                  () => Math.DivRem( 7, 0, out reminder ) ) );
         }
     }

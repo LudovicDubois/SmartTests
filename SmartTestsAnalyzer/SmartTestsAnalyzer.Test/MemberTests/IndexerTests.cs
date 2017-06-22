@@ -93,7 +93,7 @@ namespace TestingProject
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( ValidValue.Valid,
+            var result = RunTest( ValidValue.IsValid,
                                   () => mc[ 0 ] );
 
             Assert.That( result, Is.EqualTo( 10 ) );
@@ -103,7 +103,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [get]' has some missing Test Cases: ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [get]' has some missing Test Cases: ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -449,7 +449,7 @@ namespace TestingProject
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( Case( ""index"", ValidValue.Valid ) &
+            var result = RunTest( Case( ""index"", ValidValue.IsValid ) &
                                   Case( ""value"", AnyValue.Valid ),
                                   Assign( () => mc[0], 11 ) );
 
@@ -461,7 +461,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases: index:ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases: index:ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -509,7 +509,7 @@ namespace TestingProject
             var mc = new MyClass( 10 );
 
             var result = RunTest( Case( ""index"", AnyValue.Valid ) &
-                                  Case( ""value"", ValidValue.Valid ),
+                                  Case( ""value"", ValidValue.IsValid ),
                                   Assign( () => mc[0], 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -520,7 +520,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases: value:ValidValue.Invalid",
+                               Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases: value:ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {

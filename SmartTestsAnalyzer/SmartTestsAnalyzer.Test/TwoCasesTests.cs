@@ -29,7 +29,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Case( ValidValue.Valid ), () => Math.Sqrt(4) );
+            var result = RunTest( Case( ValidValue.IsValid ), () => Math.Sqrt(4) );
 
             Assert.That( result, Is.EqualTo(2) );
         }
@@ -38,7 +38,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: ValidValue.Invalid",
+                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -67,7 +67,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Case( ValidValue.Valid ), () => Math.Sqrt(4) );
+            var result = RunTest( Case( ValidValue.IsValid ), () => Math.Sqrt(4) );
 
             Assert.That( result, Is.EqualTo(2) );
         }
@@ -76,7 +76,7 @@ namespace TestingProject
         [Test]
         public void TestMethod2()
         {
-            Assert.Throws<IndexOutOfRangeException>( () => RunTest( Case( ValidValue.Invalid ), () => Math.Sqrt(-4) ) );
+            Assert.Throws<IndexOutOfRangeException>( () => RunTest( Case( ValidValue.IsInvalid ), () => Math.Sqrt(-4) ) );
         }
     }
 }";

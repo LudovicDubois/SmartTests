@@ -28,7 +28,7 @@ namespace TestingProject
         [Test]
         public void MyTest()
         {
-            var result = RunTest( Case( ValidValue.Valid ), () => Math.Sqrt(4) );
+            var result = RunTest( Case( ValidValue.IsValid ), () => Math.Sqrt(4) );
 
             Assert.That( result, Is.EqualTo(2) );
         }
@@ -56,7 +56,7 @@ namespace TestingProject
         //[Test]
         public void MyTest()
         {
-            var result = RunTest( Case( ValidValue.Valid ), () => Math.Sqrt(4) );
+            var result = RunTest( Case( ValidValue.IsValid ), () => Math.Sqrt(4) );
 
             Assert.That( result, Is.EqualTo(2) );
         }
