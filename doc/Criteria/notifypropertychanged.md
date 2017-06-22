@@ -30,7 +30,7 @@ using static SmartTests.SmartTest;
 public class MyClassTest
 {
     [Test]
-    public void MyPropertyTest_IsBelowMin()
+    public void MyPropertyTest_IsAboveMin()
     {
         var mc = new MyClass();
 
