@@ -43,7 +43,7 @@ public class MyClassTest
 }
 ```
 
-In this example, we ensure that no public property of `mc` has changed during the call to `mc.MyMethod()`.
+In this example, the Smart Assertion ensures that no public property of `mc` has changed during the call to `mc.MyMethod()`.
 
 > Note that it is not really true: if a property changes and comes back to its previous value during `mc.MyMethod()`, the assertion pass.
 
@@ -80,7 +80,7 @@ public class MyClassTest
 }
 ```
 
-In this example, we ensure that no property (public or not) and no field (public or not) of `mc` has changed during the call to `mc.MyMethod()`.
+In this example, the Smart Assertions ensures that no property (public or not) and no field (public or not) of `mc` has changed during the call to `mc.MyMethod()`.
 
 > Default parameter value is `NotChangedKind.PublicProperties`.
 
@@ -112,7 +112,7 @@ public class MyClassTest
 }
 ```
 
-In this example, we ensure that no public property of `other` has changed during the call to `mc.CopyFrom(other)`.
+In this example, the Smart Assertion ensures that no public property of `other` has changed during the call to `mc.CopyFrom(other)`.
 
 <a name="notchanged_object_kind"></a>
 
@@ -140,7 +140,7 @@ public class MyClassTest
 }
 ```
 
-In this example, we ensure that no property (public or not) and no field (public or not) of `other` has changed during the call to `mc.CopyFrom(other)`.
+In this example, the Smart Assertion ensures that no property (public or not) and no field (public or not) of `other` has changed during the call to `mc.CopyFrom(other)`.
 
 ## `NotChangedExcept`
 
@@ -180,7 +180,7 @@ public class MyClassTest
 }
 ```
 
-In this example, we ensure that no public property of `mc` has changed during the call to `mc.MyProperty = 10` except `MyProperty`, that is not checked.
+In this example, the Smart Assertion ensures that no public property of `mc` has changed during the call to `mc.MyProperty = 10` except `MyProperty`, that is not checked.
 
 > Note that if the names specified are not public property names, a `BadTestException` occurs.
 
@@ -209,7 +209,7 @@ public class MyClassTest
 }
 ```
 
-In this example, we ensure that no property (public or not) nor field (public or not) of `mc` has changed during the call to `mc.MyProperty = 10` except `MyProperty`, that is not checked.
+In this example, the Smart Assertion ensures that no property (public or not) nor field (public or not) of `mc` has changed during the call to `mc.MyProperty = 10` except `MyProperty`, that is not checked.
 
 > Note that if the names specified are not property nor field names, a `BadTestException` occurs.
 
@@ -239,7 +239,7 @@ public class MyClassTest
 }
 ```
 
-In this example, we ensure that no public property of `other` has changed during the call to `mc.CopyPropertiesFrom(other)` except `CopyCount`, that is not checked.
+In this example, the Smart Assertion ensures that no public property of `other` has changed during the call to `mc.CopyPropertiesFrom(other)` except `CopyCount`, that is not checked.
 
 > Note that if the names specified are not public property names, a `BadTestException` occurs.
 
@@ -269,6 +269,6 @@ public class MyClassTest
 }
 ```
 
-In this example, we ensure that no property (public or not) nor field (public or not) of `other` has changed during the call to `mc.CopyPropertiesFrom(other)` except `CopyCount`, that is not checked.
+In this example, the Smart Assertion ensures that no property (public or not) nor field (public or not) of `other` has changed during the call to `mc.CopyPropertiesFrom(other)` except `CopyCount`, that is not checked.
 
 > Note that if the names specified are not property not field names, a `BadTestException` occurs.
