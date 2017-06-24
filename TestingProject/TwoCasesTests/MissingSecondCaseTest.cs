@@ -20,7 +20,7 @@ namespace TestingProject.TwoCasesTests
         [Test]
         public void TestMethod()
         {
-            Assert.Throws<ArgumentOutOfRangeException>( () => RunTest( Case( ValidValue.Invalid ), () => Sqrt( -4 ) ) );
+            Assert.Throws<ArgumentOutOfRangeException>( () => RunTest( Case( ValidValue.IsInvalid ), () => Sqrt( -4 ) ) );
         }
     }
 }

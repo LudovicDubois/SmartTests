@@ -37,7 +37,7 @@ namespace TestingProject.MemberTests.IndexerTests
             var mc = new MyClass( 10 );
 
             var result = RunTest( Case( "index", AnyValue.IsValid ) &
-                                  Case( "value", ValidValue.Valid ),
+                                  Case( "value", ValidValue.IsValid ),
                                   Assign( () => mc[ 0 ], 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -48,7 +48,7 @@ namespace TestingProject.MemberTests.IndexerTests
         var expected = new DiagnosticResult
                         {
                             Id = "SmartTestsAnalyzer_MissingParameterCases",
-                            Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases for parameter 'value': ValidValue.Invalid",
+                            Message = "Tests for 'TestingProject.IndexerTests.MyClass.this[int] [set]' has some missing Test Cases for parameter 'value': ValidValue.IsInvalid",
                             Severity = DiagnosticSeverity.Warning,
                             Locations = new[]
                                         {

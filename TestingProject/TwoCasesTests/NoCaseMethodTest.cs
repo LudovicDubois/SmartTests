@@ -20,7 +20,7 @@ namespace TestingProject.TwoCasesTests
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( ValidValue.Valid, () => Sqrt( 4 ) );
+            var result = RunTest( ValidValue.IsValid, () => Sqrt( 4 ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
         }
@@ -29,7 +29,7 @@ namespace TestingProject.TwoCasesTests
         [Test]
         public void TestMethod2()
         {
-            Assert.Throws<IndexOutOfRangeException>( () => RunTest( ValidValue.Invalid, () => Sqrt( -4 ) ) );
+            Assert.Throws<IndexOutOfRangeException>( () => RunTest( ValidValue.IsInvalid, () => Sqrt( -4 ) ) );
         }
     }
 }

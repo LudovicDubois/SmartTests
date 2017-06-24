@@ -24,7 +24,7 @@ namespace TestingProject.TwoCasesTests
         [Test]
         public void RightParameterName()
         {
-            var result = RunTest( Case( "value", ValidValue.Valid ),
+            var result = RunTest( Case( "value", ValidValue.IsValid ),
                                   () => Sqrt( 4 ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
@@ -34,7 +34,7 @@ namespace TestingProject.TwoCasesTests
         [Test]
         public void WrongParameterName()
         {
-            var result = RunTest( Case( "d", ValidValue.Valid ),
+            var result = RunTest( Case( "d", ValidValue.IsValid ),
                                   () => Sqrt( 4 ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
@@ -70,7 +70,7 @@ namespace TestingProject.TwoCasesTests
         {
             var reminder = default(int);
             var result = RunTest( Case( "a", AnyValue.IsValid ) &
-                                  Case( "b", ValidValue.Valid ),
+                                  Case( "b", ValidValue.IsValid ),
                                   () => DivRem2( 7, 3, out reminder ) );
 
             Assert.That( result, Is.EqualTo( 2 ) );
@@ -83,7 +83,7 @@ namespace TestingProject.TwoCasesTests
         {
             int reminder;
             Assert.Throws<DivideByZeroException>( () => RunTest( Case( "a", AnyValue.IsValid ) &
-                                                                 Case( "b", ValidValue.Invalid ),
+                                                                 Case( "b", ValidValue.IsInvalid ),
                                                                  () => DivRem2( 7, 0, out reminder ) ) );
         }
 

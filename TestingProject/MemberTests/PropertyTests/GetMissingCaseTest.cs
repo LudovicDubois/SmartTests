@@ -28,7 +28,7 @@ namespace TestingProject.MemberTests.PropertyTests
         {
             var mc = new MyClass( 10 );
 
-            var result = RunTest( ValidValue.Valid,
+            var result = RunTest( ValidValue.IsValid,
                                   () => mc.Property );
 
             Assert.That( result, Is.EqualTo( 10 ) );
@@ -39,7 +39,7 @@ namespace TestingProject.MemberTests.PropertyTests
         var expected = new DiagnosticResult
                         {
                             Id = "SmartTestsAnalyzer_MissingCases",
-                            Message = "Tests for 'TestingProject.ConstructorTests.MyClass.Property [get]' has some missing Test Cases: ValidValue.Invalid",
+                            Message = "Tests for 'TestingProject.ConstructorTests.MyClass.Property [get]' has some missing Test Cases: ValidValue.IsInvalid",
                             Severity = DiagnosticSeverity.Warning,
                             Locations = new[]
                                         {

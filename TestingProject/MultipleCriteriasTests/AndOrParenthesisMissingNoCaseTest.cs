@@ -29,7 +29,7 @@ namespace TestingProject.MultipleCriteriasTests
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ( ValidValue.Valid | ValidValue.Invalid ) & ( NotifyPropertyChanged.HasNoSubscriber | NotifyPropertyChanged.HasSubscriberSameValue | NotifyPropertyChanged.HasSubscriberOtherValue ),
+            var result = RunTest( ( ValidValue.IsValid | ValidValue.IsInvalid ) & ( NotifyPropertyChanged.HasNoSubscriber | NotifyPropertyChanged.HasSubscriberSameValue | NotifyPropertyChanged.HasSubscriberOtherValue ),
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );

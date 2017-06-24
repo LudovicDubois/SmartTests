@@ -29,7 +29,7 @@ namespace TestingProject.MultipleCriteriasTests
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasNoSubscriber,
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasNoSubscriber,
                                   Assign( () => mc.Property, 11 ) );
 
             Assert.That( result, Is.EqualTo( 11 ) );
@@ -43,7 +43,7 @@ namespace TestingProject.MultipleCriteriasTests
             var mc = new MyClass( 10 );
             Assert.That( mc.Property, Is.EqualTo( 10 ) );
 
-            var result = RunTest( ValidValue.Valid & NotifyPropertyChanged.HasSubscriberSameValue,
+            var result = RunTest( ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberSameValue,
                                   Assign( () => mc.Property, 10 ) );
 
             Assert.That( result, Is.EqualTo( 10 ) );
@@ -55,7 +55,7 @@ namespace TestingProject.MultipleCriteriasTests
         var expected = new DiagnosticResult
                         {
                             Id = "SmartTestsAnalyzer_MissingCases",
-                            Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.Valid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.Invalid",
+                            Message = "Tests for 'TestingProject.MyTestClass.MyClass.Property [set]' has some missing Test Cases: ValidValue.IsValid & NotifyPropertyChanged.HasSubscriberOtherValue and ValidValue.IsInvalid",
                             Severity = DiagnosticSeverity.Warning,
                             Locations = new[]
                                         {
