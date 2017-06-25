@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
 
 using SmartTestsAnalyzer.Helpers;
+using SmartTestsAnalyzer.TestFrameworks;
 
 
 
@@ -36,26 +36,26 @@ namespace SmartTestsAnalyzer
     }
 
 
-    public class NUnitStrategy: TestingFrameworkStrategy
+    public abstract class AttributedTestingFramework: TestingFrameworkStrategy
     {
-        public NUnitStrategy( Compilation compilation )
+        private readonly INamedTypeSymbol _TestClassAttribute;
+        private readonly INamedTypeSymbol _TestMethodAttribute;
+
+
+        protected AttributedTestingFramework( Compilation compilation, string testClassAttribute, string testMethodAttribute )
         {
-            _TestFixtureAttribute = compilation.GetTypeByMetadataName( "NUnit.Framework.TestFixtureAttribute" );
-            if( _TestFixtureAttribute == null )
-                // This project does not contain NUnit
+            _TestClassAttribute = compilation.GetTypeByMetadataName( testClassAttribute );
+            if( _TestClassAttribute == null )
+                // This project does not contain testClassAttribute
                 return;
-            _TestAttribute = compilation.GetTypeByMetadataName( "NUnit.Framework.TestAttribute" );
-            Debug.Assert( _TestAttribute != null );
+            _TestMethodAttribute = compilation.GetTypeByMetadataName( testMethodAttribute );
         }
 
 
-        public bool IsValid => _TestFixtureAttribute != null;
+        public bool IsValid => _TestClassAttribute != null && _TestMethodAttribute != null;
 
-        private readonly INamedTypeSymbol _TestFixtureAttribute;
-        private readonly INamedTypeSymbol _TestAttribute;
+        public override bool IsTestClass( ITypeSymbol type ) => type.HasAttribute( _TestClassAttribute );
 
-        public override bool IsTestClass( ITypeSymbol type ) => type.HasAttribute( _TestFixtureAttribute );
-
-        public override bool IsTestMethod( IMethodSymbol method ) => method.HasAttribute( _TestAttribute );
+        public override bool IsTestMethod( IMethodSymbol method ) => method.HasAttribute( _TestMethodAttribute );
     }
 }
