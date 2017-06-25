@@ -1,6 +1,6 @@
 # Adding a Criteria
 
-Before adding you own Criteria, you should know what a Criteria is.
+Before adding your own Criteria, you should know what a Criteria is.
 
 It this is not the case, [read this](readme.md).
 
