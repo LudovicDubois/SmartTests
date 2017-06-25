@@ -17,6 +17,10 @@ namespace SmartTestsAnalyzer
             var nunit = new NUnitStrategy( compilation );
             if( nunit.IsValid )
                 _TestingFrameworks.Add( nunit );
+
+            var mstest = new MSTestStrategy( compilation );
+            if( mstest.IsValid )
+                _TestingFrameworks.Add( mstest );
         }
 
 
@@ -31,6 +35,7 @@ namespace SmartTestsAnalyzer
 
     public abstract class TestingFrameworkStrategy
     {
+        public abstract bool IsValid { get; }
         public abstract bool IsTestClass( ITypeSymbol type );
         public abstract bool IsTestMethod( IMethodSymbol method );
     }
@@ -52,7 +57,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public bool IsValid => _TestClassAttribute != null && _TestMethodAttribute != null;
+        public override bool IsValid => _TestClassAttribute != null && _TestMethodAttribute != null;
 
         public override bool IsTestClass( ITypeSymbol type ) => type.HasAttribute( _TestClassAttribute );
 

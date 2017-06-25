@@ -50,6 +50,7 @@
     <Compile Include="Helpers\TypeSymbolHelper.cs" />
     <Compile Include="MembersTestCases.cs" />
     <Compile Include="MemberTestCases.cs" />
+    <Compile Include="TestFrameworks\MSTestStrategy.cs" />
     <Compile Include="TestFrameworks\NUnitStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
