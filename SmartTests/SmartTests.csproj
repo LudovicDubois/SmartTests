@@ -58,8 +58,12 @@
     <Compile Include="Criterias\MaxExcluded.cs" />
     <Compile Include="Criterias\MinExcluded.cs" />
     <Compile Include="Criterias\MaxIncluded.cs" />
+    <Compile Include="Criterias\MinExcMaxExc.cs" />
     <Compile Include="Criterias\MinIncluded.cs" />
     <Compile Include="Criterias\AnyValue.cs" />
+    <Compile Include="Criterias\MinIncMaxExc.cs" />
+    <Compile Include="Criterias\MinExcMaxInc.cs" />
+    <Compile Include="Criterias\MinIncMaxInc.cs" />
     <Compile Include="Criterias\NotifyPropertyChanged.cs" />
     <Compile Include="Criterias\ValidValue.cs" />
     <Compile Include="ErrorAttribute.cs" />

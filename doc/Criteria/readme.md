@@ -82,13 +82,25 @@ This enables you to have a **Logical Coverage**, independently of the source cod
 
 Currently, predefined Criteria are the following:
 
-* [AnyValue](anyvalue.md)
+### With 1 limit
+
 * [MaxExcluded](maxexcluded.md)
 * [MaxIncluded](maxincluded.md)
 * [MinExcluded](minexcluded,md)
 * [MinIncluded](minincluded.md)
-* [NotifyPropertyChanged](notifypropertychanged.md)
+
+### With 2 limits
+
+* [MinIncMaxInc](minincmaxinc.md)
+* [MinIncMaxExc](minincmaxexc.md)
+* [MinExcMaxInc](minexcmaxinc.md)
+* [MinExcMaxExc](minexcmaxexc.md)
+
+### Others
+
+* [AnyValue](anyvalue.md)
 * [ValidValue](validvalue.md)
+* [NotifyPropertyChanged](notifypropertychanged.md)
 
 We will add other Criteria.
 

@@ -8,7 +8,7 @@ Thus, it contains three criterions:
 * `IsMin`
 * `IsAboveMin`
 
-Use [MinExcluded](minexluded.md) if you want the minimum be excluded.
+Use [MinExcluded](minexcluded.md) if you want the minimum be excluded.
 
 Use [MaxIncluded](maxincluded.md) or [MaxExcluded](maxexcluded.md) if you want a maximum instead of a minimum.
 
