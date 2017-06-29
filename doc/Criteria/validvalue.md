@@ -1,4 +1,4 @@
-# ValidValue Criteria
+# `ValidValue` Criteria
 
 You use `ValidValue` criteria when you want to explicitly specify that value can be either valid or invalid.
 
@@ -17,14 +17,13 @@ using static SmartTests.SmartTest;
 public class MyClassTest
 {
     [Test]
-    public void MyPropertyTest()
+    public void MyPropertyTest_Set_IsValid()
     {
         var mc = new MyClass();
 
         RunTest( ValidValue.Valid,
-                 Assign( () => mc.MyProperty, "Not null!" ) );
-
-        Assert.AreEqual( "Not null!", mc.MyProperty );
+                 Assign( () => mc.MyProperty, 10 ),
+                 SmartAssert.ChangedTo() );
     }
 }
 ```

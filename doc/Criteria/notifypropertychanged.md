@@ -1,4 +1,4 @@
-# NotifyPropertyChanged Criteria
+# `NotifyPropertyChanged` Criteria
 
 You use `NotifyPropertyChanged` criteria when you want to test the implementation of `INotifyPropertyChanged` in your class.
 
@@ -30,15 +30,14 @@ using static SmartTests.SmartTest;
 public class MyClassTest
 {
     [Test]
-    public void MyPropertyTest_IsAboveMin()
+    public void MyPropertyTest_Set_IsAboveMin_NoSubscriber()
     {
         var mc = new MyClass();
 
         RunTest( MinExcluded.IsAboveMin &
                  NotifyPropertyChanged.HasNoSubscriber,
-                 Assign( () => mc.MyProperty, 10 ) );
-
-        Assert.AreEqual( 10, mc.MyProperty );
+                 Assign( () => mc.MyProperty, 10 ),
+                 SmartAssert.ChangedTo() );
     }
 }
 ```

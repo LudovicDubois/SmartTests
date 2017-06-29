@@ -1,4 +1,4 @@
-# AnyValue Criteria
+# `AnyValue` Criteria
 
 You use `AnyValue` criteria when you want to explicitly specify that any value is valid.
 
@@ -21,9 +21,8 @@ public class MyClassTest
         var mc = new MyClass();
 
         RunTest( AnyValue.IsValid,
-                 Assign( () => mc.MyProperty, 10 ) );
-
-        Assert.AreEqual( 10, mc.MyProperty );
+                 Assign( () => mc.MyProperty, 10 ),
+                 SmartTest.ChangedTo() );
     }
 }
 ```

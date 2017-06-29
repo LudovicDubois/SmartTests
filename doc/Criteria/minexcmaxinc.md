@@ -1,4 +1,4 @@
-# MinExcMaxInc Criteria
+# `MinExcMaxInc` Criteria
 
 You use `MinExcMaxInc` criteria when you want to explicitly specify that a value is in a range, with valid maximum but invalid minimum.
 
@@ -10,7 +10,7 @@ Thus, it contains five criterions:
 * `IsMax`
 * `IsAboveMax` (an error)
 
-Use [MinIncMaxInc](minincmaxinc.md), [MinIncMaxExc](minincmaxexc.md) or [MinExcMaxExc](minexmaxexc.md) to include/exclude min and/or max.
+Use [MinIncMaxInc](MinIncMaxInc.md), [MinIncMaxExc](MinIncMaxExc.md) or [MinExcMaxExc](MinExcMaxExc.md) to include/exclude min and/or max.
 
 ## Example
 
@@ -22,14 +22,13 @@ using static SmartTests.SmartTest;
 public class MyClassTest
 {
     [Test]
-    public void MyPropertyTest_IsBelowMin()
+    public void MyPropertyTest_Set_IsBetweenMinMax()
     {
         var mc = new MyClass();
 
         RunTest( MinExcMaxInc.IsBetweenMinMax,
-                 Assign( () => mc.MyProperty, 10 ) );
-
-        Assert.AreEqual( 10, mc.MyProperty );
+                 Assign( () => mc.MyProperty, 10 ),
+                 SmartAssert.ChangedTo() );
     }
 }
 ```

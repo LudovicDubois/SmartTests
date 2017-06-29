@@ -82,25 +82,42 @@ This enables you to have a **Logical Coverage**, independently of the source cod
 
 Currently, predefined Criteria are the following:
 
-### With 1 limit
+### Value with 1 limit
 
-* [MaxExcluded](maxexcluded.md)
-* [MaxIncluded](maxincluded.md)
-* [MinExcluded](minexcluded,md)
-* [MinIncluded](minincluded.md)
+* [`MaxExcluded`](MaxExcluded.md)
+* [`MaxIncluded`](MaxIncluded.md)
+* [`MinExcluded`](MinExcluded,md)
+* [`MinIncluded`](MinIncluded.md)
 
-### With 2 limits
+### Value with 2 limits
 
-* [MinIncMaxInc](minincmaxinc.md)
-* [MinIncMaxExc](minincmaxexc.md)
-* [MinExcMaxInc](minexcmaxinc.md)
-* [MinExcMaxExc](minexcmaxexc.md)
+* [`MinIncMaxInc`](MinIncMaxInc.md)
+* [`MinIncMaxExc`](MinIncMaxExc.md)
+* [`MinExcMaxInc`](MinExcMaxInc.md)
+* [`MinExcMaxExc`](MinExcMaxExc.md)
+
+### Comparisons
+
+* [`Comparison`](Comparison.md)
+* [`Equality`](Equality.md)
+* [`ReferenceEquality`](ReferenceEquality.md)
+
+### Collections
+
+* [`Collection`](Collection.md)
+* [`CollectionItem`](CollectionItem.md)
+
+### Valid Values
+
+* [`AnyValue`](AnyValue.md)
+* [`FormattedString`](FormattedString.md)
+* [`Path`](Path.md)
+* [`ValidString`](ValidString.md)
+* [`ValidValue`](ValidValue.md)
 
 ### Others
 
-* [AnyValue](anyvalue.md)
-* [ValidValue](validvalue.md)
-* [NotifyPropertyChanged](notifypropertychanged.md)
+* [`NotifyPropertyChanged`](NotifyPropertyChanged.md)
 
 We will add other Criteria.
 
@@ -108,7 +125,7 @@ We will add other Criteria.
 
 Sometimes, you have several intents that are orthogonal for your test.
 
-For example, your property as a minimum value (see [MinIncluded](minincluded.md)) and should raised an event when changed (see [NotifyPropertyChanged](notifypropertychanged.md)).
+For example, your property as a minimum value (see [`MinIncluded`](MinIncluded.md)) and should raised an event when changed (see [`NotifyPropertyChanged`](NotifyPropertyChanged.md)).
 
 You only have to [combine Criteria](combine.md) to achieve your goal.
 

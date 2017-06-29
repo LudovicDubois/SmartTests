@@ -1,4 +1,4 @@
-# MinExcluded Criteria
+# `MinExcluded` Criteria
 
 You use `MinExcluded` criteria when you want to explicitly specify that a value has a minimum, that is invalid.
 
@@ -8,9 +8,9 @@ Thus, it contains three criterions:
 * `IsMin` (an error)
 * `IsAboveMin`
 
-Use [MinIncluded](minincluded.md) if you want the minimum be included.
+Use [MinIncluded](MinIncluded.md) if you want the minimum be included.
 
-Use [MaxIncluded](maxincluded.md) or [MaxExcluded](maxexcluded.md) if you want a maximum instead of a minimum.
+Use [MaxIncluded](MaxIncluded.md) or [MaxExcluded](MaxExcluded.md) if you want a maximum instead of a minimum.
 
 ## Example
 
@@ -22,14 +22,13 @@ using static SmartTests.SmartTest;
 public class MyClassTest
 {
     [Test]
-    public void MyPropertyTest_IsBelowMin()
+    public void MyPropertyTest_Set_IsAboveMin()
     {
         var mc = new MyClass();
 
         RunTest( MinExcluded.IsAboveMin,
-                 Assign( () => mc.MyProperty, 10 ) );
-
-        Assert.AreEqual( 10, mc.MyProperty );
+                 Assign( () => mc.MyProperty, 10 ),
+                 SmartAssert.ChangedTo() );
     }
 }
 ```

@@ -1,4 +1,4 @@
-# MaxExcluded Criteria
+# `MaxExcluded` Criteria
 
 You use `MaxExcluded` criteria when you want to explicitly specify that a value has a maximum, that is invalid.
 
@@ -8,9 +8,9 @@ Thus, it contains three criterions:
 * `IsMax` (an error)
 * `IsAboveMax` (an error)
 
-Use [MaxIncluded](maxincluded.md) if you want the maximum be included.
+Use [MaxIncluded](MaxIncluded.md) if you want the maximum be included.
 
-Use [MinIncluded](minincluded.md) or [MinExcluded](minexcluded.md) if you want a minimum instead of a maximum.
+Use [MinIncluded](MinIncluded.md) or [MinExcluded](MinExcluded.md) if you want a minimum instead of a maximum.
 
 ## Example
 
@@ -22,14 +22,13 @@ using static SmartTests.SmartTest;
 public class MyClassTest
 {
     [Test]
-    public void MyPropertyTest_IsBelowMin()
+    public void MyPropertyTest_Set_IsBelowMax()
     {
         var mc = new MyClass();
 
         RunTest( MaxExcluded.IsBelowMax,
-                 Assign( () => mc.MyProperty, -10 ) );
-
-        Assert.AreEqual( -10, mc.MyProperty );
+                 Assign( () => mc.MyProperty, -10 ),
+                 SmartAssert.ChangedTo() );
     }
 }
 ```
