@@ -26,6 +26,12 @@ namespace SmartTests.Assertions
         }
 
 
+        public static Assertion NotRaised_PropertyChanged( this SmartAssertPlaceHolder @this )
+        {
+            return new RaisePropertyChangedAssertion( null, false, null );
+        }
+
+
         public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T t )
             where T: INotifyPropertyChanged
         {

@@ -54,6 +54,39 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
         }
 
 
+
+
+        [Test]
+        public void HasSubscriberSameValue()
+        {
+            var mc = new MyClass();
+            Assert.AreEqual( 0, mc.MyProperty );
+
+            RunTest( NotifyPropertyChanged.HasSubscriberSameValue,
+                     Assign( () => mc.MyProperty, 0 ),
+                     SmartAssert.NotRaised_PropertyChanged() );
+
+            Assert.AreEqual( 0, mc.MyProperty );
+        }
+
+
+        [Test]
+        public void HasSubscriberSameValue_PropertyChanged()
+        {
+            var exception = Assert.Catch<SmartTestException>( () =>
+                                                              {
+                                                                  var mc = new MyClass( nameof(MyClass.MyProperty) );
+                                                                  Assert.AreEqual( 0, mc.MyProperty );
+
+                                                                  RunTest( NotifyPropertyChanged.HasSubscriberSameValue,
+                                                                           Assign( () => mc.MyProperty, 0 ),
+                                                                           SmartAssert.NotRaised_PropertyChanged() );
+                                                              } );
+
+            Assert.AreEqual( "Event 'PropertyChanged' was unexpected", exception.Message );
+        }
+
+
         [Test]
         public void HasSubscriberOtherValue()
         {
