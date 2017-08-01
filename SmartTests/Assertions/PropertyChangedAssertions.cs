@@ -5,6 +5,7 @@ using System.Linq;
 
 using JetBrains.Annotations;
 
+using SmartTests.Acts;
 using SmartTests.Helpers;
 
 // ReSharper disable UnusedParameter.Global
@@ -14,7 +15,7 @@ namespace SmartTests.Assertions
 {
     public static class PropertyChangedAssertions
     {
-        public static Assertion Raised_PropertyChanged( this SmartAssertPlaceHolder @this ) => new RaisePropertyChangedAssertion( null, true, null );
+        public static Assertion Raised_PropertyChanged( this SmartAssertPlaceHolder @this ) => new RaisePropertyChangedAssertion( null, true, null, null );
 
 
         public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T t, params string[] expectedPropertyNames )
@@ -23,6 +24,17 @@ namespace SmartTests.Assertions
             if( t == null )
                 throw new ArgumentNullException( nameof(t) );
             return new RaisePropertyChangedAssertion( t, true, expectedPropertyNames );
+        }
+
+
+        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T t, [NotNull] string expectedPropertyName, object value )
+            where T: INotifyPropertyChanged
+        {
+            if( t == null )
+                throw new ArgumentNullException( nameof(t) );
+            if( expectedPropertyName == null )
+                throw new ArgumentNullException( nameof(expectedPropertyName) );
+            return new RaisePropertyChangedAssertion( t, true, expectedPropertyName, value );
         }
 
 
@@ -51,12 +63,23 @@ namespace SmartTests.Assertions
                 _PropertyNameVerifications = _PropertyNames?.Count > 0;
             }
 
+            public RaisePropertyChangedAssertion(INotifyPropertyChanged instance, bool expectedRaised, string expectedPropertyName, object value)
+            {
+                _Instance = instance;
+                _ExpectedRaised = expectedRaised;
+                _PropertyNames = expectedPropertyName != null ? new List<string> { expectedPropertyName } : null;
+                _PropertyNameVerifications = true;
+                _Value = value;
+                _CheckValue = true;
+            }
 
             private INotifyPropertyChanged _Instance;
             private readonly bool _ExpectedRaised;
             private List<string> _PropertyNames;
             private bool _PropertyNameVerifications;
             private bool _Raised;
+            private object _Value;
+            private readonly bool _CheckValue;
 
 
             public override void BeforeAct( ActBase act )
@@ -67,6 +90,14 @@ namespace SmartTests.Assertions
                     _Instance = act.Instance as INotifyPropertyChanged;
                 if( _Instance == null )
                     throw new BadTestException( string.Format( Resource.BadTest_NotINotifyPropertyChanged, act.Instance?.GetType().FullName ) );
+                if( _CheckValue && implicitSource )
+                {
+                    var assignedAct = act as IAssignee;
+                    if( assignedAct == null )
+                        throw new BadTestException( Resource.BadTest_NotAssignment );
+                    _Value = assignedAct.AssignedValue;
+                }
+
 
                 if( _PropertyNames == null )
                 {
@@ -111,6 +142,13 @@ namespace SmartTests.Assertions
                 // Ensure this property changed is expected
                 if( !_PropertyNames.Remove( args.PropertyName ) )
                     throw new SmartTestException( string.Format( Resource.UnexpectedPropertyNameWhenPropertyChangedRaised, args.PropertyName ) );
+
+                if( !_CheckValue )
+                    return;
+                // Ensure the value is the expected one
+                var currentValue = _Instance.GetType().GetProperty( args.PropertyName ).GetValue( _Instance );
+                if ( !Equals( currentValue, _Value ) )
+                    throw new SmartTestException( string.Format( Resource.ChangeWrongly, _Value, currentValue ) );
             }
         }
     }
