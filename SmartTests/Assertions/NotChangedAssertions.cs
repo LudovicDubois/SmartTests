@@ -30,6 +30,7 @@ namespace SmartTests.Assertions
         public static Assertion NotChanged( this SmartAssertPlaceHolder @this, NotChangedKind kind = NotChangedKind.PublicProperties ) => new NotChangedAssertion( null, kind, null );
         public static Assertion NotChanged( this SmartAssertPlaceHolder @this, object instance, NotChangedKind kind = NotChangedKind.PublicProperties ) => new NotChangedAssertion( instance, kind, null );
 
+        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this ) => new NotChangedAssertion( true );
         public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, params string[] exceptions ) => new NotChangedAssertion( null, NotChangedKind.PublicProperties, exceptions );
         public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, NotChangedKind kind, params string[] exceptions ) => new NotChangedAssertion( null, kind, exceptions );
         public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, object instance, params string[] exceptions ) => new NotChangedAssertion( instance, NotChangedKind.PublicProperties, exceptions );
@@ -46,9 +47,19 @@ namespace SmartTests.Assertions
             }
 
 
+            public NotChangedAssertion( bool isImplicit )
+            {
+                _IsImplicit = isImplicit;
+                _Instance = null;
+                _Kind = NotChangedKind.PublicProperties;
+                _Exceptions = null;
+            }
+
+
+            private bool _IsImplicit;
             private object _Instance;
             private readonly NotChangedKind _Kind;
-            private readonly string[] _Exceptions;
+            private string[] _Exceptions;
             private PropertyInfo[] _Properties;
             private FieldInfo[] _Fields;
             private readonly Dictionary<PropertyInfo, object> _PropertyValues = new Dictionary<PropertyInfo, object>();
@@ -69,7 +80,11 @@ namespace SmartTests.Assertions
             public override void BeforeAct( ActBase act )
             {
                 if( _Instance == null )
+                {
                     _Instance = act.Instance;
+                    if( _IsImplicit )
+                        _Exceptions = new[] { act.Property.Name };
+                }
 
                 var propertiesKind = _Kind & NotChangedKind.AllProperties;
                 var instanceType = _Instance.GetType();
