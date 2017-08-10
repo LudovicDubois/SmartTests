@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 using JetBrains.Annotations;
 
@@ -38,6 +40,43 @@ namespace SmartTests.Assertions
         }
 
 
+        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> expression )
+        {
+            INotifyPropertyChanged sender;
+            PropertyInfo property;
+            GetInstanceAndProperty( expression, out sender, out property );
+
+            return new RaisePropertyChangedAssertion( sender, true, new[] { property.Name } );
+        }
+
+
+        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> expression, T value )
+        {
+            INotifyPropertyChanged sender;
+            PropertyInfo property;
+            GetInstanceAndProperty( expression, out sender, out property );
+
+            return new RaisePropertyChangedAssertion( sender, true, property.Name, value );
+        }
+
+
+        private static void GetInstanceAndProperty<T>( Expression<Func<T>> expression, out INotifyPropertyChanged sender, out PropertyInfo property )
+        {
+            MemberInfo member;
+            object instance;
+            if( !expression.GetMemberContext( out instance, out member ) )
+                throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer ) );
+
+            sender = instance as INotifyPropertyChanged;
+            if( sender == null )
+                throw new BadTestException( string.Format( Resource.BadTest_NotINotifyPropertyChanged, instance.GetType().GetFullName() ) );
+
+            property = member as PropertyInfo;
+            if( property == null )
+                throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() ) );
+        }
+
+
         public static Assertion NotRaised_PropertyChanged( this SmartAssertPlaceHolder @this )
         {
             return new RaisePropertyChangedAssertion( null, false, null );
@@ -53,6 +92,27 @@ namespace SmartTests.Assertions
         }
 
 
+        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T t, params string[] propertyNames )
+            where T: INotifyPropertyChanged
+        {
+            if( t == null )
+                throw new ArgumentNullException( nameof(t) );
+            return new RaisePropertyChangedAssertion( t, false, propertyNames );
+        }
+
+
+        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> expression )
+        {
+            if( expression == null )
+                throw new ArgumentNullException( nameof(expression) );
+            INotifyPropertyChanged sender;
+            PropertyInfo property;
+            GetInstanceAndProperty( expression, out sender, out property );
+
+            return new RaisePropertyChangedAssertion( sender, false, new[] { property.Name } );
+        }
+
+
         private class RaisePropertyChangedAssertion: Assertion
         {
             public RaisePropertyChangedAssertion( INotifyPropertyChanged instance, bool expectedRaised, string[] propertyNames )
@@ -63,7 +123,8 @@ namespace SmartTests.Assertions
                 _PropertyNameVerifications = _PropertyNames?.Count > 0;
             }
 
-            public RaisePropertyChangedAssertion(INotifyPropertyChanged instance, bool expectedRaised, string expectedPropertyName, object value)
+
+            public RaisePropertyChangedAssertion( INotifyPropertyChanged instance, bool expectedRaised, string expectedPropertyName, object value )
             {
                 _Instance = instance;
                 _ExpectedRaised = expectedRaised;
@@ -72,6 +133,7 @@ namespace SmartTests.Assertions
                 _Value = value;
                 _CheckValue = true;
             }
+
 
             private INotifyPropertyChanged _Instance;
             private readonly bool _ExpectedRaised;
@@ -133,8 +195,20 @@ namespace SmartTests.Assertions
 
             private void InstanceOnPropertyChanged( object sender, PropertyChangedEventArgs args )
             {
-                _Raised = true;
+                if( !_ExpectedRaised )
+                {
+                    if( _PropertyNameVerifications )
+                    {
+                        if( _PropertyNames.Contains( args.PropertyName ) )
+                            _Raised = true;
+                        return;
+                    }
+                    _Raised = true;
+                    return;
+                }
 
+                // Expected Raise
+                _Raised = true;
                 if( !_PropertyNameVerifications )
                     // No property name expected
                     return;
@@ -147,7 +221,7 @@ namespace SmartTests.Assertions
                     return;
                 // Ensure the value is the expected one
                 var currentValue = _Instance.GetType().GetProperty( args.PropertyName ).GetValue( _Instance );
-                if ( !Equals( currentValue, _Value ) )
+                if( !Equals( currentValue, _Value ) )
                     throw new SmartTestException( string.Format( Resource.ChangeWrongly, _Value, currentValue ) );
             }
         }

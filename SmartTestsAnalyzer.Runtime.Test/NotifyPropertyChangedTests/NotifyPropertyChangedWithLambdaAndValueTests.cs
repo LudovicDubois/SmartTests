@@ -16,7 +16,7 @@ using static SmartTests.SmartTest;
 namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 {
     [TestFixture]
-    public class NotifyPropertyChangedWithPropertyNameTests
+    public class NotifyPropertyChangedWithLambdaAndValueTests
     {
         public class MyClass: INotifyPropertyChanged
         {
@@ -62,9 +62,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
             RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                      Assign( () => mc.MyProperty, 10 ),
-                     SmartAssert.Raised_PropertyChanged( mc, nameof(MyClass.MyProperty) ) );
-
-            Assert.AreEqual( 10, mc.MyProperty );
+                     SmartAssert.Raised_PropertyChanged( () => mc.MyProperty, 10 ) );
         }
 
 
@@ -78,7 +76,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
                                                                   RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                                                                            Assign( () => mc.MyProperty, 10 ),
-                                                                           SmartAssert.Raised_PropertyChanged( mc, "MyProperty" ) );
+                                                                           SmartAssert.Raised_PropertyChanged( () => mc.MyProperty, 10 ) );
                                                               }
                                                             );
 
@@ -87,7 +85,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
 
         [Test]
-        public void HasSubscriberOtherValue_1BadPropertyChanged()
+        public void HasSubscriberOtherValue_BadPropertyChanged()
         {
             var exception = Assert.Catch<SmartTestException>( () =>
                                                               {
@@ -96,7 +94,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
                                                                   RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                                                                            Assign( () => mc.MyProperty, 10 ),
-                                                                           SmartAssert.Raised_PropertyChanged( mc, "MyProperty" ) );
+                                                                           SmartAssert.Raised_PropertyChanged( () => mc.MyProperty, 10 ) );
                                                               }
                                                             );
 
@@ -105,80 +103,20 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
 
 
         [Test]
-        public void HasSubscriberOtherValue_2BadPropertyChanged()
+        public void HasSubscriberOtherValue_BadValueChanged()
         {
             var exception = Assert.Catch<SmartTestException>( () =>
                                                               {
-                                                                  var mc = new MyClass( "OtherProperty", "NextProperty" );
+                                                                  var mc = new MyClass( "MyProperty" );
                                                                   Assert.AreNotEqual( 10, mc.MyProperty );
 
                                                                   RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
                                                                            Assign( () => mc.MyProperty, 10 ),
-                                                                           SmartAssert.Raised_PropertyChanged( mc, "MyProperty" ) );
+                                                                           SmartAssert.Raised_PropertyChanged( () => mc.MyProperty, 11 ) );
                                                               }
                                                             );
 
-            Assert.AreEqual( "Unexpected property name 'OtherProperty' when PropertyChanged event was raised", exception.Message );
-        }
-
-
-        [Test]
-        public void HasSubscriberOtherValue_TwicePropertyChanged()
-        {
-            var exception = Assert.Catch<SmartTestException>( () =>
-                                                              {
-                                                                  var mc = new MyClass( "MyProperty", "MyProperty" );
-                                                                  Assert.AreNotEqual( 10, mc.MyProperty );
-
-                                                                  RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
-                                                                           Assign( () => mc.MyProperty, 10 ),
-                                                                           SmartAssert.Raised_PropertyChanged( mc, "MyProperty" ) );
-                                                              }
-                                                            );
-
-            Assert.AreEqual( "Unexpected property name 'MyProperty' when PropertyChanged event was raised", exception.Message );
-        }
-
-
-        [Test]
-        public void HasSubscriberOtherValue_TwoPropertyChanged()
-        {
-            var mc = new MyClass( "MyProperty", "OtherProperty" );
-            Assert.AreNotEqual( 10, mc.MyProperty );
-
-            RunTest( NotifyPropertyChanged.HasSubscriberOtherValue,
-                     Assign( () => mc.MyProperty, 10 ),
-                     SmartAssert.Raised_PropertyChanged( mc, "OtherProperty", "MyProperty" ) );
-
-            Assert.AreEqual( 10, mc.MyProperty );
-        }
-
-
-        [Test]
-        public void HasSubscriberSameValue()
-        {
-            var mc = new MyClass( null );
-            Assert.AreEqual( 0, mc.MyProperty );
-
-            RunTest( NotifyPropertyChanged.HasSubscriberSameValue,
-                     Assign( () => mc.MyProperty, 0 ),
-                     SmartAssert.NotRaised_PropertyChanged( mc ) );
-
-            Assert.AreEqual( 0, mc.MyProperty );
-        }
-
-
-        [Test]
-        public void HasSubscriberSameValue_RaiseOtherProperty()
-        {
-            var mc = new MyClass( "OtherProperty" );
-            Assert.AreEqual( 0, mc.MyProperty );
-
-            RunTest( NotifyPropertyChanged.HasSubscriberSameValue,
-                     Assign( () => mc.MyProperty, 0 ),
-                     SmartAssert.NotRaised_PropertyChanged( mc, nameof(MyClass.MyProperty) ) );
-
-            Assert.AreEqual( 0, mc.MyProperty );
+            Assert.AreEqual( "Change is wrong. Expected 11, but was 10", exception.Message );
         }
     }
 }

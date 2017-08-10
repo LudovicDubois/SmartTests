@@ -61,8 +61,10 @@
     <Compile Include="NotChangedTests\NotChangedTests.cs" />
     <Compile Include="EventTests\EventHandlerTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedImplicitTests.cs" />
+    <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedWithLambdaAndValueTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedWithPropertyNameAndValueTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedWithPropertyNameTests.cs" />
+    <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedWithLambdaTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedTests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
