@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
@@ -37,6 +38,27 @@ namespace SmartTests.Assertions
         public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, object instance, NotChangedKind kind, params string[] exceptions ) => new NotChangedAssertion( instance, kind, exceptions );
 
 
+        public static Assertion NotChangedExcept<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> expression, NotChangedKind kind = NotChangedKind.PublicProperties )
+        {
+            object instance;
+            PropertyInfo property;
+            GetInstanceAndProperty( expression, out instance, out property );
+            return new NotChangedAssertion( instance, kind, new[] { property.Name } );
+        }
+
+
+        private static void GetInstanceAndProperty<T>( Expression<Func<T>> expression, out object instance, out PropertyInfo property )
+        {
+            MemberInfo member;
+            if( !expression.GetMemberContext( out instance, out member ) )
+                throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer ) );
+
+            property = member as PropertyInfo;
+            if( property == null )
+                throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() ) );
+        }
+
+
         private class NotChangedAssertion: Assertion
         {
             public NotChangedAssertion( object instance, NotChangedKind kind, string[] exceptions )
@@ -56,7 +78,7 @@ namespace SmartTests.Assertions
             }
 
 
-            private bool _IsImplicit;
+            private readonly bool _IsImplicit;
             private object _Instance;
             private readonly NotChangedKind _Kind;
             private string[] _Exceptions;

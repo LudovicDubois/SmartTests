@@ -52,6 +52,7 @@
     <Compile Include="ChangeTests\ChangeTests.cs" />
     <Compile Include="EventTests\EventHandlerTestsAssertImplicit.cs" />
     <Compile Include="EventTests\EventHandlerTestsImplicit.cs" />
+    <Compile Include="NotChangedTests\NotChangedTestsExceptLambda.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsExceptImplicit.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsExcept.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsImplicit.cs" />

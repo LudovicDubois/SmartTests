@@ -150,12 +150,42 @@ Thus, if you test a property assignment, for example, the property itself should
 
 We have different `NotChangedExcept` overloads:
 
-* [`NotChangedExcept(params string[])`](#notchangedexcept)
-* [`NotChangedExcept(NotChangedKind, params string[])`](#notchangedexcept_kind)
-* [`NotChangedExcept(object, params string[])`](#notchangedexcept_object)
-* [`NotChangedExcept(object, NotChangedKind, params string[])`](#notchangedexcept_object_kind)
+* [`NotChangedExcept()`](#notchangedexcept)
+* [`NotChangedExcept(params string[])`](#notchangedexcept_strings)
+* [`NotChangedExcept(NotChangedKind, params string[])`](#notchangedexcept_notchangedkind_strings)
+* [`NotChangedExcept(object, params string[])`](#notchangedexcept_object_strings)
+* [`NotChangedExcept(object, NotChangedKind, params string[])`](#notchangedexcept_object_notchangedkind_strings)
+* [`NotChanged<T>(Expression<Func<T>>)`](#notchanged_expression) DOC
+* [`NotChanged<T>(Expression<Func<T>>, NotChangedKind)`](#notchanged_expression_notchangedkind) DOC
 
 <a name="notchangedexcept"></a>
+
+### `NotChangedExcept()`
+
+This method enables you to deduce the public property name and instance of which property you do not want to be checked for changes.
+
+```C#
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+[TestFixture]
+public class MyClassTest
+{
+    [Test]
+    public void MyPropertyTest_Set()
+    {
+        var mc = new MyClass();
+
+        RunTest( ValidValue.IsValid,
+                 Assign( () => mc.MyProperty, 10 ),
+                 SmartAssert.NotChangedExcept() );
+    }
+}
+```
+
+In this example, the Smart Assertion ensures that no public property of `mc` has changed during the call to `mc.MyProperty = 10` except `MyProperty`, that is not checked.
+
+<a name="notchangedexcept_strings"></a>
 
 ### `NotChangedExcept(params string[])`
 
@@ -184,7 +214,7 @@ In this example, the Smart Assertion ensures that no public property of `mc` has
 
 > Note that if the names specified are not public property names, a `BadTestException` occurs.
 
-<a name="notchangedexcept_kind"></a>
+<a name="notchangedexcept_notchangedkind_strings"></a>
 
 ### `NotChangedExcept(NotChangedKind, params string[])`
 
@@ -213,7 +243,7 @@ In this example, the Smart Assertion ensures that no property (public or not) no
 
 > Note that if the names specified are not property nor field names, a `BadTestException` occurs.
 
-<a name="notchangedexcept_object"></a>
+<a name="notchangedexcept_object_strings"></a>
 
 ### `NotChangedExcept(object, params string[])`
 
@@ -243,7 +273,7 @@ In this example, the Smart Assertion ensures that no public property of `other` 
 
 > Note that if the names specified are not public property names, a `BadTestException` occurs.
 
-<a name="notchangedexcept_object_kind"></a>
+<a name="notchangedexcept_object_notchangedkind_strings"></a>
 
 ### `NotChangedExcept(object, NotChangedKind, params string[])`
 
@@ -272,3 +302,59 @@ public class MyClassTest
 In this example, the Smart Assertion ensures that no property (public or not) nor field (public or not) of `other` has changed during the call to `mc.CopyPropertiesFrom(other)` except `CopyCount`, that is not checked.
 
 > Note that if the names specified are not property not field names, a `BadTestException` occurs.
+
+<a name="notchangedexcept_expression"></a>
+
+### `NotChangedExcept(Expression<Func<T>>)`
+
+This overload enables you to specify for which instance you want the public properties to be checked except for the specified property.
+
+```C#
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+[TestFixture]
+public class MyClassTest
+{
+    [Test]
+    public void CopyPropertiesFromTest()
+    {
+        var mc = new MyClass();
+        var other = new MyClass();
+
+        RunTest( ValidValue.IsValid,
+                 () => mc.CopyPropertiesFrom(other),
+                 SmartAssert.NotChangedExcept( () => other.CopyCount ) );
+    }
+}
+```
+
+In this example, the Smart Assertion ensures that no public property of `other` has changed during the call to `mc.CopyPropertiesFrom(other)` except `CopyCount`, that is not checked.
+
+<a name="notchangedexcept_expression_notchangedkind"></a>
+
+### `NotChangedExcept(Expression<Func<T>>, NotChangedKind)`
+
+This overload enables you to specify for which instance you want the specified kind of properties to be checked except for the specified property.
+
+```C#
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+[TestFixture]
+public class MyClassTest
+{
+    [Test]
+    public void CopyPropertiesFromTest()
+    {
+        var mc = new MyClass();
+        var other = new MyClass();
+
+        RunTest( ValidValue.IsValid,
+                 () => mc.CopyPropertiesFrom(other),
+                 SmartAssert.NotChangedExcept( () => other.CopyCount, NotChangedKind.All ) );
+    }
+}
+```
+
+In this example, the Smart Assertion ensures that no property (public or not) of `other` has changed during the call to `mc.CopyPropertiesFrom(other)` except `CopyCount`, that is not checked.
