@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>SmartTests</id>
+    <version>1.0.0</version>
+    <authors>Ludovic Dubois</authors>
+    <owners>Ludovic Dubois</owners>
+    <!--
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+-->
+    <projectUrl>https://github.com/LudovicDubois/SmartTests</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SmartTests enables you to write Smarter unit tests, wether you use NUnit or MSTests.
+
+It is best to install SmartTests.Analyzer so that missing tests will be displayed.
+
+They are Smart in the sense that:
+    1. The Act line of your test is instantly identifiable.
+    2. You express your Act logical intent and the optional Analyzer will display all missing tests.
+    3. You can use smarter assertions than the ones provided by usual Testing Frameworks as Smart Tests knows what is your Act and when it is run.
+        a. You ensure that a PropertyChanged event is raised with only one line of code.
+        b. You ensure that any event is raised with only one line of code.
+        c. You ensure that an object didn't changed at all with only one line of code.
+        d. You ensure that your property set is effective by checking its value after is not equal to its value before with only one line of code.
+        e. You show each effect of your Act code relatively  toits previous value with only one line of code.</description>
+    <summary>SmartTests enables you to write Smarter unit tests, wether you use NUnit or MSTests.</summary>
+    <releaseNotes>First version.</releaseNotes>
+    <copyright>Copyrioght (c) Pretty Objects Computers inc.</copyright>
+    <tags>SmartTests test testing tdd framework assert</tags>
+  </metadata>
+</package>
