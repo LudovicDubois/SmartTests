@@ -1,113 +1,62 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{51FE4134-1E3B-4281-8330-BE415F66FD39}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmartTests</RootNamespace>
-    <AssemblyName>SmartTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard1.0</TargetFramework>
+    <PackageId>SmartTests</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Ludovic Dubois</Authors>
+    <Summary>SmartTests enables you to write Smarter unit tests, wether you use NUnit or MSTests.</Summary>
+    <description>SmartTests enables you to write Smarter unit tests, wether you use NUnit or MSTests.
+
+It is best to install SmartTests.Analyzer so that missing tests will be displayed.
+
+They are Smart in the sense that:
+    1. The Act line of your test is instantly identifiable.
+    2. You express your Act logical intent and the optional Analyzer will display all missing tests.
+    3. You can use smarter assertions than the ones provided by usual Testing Frameworks as Smart Tests knows what is your Act and when it is run.
+        a. You ensure that a PropertyChanged event is raised with only one line of code.
+        b. You ensure that any event is raised with only one line of code.
+        c. You ensure that an object didn't changed at all with only one line of code.
+        d. You ensure that your property set is effective by checking its value after is not equal to its value before with only one line of code.
+        e. You show each effect of your Act code relatively  toits previous value with only one line of code.</description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>First version.</PackageReleaseNotes>
+    <copyright>Copyright (c) Pretty Objects Computers inc.</copyright>
+    <PackageTags>SmartTests test testing tdd framework assert</PackageTags>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Act.cs" />
-    <Compile Include="Acts\InvokeAct.cs" />
-    <Compile Include="Acts\AssignAct.cs" />
-    <Compile Include="Assertion.cs" />
-    <Compile Include="Assertions\ChangeAssertions.cs" />
-    <Compile Include="Assertions\ChangedToAssertions.cs" />
-    <Compile Include="Assertions\NotChangedAssertions.cs" />
-    <Compile Include="Assertions\PropertyChangedAssertions.cs" />
-    <Compile Include="Assertions\RaiseAssertions.cs" />
-    <Compile Include="Case.cs" />
-    <Compile Include="Criteria.cs" />
-    <Compile Include="Criterias\CollectionItem.cs" />
-    <Compile Include="Criterias\Collection.cs" />
-    <Compile Include="Criterias\ReferenceEquality.cs" />
-    <Compile Include="Criterias\Equality.cs" />
-    <Compile Include="Criterias\MaxExcluded.cs" />
-    <Compile Include="Criterias\MinExcluded.cs" />
-    <Compile Include="Criterias\MaxIncluded.cs" />
-    <Compile Include="Criterias\MinExcMaxExc.cs" />
-    <Compile Include="Criterias\Comparison.cs" />
-    <Compile Include="Criterias\MinIncluded.cs" />
-    <Compile Include="Criterias\AnyValue.cs" />
-    <Compile Include="Criterias\MinIncMaxExc.cs" />
-    <Compile Include="Criterias\MinExcMaxInc.cs" />
-    <Compile Include="Criterias\MinIncMaxInc.cs" />
-    <Compile Include="Criterias\NotifyPropertyChanged.cs" />
-    <Compile Include="Criterias\Path.cs" />
-    <Compile Include="Criterias\ValidString.cs" />
-    <Compile Include="Criterias\FormattedString.cs" />
-    <Compile Include="Criterias\ValidValue.cs" />
-    <Compile Include="ErrorAttribute.cs" />
-    <Compile Include="Helpers\ExceptionHelper.cs" />
-    <Compile Include="Helpers\ExpressionHelper.cs" />
-    <Compile Include="Helpers\MemberInfoHelper.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resource.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
+    <Compile Update="Resource.Designer.cs">
       <DependentUpon>Resource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="SmartTest.cs" />
-    <Compile Include="SmartTestException.cs" />
-    <Compile Include="SmartAssertPlaceHolder.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="SmartTests.nuspec">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+    <EmbeddedResource Update="Resource.resx">
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+  <ItemGroup>
+    <None Update="SmartTests.nuspec">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
   <Target Name="AfterBuild">
     <GetAssemblyIdentity AssemblyFiles="$(OutDir)\$(AssemblyName).dll">
-      <Output TaskParameter="Assemblies" ItemName="AnalyzerAssemblyInfo" />
+      <Output TaskParameter="Assemblies" ItemName="AssemblyInfo" />
     </GetAssemblyIdentity>
-    <Exec Command="&quot;$(SolutionDir)packages\NuGet.CommandLine.2.8.5\tools\NuGet.exe&quot; pack SmartTests.nuspec -NoPackageAnalysis -Version %(AnalyzerAssemblyInfo.Version) -OutputDirectory ." WorkingDirectory="$(OutDir)" LogStandardErrorAsError="true" ConsoleToMSBuild="true">
+    <Exec Command="&quot;$(SolutionDir)packages\NuGet.CommandLine.2.8.5\tools\NuGet.exe&quot; pack SmartTests.nuspec -NoPackageAnalysis -Version %(AssemblyInfo.Version) -OutputDirectory ." WorkingDirectory="$(OutDir)" LogStandardErrorAsError="true" ConsoleToMSBuild="true">
       <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
     </Exec>
   </Target>
+
 </Project>

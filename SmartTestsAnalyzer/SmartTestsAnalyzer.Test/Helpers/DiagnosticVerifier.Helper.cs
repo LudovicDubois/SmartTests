@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 
 using NUnit.Framework;
@@ -23,6 +24,8 @@ namespace TestHelper
     {
         private static readonly MetadataReference CorlibReference = MetadataReference.CreateFromFile(typeof(object).Assembly.Location);
         private static readonly MetadataReference SystemCoreReference = MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location);
+        private static readonly MetadataReference SystemRuntimeReference = MetadataReference.CreateFromFile( Path.Combine( Path.GetDirectoryName( typeof(object).Assembly.Location ), "System.Runtime.dll" ) );
+        private static readonly MetadataReference SystemLinqExpressionsReference = MetadataReference.CreateFromFile( Path.Combine( Path.GetDirectoryName( typeof(object).Assembly.Location ), "System.Linq.Expressions.dll" ) );
         private static readonly MetadataReference CSharpSymbolsReference = MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location);
         private static readonly MetadataReference CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
         private static readonly MetadataReference SmartTestReference = MetadataReference.CreateFromFile(typeof(SmartTest).Assembly.Location);
@@ -161,6 +164,8 @@ namespace TestHelper
                 .AddProject( projectId, TestProjectName, TestProjectName, language )
                 .AddMetadataReference( projectId, CorlibReference )
                 .AddMetadataReference( projectId, SystemCoreReference )
+                .AddMetadataReference( projectId, SystemRuntimeReference )
+                .AddMetadataReference( projectId, SystemLinqExpressionsReference )
                 .AddMetadataReference( projectId, CSharpSymbolsReference )
                 .AddMetadataReference( projectId, CodeAnalysisReference )
                 .AddMetadataReference( projectId, SmartTestReference )

@@ -58,7 +58,7 @@ namespace SmartTests.Acts
                 }
                 else if( Method.IsSpecialName )
                     // An indexer
-                    foreach( var property in Method.DeclaringType.GetProperties() )
+                    foreach( var property in Method.DeclaringType.GetRuntimeProperties() )
                         if( property.GetMethod == Method )
                         {
                             Property = property;

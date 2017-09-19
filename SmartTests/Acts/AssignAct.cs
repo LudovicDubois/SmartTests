@@ -42,7 +42,7 @@ namespace SmartTests.Acts
                     if( !Method.IsSpecialName )
                         throw new BadTestException( string.Format( Resource.BadTest_NotWritablePropertyNorIndexer, member.GetFullName() ) );
                     //An indexer?
-                    foreach( var property in Method.DeclaringType.GetProperties() )
+                    foreach( var property in Method.DeclaringType.GetRuntimeProperties() )
                     {
                         if( property.GetMethod == Method )
                         {

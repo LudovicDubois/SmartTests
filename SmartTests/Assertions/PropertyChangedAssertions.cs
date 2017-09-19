@@ -220,7 +220,7 @@ namespace SmartTests.Assertions
                 if( !_CheckValue )
                     return;
                 // Ensure the value is the expected one
-                var currentValue = _Instance.GetType().GetProperty( args.PropertyName ).GetValue( _Instance );
+                var currentValue = _Instance.GetType().GetRuntimeProperty( args.PropertyName ).GetValue( _Instance );
                 if( !Equals( currentValue, _Value ) )
                     throw new SmartTestException( string.Format( Resource.ChangeWrongly, _Value, currentValue ) );
             }

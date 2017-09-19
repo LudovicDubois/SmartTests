@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
-
-using JetBrains.Annotations;
 
 
 
@@ -21,11 +18,6 @@ namespace SmartTests
         public SmartTestException( string message, Exception innerException )
             : base( message, innerException )
         { }
-
-
-        protected SmartTestException( [NotNull] SerializationInfo info, StreamingContext context )
-            : base( info, context )
-        { }
     }
 
 
@@ -42,11 +34,6 @@ namespace SmartTests
 
         public BadTestException( string message, Exception innerException )
             : base( message, innerException )
-        { }
-
-
-        protected BadTestException( [NotNull] SerializationInfo info, StreamingContext context )
-            : base( info, context )
         { }
     }
 }

@@ -16,12 +16,20 @@ namespace SmartTests.Assertions
     [Flags]
     public enum NotChangedKind
     {
-        PublicProperties = 0b0000_00001,
-        NonPublicProperties = 0b0000_0010,
-        AllProperties = PublicProperties | NonPublicProperties,
-        PublicFields = 0b0000_0100,
-        NonPublicFields = 0b0000_1000,
-        AllFields = PublicFields | NonPublicFields,
+        PublicProperties = Visibility.Public,
+        ProtectedProperties = Visibility.Protected,
+        InternalProperties = Visibility.Internal,
+        PrivateProperties = Visibility.Private,
+        NonPublicProperties = ProtectedProperties | InternalProperties | PrivateProperties,
+        VisibleProperties = PublicProperties | ProtectedProperties,
+        AllProperties = PublicProperties | ProtectedProperties | InternalProperties | PrivateProperties,
+        PublicFields = Visibility.Public << 4,
+        ProtectedFields = Visibility.Protected << 4,
+        InternalFields = Visibility.Internal << 4,
+        PrivateFields = Visibility.Private << 4,
+        NonPublicFields = ProtectedFields | InternalFields | PrivateFields,
+        VisibleFields = PublicFields | ProtectedFields,
+        AllFields = PublicFields | ProtectedFields | InternalFields | PrivateFields,
         All = AllProperties | AllFields
     }
 
@@ -88,17 +96,6 @@ namespace SmartTests.Assertions
             private readonly Dictionary<FieldInfo, object> _FieldValues = new Dictionary<FieldInfo, object>();
 
 
-            private static readonly Dictionary<NotChangedKind, BindingFlags> _Flags = new Dictionary<NotChangedKind, BindingFlags>
-                                                                                      {
-                                                                                          [ NotChangedKind.NonPublicProperties ] = BindingFlags.Instance | BindingFlags.NonPublic,
-                                                                                          [ NotChangedKind.PublicProperties ] = BindingFlags.Instance | BindingFlags.Public,
-                                                                                          [ NotChangedKind.AllProperties ] = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                                                                                          [ NotChangedKind.NonPublicFields ] = BindingFlags.Instance | BindingFlags.NonPublic,
-                                                                                          [ NotChangedKind.PublicFields ] = BindingFlags.Instance | BindingFlags.Public,
-                                                                                          [ NotChangedKind.AllFields ] = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
-                                                                                      };
-
-
             public override void BeforeAct( ActBase act )
             {
                 if( _Instance == null )
@@ -108,15 +105,15 @@ namespace SmartTests.Assertions
                         _Exceptions = new[] { act.Property.Name };
                 }
 
-                var propertiesKind = _Kind & NotChangedKind.AllProperties;
+                var propertiesVisibility = (Visibility)( _Kind & NotChangedKind.AllProperties );
                 var instanceType = _Instance.GetType();
-                _Properties = propertiesKind != 0
-                                  ? instanceType.GetProperties( _Flags[ propertiesKind ] )
+                _Properties = propertiesVisibility != 0
+                                  ? instanceType.GetProperties( propertiesVisibility )
                                   : new PropertyInfo[0];
 
-                var fieldsKind = _Kind & NotChangedKind.AllFields;
-                _Fields = fieldsKind != 0
-                              ? instanceType.GetFields( _Flags[ fieldsKind ] )
+                var fieldsVisibility = (Visibility)( (int)( _Kind & NotChangedKind.AllFields ) >> 4 );
+                _Fields = fieldsVisibility != 0
+                              ? instanceType.GetFields( fieldsVisibility )
                               : new FieldInfo[0];
 
                 if( _Exceptions != null )

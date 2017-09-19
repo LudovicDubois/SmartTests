@@ -68,7 +68,7 @@ namespace SmartTests.Assertions
 
                 var instanceType = _Instance.GetType();
                 Debug.Assert( instanceType != null );
-                _Event = instanceType.GetEvent( _EventName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic );
+                _Event = instanceType.GetRuntimeEvent( _EventName );
                 if( _Event == null )
                     throw new BadTestException( string.Format( Resource.BadTest_NotEvent, _EventName, instanceType.GetFullName() ) );
 
