@@ -9,15 +9,43 @@ using SmartTests.Helpers;
 
 namespace SmartTests.Acts
 {
+    /// <summary>
+    ///     This interface declares parts of an assignment
+    /// </summary>
     public interface IAssignee
     {
+        /// <summary>
+        ///     The current value of the assignee, before assignment.
+        /// </summary>
         object AssigneeValue { get; }
+        /// <summary>
+        ///     The value to assign.
+        /// </summary>
         object AssignedValue { get; }
     }
 
 
+    /// <summary>
+    ///     This class represents the Act of assigning a property or indexer.
+    /// </summary>
+    /// <typeparam name="T">The type of the property or indexer.</typeparam>
+    /// <remarks>
+    ///     <para>DO NOT USE DIRECTLY.</para>
+    ///     <para>Prefer using <see cref="SmartTest.RunTest" /> methods.</para>
+    /// </remarks>
+    /// <seealso cref="SmartTest" />
     public class AssignAct<T>: Act<T>, IAssignee
     {
+        /// <summary>
+        ///     Creates an instance of <see cref="AssignAct{T}" /> to represent an assignmentof a property or indexer in the Act
+        ///     part of your test.
+        /// </summary>
+        /// <param name="assignee">A lambda <see cref="Expression" /> of the assigned member.</param>
+        /// <param name="value">The value to be assigned.</param>
+        /// <remarks>
+        ///     <para>DO NOT USE DIRECTLY.</para>
+        ///     <para>Prefer using <see cref="SmartTest.Assign{T}" /> method.</para>
+        /// </remarks>
         public AssignAct( Expression<Func<T>> assignee, T value )
         {
             _Assignee = assignee;
@@ -71,6 +99,7 @@ namespace SmartTests.Acts
         private readonly Expression[] _Arguments;
 
 
+        /// <inheritdoc />
         public override T Invoke()
         {
             var memberGetExpression = _Assignee.Body as MemberExpression;
@@ -108,6 +137,7 @@ namespace SmartTests.Acts
             }
         }
 
+        /// <inheritdoc />
         public object AssignedValue
         {
             get { return _Value; }
