@@ -25,6 +25,10 @@ They are Smart in the sense that:
     <PackageTags>SmartTests test testing tdd framework assert</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard1.0\SmartTests.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
   </ItemGroup>
