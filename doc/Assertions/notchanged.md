@@ -204,13 +204,13 @@ public class MyClassTest
         var mc = new MyClass();
 
         RunTest( ValidValue.IsValid,
-                 Assign( () => mc.MyProperty, 10 ),
-                 SmartAssert.NotChangedExcept( "MyProperty" ) );
+                 () => mc.MyMethod(),
+                 SmartAssert.NotChangedExcept( "MyProperty", "OtherProperty" ) );
     }
 }
 ```
 
-In this example, the Smart Assertion ensures that no public property of `mc` has changed during the call to `mc.MyProperty = 10` except `MyProperty`, that is not checked.
+In this example, the Smart Assertion ensures that no public property of `mc` has changed during the call to `mc.MyMethod()` except `MyProperty` or `OtherProperty`, that are not checked.
 
 > Note that if the names specified are not public property names, a `BadTestException` occurs.
 
@@ -233,13 +233,13 @@ public class MyClassTest
         var mc = new MyClass();
 
         RunTest( ValidValue.IsValid,
-                 Assign( () => mc.MyProperty, 10 ),
-                 SmartAssert.NotChangedExcept( NotChangedKind.All, "MyProperty" ) );
+                 () => mc.MyMethod(),
+                 SmartAssert.NotChangedExcept( NotChangedKind.All, "MyProperty", "OtherProperty" ) );
     }
 }
 ```
 
-In this example, the Smart Assertion ensures that no property (public or not) nor field (public or not) of `mc` has changed during the call to `mc.MyProperty = 10` except `MyProperty`, that is not checked.
+In this example, the Smart Assertion ensures that no property (public or not) nor field (public or not) of `mc` has changed during the call to `mc.MyMethod()` except `MyProperty` and `OtherProperty`, that are not checked.
 
 > Note that if the names specified are not property nor field names, a `BadTestException` occurs.
 

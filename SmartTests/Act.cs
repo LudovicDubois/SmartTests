@@ -63,6 +63,8 @@ namespace SmartTests
         /// </remarks>
         public Exception Exception { get; internal set; }
 
+        public MemberInfo Member => Constructor ?? Field ?? (MemberInfo)Method ?? Property;
+
         /// <summary>
         ///     The Smart <see cref="Assertion" /> implied in the Associated <see cref="SmartTest.RunTest" /> methods, if any.
         /// </summary>

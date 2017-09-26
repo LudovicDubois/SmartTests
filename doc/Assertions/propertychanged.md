@@ -2,12 +2,12 @@
 
 *PropertyChanged Smart Assertions* are assertions that ensure `PropertyChanged` event is raised or not, depending on your Test Logical Intent.
 
-1. Before *Act*  
+1. Before *Act*
   Registers itself on the `PropertyChanged` event.
-1. During *Act*  
+1. During *Act*
    1. Setting a flag that the event was raised
    1. Ensuring that the `PropertyName` of the event is expected.
-1. After *Act*  
+1. After *Act*
   Ensures that the flag is `true` or `false`, as expected, otherwise generates a `SmartTestException`.
 
 > Note that if the instance does not implements `INotifyPropertyChanged`, a `BadTestException` is thrown.
@@ -152,8 +152,7 @@ In this example, the Smart Assertion ensures that the `PropertyChanged` event is
 > Note that if the name specified is not a public property name, a `BadTestException` is thrown.
 
 Finally:
-> Note that if a property changed and is not the property sepecified , a `SmartTestException` is thrown. If a property change twice, you have to specify its name twice.
-
+> Note that if a property changed and is not the property specified , a `SmartTestException` is thrown. If a property change twice, you have to specify its name twice.
 
 <a name="raised_propertychanged_expression_t"></a>
 

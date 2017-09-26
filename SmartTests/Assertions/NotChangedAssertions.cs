@@ -13,39 +13,510 @@ using SmartTests.Helpers;
 
 namespace SmartTests.Assertions
 {
+    /// <summary>
+    ///     Specifies flags that control what is tested for non-changes.
+    /// </summary>
     [Flags]
     public enum NotChangedKind
     {
+        /// <summary>
+        ///     Specifies that all public properties have to be checked for modification.
+        /// </summary>
         PublicProperties = Visibility.Public,
+        /// <summary>
+        ///     Specifies that all protected properties have to be checked for modification.
+        /// </summary>
         ProtectedProperties = Visibility.Protected,
+        /// <summary>
+        ///     Specifies that all internal properties have to be checked for modification.
+        /// </summary>
         InternalProperties = Visibility.Internal,
+        /// <summary>
+        ///     Specifies that all private properties have to be checked for modification.
+        /// </summary>
         PrivateProperties = Visibility.Private,
+        /// <summary>
+        ///     Specifies that all non-public properties (i.e. protected, internal and private) have to be checked for
+        ///     modification.
+        /// </summary>
         NonPublicProperties = ProtectedProperties | InternalProperties | PrivateProperties,
+        /// <summary>
+        ///     Specifies that all visible properties (i.e. public and protected) have to be checked for modification.
+        /// </summary>
         VisibleProperties = PublicProperties | ProtectedProperties,
+        /// <summary>
+        ///     Specifies that all properties (i.e. public, protected, internal and private) have to be checked for modification.
+        /// </summary>
         AllProperties = PublicProperties | ProtectedProperties | InternalProperties | PrivateProperties,
+        /// <summary>
+        ///     Specifies that all public fields have to be checked for modification.
+        /// </summary>
         PublicFields = Visibility.Public << 4,
+        /// <summary>
+        ///     Specifies that all protected fields have to be checked for modification.
+        /// </summary>
         ProtectedFields = Visibility.Protected << 4,
+        /// <summary>
+        ///     Specifies that all internal fields have to be checked for modification.
+        /// </summary>
         InternalFields = Visibility.Internal << 4,
+        /// <summary>
+        ///     Specifies that all private fields have to be checked for modification.
+        /// </summary>
         PrivateFields = Visibility.Private << 4,
+        /// <summary>
+        ///     Specifies that all non-public fields (i.e. protected, internal and private) have to be checked for modification.
+        /// </summary>
         NonPublicFields = ProtectedFields | InternalFields | PrivateFields,
+        /// <summary>
+        ///     Specifies that all visible fields (i.e. public and protected) have to be checked for modification.
+        /// </summary>
         VisibleFields = PublicFields | ProtectedFields,
+        /// <summary>
+        ///     Specifies that all fields (i.e. public, protected, internal and private) have to be checked for modification.
+        /// </summary>
         AllFields = PublicFields | ProtectedFields | InternalFields | PrivateFields,
+        /// <summary>
+        ///     Specifies that all properties and all fields (i.e. public, protected, internal and private) have to be checked for
+        ///     modification.
+        /// </summary>
         All = AllProperties | AllFields
     }
 
 
+    /// <summary>
+    ///     Helper class to test properties/fields do not change in the Act of your test.
+    /// </summary>
     public static class NotChangedAssertions
     {
+        /// <summary>
+        ///     Creates an <see cref="Assertion" /> that ensure object properties/fields did not change in the Act part of your
+        ///     test.
+        /// </summary>
+        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="kind">
+        ///     The kind of tested members and their visibility. Default value is
+        ///     <see cref="NotChangedKind.PublicProperties" />
+        /// </param>
+        /// <returns>The newly created <see cref="Assertion" />.</returns>
+        /// <exception cref="SmartTestException">
+        ///     If any member, of the instance involved in the Act, described by <paramref name="kind" /> has changed.
+        /// </exception>
+        /// <remarks>
+        ///     This <see cref="Assertion" /> ensures that:
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Before the Act</term>
+        ///             <description>
+        ///                 <para>Nothing special.</para>
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <term>After the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If any of the specified members (using <paramref name="kind" />) has changed, a
+        ///                     <see cref="SmartTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     In this example, the Smart Assertion verifies that no property nor field of <c>mc</c> changed while invoking
+        ///     <c>MyMethod</c>.
+        ///     <code>
+        /// [Test]
+        /// public void CopyFromTest()
+        /// {
+        ///     var mc = new MyClass();
+        ///     RunTest( ValidValue.IsValid,
+        ///              () => mc.MyMethod(),
+        ///              SmartAssert.NotChanged( NotChangedKind.All ) );
+        /// }
+        /// </code>
+        /// </example>
         public static Assertion NotChanged( this SmartAssertPlaceHolder @this, NotChangedKind kind = NotChangedKind.PublicProperties ) => new NotChangedAssertion( null, kind, null );
+
+
+        /// <summary>
+        ///     Creates an <see cref="Assertion" /> that ensure object properties/fields did not change in the Act part of your
+        ///     test.
+        /// </summary>
+        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="instance">The instance for which the properties/fields should not change.</param>
+        /// <param name="kind">
+        ///     The kind of tested members and their visibility. Default value is
+        ///     <see cref="NotChangedKind.PublicProperties" />
+        /// </param>
+        /// <returns>The newly created <see cref="Assertion" />.</returns>
+        /// <exception cref="SmartTestException">
+        ///     If any member, of <paramref name="instance" />, described by <paramref name="kind" /> has changed.
+        /// </exception>
+        /// <remarks>
+        ///     This <see cref="Assertion" /> ensures that:
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Before the Act</term>
+        ///             <description>
+        ///                 <para>Nothing special.</para>
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <term>After the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If any of the specified members (using <paramref name="kind" />) has changed, a
+        ///                     <see cref="SmartTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     In this example, the Smart Assertion verifies that no property nor field of <c>other</c> changed while invoking
+        ///     <c>CopyFrom</c>.
+        ///     <code>
+        /// [Test]
+        /// public void CopyFromTest()
+        /// {
+        ///     var mc = new MyClass();
+        ///     var other = new MyClass();
+        ///     RunTest( ValidValue.IsValid,
+        ///              () => mc.CopyFrom( other ),
+        ///              SmartAssert.NotChanged( other, NotChangedKind.All ) );
+        /// }
+        /// </code>
+        /// </example>
         public static Assertion NotChanged( this SmartAssertPlaceHolder @this, object instance, NotChangedKind kind = NotChangedKind.PublicProperties ) => new NotChangedAssertion( instance, kind, null );
 
+
+        /// <summary>
+        ///     Creates an <see cref="Assertion" /> that ensure object public properties did not change, except the one involved in
+        ///     the Act part of your test.
+        /// </summary>
+        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <returns>The newly created <see cref="Assertion" />.</returns>
+        /// <exception cref="BadTestException">
+        ///     If the Act does not involve a property nor field.
+        /// </exception>
+        /// <exception cref="SmartTestException">
+        ///     If any public property, of the instance involved in the Act, except the property implied in the Act, have changed.
+        /// </exception>
+        /// <remarks>
+        ///     This <see cref="Assertion" /> ensures that:
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Before the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If there is no public property involved in the Act, a <see cref="BadTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <term>After the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If a public property changed during the Act (except the one involved in the Act itself), a
+        ///                     <see cref="SmartTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     In this example, the Smart Assertion verifies that no public property of <c>mc</c>, except <c>MyProperty</c>
+        ///     changed while assigning <c>MyProperty</c>.
+        ///     <code>
+        /// [Test]
+        /// public void CopyFromTest()
+        /// {
+        ///     var mc = new MyClass();
+        ///     RunTest( ValidValue.IsValid,
+        ///              Assign( () => mc.MyProperty, 10 ),
+        ///              SmartAssert.NotChangedExcept() );
+        /// }
+        /// </code>
+        /// </example>
         public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this ) => new NotChangedAssertion( true );
+
+
+        /// <summary>
+        ///     Creates an <see cref="Assertion" /> that ensure object public properties did not change, except the specified ones,
+        ///     in
+        ///     the Act part of your test.
+        /// </summary>
+        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="exceptions">The names of the public properties that can change during the Act.</param>
+        /// <returns>The newly created <see cref="Assertion" />.</returns>
+        /// <exception cref="BadTestException">
+        ///     If <paramref name="exceptions" /> are not public properties of the instance involve in the Act.
+        /// </exception>
+        /// <exception cref="SmartTestException">
+        ///     If any public property, of the instance involved in the Act, except the <paramref name="exceptions" />
+        ///     have changed.
+        /// </exception>
+        /// <remarks>
+        ///     This <see cref="Assertion" /> ensures that:
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Before the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If names in <paramref name="exceptions" /> are not public properties of the instance involved in
+        ///                     the Act, a <see cref="BadTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <term>After the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If a public property changed during the Act (except <paramref name="exceptions" />), a
+        ///                     <see cref="SmartTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     In this example, the Smart Assertion verifies that no public property of <c>mc</c>, except <c>MyProperty</c> and
+        ///     <c>OtherProperty</c>
+        ///     changed while calling <c>MyMethod</c>.
+        ///     <code>
+        /// [Test]
+        /// public void CopyFromTest()
+        /// {
+        ///     var mc = new MyClass();
+        ///     RunTest( ValidValue.IsValid,
+        ///              () => mc.MyMethod(),
+        ///              SmartAssert.NotChangedExcept() );
+        /// }
+        /// </code>
+        /// </example>
         public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, params string[] exceptions ) => new NotChangedAssertion( null, NotChangedKind.PublicProperties, exceptions );
+
+
+        /// <summary>
+        ///     Creates an <see cref="Assertion" /> that ensure object properties/fields did not change, except the specified ones,
+        ///     in the Act part of your test.
+        /// </summary>
+        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="kind">The kind of members and visibility to check for changes.</param>
+        /// <param name="exceptions">The names of the properties/fields that can change during the Act.</param>
+        /// <returns>The newly created <see cref="Assertion" />.</returns>
+        /// <exception cref="BadTestException">
+        ///     If <paramref name="exceptions" /> are not properties/fields of the instance involve in the Act.
+        /// </exception>
+        /// <exception cref="SmartTestException">
+        ///     If any property/field checked (see <paramref name="kind" />), of the instance involved in the Act, except the
+        ///     <paramref name="exceptions" />
+        ///     have changed.
+        /// </exception>
+        /// <remarks>
+        ///     This <see cref="Assertion" /> ensures that:
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Before the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If names in <paramref name="exceptions" /> are not properties/fields of the instance involved in
+        ///                     the Act, a <see cref="BadTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <term>After the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If a property/field changed during the Act (except <paramref name="exceptions" />), a
+        ///                     <see cref="SmartTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     In this example, the Smart Assertion verifies that no property nor field of <c>mc</c>, except <c>MyProperty</c> and
+        ///     <c>OtherProperty</c>
+        ///     changed while calling <c>MyMethod</c>.
+        ///     <code>
+        /// [Test]
+        /// public void CopyFromTest()
+        /// {
+        ///     var mc = new MyClass();
+        ///     RunTest( ValidValue.IsValid,
+        ///              () => mc.MyMethod(),
+        ///              SmartAssert.NotChangedExcept( NotChangedKind.All, "MyProperty", "OtherProperty" ) );
+        /// }
+        /// </code>
+        /// </example>
         public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, NotChangedKind kind, params string[] exceptions ) => new NotChangedAssertion( null, kind, exceptions );
+
+
+        /// <summary>
+        ///     Creates an <see cref="Assertion" /> that ensure object public properties of the specified instance did not change, except the specified ones,
+        ///     in the Act part of your test.
+        /// </summary>
+        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="instance">The instance for which to test public property changes.</param>
+        /// <param name="exceptions">The names of the public properties that can change during the Act.</param>
+        /// <returns>The newly created <see cref="Assertion" />.</returns>
+        /// <exception cref="BadTestException">
+        ///     If <paramref name="exceptions" /> are not public properties of <paramref name="instance"/>.
+        /// </exception>
+        /// <exception cref="SmartTestException">
+        ///     If any public property of <paramref name="instance"/>, except the <paramref name="exceptions" /> have changed.
+        /// </exception>
+        /// <remarks>
+        ///     This <see cref="Assertion" /> ensures that:
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Before the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If names in <paramref name="exceptions" /> are not public properties of <paramref name="instance"/>, a <see cref="BadTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <term>After the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If a public property of <paramref name="instance"/> changed during the Act (except <paramref name="exceptions" />), a
+        ///                     <see cref="SmartTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     In this example, the Smart Assertion verifies that no public property of <c>other</c>, except <c>CopyCount</c>,
+        ///     changed while calling <c>CopyPropertiesFrom</c>.
+        ///     <code>
+        /// [Test]
+        /// public void CopyPropertiesFromTest()
+        /// {
+        ///     var mc = new MyClass();
+        ///     var other = new MyClass();
+        /// 
+        ///     RunTest( ValidValue.IsValid,
+        ///              () => mc.CopyPropertiesFrom( other ),
+        ///              SmartAssert.NotChangedExcept( other, "CopyCount" ) );
+        /// }
+        /// </code>
+        /// </example>
         public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, object instance, params string[] exceptions ) => new NotChangedAssertion( instance, NotChangedKind.PublicProperties, exceptions );
+
+
+        /// <summary>
+        ///     Creates an <see cref="Assertion" /> that ensure object properties/fields of the specified instance did not change, except the specified ones,
+        ///     in the Act part of your test.
+        /// </summary>
+        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="instance">The instance for which to test public property changes.</param>
+        /// <param name="kind">The kind of members and visibility to check for changes.</param>
+        /// <param name="exceptions">The names of the properties/fields that can change during the Act.</param>
+        /// <returns>The newly created <see cref="Assertion" />.</returns>
+        /// <exception cref="BadTestException">
+        ///     If <paramref name="exceptions" /> are not properties/fields of <paramref name="instance"/>.
+        /// </exception>
+        /// <exception cref="SmartTestException">
+        ///     If any property/field checked (see <paramref name="kind" />) of <paramref name="instance"/>, except the
+        ///     <paramref name="exceptions" /> have changed.
+        /// </exception>
+        /// <remarks>
+        ///     This <see cref="Assertion" /> ensures that:
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Before the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If names in <paramref name="exceptions" /> are not properties/fields of <paramref name="instance"/>, a <see cref="BadTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <term>After the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If a property/field of <paramref name="instance"/> changed during the Act (except <paramref name="exceptions" />), a
+        ///                     <see cref="SmartTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     In this example, the Smart Assertion verifies that no property nor field of <c>other</c>, except <c>CopyCount</c>,
+        ///     changed while calling <c>CopyPropertiesFrom</c>.
+        ///     <code>
+        /// [Test]
+        /// public void CopyFromTest()
+        /// {
+        ///     var mc = new MyClass();
+        ///     var other = new MyClass();
+        /// 
+        ///     RunTest( ValidValue.IsValid,
+        ///              () => mc.CopyPropertiesFrom( other ),
+        ///              SmartAssert.NotChangedExcept( other, NotChangedKind.All, "CopyCount" ) );
+        /// }
+        /// </code>
+        /// </example>
         public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, object instance, NotChangedKind kind, params string[] exceptions ) => new NotChangedAssertion( instance, kind, exceptions );
 
 
+        /// <summary>
+        ///     Creates an <see cref="Assertion" /> that ensure object properties/fields of the specified instance did not change, except the specified ones,
+        ///     in the Act part of your test.
+        /// </summary>
+        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="expression">The expression of an instance and a property/field.</param>
+        /// <param name="kind">The kind of members and visibility to check for changes. Default value is <see cref="NotChangedKind.PublicProperties"/>.</param>
+        /// <returns>The newly created <see cref="Assertion" />.</returns>
+        /// <exception cref="SmartTestException">
+        ///     If any property/field checked (see <paramref name="kind" />) of the instance in <paramref name="expression"/>, except the
+        ///     property/field in <paramref name="expression" /> has changed.
+        /// </exception>
+        /// <remarks>
+        ///     This <see cref="Assertion" /> ensures that:
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Before the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     Nothing special.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <term>After the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If a property/field of the instance in <paramref name="expression"/> changed during the Act (except the property/field in <paramref name="expression" />), a
+        ///                     <see cref="SmartTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     In this example, the Smart Assertion verifies that no property nor field of <c>other</c>, except <c>CopyCount</c>,
+        ///     changed while calling <c>CopyPropertiesFrom</c>.
+        ///     <code>
+        /// [Test]
+        /// public void CopyPropertiesFromTest()
+        /// {
+        ///     var mc = new MyClass();
+        ///     var other = new MyClass();
+        /// 
+        ///     RunTest( ValidValue.IsValid,
+        ///              () => mc.CopyPropertiesFrom( other ),
+        ///              SmartAssert.NotChangedExcept( () => other.CopyCount, NotChangedKind.All ) );
+        /// }
+        /// </code>
+        /// </example>
         public static Assertion NotChangedExcept<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> expression, NotChangedKind kind = NotChangedKind.PublicProperties )
         {
             object instance;
@@ -59,11 +530,11 @@ namespace SmartTests.Assertions
         {
             MemberInfo member;
             if( !expression.GetMemberContext( out instance, out member ) )
-                throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer ) );
+                throw new BadTestException( Resource.BadTest_NotPropertyNorIndexer );
 
             property = member as PropertyInfo;
             if( property == null )
-                throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() ) );
+                throw new BadTestException( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() );
         }
 
 
@@ -102,7 +573,11 @@ namespace SmartTests.Assertions
                 {
                     _Instance = act.Instance;
                     if( _IsImplicit )
+                    {
+                        if( act.Property == null )
+                            throw new BadTestException( Resource.BadTest_NotPropertyNorField, act.Member.Name, _Instance.GetType().GetFullName() );
                         _Exceptions = new[] { act.Property.Name };
+                    }
                 }
 
                 var propertiesVisibility = (Visibility)( _Kind & NotChangedKind.AllProperties );
@@ -141,7 +616,7 @@ namespace SmartTests.Assertions
                     if( !names.Contains( exception ) )
                     {
                         message.AppendLine();
-                        message.Append( string.Format( Resource.BadTest_NotPropertyNorField, exception, _Instance.GetType().GetFullName() ) );
+                        message.AppendFormat( Resource.BadTest_NotPropertyNorField, exception, _Instance.GetType().GetFullName() );
                     }
                 }
 
@@ -163,7 +638,7 @@ namespace SmartTests.Assertions
                     if( !Equals( _FieldValues[ pair.Key ], pair.Key.GetValue( _Instance ) ) )
                     {
                         message.AppendLine();
-                        message.Append( string.Format( Resource.FieldChanged, pair.Key.GetFullName() ) );
+                        message.AppendFormat( Resource.FieldChanged, pair.Key.GetFullName() );
                     }
 
                 if( message.Length > 0 )
