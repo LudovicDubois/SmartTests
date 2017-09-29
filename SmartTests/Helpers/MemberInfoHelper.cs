@@ -8,7 +8,7 @@ using System.Text;
 namespace SmartTests.Helpers
 {
     [Flags]
-    public enum Visibility
+    internal enum Visibility
     {
         Public = 1,
         Protected = 2,
@@ -17,7 +17,7 @@ namespace SmartTests.Helpers
     }
 
 
-    public static class MemberInfoHelper
+    internal static class MemberInfoHelper
     {
         public static string GetFullName( this MemberInfo @this )
         {
