@@ -53,7 +53,7 @@ namespace SmartTests.Assertions
         ///     </list>
         /// </remarks>
         /// <example>
-        ///     In the folllowing example, we expect that the <c>mc.MyList.Count</c> value after the Act is the value of the same
+        ///     In the following example, we expect that the <c>mc.MyList.Count</c> value after the Act is the value of the same
         ///     property before the Act plus 1.
         ///     <code>
         /// [Test]

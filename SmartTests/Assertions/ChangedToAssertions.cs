@@ -69,7 +69,7 @@ namespace SmartTests.Assertions
         /// <typeparam name="T">The <see cref="Type" /> of the property/indexer.</typeparam>
         /// <param name="this">The dummy place holder for all Smart Assertions.</param>
         /// <param name="after">
-        ///     The expressionn involving a property/indexer whose value should change in the Act part of your test.
+        ///     The expression involving a property/indexer whose value should change in the Act part of your test.
         /// </param>
         /// <param name="value">The value to assign to the property/indexer.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
@@ -81,13 +81,13 @@ namespace SmartTests.Assertions
         /// <item>
         /// <term>Before the Act</term>
         /// <description>
-        /// <para>Evaluates the <see cref="after"/> expression and raises a <see cref="BadTestException"/> if it is <paramref name="value"/>.</para>
+        /// <para>Evaluates the <paramref name="after"/> expression and raises a <see cref="BadTestException"/> if it is <paramref name="value"/>.</para>
         /// </description>
         /// </item>
         /// <item>
         /// <term>After the Act</term>
         /// <description>
-        /// <para>Evaluates the <see cref="after"/> expression and raises a <see cref="SmartTestException"/> if it is not <paramref name="value"/>.</para>
+        /// <para>Evaluates the <paramref name="after"/> expression and raises a <see cref="SmartTestException"/> if it is not <paramref name="value"/>.</para>
         /// </description>
         /// </item>
         /// </list>

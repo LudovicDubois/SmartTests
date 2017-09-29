@@ -50,12 +50,13 @@ namespace SmartTests
         /// <param name="parameterName">The name of the parameter for which this <see cref="SmartTests.Case" /> belongs to.</param>
         /// <param name="criteria">The <see cref="Criteria" /> for the created <see cref="SmartTests.Case" />.</param>
         /// <returns>The newly created <see cref="SmartTests.Case" />.</returns>
+        /// <example>
         /// <code>
         /// [Test]
         /// public void Max_ValuesGreaterThanMin()
         /// {
         ///     var remainder;
-        ///     var result = RunTest( Case( "a", AnyValue.IsValid ) &
+        ///     var result = RunTest( Case( "a", AnyValue.IsValid ) &amp;
         ///                           Case( "b", ValidValue.IsValid ),
         ///                           () => Math.DivRem( 5, 2, out remainder ) );
         /// 
@@ -63,6 +64,7 @@ namespace SmartTests
         ///     Assert.AreEqual( 1, remainder );
         /// }
         /// </code>
+        /// </example>
         /// <seealso cref="Case(SmartTests.Criteria)" />
         /// <seealso cref="SmartTests.Case" />
         public static Case Case( string parameterName, Criteria criteria ) => new Case( parameterName, criteria );
@@ -170,7 +172,7 @@ namespace SmartTests
         /// public void Max_ValuesGreaterThanMin()
         /// {
         ///     var remainder;
-        ///     var result = RunTest( Case( "a", AnyValue.IsValid ) &
+        ///     var result = RunTest( Case( "a", AnyValue.IsValid ) &amp;
         ///                           Case( "b", ValidValue.IsValid ),
         ///                           () => Math.DivRem( 5, 2, out remainder ) );
         /// 
@@ -242,7 +244,7 @@ namespace SmartTests
         /// {
         ///     var mc = new MyClass(10);
         /// 
-        ///     RunTest( Case( "index", MinIncluded.IsMin ) &
+        ///     RunTest( Case( "index", MinIncluded.IsMin ) &amp;
         ///              Case( MinIncluded.IsAboveMin ),
         ///              Assign( () => mc.Values[ 0 ], 2 ) );
         /// 
@@ -335,7 +337,7 @@ namespace SmartTests
         /// {
         ///     var mc = new MyClass( 10 );
         /// 
-        ///     RunTest( Case( "p1", MinIncluded.IsAboveMin ) &
+        ///     RunTest( Case( "p1", MinIncluded.IsAboveMin ) &amp;
         ///              Case( "p2", MinIncluded.IsAboveMin ),
         ///              () => mc.SetValues( 2, 3 ) );
         /// 
@@ -372,7 +374,7 @@ namespace SmartTests
         /// {
         ///     var mc = new MyClass( 10 );
         /// 
-        ///     RunTest( Case( "p1", MinIncluded.IsAboveMin ) &
+        ///     RunTest( Case( "p1", MinIncluded.IsAboveMin ) &amp;
         ///              Case( "p2", MinIncluded.IsAboveMin ),
         ///              () => mc.SetValues( 2, 3 ) );
         /// 
