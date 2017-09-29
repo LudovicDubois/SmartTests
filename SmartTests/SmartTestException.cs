@@ -34,10 +34,6 @@ namespace SmartTests
 
     public class BadTestException: SmartTestException
     {
-        private string name;
-        private string v;
-
-
         public BadTestException()
         { }
 
