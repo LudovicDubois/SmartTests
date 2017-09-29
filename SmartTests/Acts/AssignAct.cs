@@ -31,13 +31,13 @@ namespace SmartTests.Acts
     /// <typeparam name="T">The type of the property or indexer.</typeparam>
     /// <remarks>
     ///     <para>DO NOT USE DIRECTLY.</para>
-    ///     <para>Prefer using <see cref="SmartTest.RunTest" /> methods.</para>
+    ///     <para>Prefer using <see cref="O:SmartTests.SmartTest.RunTest" /> methods.</para>
     /// </remarks>
     /// <seealso cref="SmartTest" />
     public class AssignAct<T>: Act<T>, IAssignee
     {
         /// <summary>
-        ///     Creates an instance of <see cref="AssignAct{T}" /> to represent an assignmentof a property or indexer in the Act
+        ///     Creates an instance of <see cref="AssignAct{T}" /> to represent an assignment of a property or indexer in the Act
         ///     part of your test.
         /// </summary>
         /// <param name="assignee">A lambda <see cref="Expression" /> of the assigned member.</param>

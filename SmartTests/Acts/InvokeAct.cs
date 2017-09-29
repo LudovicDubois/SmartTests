@@ -13,7 +13,7 @@ namespace SmartTests.Acts
     /// </summary>
     /// <remarks>
     ///     <para>DO NOT USE DIRECTLY.</para>
-    ///     <para>Prefer using <see cref="SmartTest.RunTest" /> methods.</para>
+    ///     <para>Prefer using <see cref="O:SmartTests.SmartTest.RunTest" /> methods.</para>
     /// </remarks>
     /// <seealso cref="SmartTest" />
     public class InvokeAct: Act
@@ -65,7 +65,7 @@ namespace SmartTests.Acts
     /// </summary>
     /// <remarks>
     ///     <para>DO NOT USE DIRECTLY.</para>
-    ///     <para>Prefer using <see cref="SmartTest.RunTest" /> methods.</para>
+    ///     <para>Prefer using <see cref="O:SmartTests.SmartTest.RunTest" /> methods.</para>
     /// </remarks>
     /// <seealso cref="SmartTest" />
     public class InvokeAct<T>: Act<T>

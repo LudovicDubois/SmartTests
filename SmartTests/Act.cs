@@ -13,7 +13,7 @@ namespace SmartTests
     ///     The base class of all Act classes.
     /// </summary>
     /// <remarks>
-    ///     Do not use directly. Prefer using <see cref="SmartTest.RunTest" /> methods.
+    ///     Do not use directly. Prefer using <see cref="O:SmartTests.SmartTest.RunTest" /> methods.
     /// </remarks>
     /// <seealso cref="SmartTest" />
     public abstract class ActBase
@@ -56,7 +56,7 @@ namespace SmartTests
         public PropertyInfo Property { get; internal set; }
 
         /// <summary>
-        ///     The thrown <see cref="Exception" /> when running <see cref="SmartTest.RunTest" /> methods, if any.
+        ///     The thrown <see cref="Exception" /> when running <see cref="O:SmartTests.SmartTest.RunTest" /> methods, if any.
         /// </summary>
         /// <remarks>
         ///     This property is <c>null</c> if the Act nor Smart Assertions threw an exception.
@@ -66,7 +66,7 @@ namespace SmartTests
         public MemberInfo Member => Constructor ?? Field ?? (MemberInfo)Method ?? Property;
 
         /// <summary>
-        ///     The Smart <see cref="Assertion" /> implied in the Associated <see cref="SmartTest.RunTest" /> methods, if any.
+        ///     The Smart <see cref="Assertion" /> implied in the Associated <see cref="O:SmartTests.SmartTest.RunTest" /> methods, if any.
         /// </summary>
         public Assertion[] Assertions { get; internal set; }
         private readonly List<Assertion> _DoneAssertions = new List<Assertion>();
@@ -96,7 +96,7 @@ namespace SmartTests
     ///     The base class of all Act classes that are not expressions (such as invoking a void method).
     /// </summary>
     /// <remarks>
-    ///     Do not use directly. Prefer using <see cref="SmartTest.RunTest" /> methods.
+    ///     Do not use directly. Prefer using <see cref="O:SmartTests.SmartTest.RunTest" /> methods.
     /// </remarks>
     /// <seealso cref="ActBase" />
     /// <seealso cref="InvokeAct" />
@@ -115,7 +115,7 @@ namespace SmartTests
     ///     The base class of all Act classes that are expressions.
     /// </summary>
     /// <remarks>
-    ///     Do not use directly. Prefer using <see cref="SmartTest.RunTest" /> methods.
+    ///     Do not use directly. Prefer using <see cref="O:SmartTests.SmartTests.SmartTest.RunTest" /> methods.
     /// </remarks>
     /// <seealso cref="ActBase" />
     /// <seealso cref="AssignAct{T}" />
