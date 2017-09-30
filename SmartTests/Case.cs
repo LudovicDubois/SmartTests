@@ -8,13 +8,24 @@ using JetBrains.Annotations;
 
 namespace SmartTests
 {
+    /// <summary>
+    ///     A combination of <see cref="Criteria" /> expression for a parameter of the tested member.
+    /// </summary>
     [PublicAPI]
     public class Case: IEnumerable<Case>
     {
+        /// <summary>
+        ///     Creates an instance of <see cref="Case" /> without any <see cref="SmartTests.Criteria" />.
+        /// </summary>
         protected Case()
         { }
 
 
+        /// <summary>
+        ///     Creates an instance of <see cref="Case" /> for a global <see cref="SmartTests.Criteria" /> expression.
+        /// </summary>
+        /// <param name="criteria">The <see cref="SmartTests.Criteria" /> expression.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="criteria" /> is <c>null</c>.</exception>
         public Case( [NotNull] Criteria criteria )
         {
             if( criteria == null )
@@ -23,6 +34,18 @@ namespace SmartTests
         }
 
 
+        /// <summary>
+        ///     Creates an instance of <see cref="Case" /> for a parameter specific <see cref="SmartTests.Criteria" /> expression.
+        /// </summary>
+        /// <param name="parameterName">
+        ///     The name of the parameter for which to associate a <see cref="SmartTests.Criteria" />
+        ///     expression.
+        /// </param>
+        /// <param name="criteria">
+        ///     The <see cref="SmartTests.Criteria" /> expression for the provided
+        ///     <paramref name="parameterName" />.
+        /// </param>
+        /// <exception cref="ArgumentNullException">If <paramref name="criteria" /> is <c>null</c>.</exception>
         public Case( string parameterName, [NotNull] Criteria criteria )
         {
             if( criteria == null )
@@ -32,10 +55,30 @@ namespace SmartTests
         }
 
 
+        /// <summary>
+        ///     The name of the parameter for which the <see cref="SmartTests.Criteria" /> expression belongs to, if any.
+        /// </summary>
         public string ParameterName { get; }
+        /// <summary>
+        ///     The <see cref="SmartTests.Criteria" /> expression.
+        /// </summary>
         public Criteria Criteria { get; }
 
 
+        /// <summary>
+        ///     Combines two <see cref="Case" />s.
+        /// </summary>
+        /// <param name="case1">The first <see cref="Case" /> to combine.</param>
+        /// <param name="case2">The second <see cref="Case" /> to combine.</param>
+        /// <returns>The combined <see cref="Case" />.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     If either <paramref name="case1" /> or <paramref name="case2" /> are
+        ///     <c>null</c>.
+        /// </exception>
+        /// <remarks>
+        ///     Use it to combine multiple cases, for example when testing a method/indexer/constructor with several
+        ///     parameters.
+        /// </remarks>
         public static Case operator &( [NotNull] Case case1, [NotNull] Case case2 )
         {
             if( case1 == null )
@@ -47,7 +90,7 @@ namespace SmartTests
         }
 
 
-        protected virtual Case Combine( [NotNull] Case other )
+        internal virtual Case Combine( [NotNull] Case other )
         {
             if( other == null )
                 throw new ArgumentNullException( nameof(other) );
@@ -59,9 +102,11 @@ namespace SmartTests
         }
 
 
+        /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
 
+        /// <inheritdoc />
         public virtual IEnumerator<Case> GetEnumerator()
         {
             yield return this;
@@ -75,7 +120,7 @@ namespace SmartTests
             public void Add( Case cas ) => Cases.Add( cas );
 
 
-            protected override Case Combine( Case other )
+            internal override Case Combine( Case other )
             {
                 Cases.Add( other );
                 return this;
