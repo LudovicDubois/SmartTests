@@ -7,11 +7,11 @@
     <owners>Ludovic Dubois</owners>
     <!--
     <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
 -->
+    <iconUrl>https://github.com/LudovicDubois/SmartTests/raw/master/SmartTests.png</iconUrl>
     <projectUrl>https://github.com/LudovicDubois/SmartTests</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>SmartTests enables you to write Smarter unit tests, wether you use NUnit or MSTests.
+    <description>SmartTests enables you to write Smarter unit tests, whether you use NUnit or MSTests.
 
 It is best to install SmartTests.Analyzer so that missing tests will be displayed.
 
@@ -23,10 +23,10 @@ They are Smart in the sense that:
         b. You ensure that any event is raised with only one line of code.
         c. You ensure that an object didn't changed at all with only one line of code.
         d. You ensure that your property set is effective by checking its value after is not equal to its value before with only one line of code.
-        e. You show each effect of your Act code relatively  toits previous value with only one line of code.</description>
-    <summary>SmartTests enables you to write Smarter unit tests, wether you use NUnit or MSTests.</summary>
+        e. You show each effect of your Act code relatively to its previous value with only one line of code.</description>
+    <summary>SmartTests enables you to write Smarter unit tests, whether you use NUnit or MSTests.</summary>
     <releaseNotes>First version.</releaseNotes>
-    <copyright>Copyrioght (c) Pretty Objects Computers inc.</copyright>
+    <copyright>Copyright (c) Pretty Objects Computers inc.</copyright>
     <tags>SmartTests test testing tdd framework assert</tags>
   </metadata>
 </package>
