@@ -67,6 +67,7 @@ namespace SmartTests.Acts
     ///     <para>DO NOT USE DIRECTLY.</para>
     ///     <para>Prefer using <see cref="O:SmartTests.SmartTest.RunTest" /> methods.</para>
     /// </remarks>
+    /// <typeparam name="T"> The result <see cref="Type"/> of the invocation involved in the Act part of your test.</typeparam>
     /// <seealso cref="SmartTest" />
     public class InvokeAct<T>: Act<T>
     {

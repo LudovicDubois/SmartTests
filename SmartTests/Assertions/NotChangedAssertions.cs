@@ -471,6 +471,7 @@ namespace SmartTests.Assertions
         ///     Creates an <see cref="Assertion" /> that ensure object properties/fields of the specified instance did not change, except the specified ones,
         ///     in the Act part of your test.
         /// </summary>
+        /// <typeparam name="T">The <see cref="Type"/> of the expression that can change.</typeparam>
         /// <param name="this">The dummy place holder for all Smart Assertions.</param>
         /// <param name="expression">The expression of an instance and a property/field.</param>
         /// <param name="kind">The kind of members and visibility to check for changes. Default value is <see cref="NotChangedKind.PublicProperties"/>.</param>

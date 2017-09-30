@@ -79,7 +79,7 @@ namespace SmartTests
         private readonly List<Assertion> _DoneAssertions = new List<Assertion>();
 
 
-        internal virtual void BeforeAct()
+        internal void BeforeAct()
         {
             var assertions = Assertions.ToList();
             assertions.Reverse();
@@ -122,8 +122,9 @@ namespace SmartTests
     ///     The base class of all Act classes that are expressions.
     /// </summary>
     /// <remarks>
-    ///     Do not use directly. Prefer using <see cref="O:SmartTests.SmartTests.SmartTest.RunTest" /> methods.
+    ///     Do not use directly. Prefer using <see cref="O:SmartTests.SmartTest.RunTest" /> methods.
     /// </remarks>
+    /// <typeparam name="T"> The result <see cref="Type" /> of the Act.</typeparam>
     /// <seealso cref="ActBase" />
     /// <seealso cref="AssignAct{T}" />
     /// <seealso cref="InvokeAct{T}" />
@@ -133,7 +134,7 @@ namespace SmartTests
         /// <summary>
         ///     Run the Act part of your test.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The result of the Act part of your test.</returns>
         public abstract T Invoke();
     }
 }
