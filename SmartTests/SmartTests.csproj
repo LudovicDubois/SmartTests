@@ -29,6 +29,10 @@ They are Smart in the sense that:
     <DocumentationFile>bin\Debug\netstandard1.0\SmartTests.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.0\SmartTests.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
   </ItemGroup>
