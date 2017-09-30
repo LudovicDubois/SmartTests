@@ -6,42 +6,73 @@ using JetBrains.Annotations;
 
 namespace SmartTests
 {
+    /// <summary>
+    ///     An expression of Criterion to specify the goal of your test.
+    /// </summary>
     [PublicAPI]
     public abstract class Criteria
     {
-        public static Criteria operator &( [NotNull] Criteria case1, [NotNull] Criteria case2 )
+        /// <summary>
+        ///     Combines two orthogonal <see cref="Criteria" />s.
+        /// </summary>
+        /// <param name="criteria1">The first <see cref="Criteria" /> to combine.</param>
+        /// <param name="criteria2">The second <see cref="Criteria" /> to combine.</param>
+        /// <returns>The combined <see cref="Criteria" />.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     If either <paramref name="criteria1" /> or <paramref name="criteria2" /> are
+        ///     <c>null</c>.
+        /// </exception>
+        /// <remarks>
+        ///     Use &amp; operator to combine orthogonal <see cref="Criteria" />s.
+        /// </remarks>
+        /// <seealso cref="op_BitwiseOr" />
+        public static Criteria operator &( [NotNull] Criteria criteria1, [NotNull] Criteria criteria2 )
         {
-            if( case1 == null )
-                throw new ArgumentNullException( nameof( case1 ) );
-            if( case2 == null )
-                throw new ArgumentNullException( nameof( case2 ) );
+            if( criteria1 == null )
+                throw new ArgumentNullException( nameof(criteria1) );
+            if( criteria2 == null )
+                throw new ArgumentNullException( nameof(criteria2) );
 
-            return new AndCriteria( case1, case2 );
+            return new AndCriteria( criteria1, criteria2 );
         }
 
 
-        public static Criteria operator |( [NotNull] Criteria case1, [NotNull] Criteria case2 )
+        /// <summary>
+        ///     Combines two criterions of the same <see cref="Criteria" />.
+        /// </summary>
+        /// <param name="criteria1">The first <see cref="Criteria" /> to combine.</param>
+        /// <param name="criteria2">The second <see cref="Criteria" /> to combine.</param>
+        /// <returns>The combined <see cref="Criteria" />.</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     If either <paramref name="criteria1" /> or <paramref name="criteria2" /> are
+        ///     <c>null</c>.
+        /// </exception>
+        /// <remarks>
+        ///     Use | operator to combine criterias of the same <see cref="Criteria" />.
+        /// </remarks>
+        /// <seealso cref="op_BitwiseAnd" />
+        public static Criteria operator |( [NotNull] Criteria criteria1, [NotNull] Criteria criteria2 )
         {
-            if( case1 == null )
-                throw new ArgumentNullException( nameof( case1 ) );
-            if( case2 == null )
-                throw new ArgumentNullException( nameof( case2 ) );
+            if( criteria1 == null )
+                throw new ArgumentNullException( nameof(criteria1) );
+            if( criteria2 == null )
+                throw new ArgumentNullException( nameof(criteria2) );
 
-            return new OrCriteria( case1, case2 );
+            return new OrCriteria( criteria1, criteria2 );
         }
 
 
         private class AndCriteria: Criteria
         {
             public AndCriteria( Criteria case1, Criteria case2 )
-            {}
+            { }
         }
 
 
         private class OrCriteria: Criteria
         {
             public OrCriteria( Criteria case1, Criteria case2 )
-            {}
+            { }
         }
     }
 }
