@@ -1,14 +1,2 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Topics>
-  <Topic id="af91165d-e394-4d4b-ac30-d43b826948a7" visible="True" isDefault="true" isSelected="true" title="SmartTests" />
-  <Topic id="e050a59b-d7d0-45f2-a0b4-a3bf479e2753" visible="True" isExpanded="true" title="Version History">
-    <HelpKeywords>
-      <HelpKeyword index="K" term="version, history" />
-    </HelpKeywords>
-    <Topic id="39668408-bcba-4481-8135-756717442546" visible="True" title="Version 1.0.0.0">
-      <HelpKeywords>
-        <HelpKeyword index="K" term="version, 1.0.0.0" />
-      </HelpKeywords>
-    </Topic>
-  </Topic>
-</Topics>
+<Topics />
