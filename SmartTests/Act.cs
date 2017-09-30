@@ -63,10 +63,17 @@ namespace SmartTests
         /// </remarks>
         public Exception Exception { get; internal set; }
 
+        /// <summary>
+        ///     The <see cref="MemberInfo" /> of the Act prt of the test, if any.
+        /// </summary>
+        /// <remarks>
+        ///     This property is <c>null</c> if the Act is not for testing a member.
+        /// </remarks>
         public MemberInfo Member => Constructor ?? Field ?? (MemberInfo)Method ?? Property;
 
         /// <summary>
-        ///     The Smart <see cref="Assertion" /> implied in the Associated <see cref="O:SmartTests.SmartTest.RunTest" /> methods, if any.
+        ///     The Smart <see cref="Assertion" /> implied in the Associated <see cref="O:SmartTests.SmartTest.RunTest" /> methods,
+        ///     if any.
         /// </summary>
         public Assertion[] Assertions { get; internal set; }
         private readonly List<Assertion> _DoneAssertions = new List<Assertion>();
