@@ -62,6 +62,15 @@ namespace SmartTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: Time should be strictly positive, but was {0}ms.
+        /// </summary>
+        internal static string BadTest_NegativeTimeSpan {
+            get {
+                return ResourceManager.GetString("BadTest_NegativeTimeSpan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BAD TEST: Act is not an assignment.
         /// </summary>
         internal static string BadTest_NotAssignment {
@@ -175,6 +184,24 @@ namespace SmartTests {
         internal static string PropertyChanged {
             get {
                 return ResourceManager.GetString("PropertyChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timeout reached ({0}ms).
+        /// </summary>
+        internal static string TimeoutReached {
+            get {
+                return ResourceManager.GetString("TimeoutReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Should be less than {0}ms, but was {1}ms.
+        /// </summary>
+        internal static string TimespanExceeded {
+            get {
+                return ResourceManager.GetString("TimespanExceeded", resourceCulture);
             }
         }
         

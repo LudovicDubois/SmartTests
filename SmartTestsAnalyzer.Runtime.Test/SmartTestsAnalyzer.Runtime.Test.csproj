@@ -73,6 +73,7 @@
     <Compile Include="AssertionsTests.cs" />
     <Compile Include="StaticTests.cs" />
     <Compile Include="SetupTests.cs" />
+    <Compile Include="WithinTests\WithinTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

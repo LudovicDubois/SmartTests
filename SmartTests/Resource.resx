@@ -139,4 +139,13 @@
   <data name="BadTest_NotAssignment" xml:space="preserve">
     <value>BAD TEST: Act is not an assignment</value>
   </data>
+  <data name="TimeoutReached" xml:space="preserve">
+    <value>Timeout reached ({0}ms)</value>
+  </data>
+  <data name="BadTest_NegativeTimeSpan" xml:space="preserve">
+    <value>BAD TEST: Time should be strictly positive, but was {0}ms</value>
+  </data>
+  <data name="TimespanExceeded" xml:space="preserve">
+    <value>Should be less than {0}ms, but was {1}ms</value>
+  </data>
 </root>
