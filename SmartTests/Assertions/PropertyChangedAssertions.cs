@@ -82,7 +82,7 @@ namespace SmartTests.Assertions
         /// <example>
         ///     <para>
         ///         In this example, the Smart Assertion verifies that the <see cref="INotifyPropertyChanged.PropertyChanged" />
-        ///         event is raised for the property <c>"MyProperty"</c> and the value is <c>10</c>.
+        ///         event is raised for the property <c>MyProperty</c> and the value is <c>10</c>.
         ///     </para>
         ///     <para>It also ensures that the value is still <c>10</c> after the Act.</para>
         ///     <code>
@@ -91,7 +91,7 @@ namespace SmartTests.Assertions
         /// {
         ///     var mc = new MyClass();
         ///     RunTest( ValidValue.IsValid,
-        ///              Assign( () => mc.MyMethod(), 10 ),
+        ///              Assign( () => mc.MyProperty, 10 ),
         ///              SmartAssert.Raised_PropertyChanged() );
         /// }</code>
         /// </example>
@@ -155,7 +155,7 @@ namespace SmartTests.Assertions
         ///     var mc = new MyClass();
         ///     RunTest( ValidValue.IsValid,
         ///              () => mc.MyMethod(),
-        ///              SmartAssert.Raised_PropertyChanged( mc, "MyProperty", "OtherProperty" ) );
+        ///              SmartAssert.Raised_PropertyChanged( mc, nameof(MyClass.MyProperty), nameof(MyClass.OtherProperty) ) );
         /// }</code>
         /// </example>
         public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T instance, params string[] propertyNames )
@@ -240,7 +240,7 @@ namespace SmartTests.Assertions
         /// <example>
         ///     <para>
         ///         In this example, the Smart Assertion verifies that the <see cref="INotifyPropertyChanged.PropertyChanged" />
-        ///         event is raised for the property <c>"MyProperty"</c> and the value is <c>10</c>.
+        ///         event is raised for the property <c>MyProperty</c> and the value is <c>10</c>.
         ///     </para>
         ///     <para>It also ensures that the value is still <c>10</c> after the Act.</para>
         ///     <code>
@@ -250,7 +250,7 @@ namespace SmartTests.Assertions
         ///     var mc = new MyClass();
         ///     RunTest( ValidValue.IsValid,
         ///              () => mc.MyMethod(),
-        ///              SmartAssert.Raised_PropertyChanged( mc, "MyProperty", 10 ) );
+        ///              SmartAssert.Raised_PropertyChanged( mc, nameof(MyClass.MyProperty), 10 ) );
         /// }</code>
         /// </example>
         public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T instance, [NotNull] string propertyName, object expectedValue )
@@ -320,7 +320,7 @@ namespace SmartTests.Assertions
         /// <example>
         ///     <para>
         ///         In this example, the Smart Assertion verifies that the <see cref="INotifyPropertyChanged.PropertyChanged" />
-        ///         event is raised for the property <c>"MyProperty"</c>.
+        ///         event is raised for the property <c>MyProperty</c>.
         ///     </para>
         ///     <code>
         /// [Test]
@@ -414,7 +414,7 @@ namespace SmartTests.Assertions
         /// <example>
         ///     <para>
         ///         In this example, the Smart Assertion verifies that the <see cref="INotifyPropertyChanged.PropertyChanged" />
-        ///         event is raised for the property <c>"MyProperty"</c> and the value is <c>10</c>.
+        ///         event is raised for the property <c>MyProperty</c> and the value is <c>10</c>.
         ///     </para>
         ///     <para>It also ensures that the value is still <c>10</c> after the Act.</para>
         ///     <code>
@@ -553,7 +553,7 @@ namespace SmartTests.Assertions
         /// </remarks>
         /// <example>
         ///     In this example, the Smart Assertion verifies that the <see cref="INotifyPropertyChanged.PropertyChanged" />
-        ///     event is not raised for any property.
+        ///     event is not raised for any property of <c>mc</c>.
         ///     <code>
         /// [Test]
         /// public void MyMethodTest()
@@ -627,7 +627,7 @@ namespace SmartTests.Assertions
         ///     var mc = new MyClass();
         ///     RunTest( ValidValue.IsValid,
         ///              () => mc.MyMethod(),
-        ///              SmartAssert.NotRaised_PropertyChanged( mc, "MyProperty", "OtherProperty" ) );
+        ///              SmartAssert.NotRaised_PropertyChanged( mc, nameof(MyClass.MyProperty), nameof(MyClass.OtherProperty) ) );
         /// }</code>
         /// </example>
         public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T instance, params string[] propertyNames )
