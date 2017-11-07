@@ -109,7 +109,7 @@ namespace SmartTests.Helpers
         }
 
 
-        public static bool GetMemberContext( this Expression<Action> @this,
+        public static bool GetMemberContext( this LambdaExpression @this,
                                              out object instance, out MemberInfo member )
         {
             var memberExpression = @this.Body as MemberExpression;
@@ -126,6 +126,14 @@ namespace SmartTests.Helpers
             {
                 member = methodCall.Method;
                 instance = methodCall.Object.GetInstance();
+                return true;
+            }
+
+            var newExpression = @this.Body as NewExpression;
+            if( newExpression != null )
+            {
+                instance = null;
+                member = newExpression.Constructor;
                 return true;
             }
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartTests", "SmartTests\SmartTests.csproj", "{51FE4134-1E3B-4281-8330-BE415F66FD39}"
 EndProject
@@ -48,7 +48,6 @@ Global
 		{556C56F3-2971-4264-938C-997812F3F9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{556C56F3-2971-4264-938C-997812F3F9AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04791F62-142E-4517-839A-3DD213E11F25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04791F62-142E-4517-839A-3DD213E11F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04791F62-142E-4517-839A-3DD213E11F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04791F62-142E-4517-839A-3DD213E11F25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

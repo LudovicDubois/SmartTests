@@ -148,4 +148,10 @@
   <data name="TimespanExceeded" xml:space="preserve">
     <value>Should be less than {0}ms, but was {1}ms</value>
   </data>
+  <data name="BadTest_UnexpectedContextSetHandle" xml:space="preserve">
+    <value>BAD TEST: ActContext.SetHandle called, but specified handle expected</value>
+  </data>
+  <data name="BadTest_ExpectedContextSetHandle" xml:space="preserve">
+    <value>BAD TEST: ActContext.SetHandle expected</value>
+  </data>
 </root>

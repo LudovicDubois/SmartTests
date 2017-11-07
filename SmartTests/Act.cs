@@ -4,11 +4,117 @@ using System.Linq;
 using System.Reflection;
 
 using SmartTests.Acts;
+using SmartTests.Assertions;
 
 
 
 namespace SmartTests
 {
+    /// <summary>
+    /// Context of the Act part of your test.
+    /// </summary>
+    /// <remarks>
+    /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+    /// <para>This context enables you to store information that can be accessible in your Act if needed.</para>
+    /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
+    /// you have meaningful names and right types.</para>
+    /// <para>see cref="WaitAssertions.SetHandle"/> for an example.</para>
+    /// </remarks>
+    public class ActContext
+    {
+        private readonly Dictionary<string, object> _Context = new Dictionary<string, object>();
+
+
+        /// <summary>
+        /// Gets or sets the value associated with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the value to get or set.</param>
+        /// <returns>
+        /// The value associated with the specified name. 
+        /// If the specified name is not found, a get operation throws a <see cref="KeyNotFoundException"/>, 
+        /// and a set operation creates a new element with the specified name.
+        /// </returns>
+        /// <remarks>
+        /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+        /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
+        /// you have meaningful names and right types.</para>
+        /// <para><see cref="WaitAssertions.SetHandle"/> for an example.</para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
+        /// <exception cref="KeyNotFoundException">The property is retrieved and <paramref name="name"/> does not exist in the dictionary.</exception>
+        public object this[ string name ]
+        {
+            get => _Context[ name ];
+            set => _Context[ name ] = value;
+        }
+
+
+        /// <summary>
+        /// Gets the value associated with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the value to get.</param>
+        /// <returns>
+        /// The value associated with the specified name. 
+        /// If the specified name is not found, throws a <see cref="KeyNotFoundException"/>.
+        /// </returns>
+        /// <remarks>
+        /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+        /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
+        /// you have meaningful names and right types.</para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
+        /// <exception cref="KeyNotFoundException"><paramref name="name"/> does not exist in the dictionary.</exception>
+        public T GetValue<T>( string name ) => (T)this[ name ];
+
+
+        /// <summary>
+        /// Gets the value associated with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the value to get.</param>
+        /// <param name="value">The value associated with the specified name.
+        /// If the specified name is not found, returns <c>false</c> and <paramref name="value"/> is <c>null</c>.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the context contains an element with the specified name; otherwise, <c>false</c>.
+        /// </returns>
+        /// <remarks>
+        /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+        /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
+        /// you have meaningful names and right types.</para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
+        public bool TryGetValue( string name, out object value ) => _Context.TryGetValue( name, out value );
+
+
+        /// <summary>
+        /// Gets the value associated with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the value to get.</param>
+        /// <param name="value">The value associated with the specified name.
+        /// If the specified name is not found, returns <c>false</c> and <paramref name="value"/> is <c>null</c>.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the context contains an element with the specified name; otherwise, <c>false</c>.
+        /// </returns>
+        /// <remarks>
+        /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+        /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
+        /// you have meaningful names and right types.</para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
+        public bool TryGetValue<T>( string name, out T value )
+        {
+            if( !_Context.TryGetValue( name, out object val ) )
+            {
+                value = default(T);
+                return false;
+            }
+            value = (T)val;
+            return true;
+        }
+    }
+
+
     /// <summary>
     ///     The base class of all Act classes.
     /// </summary>
@@ -96,6 +202,25 @@ namespace SmartTests
             foreach( var assertion in _DoneAssertions )
                 assertion.AfterAct( this );
         }
+
+
+        #region Context        
+
+        /// <summary>
+        /// Gets the context of this Act.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ActContext"/> of this Act instance.
+        /// </returns>
+        /// <remarks>
+        /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+        /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
+        /// you have meaningful names and right types.</para>
+        /// </remarks>
+        /// <para>see cref="WaitAssertions.SetHandle"/> for an example.</para>
+        public ActContext Context { get; } = new ActContext();
+
+        #endregion
     }
 
 
@@ -114,7 +239,7 @@ namespace SmartTests
         /// <summary>
         ///     Run the Act part of your test.
         /// </summary>
-        public abstract void Invoke();
+        public abstract void Invoke( ActContext context );
     }
 
 
@@ -135,6 +260,6 @@ namespace SmartTests
         ///     Run the Act part of your test.
         /// </summary>
         /// <returns>The result of the Act part of your test.</returns>
-        public abstract T Invoke();
+        public abstract T Invoke( ActContext context );
     }
 }

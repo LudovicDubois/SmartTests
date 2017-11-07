@@ -2,6 +2,8 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using JetBrains.Annotations;
+
 using SmartTests.Helpers;
 
 
@@ -35,28 +37,58 @@ namespace SmartTests.Acts
         ///     </para>
         /// </remarks>
         /// <seealso cref="SmartTest" />
-        public InvokeAct( Expression<Action> invocation )
+        public InvokeAct( [NotNull] Expression<Action> invocation )
         {
-            _Invocation = invocation;
+            FillAct( invocation );
 
-            object instance;
-            MemberInfo member;
-            if( invocation.GetMemberContext( out instance, out member ) )
+            var action = invocation.Compile();
+            _Invocation = ctx => action();
+        }
+
+
+        /// <summary>
+        ///     Creates an instance of <see cref="InvokeAct" /> to represent a specific <c>void</c> method invocation in the Act
+        ///     part of your test while using the <see cref="ActContext"/>.
+        /// </summary>
+        /// <param name="invocation"> The invocation expression of the Act part of your test.</param>
+        /// <remarks>
+        ///     <para>DO NOT USE DIRECTLY.</para>
+        ///     <para>
+        ///         Prefer using
+        ///         <see
+        ///             cref="SmartTest.RunTest(Criteria,System.Linq.Expressions.Expression{Action{ActContext}},Assertion[])" />
+        ///         or
+        ///         <see cref="SmartTest.RunTest(Case,System.Linq.Expressions.Expression{Action{ActContext}},Assertion[])" />
+        ///         methods.
+        ///     </para>
+        /// </remarks>
+        /// <seealso cref="SmartTest" />
+        public InvokeAct( [NotNull] Expression<Action<ActContext>> invocation )
+        {
+            FillAct( invocation );
+
+            _Invocation = invocation.Compile();
+        }
+
+
+        private void FillAct( LambdaExpression invocation )
+        {
+            if( invocation.GetMemberContext( out object instance, out MemberInfo member ) )
             {
                 Instance = instance;
                 Constructor = member as ConstructorInfo;
                 Method = member as MethodInfo;
             }
             if( Method == null )
-                throw new SmartTestException();
+                throw new BadTestException();
         }
 
 
-        private readonly Expression<Action> _Invocation;
+        private readonly Action<ActContext> _Invocation;
 
 
         /// <inheritdoc />
-        public override void Invoke() => _Invocation.Compile().Invoke();
+        public override void Invoke( ActContext context ) => _Invocation( context );
     }
 
 
@@ -67,12 +99,12 @@ namespace SmartTests.Acts
     ///     <para>DO NOT USE DIRECTLY.</para>
     ///     <para>Prefer using <see cref="O:SmartTests.SmartTest.RunTest" /> methods.</para>
     /// </remarks>
-    /// <typeparam name="T"> The result <see cref="Type"/> of the invocation involved in the Act part of your test.</typeparam>
+    /// <typeparam name="T"> The result <see cref="Type" /> of the invocation involved in the Act part of your test.</typeparam>
     /// <seealso cref="SmartTest" />
     public class InvokeAct<T>: Act<T>
     {
         /// <summary>
-        ///     Creates an instance of <see cref="InvokeAct{T}" /> to represent an expression  in the Act part of your test.
+        ///     Creates an instance of <see cref="InvokeAct{T}" /> to represent an expression in the Act part of your test.
         /// </summary>
         /// <param name="invocation">The invocation expression of the Act part of your test.</param>
         /// <remarks>
@@ -86,16 +118,44 @@ namespace SmartTests.Acts
         /// <seealso cref="SmartTest" />
         public InvokeAct( Expression<Func<T>> invocation )
         {
-            _Invocation = invocation;
+            FillAct( invocation );
 
-            object instance;
-            MemberInfo member;
-            if( invocation.GetMemberContext( out instance, out member ) )
+            var compiled = invocation.Compile();
+            _Invocation = ctx => compiled();
+        }
+
+
+        /// <summary>
+        ///     Creates an instance of <see cref="InvokeAct{T}" /> to represent an expression in the Act part of your test while using the <see cref="ActContext"/>.
+        /// </summary>
+        /// <param name="invocation">The invocation expression of the Act part of your test.</param>
+        /// <remarks>
+        ///     <para>DO NOT USE DIRECTLY.</para>
+        ///     <para>
+        ///         Prefer using
+        ///         <see cref="SmartTest.RunTest{T}(Criteria,Expression{Func{ActContext,T}},Assertion[])" />,
+        ///         <see cref="SmartTest.RunTest{T}(Case,Expression{Func{ActContext,T}},Assertion[])" /> methods.
+        ///     </para>
+        /// </remarks>
+        /// <seealso cref="SmartTest" />
+        public InvokeAct( Expression<Func<ActContext, T>> invocation )
+        {
+            FillAct( invocation );
+
+            _Invocation = invocation.Compile();
+        }
+
+
+        private void FillAct( LambdaExpression invocation )
+        {
+            if( invocation.GetMemberContext( out object instance, out MemberInfo member ) )
             {
                 Instance = instance;
+
                 Constructor = member as ConstructorInfo;
                 if( Constructor != null )
                     return;
+
                 Method = member as MethodInfo;
                 if( Method == null )
                 {
@@ -114,15 +174,16 @@ namespace SmartTests.Acts
                             break;
                         }
             }
+
             if( Constructor == null && Method == null && Field == null )
                 throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() ) );
         }
 
 
-        private readonly Expression<Func<T>> _Invocation;
+        private readonly Func<ActContext, T> _Invocation;
 
 
         /// <inheritdoc />
-        public override T Invoke() => _Invocation.Compile().Invoke();
+        public override T Invoke( ActContext context ) => _Invocation( context );
     }
 }

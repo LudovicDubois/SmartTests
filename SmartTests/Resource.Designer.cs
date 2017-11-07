@@ -62,6 +62,15 @@ namespace SmartTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: ActContext.SetHandle expected.
+        /// </summary>
+        internal static string BadTest_ExpectedContextSetHandle {
+            get {
+                return ResourceManager.GetString("BadTest_ExpectedContextSetHandle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BAD TEST: Time should be strictly positive, but was {0}ms.
         /// </summary>
         internal static string BadTest_NegativeTimeSpan {
@@ -130,6 +139,15 @@ namespace SmartTests {
         internal static string BadTest_NotWritablePropertyNorIndexer {
             get {
                 return ResourceManager.GetString("BadTest_NotWritablePropertyNorIndexer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BAD TEST: ActContext.SetHandle called, but specified handle expected.
+        /// </summary>
+        internal static string BadTest_UnexpectedContextSetHandle {
+            get {
+                return ResourceManager.GetString("BadTest_UnexpectedContextSetHandle", resourceCulture);
             }
         }
         

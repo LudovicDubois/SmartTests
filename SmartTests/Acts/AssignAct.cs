@@ -100,7 +100,7 @@ namespace SmartTests.Acts
 
 
         /// <inheritdoc />
-        public override T Invoke()
+        public override T Invoke( ActContext context )
         {
             var memberGetExpression = _Assignee.Body as MemberExpression;
             if( memberGetExpression != null )

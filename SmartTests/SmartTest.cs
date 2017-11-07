@@ -5,6 +5,7 @@ using System.Reflection;
 using JetBrains.Annotations;
 
 using SmartTests.Acts;
+using SmartTests.Assertions;
 using SmartTests.Helpers;
 
 
@@ -51,7 +52,7 @@ namespace SmartTests
         /// <param name="criteria">The <see cref="Criteria" /> for the created <see cref="SmartTests.Case" />.</param>
         /// <returns>The newly created <see cref="SmartTests.Case" />.</returns>
         /// <example>
-        /// <code>
+        ///     <code>
         /// [Test]
         /// public void Max_ValuesGreaterThanMin()
         /// {
@@ -155,6 +156,43 @@ namespace SmartTests
 
 
         /// <summary>
+        ///     Executes the Act part of the test, and its related Smart Assertions, that involves implicit declarations for Assertions.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Type" /> of the expression in the Act part of the test.</typeparam>
+        /// <param name="cases">The <see cref="Criteria" /> expression for the tested expression.</param>
+        /// <param name="act">A lambda expression representing the tested expression with an <see cref="ActContext"/>.</param>
+        /// <param name="assertions">The Smart Assertions for this <paramref name="act" />.</param>
+        /// <returns>The value of the expression of the <paramref name="act" />.</returns>
+        /// <remarks>
+        ///     If you need to specify <see cref="Criteria" /> expressions for multiple parameters, you have to use
+        ///     <see cref="RunTest(SmartTests.Case,Expression{Action{ActContext}},SmartTests.Assertion[])" /> instead.
+        /// </remarks>
+        /// <example>
+        ///     <para> In this example, the <see cref="WaitAssertions.WaitContextHandle(SmartTests.SmartAssertPlaceHolder,double)"></see> wait for the implicit wait handle set by <see cref="WaitAssertions.SetHandle"/>.</para>
+        ///     <code>
+        /// [Test]
+        /// public void MyMethodTest()
+        /// {
+        ///   var mc = new MyClass( 300 );
+        ///   
+        ///   RunTest( AnyValue.IsValid,
+        ///            ctx => mc.Method( ctx.SetHandle ),
+        ///            SmartAssert.Within( 100 ),
+        ///            SmartAssert.WaitContextHandle( 1000 ) );
+        ///   
+        ///   Assert.IsTrue( mc.Done ); // The method runs the parallel code (ctx.SetHandle) to its end.
+        ///   Assert.IsNull( mc.Exception ); // There was no exception in the parallel code thread.
+        /// }</code>
+        /// </example>
+        /// <seealso cref="RunTest(SmartTests.Case,Expression{Action{ActContext}},SmartTests.Assertion[])" />
+        /// <seealso cref="Criteria" />
+        /// <seealso cref="Assertion" />
+        /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
+        /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
+        public static T RunTest<T>( Criteria cases, Expression<Func<ActContext, T>> act, params Assertion[] assertions ) => RunTest( Case( cases ), new InvokeAct<T>( act ), assertions );
+
+
+        /// <summary>
         ///     Executes the Act part of the test and its related Smart Assertions.
         /// </summary>
         /// <typeparam name="T">The <see cref="Type" /> of the expression in the Act part of the test.</typeparam>
@@ -189,6 +227,44 @@ namespace SmartTests
         /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
         /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
         public static T RunTest<T>( Case cases, Expression<Func<T>> act, params Assertion[] assertions ) => RunTest( cases, new InvokeAct<T>( act ), assertions );
+
+
+        /// <summary>
+        ///     Executes the Act part of the test, and its related Smart Assertions, that involves implicit declarations for Assertions.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Type" /> of the expression in the Act part of the test.</typeparam>
+        /// <param name="cases">The <see cref="Criteria" /> expression for the tested expression.</param>
+        /// <param name="act">A lambda expression representing the tested expression with an <see cref="ActContext"/>.</param>
+        /// <param name="assertions">The Smart Assertions for this <paramref name="act" />.</param>
+        /// <returns>The value of the expression of the <paramref name="act" />.</returns>
+        /// <remarks>
+        ///     If you need to specify <see cref="Criteria" /> expressions for multiple parameters, you have to use
+        ///     <see cref="RunTest{T}(SmartTests.Case,Expression{Func{ActContext,T}},SmartTests.Assertion[])" /> instead.
+        /// </remarks>
+        /// <example>
+        ///     <para> In this example, the <see cref="WaitAssertions.WaitContextHandle(SmartTests.SmartAssertPlaceHolder,double)"></see> wait for the implicit wait handle set by <see cref="WaitAssertions.SetHandle"/>.</para>
+        ///     <code>
+        /// [Test]
+        /// public void MyMethodTest()
+        /// {
+        ///   var mc = new MyClass( 300 );
+        ///   
+        ///   var result = RunTest( AnyValue.IsValid,
+        ///                         ctx => mc.Method( ctx.SetHandle ),
+        ///                         SmartAssert.Within( 100 ),
+        ///                         SmartAssert.WaitContextHandle( 1000 ) );
+        ///   
+        ///   Assert.IsTrue( result );
+        ///   Assert.IsTrue( mc.Done ); // The method runs the parallel code (ctx.SetHandle) to its end.
+        ///   Assert.IsNull( mc.Exception ); // There was no exception in the parallel code thread.
+        /// }</code>
+        /// </example>
+        /// <seealso cref="RunTest{T}(SmartTests.Case,Expression{Func{ActContext,T}},SmartTests.Assertion[])" />
+        /// <seealso cref="Criteria" />
+        /// <seealso cref="Assertion" />
+        /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
+        /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
+        public static T RunTest<T>( Case cases, Expression<Func<ActContext, T>> act, params Assertion[] assertions ) => RunTest( cases, new InvokeAct<T>( act ), assertions );
 
 
         /// <summary>
@@ -242,7 +318,7 @@ namespace SmartTests
         /// [Test]
         /// public void MyPropertyTest()
         /// {
-        ///     var mc = new MyClass(10);
+        ///     var mc = new MyClass( 10 );
         /// 
         ///     RunTest( Case( "index", MinIncluded.IsMin ) &amp;
         ///              Case( MinIncluded.IsAboveMin ),
@@ -269,7 +345,7 @@ namespace SmartTests
             try
             {
                 act.BeforeAct();
-                result = act.Invoke();
+                result = act.Invoke( act.Context );
             }
             catch( Exception e )
             {
@@ -319,6 +395,43 @@ namespace SmartTests
         /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
         public static void RunTest( Criteria cases, Expression<Action> act, params Assertion[] assertions ) => RunTest( Case( cases ), new InvokeAct( act ), assertions );
 
+        /// <summary>
+        ///     Executes the Act part of the test and its related Smart Assertions.
+        /// </summary>
+        /// <param name="cases">The <see cref="Criteria" /> expression for the tested code.</param>
+        /// <param name="act">An <see cref="Action" /> representing the tested code with an <see cref="ActContext"/>.</param>
+        /// <param name="assertions">The Smart Assertions for this <paramref name="act" />.</param>
+        /// <remarks>
+        ///     If you need to specify <see cref="Criteria" /> expressions for multiple parameters, you have to use
+        ///     <see cref="RunTest(SmartTests.Case,Expression{Action{ActContext}},SmartTests.Assertion[])" /> instead.
+        /// </remarks>
+        /// <example>
+        ///     <code>
+        /// [Test]
+        /// public void MyMethodTest()
+        /// {
+        ///   var mc = new MyClass( 300 );
+        ///   
+        ///   RunTest( AnyValue.IsValid,
+        ///            ctx => mc.Method( ctx.SetHandle ),
+        ///            SmartAssert.Within( 100 ),
+        ///            SmartAssert.WaitContextHandle( 1000 ) );
+        ///   
+        ///   Assert.IsTrue( result );
+        ///   Assert.IsTrue( mc.Done ); // The method runs the parallel code (ctx.SetHandle) to its end.
+        ///   Assert.IsNull( mc.Exception ); // There was no exception in the parallel code thread.
+        /// }
+        /// </code>
+        /// </example>
+        /// <seealso cref="RunTest(SmartTests.Case,Expression{Action{ActContext}},SmartTests.Assertion[])" />
+        /// <seealso cref="RunTest(SmartTests.Case,Expression{Action},SmartTests.Assertion[])" />
+        /// <seealso cref="RunTest(SmartTests.Case,Act,SmartTests.Assertion[])" />
+        /// <seealso cref="Criteria" />
+        /// <seealso cref="Assertion" />
+        /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
+        /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
+        public static void RunTest( Criteria cases, Expression<Action<ActContext>> act, params Assertion[] assertions ) => RunTest( Case( cases ), new InvokeAct( act ), assertions );
+
 
         /// <summary>
         ///     Executes the Act part of the test and its related Smart Assertions.
@@ -355,6 +468,45 @@ namespace SmartTests
         /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
         /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
         public static void RunTest( Case cases, Expression<Action> act, params Assertion[] assertions ) => RunTest( cases, new InvokeAct( act ), assertions );
+
+
+        /// <summary>
+        ///     Executes the Act part of the test and its related Smart Assertions.
+        /// </summary>
+        /// <param name="cases">The <see cref="SmartTests.Case" /> expression for the tested code.</param>
+        /// <param name="act">A lambda expression representing the tested expression with an <see cref="ActContext"/>.</param>
+        /// <param name="assertions">The Smart Assertions for this <paramref name="act" />.</param>
+        /// <remarks>
+        ///     If you only have one <see cref="Criteria" /> expression, you can use
+        ///     <see cref="RunTest(Criteria,Expression{Action{ActContext}},SmartTests.Assertion[])" /> instead.
+        /// </remarks>
+        /// <example>
+        ///     <code>
+        /// [Test]
+        /// public void ReturnVoidTest()
+        /// {
+        ///   var mc = new MyClass( 300 );
+        /// 
+        ///   RunTest( Case( AnyValue.IsValid ) ,
+        ///            ctx => mc.Method( ctx.SetHandle ),
+        ///            SmartAssert.Within( 100 ),
+        ///            SmartAssert.WaitContextHandle( 1000 ) );
+        ///   
+        ///   Assert.IsTrue( result );
+        ///   Assert.IsTrue( mc.Done ); // The method runs the parallel code (ctx.SetHandle) to its end.
+        ///   Assert.IsNull( mc.Exception ); // There was no exception in the parallel code thread.
+        /// }
+        /// </code>
+        /// </example>
+        /// <seealso cref="RunTest{T}(SmartTests.Case,Act{T},SmartTests.Assertion[])" />
+        /// <seealso cref="RunTest(SmartTests.Case,Act,SmartTests.Assertion[])" />
+        /// <seealso cref="Case(Criteria)" />
+        /// <seealso cref="Case(string,Criteria)" />
+        /// <seealso cref="Criteria" />
+        /// <seealso cref="Assertion" />
+        /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
+        /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
+        public static void RunTest( Case cases, Expression<Action<ActContext>> act, params Assertion[] assertions ) => RunTest( cases, new InvokeAct( act ), assertions );
 
 
         /// <summary>
@@ -400,7 +552,7 @@ namespace SmartTests
             try
             {
                 act.BeforeAct();
-                act.Invoke();
+                act.Invoke( act.Context );
             }
             catch( Exception e )
             {
