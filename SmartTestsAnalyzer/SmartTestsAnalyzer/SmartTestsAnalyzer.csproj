@@ -35,7 +35,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Case.cs" />
-    <Compile Include="CodeFixProvider.cs" />
     <Compile Include="CasesAnd.cs" />
     <Compile Include="CasesAndOr.cs" />
     <Compile Include="CriteriaVisitor.cs" />

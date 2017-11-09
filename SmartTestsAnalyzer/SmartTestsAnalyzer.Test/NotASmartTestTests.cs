@@ -1,6 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CodeFixes;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using TestHelper;
 
@@ -94,9 +92,6 @@ namespace TestingProject
 
             VerifyCSharpDiagnostic( test, 0 );
         }
-
-
-        protected override CodeFixProvider GetCSharpCodeFixProvider() => new SmartTestsAnalyzerCodeFixProvider();
 
 
         protected override SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();
