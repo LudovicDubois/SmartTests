@@ -50,11 +50,13 @@ For example, in the previous example, `Raised_PropertyChanged` creates an instan
 
 Here is the existing categories of *Smart Assertions*:
 
-* [`Change`](change.md)
-* [`ChangedTo`](changedto.md)
-* [`NotChanged`](notchanged.md)
-* [`PropertyChanged`](propertychanged.md)
-* [`Raise`](raise.md)
+* [`Change`](change.md): to test relative changes to properties
+* [`ChangedTo`](changedto.md): to test an effective change to a property.
+* [`NotChanged`](notchanged.md)L to test properties did not change.
+* [`PropertyChanged`](propertychanged.md): to test `PropertyChanged` event.
+* [`Raise`](raise.md): to test any classical event.
+* [`Wait`](wait.md): to test parallel code.
+* [`Within`](within.md): to test code is done within specific time.
 
 ## Adding Smart Assertions
 

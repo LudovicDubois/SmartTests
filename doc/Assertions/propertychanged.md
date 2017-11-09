@@ -2,12 +2,12 @@
 
 *PropertyChanged Smart Assertions* are assertions that ensure `PropertyChanged` event is raised or not, depending on your Test Logical Intent.
 
-1. Before *Act*
+1. Before *Act*  
   Registers itself on the `PropertyChanged` event.
 1. During *Act*
    1. Setting a flag that the event was raised
    1. Ensuring that the `PropertyName` of the event is expected.
-1. After *Act*
+1. After *Act*  
   Ensures that the flag is `true` or `false`, as expected, otherwise generates a `SmartTestException`.
 
 > Note that if the instance does not implements `INotifyPropertyChanged`, a `BadTestException` is thrown.

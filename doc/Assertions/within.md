@@ -2,13 +2,14 @@
 
 *Within Smart Assertions* are assertions that ensure the *Act* part of your test takes not longer than specified maximum duration.
 
-1. Before *Act*
-
+1. Before *Act*  
    Starts a `Stopwatch`.
-
-1. After *Act*
-
+1. After *Act*  
    Stops the `Stopwatch` and ensures its `ElapsedMilliseconds` is lower than the specified maximum duration.
+
+## Remark
+
+For bests results, this assertion as to be the first one (so that only the Act part is measured without any assertion).
 
 We have two *Within* assertions:
 
