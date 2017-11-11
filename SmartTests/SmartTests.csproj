@@ -1,9 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Title>SmartTests</Title>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>SmartTests</PackageId>
-    <PackageVersion>1.0.1</PackageVersion>
+    <Version>1.1</Version>
+    <PackageVersion>1.1.0</PackageVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <PackageReleaseNotes>Smart Assertions added: 
+    1. Wait: to test parallel code.
+    2. Within: to test Act code is done within specific time.</PackageReleaseNotes>
     <Authors>Ludovic Dubois</Authors>
     <summary>SmartTests enables you to write Smarter unit tests, whether you use NUnit or MSTests.</summary>
     <description>SmartTests enables you to write Smarter unit tests, wether you use NUnit or MSTests.
@@ -20,15 +27,15 @@ They are Smart in the sense that:
         d. You ensure that your property set is effective by checking its value after is not equal to its value before with only one line of code.
         e. You show each effect of your Act code relatively to its previous value with only one line of code.</description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>First version.</PackageReleaseNotes>
     <copyright>Copyright (c) Pretty Objects Computers inc.</copyright>
-    <PackageTags>SmartTests test testing tdd framework assert</PackageTags>
-    <Version>1.0.1</Version>
+    <PackageTags>SmartTests test testing tdd framework assert NUnit MSTests Xunit</PackageTags>
     <PackageProjectUrl>https://github.com/LudovicDubois/SmartTests</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MS-PL</PackageLicenseUrl>
     <PackageIconUrl>https://github.com/LudovicDubois/SmartTests/raw/master/SmartTests.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/LudovicDubois/SmartTests</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
+    <ApplicationIcon>SmartTests-perspective.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -37,6 +44,7 @@ They are Smart in the sense that:
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\netstandard1.0\SmartTests.xml</DocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,12 +64,6 @@ They are Smart in the sense that:
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="SmartTests.nuspec">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   
 </Project>

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>SmartTests.Analyzer</id>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <title>SmartTests Analyzer</title>
     <authors>Ludovic Dubois</authors>
     <owners>Ludovic Dubois</owners>
@@ -11,17 +11,18 @@
 -->
     <iconUrl>https://github.com/LudovicDubois/SmartTests/raw/master/SmartTests.png</iconUrl>
     <projectUrl>https://github.com/LudovicDubois/SmartTests</projectUrl>
+    <licenseUrl>https://opensource.org/licenses/MS-PL</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>An analyzer to find missing tests for tests written with SmartTests.</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <releaseNotes>Xunit support added.</releaseNotes>
     <copyright>Copyright (c) Pretty Objects Computers inc</copyright>
-    <tags>SmartTests test testing tdd framework assert analyzer</tags>
+    <tags>SmartTests test testing tdd framework assert analyzer NUnit MSTests Xunit</tags>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System" targetFramework="" />
     </frameworkAssemblies>
     <developmentDependency>true</developmentDependency>
     <dependencies>
-      <dependency id="SmartTests" version="1.0.1"/>
+      <dependency id="SmartTests" version="1.1.0"/>
     </dependencies>
   </metadata>
   <!-- The convention for analyzers is to put language agnostic dlls in analyzers\portable50 and language specific analyzers in either analyzers\portable50\cs or analyzers\portable50\vb -->
