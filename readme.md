@@ -32,7 +32,7 @@ BUT, it is very hard to think the good way to write unit test:
    1. You ensure that your property set is effective by checking its value after is not equal to its value before with only one line of code.
    1. You show each effect of your Act code relatively its previous value with only one line of code.
 
-For now, it supports C# with NUnit.
+For now, it supports C# with NUnit, MSTest and Xunit.
 
 However, it will very easy to add other Testing Frameworks (you only write a very simple sub-class).  
 You can also extend smart assertions in a very easily way.

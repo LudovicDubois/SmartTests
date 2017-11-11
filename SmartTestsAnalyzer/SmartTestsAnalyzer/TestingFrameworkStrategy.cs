@@ -21,6 +21,10 @@ namespace SmartTestsAnalyzer
             var mstest = new MSTestStrategy( compilation );
             if( mstest.IsValid )
                 _TestingFrameworks.Add( mstest );
+
+            var xunit = new XUnitStrategy( compilation );
+            if( xunit.IsValid )
+                _TestingFrameworks.Add( xunit );
         }
 
 
