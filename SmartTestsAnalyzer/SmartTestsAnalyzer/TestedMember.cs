@@ -2,8 +2,6 @@
 
 using Microsoft.CodeAnalysis;
 
-using SmartTestsAnalyzer.Helpers;
-
 
 
 namespace SmartTestsAnalyzer
@@ -14,7 +12,8 @@ namespace SmartTestsAnalyzer
         PropertyGet,
         PropertySet,
         IndexerGet,
-        IndexerSet
+        IndexerSet,
+        Field
     }
 
 
@@ -53,7 +52,8 @@ namespace SmartTestsAnalyzer
             switch( Kind )
             {
                 case TestedMemberKind.Method:
-                    return typeAndMemberName;
+                case TestedMemberKind.Field:
+                    return typeAndMemberName;                    
 
                 case TestedMemberKind.PropertyGet:
                     return typeAndMemberName + " [get]";

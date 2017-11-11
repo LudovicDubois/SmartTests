@@ -124,6 +124,9 @@ namespace SmartTestsAnalyzer
         {
             switch( testedMember.Kind )
             {
+                case SymbolKind.Field:
+                    return new TestedMember( testedMember, TestedMemberKind.Field );
+
                 case SymbolKind.Method:
                     return new TestedMember( testedMember, TestedMemberKind.Method );
 
