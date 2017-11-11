@@ -41,6 +41,7 @@ You can also extend smart assertions in a very easily way.
 
 This documentation explains:
 
+1. [What's new](doc/WhatsNew.md)
 1. [How to write your first Smart Test](doc/WriteSmartTest.md).
 1. [How to test Class Members](doc/Members/readme.md)
 1. [Criteria](doc/Criteria/readme.md)
