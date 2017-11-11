@@ -52,6 +52,7 @@ namespace SmartTests
         /// <summary>
         /// Gets the value associated with the specified name.
         /// </summary>
+        /// <typeparam name="T">The type of the value of the specified <paramref name="name"/>.</typeparam>
         /// <param name="name">The name of the value to get.</param>
         /// <returns>
         /// The value associated with the specified name. 
@@ -89,6 +90,7 @@ namespace SmartTests
         /// <summary>
         /// Gets the value associated with the specified name.
         /// </summary>
+        /// <typeparam name="T">The type of the value of the specified <paramref name="name"/>.</typeparam>
         /// <param name="name">The name of the value to get.</param>
         /// <param name="value">The value associated with the specified name.
         /// If the specified name is not found, returns <c>false</c> and <paramref name="value"/> is <c>null</c>.
@@ -237,8 +239,9 @@ namespace SmartTests
     public abstract class Act: ActBase
     {
         /// <summary>
-        ///     Run the Act part of your test.
+        ///     Run the Act part of your test with a context.
         /// </summary>
+        /// <param name="context">The <see cref="ActContext"/> of the test.</param>
         public abstract void Invoke( ActContext context );
     }
 
@@ -259,6 +262,7 @@ namespace SmartTests
         /// <summary>
         ///     Run the Act part of your test.
         /// </summary>
+        /// <param name="context">The <see cref="ActContext"/> of the test.</param>
         /// <returns>The result of the Act part of your test.</returns>
         public abstract T Invoke( ActContext context );
     }

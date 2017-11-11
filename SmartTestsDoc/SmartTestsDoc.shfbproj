@@ -50,11 +50,12 @@
     <ProjectSummary>SmartTests is a library to simplify Unit Tests writing and a Visual Sstudio Analyzer to notify of missing tests.</ProjectSummary>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="SmartTests (Group)" isGroup="True" isDocumented="True">&lt;span class="selflink"&gt;SmartTests&lt;/span&gt; is the base namespace for all SmartTests declarations.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SmartTests" isDocumented="True">The &lt;span class="selflink"&gt;SmartTests&lt;/span&gt; namespace contains fundamental classes and base classes that define commonly-used types by SmartTests.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SmartTests.Criterias" isDocumented="True">The &lt;span class="selflink"&gt;SmartTests.Criterias&lt;/span&gt; namespace contains predefined criterias you should use in your unit test methods.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SmartTests.Acts" isDocumented="True">The &lt;span class="selflink"&gt;SmartTests.Acts&lt;/span&gt; namespace contains methods for internal use only (or if you want to expand SmartTests functionality).</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SmartTests.Assertions" isDocumented="True">The &lt;span class="selflink"&gt;SmartTests.Assertions&lt;/span&gt; namespace contains predefined Smart Assertions you should use in your unit test methods.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="(global)" isDocumented="True">SmartTests is a library to simplify Unit Tests writing and a Visual Sstudio Analyzer to notify of missing tests.</NamespaceSummaryItem></NamespaceSummaries>
+      <NamespaceSummaryItem name="SmartTests" isDocumented="True">The &lt;span class="selflink"&gt;SmartTests&lt;/span&gt; namespace contains fundamental classes and base classes that define commonly-used types by SmartTests.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SmartTests.Criterias" isDocumented="True">The &lt;span class="selflink"&gt;SmartTests.Criterias&lt;/span&gt; namespace contains predefined criterias you should use in your unit test methods.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SmartTests.Acts" isDocumented="True">The &lt;span class="selflink"&gt;SmartTests.Acts&lt;/span&gt; namespace contains methods for internal use only (or if you want to expand SmartTests functionality).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SmartTests.Assertions" isDocumented="True">The &lt;span class="selflink"&gt;SmartTests.Assertions&lt;/span&gt; namespace contains predefined Smart Assertions you should use in your unit test methods.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="(global)" isDocumented="True">SmartTests is a library to simplify Unit Tests writing and a Visual Sstudio Analyzer to notify of missing tests.</NamespaceSummaryItem>
+    </NamespaceSummaries>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
