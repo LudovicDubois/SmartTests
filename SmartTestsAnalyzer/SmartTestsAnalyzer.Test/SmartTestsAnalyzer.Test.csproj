@@ -97,6 +97,7 @@
     <Compile Include="ThreeCasesTests.cs" />
     <Compile Include="ParameterNameTests.cs" />
     <Compile Include="MultipleCriteriasTests.cs" />
+    <Compile Include="RunTestTests.cs" />
     <Compile Include="TwoCasesWithNoCaseMethodTests.cs" />
     <Compile Include="TwoCasesTests.cs" />
     <Compile Include="Verifiers\CodeFixVerifier.cs" />

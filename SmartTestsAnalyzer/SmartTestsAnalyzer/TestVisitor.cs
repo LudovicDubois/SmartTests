@@ -153,6 +153,10 @@ namespace SmartTestsAnalyzer
             if( lambda != null )
                 return model.GetSymbol( lambda.Body );
 
+            var ctxLambda = expression as SimpleLambdaExpressionSyntax;
+            if( ctxLambda != null )
+                return model.GetSymbol( ctxLambda.Body );
+
             var invocation = expression as InvocationExpressionSyntax;
             if( invocation != null )
             {
