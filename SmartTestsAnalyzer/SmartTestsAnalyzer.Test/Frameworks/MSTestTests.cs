@@ -1,6 +1,11 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+
+using Microsoft.CodeAnalysis;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 using TestHelper;
 
@@ -46,6 +51,12 @@ namespace TestingProject
                            };
 
             VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        protected override IEnumerable<Type> GetTestingFramework()
+        {
+            yield return typeof(TestClassAttribute);
         }
 
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -23,19 +24,16 @@ namespace TestHelper
         /// <summary>
         ///     Get the CSharp analyzer being tested - to be implemented in non-abstract class
         /// </summary>
-        protected virtual SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer()
-        {
-            return null;
-        }
+        protected virtual SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => null;
 
 
         /// <summary>
         ///     Get the Visual Basic analyzer being tested (C#) - to be implemented in non-abstract class
         /// </summary>
-        protected virtual SmartTestsAnalyzerAnalyzer GetBasicDiagnosticAnalyzer()
-        {
-            return null;
-        }
+        protected virtual SmartTestsAnalyzerAnalyzer GetBasicDiagnosticAnalyzer() => null;
+
+
+        protected virtual IEnumerable<Type> GetTestingFramework() => null;
 
         #endregion
 
@@ -126,7 +124,7 @@ namespace TestHelper
         /// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the sources</param>
         private void VerifyDiagnostics( string[] sources, string language, SmartTestsAnalyzerAnalyzer analyzer, int memberCount, params DiagnosticResult[] expected )
         {
-            var diagnostics = GetSortedDiagnostics( sources, language, analyzer );
+            var diagnostics = GetSortedDiagnostics( sources, language, analyzer, GetTestingFramework() );
             Assert.That( analyzer.Tests.Count, Is.EqualTo( memberCount ) );
             foreach( var cases in analyzer.Tests )
                 Assert.That( cases.Value.Cases.CasesAnd.Count, Is.GreaterThan( 0 ) );

@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 using SmartTests;
 
@@ -33,8 +32,6 @@ namespace TestHelper
         private static readonly MetadataReference CSharpSymbolsReference = MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location);
         private static readonly MetadataReference CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
         private static readonly MetadataReference SmartTestReference = MetadataReference.CreateFromFile(typeof(SmartTest).Assembly.Location);
-        private static readonly MetadataReference NUnitReference = MetadataReference.CreateFromFile(typeof(TestFixture).Assembly.Location);
-        private static readonly MetadataReference MSTestReference = MetadataReference.CreateFromFile(typeof(TestClassAttribute).Assembly.Location);
 
         internal static string DefaultFilePathPrefix = "Test";
         internal static string CSharpDefaultFileExt = "cs";
@@ -49,10 +46,11 @@ namespace TestHelper
         /// <param name="sources">Classes in the form of strings</param>
         /// <param name="language">The language the source classes are in</param>
         /// <param name="analyzer">The analyzer to be run on the sources</param>
+        /// <param name="testingFramework"></param>
         /// <returns>An IEnumerable of Diagnostics that surfaced in the source code, sorted by Location</returns>
-        private static Diagnostic[] GetSortedDiagnostics(string[] sources, string language, DiagnosticAnalyzer analyzer)
+        private static Diagnostic[] GetSortedDiagnostics( string[] sources, string language, DiagnosticAnalyzer analyzer, IEnumerable<Type> testingFramework )
         {
-            return GetSortedDiagnosticsFromDocuments(analyzer, GetDocuments(sources, language));
+            return GetSortedDiagnosticsFromDocuments(analyzer, GetDocuments(sources, language, testingFramework ));
         }
 
         /// <summary>
@@ -116,20 +114,22 @@ namespace TestHelper
         #endregion
 
         #region Set up compilation and documents
+
         /// <summary>
         /// Given an array of strings as sources and a language, turn them into a project and return the documents and spans of it.
         /// </summary>
         /// <param name="sources">Classes in the form of strings</param>
         /// <param name="language">The language the source code is in</param>
+        /// <param name="testingFramework"></param>
         /// <returns>A Tuple containing the Documents produced from the sources and their TextSpans if relevant</returns>
-        private static Document[] GetDocuments(string[] sources, string language)
+        private static Document[] GetDocuments( string[] sources, string language, IEnumerable<Type> testingFramework )
         {
             if (language != LanguageNames.CSharp && language != LanguageNames.VisualBasic)
             {
                 throw new ArgumentException("Unsupported Language");
             }
 
-            var project = CreateProject(sources, language);
+            var project = CreateProject(sources, testingFramework, language);
             var documents = project.Documents.ToArray();
 
             if (sources.Length != documents.Length)
@@ -140,15 +140,17 @@ namespace TestHelper
             return documents;
         }
 
+
         /// <summary>
         /// Create a Document from a string through creating a project that contains it.
         /// </summary>
         /// <param name="source">Classes in the form of a string</param>
+        /// <param name="testingFramework"></param>
         /// <param name="language">The language the source code is in</param>
         /// <returns>A Document created from the source string</returns>
-        protected static Document CreateDocument(string source, string language = LanguageNames.CSharp)
+        protected static Document CreateDocument( string source, IEnumerable<Type> testingFramework, string language = LanguageNames.CSharp )
         {
-            return CreateProject(new[] { source }, language).Documents.First();
+            return CreateProject(new[] { source }, testingFramework, language).Documents.First();
         }
 
         /// <summary>
@@ -157,7 +159,7 @@ namespace TestHelper
         /// <param name="sources">Classes in the form of strings</param>
         /// <param name="language">The language the source code is in</param>
         /// <returns>A Project created out of the Documents created from the source strings</returns>
-        private static Project CreateProject(string[] sources, string language = LanguageNames.CSharp)
+        private static Project CreateProject(string[] sources, IEnumerable<Type> testingFramework, string language = LanguageNames.CSharp)
         {
             string fileNamePrefix = DefaultFilePathPrefix;
             string fileExt = language == LanguageNames.CSharp ? CSharpDefaultFileExt : VisualBasicDefaultExt;
@@ -173,9 +175,12 @@ namespace TestHelper
                 .AddMetadataReference( projectId, SystemLinqExpressionsReference )
                 .AddMetadataReference( projectId, CSharpSymbolsReference )
                 .AddMetadataReference( projectId, CodeAnalysisReference )
-                .AddMetadataReference( projectId, SmartTestReference )
-                .AddMetadataReference( projectId, NUnitReference )
-                .AddMetadataReference( projectId, MSTestReference );
+                .AddMetadataReference( projectId, SmartTestReference );
+            if( testingFramework == null )
+                solution = solution.AddMetadataReference( projectId, MetadataReference.CreateFromFile( typeof(TestFixtureAttribute).Assembly.Location ) );
+            else
+                foreach( var type in testingFramework )
+                    solution = solution.AddMetadataReference( projectId, MetadataReference.CreateFromFile( type.Assembly.Location ) );
 
             int count = 0;
             foreach (var source in sources)
