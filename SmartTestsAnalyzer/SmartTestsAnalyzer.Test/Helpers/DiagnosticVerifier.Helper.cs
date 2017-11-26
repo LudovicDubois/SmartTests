@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -12,6 +13,9 @@ using NUnit.Framework;
 using NUnit.Framework.Internal;
 
 using SmartTests;
+
+using Assert = NUnit.Framework.Assert;
+
 
 
 namespace TestHelper
@@ -30,6 +34,7 @@ namespace TestHelper
         private static readonly MetadataReference CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
         private static readonly MetadataReference SmartTestReference = MetadataReference.CreateFromFile(typeof(SmartTest).Assembly.Location);
         private static readonly MetadataReference NUnitReference = MetadataReference.CreateFromFile(typeof(TestFixture).Assembly.Location);
+        private static readonly MetadataReference MSTestReference = MetadataReference.CreateFromFile(typeof(TestClassAttribute).Assembly.Location);
 
         internal static string DefaultFilePathPrefix = "Test";
         internal static string CSharpDefaultFileExt = "cs";
@@ -169,7 +174,8 @@ namespace TestHelper
                 .AddMetadataReference( projectId, CSharpSymbolsReference )
                 .AddMetadataReference( projectId, CodeAnalysisReference )
                 .AddMetadataReference( projectId, SmartTestReference )
-                .AddMetadataReference( projectId, NUnitReference );
+                .AddMetadataReference( projectId, NUnitReference )
+                .AddMetadataReference( projectId, MSTestReference );
 
             int count = 0;
             foreach (var source in sources)
