@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartTests", "SmartTests\SmartTests.csproj", "{51FE4134-1E3B-4281-8330-BE415F66FD39}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingProject", "TestingProject\TestingProject.csproj", "{DB4649CD-FC46-46F8-B007-BFA0264532AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{51FE4134-1E3B-4281-8330-BE415F66FD39} = {51FE4134-1E3B-4281-8330-BE415F66FD39}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTestsAnalyzer", "SmartTestsAnalyzer\SmartTestsAnalyzer\SmartTestsAnalyzer.csproj", "{C22596FD-95AC-4689-836C-2D0C5DB37D31}"
 EndProject
