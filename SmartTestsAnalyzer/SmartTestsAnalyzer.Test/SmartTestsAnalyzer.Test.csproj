@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Frameworks\NUnitTests.cs" />
     <Compile Include="MemberTests\ConstructorTests.cs" />
     <Compile Include="MemberTests\IndexerTests.cs" />
     <Compile Include="MemberTests\PropertyTests.cs" />

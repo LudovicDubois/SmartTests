@@ -48,23 +48,23 @@ namespace SmartTestsAnalyzer
     public abstract class AttributedTestingFramework: TestingFrameworkStrategy
     {
         private readonly INamedTypeSymbol _TestClassAttribute;
-        private readonly INamedTypeSymbol _TestMethodAttribute;
+        private readonly INamedTypeSymbol[] _TestMethodAttributes;
 
 
-        protected AttributedTestingFramework( Compilation compilation, string testClassAttribute, string testMethodAttribute )
+        protected AttributedTestingFramework( Compilation compilation, string testClassAttribute, params string[] testMethodAttributes )
         {
             _TestClassAttribute = compilation.GetTypeByMetadataName( testClassAttribute );
             if( _TestClassAttribute == null )
                 // This project does not contain testClassAttribute
                 return;
-            _TestMethodAttribute = compilation.GetTypeByMetadataName( testMethodAttribute );
+            _TestMethodAttributes = testMethodAttributes.Select( compilation.GetTypeByMetadataName ).ToArray();
         }
 
 
-        public override bool IsValid => _TestClassAttribute != null && _TestMethodAttribute != null;
+        public override bool IsValid => _TestClassAttribute != null && _TestMethodAttributes != null;
 
         public override bool IsTestClass( ITypeSymbol type ) => type.HasAttribute( _TestClassAttribute );
 
-        public override bool IsTestMethod( IMethodSymbol method ) => method.HasAttribute( _TestMethodAttribute );
+        public override bool IsTestMethod( IMethodSymbol method ) => _TestMethodAttributes.Any( method.HasAttribute );
     }
 }

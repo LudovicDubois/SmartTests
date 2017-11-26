@@ -7,7 +7,7 @@ namespace SmartTestsAnalyzer.TestFrameworks
     public class NUnitStrategy: AttributedTestingFramework
     {
         public NUnitStrategy( Compilation compilation )
-            : base( compilation, "NUnit.Framework.TestFixtureAttribute", "NUnit.Framework.TestAttribute" )
+            : base( compilation, "NUnit.Framework.TestFixtureAttribute", "NUnit.Framework.TestAttribute", "NUnit.Framework.TestCaseAttribute" )
         { }
     }
 }
