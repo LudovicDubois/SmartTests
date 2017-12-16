@@ -4,16 +4,16 @@
     <Title>SmartTests</Title>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>SmartTests</PackageId>
-    <Version>1.1</Version>
-    <PackageVersion>1.1.0</PackageVersion>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <Version>1.1.2</Version>
+    <PackageVersion>1.1.2</PackageVersion>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
     <PackageReleaseNotes>Smart Assertions added: 
     1. Wait: to test parallel code.
     2. Within: to test Act code is done within specific time.</PackageReleaseNotes>
     <Authors>Ludovic Dubois</Authors>
-    <summary>SmartTests enables you to write Smarter unit tests, whether you use NUnit or MSTests.</summary>
-    <description>SmartTests enables you to write Smarter unit tests, wether you use NUnit or MSTests.
+    <summary>SmartTests enables you to write Smarter unit tests, whether you use NUnit, Xunit or MSTests.</summary>
+    <description>SmartTests enables you to write Smarter unit tests, wether you use NUnit, Xunit or MSTests.
 
 It is best to install SmartTests.Analyzer so that missing tests will be displayed.
 

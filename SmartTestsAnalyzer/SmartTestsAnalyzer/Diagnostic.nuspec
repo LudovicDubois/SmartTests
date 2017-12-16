@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>SmartTests.Analyzer</id>
-    <version>1.1.0</version>
+    <version>1.1.2</version>
     <title>SmartTests Analyzer</title>
     <authors>Ludovic Dubois</authors>
     <owners>Ludovic Dubois</owners>
@@ -22,7 +22,7 @@
     </frameworkAssemblies>
     <developmentDependency>true</developmentDependency>
     <dependencies>
-      <dependency id="SmartTests" version="1.1.0"/>
+      <dependency id="SmartTests" version="1.1.2"/>
     </dependencies>
   </metadata>
   <!-- The convention for analyzers is to put language agnostic dlls in analyzers\portable50 and language specific analyzers in either analyzers\portable50\cs or analyzers\portable50\vb -->
