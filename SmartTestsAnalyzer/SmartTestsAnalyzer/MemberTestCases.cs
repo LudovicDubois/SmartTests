@@ -23,7 +23,7 @@ namespace SmartTestsAnalyzer
 
 
         public TestedMember TestedMember { get; }
-        public CasesAndOr Cases { get; } = new CasesAndOr();
+        public CasesAndOr CasesAndOr { get; } = new CasesAndOr();
 
 
         public void CombineOr( [NotNull] CasesAndOr cases )
@@ -31,7 +31,7 @@ namespace SmartTestsAnalyzer
             if( cases == null )
                 throw new ArgumentNullException( nameof(cases) );
 
-            Cases.CombineOr( cases );
+            CasesAndOr.CombineOr( cases );
         }
 
 
@@ -80,7 +80,7 @@ namespace SmartTestsAnalyzer
         private bool ValidateNoParameterNames( Action<Diagnostic> reportError )
         {
             var result = true;
-            foreach( var casesAnd in Cases.CasesAnd )
+            foreach( var casesAnd in CasesAndOr.CasesAnd )
             foreach( var pair in casesAnd.Cases )
                 if( pair.Key != Case.NoParameter )
                 {
@@ -100,14 +100,14 @@ namespace SmartTestsAnalyzer
             if( parameters.Count <= 1 )
             {
                 // 0 or 1 parameter: the parameter name is not mandatory
-                if( Cases.CasesAnd.Count == 1 &&
-                    Cases.CasesAnd[ 0 ].Cases.Count == 1 &&
-                    Cases.CasesAnd.First().Cases.Keys.First() == Case.NoParameter )
+                if( CasesAndOr.CasesAnd.Count == 1 &&
+                    CasesAndOr.CasesAnd[ 0 ].Cases.Count == 1 &&
+                    CasesAndOr.CasesAnd.First().Cases.Keys.First() == Case.NoParameter )
                     return true;
             }
 
             var result = true;
-            foreach( var casesAnd in Cases.CasesAnd )
+            foreach( var casesAnd in CasesAndOr.CasesAnd )
             {
                 var unusedParameters = parameters.ToList();
                 var hasAnonymousCase = false;
@@ -147,6 +147,6 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void ValidateCriterias( INamedTypeSymbol errorType, Action<Diagnostic> reportError ) => Cases.Validate( TestedMember, errorType, reportError );
+        private void ValidateCriterias( INamedTypeSymbol errorType, Action<Diagnostic> reportError ) => CasesAndOr.Validate( TestedMember, errorType, reportError );
     }
 }
