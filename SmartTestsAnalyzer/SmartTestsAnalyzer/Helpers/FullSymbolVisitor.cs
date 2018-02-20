@@ -4,7 +4,7 @@
 
 namespace SmartTestsAnalyzer.Helpers
 {
-    class FullSymbolVisitor: SymbolVisitor
+    public class FullSymbolVisitor: SymbolVisitor
     {
         public override void VisitAssembly( IAssemblySymbol symbol )
         {

@@ -7,6 +7,8 @@ using JetBrains.Annotations;
 
 using Microsoft.CodeAnalysis;
 
+using Newtonsoft.Json;
+
 
 
 namespace SmartTestsAnalyzer
@@ -14,15 +16,25 @@ namespace SmartTestsAnalyzer
     /// <summary>
     ///     Test Cases for a tested member, i.e. all combined cases (normalized form) for a tested member.
     /// </summary>
+    [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class MemberTestCases
     {
         public MemberTestCases( TestedMember testedMember )
         {
             TestedMember = testedMember;
+            TestedMemberKind = testedMember.Kind;
+            TestedType = testedMember.Symbol.ContainingType.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
+            TestedMemberName = testedMember.Symbol.Name;
         }
 
 
+        [JsonIgnore]
         public TestedMember TestedMember { get; }
+
+        public string TestedType { get; }
+        public TestedMemberKind TestedMemberKind { get; }
+        public string TestedMemberName { get; }
+
         public CasesAndOr CasesAndOr { get; } = new CasesAndOr();
 
 

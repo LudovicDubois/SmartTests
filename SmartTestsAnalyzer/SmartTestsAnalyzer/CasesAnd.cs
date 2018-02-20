@@ -34,6 +34,7 @@ namespace SmartTestsAnalyzer
 
         public Dictionary<string, Case> Cases { get; } = new Dictionary<string, Case>();
         public bool HasError { get; private set; }
+        public bool IsMissing { get; set; }
 
 
         public CasesAnd CombineAnd( CasesAnd otherCases )

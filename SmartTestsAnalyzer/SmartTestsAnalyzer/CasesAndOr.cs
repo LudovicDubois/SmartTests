@@ -91,24 +91,27 @@ namespace SmartTestsAnalyzer
         public void CombineOr( CasesAndOr cases ) => CasesAnd.AddRange( cases.CasesAnd );
 
 
-        private void Remove( CasesAndOr cases )
-        {
-            foreach( var criteria in cases.CasesAnd )
-                CasesAnd.Remove( criteria );
-        }
-
-
         public void Validate( TestedMember testedMember, INamedTypeSymbol errorType, Action<Diagnostic> reportError )
         {
             var allCases = ComputeAllCases( errorType );
-            allCases.Remove( this );
+
+            foreach( var casesAnd in CasesAnd )
+                allCases.CasesAnd.Remove( casesAnd );
+
             if( allCases.CasesAnd.Count == 0 )
                 // No missing cases
                 return;
 
+            // Missing cases
             reportError( SmartTestsDiagnostics.CreateMissingCases( testedMember,
                                                                    GetExpressionSyntax(),
                                                                    allCases.ToString() ) );
+
+            foreach( var casesAnd in allCases.CasesAnd )
+            {
+                casesAnd.IsMissing = true;
+                CasesAnd.Add( casesAnd );
+            }
         }
 
 

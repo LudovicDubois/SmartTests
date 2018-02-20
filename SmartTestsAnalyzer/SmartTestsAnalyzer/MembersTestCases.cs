@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Microsoft.CodeAnalysis;
 
@@ -10,9 +9,9 @@ namespace SmartTestsAnalyzer
     /// <summary>
     ///     Test cases for all tested members, i.e. all combined criteria (normalized form) for all tested members.
     /// </summary>
-    class MembersTestCases
+    public class MembersTestCases
     {
-        public Dictionary<TestedMember, MemberTestCases> MemberCases { get; } = new Dictionary<TestedMember, MemberTestCases>();
+        public Tests MemberCases { get; } = new Tests();
 
 
         public MemberTestCases GetOrCreate( TestedMember testedMember )

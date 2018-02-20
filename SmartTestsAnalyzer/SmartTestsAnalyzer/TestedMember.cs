@@ -17,7 +17,7 @@ namespace SmartTestsAnalyzer
     }
 
 
-    public struct TestedMember
+    public class TestedMember
     {
         public TestedMember( ISymbol symbol, TestedMemberKind kind )
         {

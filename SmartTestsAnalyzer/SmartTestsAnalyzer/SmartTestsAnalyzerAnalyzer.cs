@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -19,7 +19,7 @@ namespace SmartTestsAnalyzer
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => SmartTestsDiagnostics.DiagnosticDescriptors;
 
 
-        public Dictionary<TestedMember, MemberTestCases> Tests { get; private set; }
+        public Tests Tests { get; private set; }
 
 
         public override void Initialize( AnalysisContext context )
@@ -41,12 +41,31 @@ namespace SmartTestsAnalyzer
                 Tests = visitor.MembersTestCases.MemberCases;
 
                 visitor.Validate( context.ReportDiagnostic );
+
+                var settings = GetSettings( context );
+                if( settings != null )
+                    if( settings.IsEnabled )
+                        File.WriteAllText( settings.FullPath, JsonConvert.SerializeObject( visitor.MembersTestCases ) );
+                    else
+                        File.Delete( settings.FullPath );
             }
             catch( Exception e )
             {
                 Debug.WriteLine( e.Message );
                 throw;
             }
+        }
+
+
+        private SmartTestsSettings GetSettings( SemanticModelAnalysisContext context )
+        {
+            var config = context.Options.AdditionalFiles.SingleOrDefault( file => Path.GetFileName( file.Path ) == "SmartTests.json" );
+            if( config == null )
+                return null;
+
+            var result = JsonConvert.DeserializeObject<SmartTestsSettings>( config.GetText( context.CancellationToken ).ToString() );
+            result.FullPath = Path.Combine( Path.GetDirectoryName( config.Path ), result.File );
+            return result;
         }
     }
 }

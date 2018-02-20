@@ -3,8 +3,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
+using JetBrains.Annotations;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+using Newtonsoft.Json;
 
 using SmartTestsAnalyzer.Helpers;
 
@@ -12,9 +16,10 @@ using SmartTestsAnalyzer.Helpers;
 
 namespace SmartTestsAnalyzer
 {
+    [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class Case
     {
-        public static string NoParameter => "<No Parameter!>";
+        public static string NoParameter => "";
 
 
         public Case( ExpressionSyntax parameterNameExpression, string parameterName )
@@ -25,9 +30,13 @@ namespace SmartTestsAnalyzer
         }
 
 
+        [JsonIgnore]
         public ExpressionSyntax ParameterNameExpression { get; }
         public string ParameterName { get; }
+        [JsonIgnore]
         public List<ExpressionSyntax> CaseExpressions { get; } = new List<ExpressionSyntax>();
+        public List<string> Expressions => CriteriaFields.Select( criteria => criteria.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) ).ToList();
+        [JsonIgnore]
         public List<IFieldSymbol> CriteriaFields { get; } = new List<IFieldSymbol>();
         public bool HasError { get; private set; }
 
