@@ -78,10 +78,10 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void FillExpressionSyntaxes( List<ExpressionSyntax> result )
+        public void FillExpressionSyntax( List<ExpressionSyntax> result )
         {
             foreach( var aCase in Cases.Values )
-                aCase.FillExpressionSyntaxes( result );
+                aCase.FillExpressionSyntax( result );
         }
 
 

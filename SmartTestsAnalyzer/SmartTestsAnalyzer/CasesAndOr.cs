@@ -107,16 +107,16 @@ namespace SmartTestsAnalyzer
                 return;
 
             reportError( SmartTestsDiagnostics.CreateMissingCases( testedMember,
-                                                                   GetExpressionSyntaxes(),
+                                                                   GetExpressionSyntax(),
                                                                    allCases.ToString() ) );
         }
 
 
-        private IList<ExpressionSyntax> GetExpressionSyntaxes()
+        private IList<ExpressionSyntax> GetExpressionSyntax()
         {
             var result = new List<ExpressionSyntax>();
             foreach( var caseAnd in CasesAnd )
-                caseAnd.FillExpressionSyntaxes( result );
+                caseAnd.FillExpressionSyntax( result );
             return result;
         }
 

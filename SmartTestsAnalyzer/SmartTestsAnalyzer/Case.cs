@@ -60,7 +60,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void FillExpressionSyntaxes( List<ExpressionSyntax> result )
+        public void FillExpressionSyntax( List<ExpressionSyntax> result )
         {
             foreach( var expression in CaseExpressions )
                 if( !result.Contains( expression ) )
