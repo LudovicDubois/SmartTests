@@ -4,7 +4,18 @@
 
 namespace SmartTestsAnalyzer
 {
-    public class Tests: Dictionary<TestedMember, MemberTestCases>
+#if EXTENSION
+
+
+    public class Tests: Dictionary<string, MemberTestCases>
+    { }
+
+
+#else
+
+    public class Tests : Dictionary<TestedMember, MemberTestCases>
     {
     }
+
+#endif
 }

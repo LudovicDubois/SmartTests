@@ -45,7 +45,7 @@ namespace SmartTestsAnalyzer
                 var settings = GetSettings( context );
                 if( settings != null )
                     if( settings.IsEnabled )
-                        File.WriteAllText( settings.FullPath, JsonConvert.SerializeObject( visitor.MembersTestCases ) );
+                        File.WriteAllText( settings.FullPath, JsonConvert.SerializeObject( Tests ) );
                     else
                         File.Delete( settings.FullPath );
             }

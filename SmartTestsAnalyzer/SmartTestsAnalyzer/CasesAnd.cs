@@ -1,17 +1,34 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
+using JetBrains.Annotations;
+
+
+#if !EXTENSION
+
+using System.Diagnostics;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+#endif
 
 
 
 namespace SmartTestsAnalyzer
 {
+    [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class CasesAnd
     {
+#if EXTENSION
+
+        public Dictionary<string, Case> Cases { get; } = new Dictionary<string, Case>();
+        public bool HasError { get; set; }
+        public bool IsMissing { get; set; }
+
+#else
+
         private CasesAnd()
         { }
 
@@ -85,6 +102,8 @@ namespace SmartTestsAnalyzer
                 aCase.FillExpressionSyntax( result );
         }
 
+#endif
+
 
         public override bool Equals( object other )
         {
@@ -94,12 +113,11 @@ namespace SmartTestsAnalyzer
 
             foreach( var otherCase in otherCriterias.Cases )
             {
-                Case parameterCase;
-                if( !Cases.TryGetValue( otherCase.Key, out parameterCase ) )
+                if (!Cases.TryGetValue(otherCase.Key, out Case parameterCase))
                     // Not same parameter name!
                     return false;
 
-                if( !Equals( otherCase.Value, parameterCase ) )
+                if ( !Equals( otherCase.Value, parameterCase ) )
                     return false;
             }
             return true;

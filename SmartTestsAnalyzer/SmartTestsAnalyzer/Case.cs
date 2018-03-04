@@ -1,9 +1,13 @@
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
 
 using JetBrains.Annotations;
+
+#if !EXTENSION
+
+using System.Diagnostics;
+using System.Linq;
+
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,6 +15,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 
 using SmartTestsAnalyzer.Helpers;
+
+#endif
 
 
 
@@ -22,6 +28,14 @@ namespace SmartTestsAnalyzer
         public static string NoParameter => "";
 
 
+#if EXTENSION
+
+        public string ParameterName { get; }
+        public List<string> Expressions { get; } = new List<string>();
+        public bool HasError { get; set; }
+
+
+#else
         public Case( ExpressionSyntax parameterNameExpression, string parameterName )
         {
             Debug.Assert( parameterName != null );
@@ -76,16 +90,17 @@ namespace SmartTestsAnalyzer
                     result.Add( expression );
         }
 
+        public override bool Equals(object other) => Equals(other as Case);
 
-        public override bool Equals( object other ) => Equals( other as Case );
 
-
-        private bool Equals( Case other ) => string.Equals( ParameterName, other?.ParameterName ) &&
+        private bool Equals(Case other) => string.Equals(ParameterName, other?.ParameterName) &&
                                              // ReSharper disable once PossibleNullReferenceException
-                                             CriteriaFields.Equivalent( other.CriteriaFields );
+                                             CriteriaFields.Equivalent(other.CriteriaFields);
 
 
-        public override int GetHashCode() => CriteriaFields.Aggregate( ParameterName.GetHashCode(), ( current, field ) => current ^ field.GetHashCode() );
+        public override int GetHashCode() => CriteriaFields.Aggregate(ParameterName.GetHashCode(), (current, field) => current ^ field.GetHashCode());
+
+#endif
 
 
         public void ToString( StringBuilder result )
@@ -95,9 +110,9 @@ namespace SmartTestsAnalyzer
                 result.Append( ParameterName );
                 result.Append( ':' );
             }
-            foreach( var field in CriteriaFields )
+            foreach( var field in Expressions )
             {
-                result.Append( field.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) );
+                result.Append( field );
                 result.Append( " & " );
             }
             result.Length -= 3;

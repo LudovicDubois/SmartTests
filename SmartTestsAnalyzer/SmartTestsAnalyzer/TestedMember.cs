@@ -6,17 +6,6 @@ using Microsoft.CodeAnalysis;
 
 namespace SmartTestsAnalyzer
 {
-    public enum TestedMemberKind
-    {
-        Method,
-        PropertyGet,
-        PropertySet,
-        IndexerGet,
-        IndexerSet,
-        Field
-    }
-
-
     public class TestedMember
     {
         public TestedMember( ISymbol symbol, TestedMemberKind kind )

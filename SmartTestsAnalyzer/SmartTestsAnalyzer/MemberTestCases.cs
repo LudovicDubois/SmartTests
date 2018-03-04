@@ -1,13 +1,18 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+
+#if !EXTENSION
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-using JetBrains.Annotations;
 
 using Microsoft.CodeAnalysis;
 
 using Newtonsoft.Json;
+
+#endif
 
 
 
@@ -19,6 +24,16 @@ namespace SmartTestsAnalyzer
     [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class MemberTestCases
     {
+#if EXTENSION
+
+        public string TestedType { get; set; }
+        public TestedMemberKind TestedMemberKind { get; set; }
+        public string TestedMemberName { get; set; }
+
+        public CasesAndOr CasesAndOr { get; set; }
+
+#else
+
         public MemberTestCases( TestedMember testedMember )
         {
             TestedMember = testedMember;
@@ -160,5 +175,6 @@ namespace SmartTestsAnalyzer
 
 
         private void ValidateCriterias( INamedTypeSymbol errorType, Action<Diagnostic> reportError ) => CasesAndOr.Validate( TestedMember, errorType, reportError );
+#endif
     }
 }

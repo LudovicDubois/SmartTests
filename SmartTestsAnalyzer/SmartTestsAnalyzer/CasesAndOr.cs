@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
+
+using JetBrains.Annotations;
+
+#if !EXTENSION
+
+using System;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SmartTestsAnalyzer.Helpers;
+
+#endif
 
 
 
@@ -28,8 +35,15 @@ namespace SmartTestsAnalyzer
     ///     'Case( Criteria1.Good1 > Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
     ///     CriteriaAnd
     /// </example>
+    [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class CasesAndOr
     {
+#if EXTENSION
+
+        public List<CasesAnd> CasesAnd { get; } = new List<CasesAnd>();
+
+#else
+
         public CasesAndOr()
         { }
 
@@ -154,6 +168,7 @@ namespace SmartTestsAnalyzer
                 criteria.FillCriteriaTypes( result );
             return result;
         }
+#endif
 
 
         public void ToString( StringBuilder result )
