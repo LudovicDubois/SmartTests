@@ -22,6 +22,16 @@ namespace SmartTestsExtension.Results
 
         public Project Project { get; }
 
+        public string ProjectName => Project.Name;
+        public string ProjectFullName => Project.FullName;
+
+
+        internal void ProjectRenamed()
+        {
+            RaisePropertyChanged( nameof(ProjectName) );
+            RaisePropertyChanged( nameof(ProjectFullName) );
+        }
+
 
         #region Tests Property
 

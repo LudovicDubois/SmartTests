@@ -38,7 +38,7 @@
         <DockPanel Grid.Row="0" Grid.Column="0">
             <DockPanel.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type results:ProjectTests}" ItemsSource="{Binding TestsResult.Names}">
-                    <TextBlock Text="{Binding Project.Name}" ToolTip="{Binding Project.FullName}"/>
+                    <TextBlock Text="{Binding ProjectName}" ToolTip="{Binding ProjectFullName}"/>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type results:NameResult}" ItemsSource="{Binding SubNames}">
                     <TextBlock Text="{Binding Name}" />
