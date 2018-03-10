@@ -63,10 +63,10 @@
                 <Style TargetType="ListViewItem">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding HasError}" Value="True">
-                            <Setter Property="Background" Value="Red"/>
+                            <Setter Property="FontStyle" Value="Italic"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsMissing}" Value="True">
-                            <Setter Property="FontStyle" Value="Italic"/>
+                            <Setter Property="Background" Value="Red"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
