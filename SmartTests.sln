@@ -15,12 +15,22 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTestsAnalyzer.Test", "SmartTestsAnalyzer\SmartTestsAnalyzer.Test\SmartTestsAnalyzer.Test.csproj", "{60EB4D1B-E47A-4AF2-B024-E9BB37D4D6A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTestsAnalyzer.Vsix", "SmartTestsAnalyzer\SmartTestsAnalyzer.Vsix\SmartTestsAnalyzer.Vsix.csproj", "{2C249C25-A8A6-4F7F-A688-93981A50A83F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C22596FD-95AC-4689-836C-2D0C5DB37D31} = {C22596FD-95AC-4689-836C-2D0C5DB37D31}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTestsAnalyzer.Runtime.Test", "SmartTestsAnalyzer.Runtime.Test\SmartTestsAnalyzer.Runtime.Test.csproj", "{556C56F3-2971-4264-938C-997812F3F9AF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{51FE4134-1E3B-4281-8330-BE415F66FD39} = {51FE4134-1E3B-4281-8330-BE415F66FD39}
+	EndProjectSection
 EndProject
 Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "SmartTestsDoc", "SmartTestsDoc\SmartTestsDoc.shfbproj", "{04791F62-142E-4517-839A-3DD213E11F25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTestsExtension", "SmartTestsExtension\SmartTestsExtension.csproj", "{455052FD-0901-44DD-8D77-29B6AF45B49C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{51FE4134-1E3B-4281-8330-BE415F66FD39} = {51FE4134-1E3B-4281-8330-BE415F66FD39}
+		{C22596FD-95AC-4689-836C-2D0C5DB37D31} = {C22596FD-95AC-4689-836C-2D0C5DB37D31}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
