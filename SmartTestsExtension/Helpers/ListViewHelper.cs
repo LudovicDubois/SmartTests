@@ -12,25 +12,25 @@ namespace SmartTestsExtension.Helpers
 {
     public class ListViewHelper
     {
-        public static bool GetAutoGenerateColumns( DependencyObject element )
+        public static int GetAutoGenerateFromColumn( DependencyObject element )
         {
             if( element == null )
                 throw new ArgumentNullException( nameof(element) );
 
-            return (bool)element.GetValue( AutoGenerateColumnsProperty );
+            return (int)element.GetValue( AutoGenerateFromColumnProperty );
         }
 
 
-        public static void SetAutoGenerateColumns( DependencyObject element, bool value )
+        public static void SetAutoGenerateFromColumn( DependencyObject element, int value )
         {
             if( element == null )
                 throw new ArgumentNullException( nameof(element) );
 
-            element.SetValue( AutoGenerateColumnsProperty, value );
+            element.SetValue( AutoGenerateFromColumnProperty, value );
         }
 
 
-        public static readonly DependencyProperty AutoGenerateColumnsProperty = DependencyProperty.RegisterAttached( "AutoGenerateColumns", typeof(bool?), typeof(ListViewHelper), new FrameworkPropertyMetadata( null, RaisePropChanged ) );
+        public static readonly DependencyProperty AutoGenerateFromColumnProperty = DependencyProperty.RegisterAttached( "AutoGenerateFromColumn", typeof(int), typeof(ListViewHelper), new FrameworkPropertyMetadata( 0, RaisePropChanged ) );
 
 
         private static void RaisePropChanged( DependencyObject obj, DependencyPropertyChangedEventArgs e )
@@ -58,7 +58,13 @@ namespace SmartTestsExtension.Helpers
         private static void ItemsSourceChanged( object sender, EventArgs e )
         {
             var listView = (ListView)sender;
-            ((GridView)listView.View).Columns.Clear();
+            var index = GetAutoGenerateFromColumn( listView );
+            var columns = ( (GridView)listView.View ).Columns;
+            if( index <= 0 )
+                columns.Clear();
+            else
+                while( columns.Count > index )
+                    columns.RemoveAt( index );
             var itemsSource = listView.ItemsSource;
             if( itemsSource == null )
                 return;

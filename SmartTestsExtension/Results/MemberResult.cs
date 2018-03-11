@@ -21,6 +21,8 @@ namespace SmartTestsExtension.Results
         private void FillWith( CasesAndOr casesAndOr )
         {
             Items.Columns.Add( "Test" );
+            Items.Columns.Add( "TestFileName" );
+            Items.Columns.Add( "TestLine" );
             Items.Columns.Add( "TestLocation" );
             Items.Columns.Add( "HasError" );
             Items.Columns.Add( "IsMissing" );
@@ -37,6 +39,8 @@ namespace SmartTestsExtension.Results
             {
                 row[ "Test" ] = casesAnd.TestClassName + '.' + casesAnd.TestName;
                 row[ "TestLocation" ] = casesAnd.TestFileName + ':' + casesAnd.TestLine;
+                row[ "TestFileName" ] = casesAnd.TestFileName;
+                row[ "TestLine" ] = casesAnd.TestLine;
             }
             row[ "HasError" ] = casesAnd.HasError;
             row[ "IsMissing" ] = casesAnd.IsMissing;

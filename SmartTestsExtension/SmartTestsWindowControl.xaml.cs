@@ -1,9 +1,13 @@
-﻿using System.Windows;
+﻿using System.Data;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 using EnvDTE;
 
 using Microsoft.VisualStudio.Shell;
+
+using TextSelection = EnvDTE.TextSelection;
 
 
 
@@ -12,14 +16,14 @@ namespace SmartTestsExtension
     /// <summary>
     ///     Interaction logic for SmartTestsWindowControl.
     /// </summary>
-    public partial class SmartTestsWindowControl : UserControl
+    public partial class SmartTestsWindowControl: UserControl
     {
         static SmartTestsWindowControl()
         {
-            var dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
+            _Dte = (DTE)ServiceProvider.GlobalProvider.GetService( typeof(DTE) );
 
-            _SolutionEvents = dte.Events.SolutionEvents;
-            _SolutionEvents.Opened += () => AnalyzerResults.Instance.SetSolution(dte.Solution);
+            _SolutionEvents = _Dte.Events.SolutionEvents;
+            _SolutionEvents.Opened += () => AnalyzerResults.Instance.SetSolution( _Dte.Solution );
             _SolutionEvents.AfterClosing += AnalyzerResults.Instance.Clear;
             _SolutionEvents.ProjectAdded += AnalyzerResults.Instance.AddProject;
             _SolutionEvents.ProjectRenamed += AnalyzerResults.Instance.RenameProject;
@@ -27,6 +31,7 @@ namespace SmartTestsExtension
         }
 
 
+        private static readonly DTE _Dte;
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private static readonly SolutionEvents _SolutionEvents;
 
@@ -37,6 +42,16 @@ namespace SmartTestsExtension
         public SmartTestsWindowControl()
         {
             this.InitializeComponent();
+        }
+
+
+        private void Hyperlink_OnClick( object sender, RoutedEventArgs e )
+        {
+            var row = (DataRowView)( (Hyperlink)e.OriginalSource ).DataContext;
+
+            var window = _Dte.ItemOperations.OpenFile( row[ "TestFileName" ].ToString() );
+            window.Activate();
+            ( (TextSelection)window.Document.Selection ).GotoLine( int.Parse( row[ "TestLine" ].ToString() ) );
         }
     }
 }
