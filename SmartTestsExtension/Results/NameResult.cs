@@ -1,8 +1,4 @@
-﻿using SmartTestsAnalyzer;
-
-
-
-namespace SmartTestsExtension.Results
+﻿namespace SmartTestsExtension.Results
 {
     public class NameResult
     {
@@ -10,6 +6,9 @@ namespace SmartTestsExtension.Results
         {
             Name = name;
         }
+
+
+        public int Generation { get; set; }
 
 
         public string Name { get; protected set; }

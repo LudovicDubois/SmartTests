@@ -29,6 +29,31 @@ namespace SmartTestsExtension
         { }
 
 
+        #region Callback Property
+
+        private Action<Project, ProjectTests, Tests> _Callback;
+        private readonly object _CallbackLocker = new object();
+
+        public Action<Project, ProjectTests, Tests> Callback
+        {
+            get
+            {
+                lock( _CallbackLocker )
+                    return _Callback;
+            }
+            set
+            {
+                lock( _CallbackLocker )
+                    _Callback = value;
+                if( value != null )
+                    foreach( var testedProject in TestedProjects )
+                        Load( testedProject.Project, GetTestsFile( testedProject.Project ) );
+            }
+        }
+
+        #endregion
+
+
         public ObservableCollection<ProjectTests> TestedProjects { get; } = new ObservableCollection<ProjectTests>();
 
 
@@ -57,30 +82,71 @@ namespace SmartTestsExtension
 
         public void AddProject( Project project )
         {
+            var path = GetTestsFile( project );
+            if( path != null )
+                AddOrUpdate( project, path );
+        }
+
+
+        private string GetTestsFile( Project project )
+        {
             var settings = GetSettings( project );
             if( settings == null ||
                 !settings.IsEnabled )
-                return;
+                return null;
 
             // We have SmartTests to show
-            var path = Path.Combine( Path.GetDirectoryName( project.FullName ), settings.File );
-            AddOrUpdate( project, path );
+            return Path.Combine( Path.GetDirectoryName( project.FullName ), settings.File );
         }
 
 
         private void AddOrUpdate( Project project, string testsPath )
         {
-            var tests = JsonConvert.DeserializeObject<Tests>( File.ReadAllText( testsPath ) );
-
-            var projectTests = GetTests( project );
-            if( projectTests != null )
-                projectTests.Tests = tests;
-            else
-                TestedProjects.Add( new ProjectTests( project, tests ) );
+            Watch( project, testsPath );
+            //Load( project, testsPath );
         }
 
 
-        public void RenameProject( Project project, string oldname ) => GetTests( project )?.ProjectRenamed();
+        private string _LastText; // Very bad hack so that we do not update it multiple times (as FileSystemWatcher.Change event is raised multiple times)
+
+
+        private void Load( Project project, string testsPath )
+        {
+            if( Callback == null || // Smart Tool Window is not visible
+                !File.Exists( testsPath ) )
+                return;
+
+            try
+            {
+                var text = File.ReadAllText( testsPath );
+                if( text == _LastText )
+                    // Already processed!
+                    return;
+
+                _LastText = text;
+                Callback.Invoke( project,
+                                 GetTests( project ),
+                                 JsonConvert.DeserializeObject<Tests>( text ) );
+            }
+            catch( IOException )
+            {
+                // Not completely written yet!
+            }
+        }
+
+
+        private void Watch( Project project, string testsPath )
+        {
+            var watcher = new FileSystemWatcher( Path.GetDirectoryName( testsPath ), Path.GetFileName( testsPath ) )
+                          {
+                              NotifyFilter = NotifyFilters.LastWrite
+                          };
+            watcher.Changed += ( sender, args ) => Load( project, testsPath );
+            watcher.EnableRaisingEvents = true;
+        }
+
+
+        public void RenameProject( Project project, string _ ) => GetTests( project )?.ProjectRenamed();
 
 
         public void RemoveProject( Project project ) => TestedProjects.Remove( GetTests( project ) );

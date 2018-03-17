@@ -43,8 +43,11 @@ namespace SmartTestsExtension.Results
             set
             {
                 _Tests = value;
-                _TestsResult = new TestsResult( _Tests );
                 RaisePropertyChanged();
+                if( _TestsResult == null )
+                    TestsResult = new TestsResult( _Tests );
+                else
+                    TestsResult.Synchronize( _Tests );
             }
         }
 

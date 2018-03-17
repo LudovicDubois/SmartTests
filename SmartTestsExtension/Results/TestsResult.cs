@@ -8,17 +8,25 @@ namespace SmartTestsExtension.Results
     {
         public TestsResult( Tests tests )
         {
-            FillWithNamespaces( tests );
+            Synchronize( tests );
         }
 
 
         public NameResultList Names { get; } = new NameResultList();
 
 
-        private void FillWithNamespaces( Tests tests )
+        private static int _Generation;
+
+
+        public void Synchronize( Tests tests )
         {
+            ++_Generation;
             foreach( var test in tests )
-                Names.AddOrUpdate( test.Key.Split( '.' ), 0, test.Value );
+            {
+                var nameResult = Names.Synchronize( _Generation, test.Key.Split( '.' ), 0 );
+                nameResult.Synchronize( test.Value );
+            }
+            Names.RemoveOld( _Generation );
         }
     }
 }

@@ -8,17 +8,8 @@ namespace SmartTestsExtension.Results
 {
     public class MemberResult: NameResult
     {
-        public MemberResult( string name, MemberTestCases cases )
+        public MemberResult( string name )
             : base( name )
-        {
-            FillWith( cases.CasesAndOr );
-        }
-
-
-        public DataTable Items { get; } = new DataTable();
-
-
-        private void FillWith( CasesAndOr casesAndOr )
         {
             Items.Columns.Add( "Test" );
             Items.Columns.Add( "TestFileName" );
@@ -26,7 +17,18 @@ namespace SmartTestsExtension.Results
             Items.Columns.Add( "TestLocation" );
             Items.Columns.Add( "HasError" );
             Items.Columns.Add( "IsMissing" );
+        }
 
+
+        public DataTable Items { get; } = new DataTable();
+
+
+        public void Synchronize( MemberTestCases testCases ) => FillWith( testCases.CasesAndOr );
+
+
+        private void FillWith( CasesAndOr casesAndOr )
+        {
+            Items.Clear();
             foreach( var casesAnd in casesAndOr.CasesAnd )
                 FillWith( casesAnd );
         }

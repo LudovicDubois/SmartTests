@@ -1,35 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-
-using SmartTestsAnalyzer;
 
 
 
 namespace SmartTestsExtension.Results
 {
-    public class NameResultList: List<NameResult>
+    public class NameResultList: ObservableCollection<NameResult>
     {
-        public void AddOrUpdate( string[] names, int index, MemberTestCases cases )
+        public MemberResult Synchronize( int generation, string[] names, int index )
         {
-            if( index == names.Length - 1 )
-            {
-                // All names were retrieved
-                // => last level is member name
-                Add( new MemberResult( names[ index ], cases ) );
-                return;
-            }
-
             var currentName = names[ index ];
             var current = this.FirstOrDefault( named => named.Name == currentName );
             if( current == null )
             {
                 // Not found
                 // => Create it
-                current = new NameResult( currentName );
+
+                current = index == names.Length - 1
+                              ? new MemberResult( currentName )
+                              : new NameResult( currentName );
                 Add( current );
             }
+            current.Generation = generation;
 
-            current.SubNames.AddOrUpdate( names, index + 1, cases );
+            index++;
+            if( index == names.Length )
+                return (MemberResult)current;
+
+            return current.SubNames.Synchronize( generation, names, index );
+        }
+
+
+        public void RemoveOld( int generation )
+        {
+            for( var i = Count - 1; i >= 0; i-- )
+            {
+                var name = this[ i ];
+                if( name.Generation < generation )
+                    RemoveAt( i );
+                else
+                    name.SubNames.RemoveOld( generation );
+            }
         }
     }
 }

@@ -1,11 +1,18 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Threading;
 
 using EnvDTE;
 
 using Microsoft.VisualStudio.Shell;
+
+using SmartTestsAnalyzer;
+
+using SmartTestsExtension.Results;
 
 using TextSelection = EnvDTE.TextSelection;
 
@@ -52,6 +59,44 @@ namespace SmartTestsExtension
             var window = _Dte.ItemOperations.OpenFile( row[ "TestFileName" ].ToString() );
             window.Activate();
             ( (TextSelection)window.Document.Selection ).GotoLine( int.Parse( row[ "TestLine" ].ToString() ) );
+        }
+
+
+        private void SmartTestsWindowControl_OnLoaded( object sender, RoutedEventArgs e )
+        {
+            AnalyzerResults.Instance.Callback = Reload;
+        }
+
+
+        private void SmartTestsWindowControl_OnUnloaded( object sender, RoutedEventArgs e )
+        {
+            AnalyzerResults.Instance.Callback = null;
+        }
+
+
+        private DispatcherOperation _CurrentLoad;
+
+
+        private void Reload( Project project, ProjectTests projectTests, Tests tests )
+        {
+            _CurrentLoad?.Abort();
+            _CurrentLoad = Dispatcher.BeginInvoke( new Action<Project, ProjectTests, Tests>( SafeReload ), project, projectTests, tests );
+        }
+
+
+        private void SafeReload( Project project, ProjectTests projectTests, Tests tests )
+        {
+            try
+            {
+                if( projectTests != null )
+                    projectTests.Tests = tests;
+                else
+                    AnalyzerResults.Instance.TestedProjects.Add( new ProjectTests( project, tests ) );
+            }
+            catch( Exception e )
+            {
+                Trace.WriteLine( e );
+            }
         }
     }
 }
