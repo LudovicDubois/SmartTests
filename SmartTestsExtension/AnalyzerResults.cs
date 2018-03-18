@@ -76,7 +76,7 @@ namespace SmartTestsExtension
                 if( projectItem.Name == "SmartTests.json" &&
                     new Guid( projectItem.Kind ) == VSConstants.ItemTypeGuid.PhysicalFile_guid )
                     return JsonConvert.DeserializeObject<SmartTestsSettings>( File.ReadAllText( projectItem.FileNames[ 0 ] ) );
-            return null;
+            return new SmartTestsSettings();
         }
 
 
@@ -91,8 +91,7 @@ namespace SmartTestsExtension
         private string GetTestsFile( Project project )
         {
             var settings = GetSettings( project );
-            if( settings == null ||
-                !settings.IsEnabled )
+            if( !settings.IsEnabled )
                 return null;
 
             // We have SmartTests to show

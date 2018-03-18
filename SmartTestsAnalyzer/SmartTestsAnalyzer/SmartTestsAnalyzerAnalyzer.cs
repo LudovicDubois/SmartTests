@@ -61,11 +61,35 @@ namespace SmartTestsAnalyzer
         {
             var config = context.Options.AdditionalFiles.SingleOrDefault( file => Path.GetFileName( file.Path ) == "SmartTests.json" );
             if( config == null )
-                return null;
+            {
+                var projectFolder = GetProjectFolder( context.SemanticModel );
+                if( projectFolder == null )
+                    return null;
+
+                var result2 = new SmartTestsSettings();
+                result2.FullPath = Path.Combine( projectFolder, result2.File );
+                return result2;
+            }
 
             var result = JsonConvert.DeserializeObject<SmartTestsSettings>( config.GetText( context.CancellationToken ).ToString() );
             result.FullPath = Path.Combine( Path.GetDirectoryName( config.Path ), result.File );
             return result;
+        }
+
+
+        const string _AssemblyInfoPath = @"\Properties\AssemblyInfo.cs";
+
+
+        private string GetProjectFolder( SemanticModel semanticModel )
+        {
+            // Hope we will find a Properties\AssemblyInfo.cs file
+            foreach( var attribute in semanticModel.Compilation.Assembly.GetAttributes() )
+            {
+                var fileName = attribute.ApplicationSyntaxReference.SyntaxTree.FilePath;
+                if( fileName.EndsWith( _AssemblyInfoPath ) )
+                    return fileName.Substring( 0, fileName.Length - _AssemblyInfoPath.Length );
+            }
+            return null;
         }
     }
 }
