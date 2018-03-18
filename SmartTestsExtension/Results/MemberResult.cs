@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 
 using SmartTestsAnalyzer;
 
@@ -11,16 +12,19 @@ namespace SmartTestsExtension.Results
         public MemberResult( string name )
             : base( name )
         {
-            Items.Columns.Add( "Test" );
-            Items.Columns.Add( "TestFileName" );
-            Items.Columns.Add( "TestLine" );
-            Items.Columns.Add( "TestLocation" );
-            Items.Columns.Add( "HasError" );
-            Items.Columns.Add( "IsMissing" );
+            _Items = new DataTable();
+            _Items.Columns.Add( "Test" );
+            _Items.Columns.Add( "TestFileName" );
+            _Items.Columns.Add( "TestLine" );
+            _Items.Columns.Add( "TestLocation" );
+            _Items.Columns.Add( "HasError" );
+            _Items.Columns.Add( "IsMissing" );
+            Items = new DataView( _Items );
         }
 
 
-        public DataTable Items { get; } = new DataTable();
+        private readonly DataTable _Items;
+        public DataView Items { get; }
 
 
         public void Synchronize( MemberTestCases testCases ) => FillWith( testCases.CasesAndOr );
@@ -28,15 +32,25 @@ namespace SmartTestsExtension.Results
 
         private void FillWith( CasesAndOr casesAndOr )
         {
-            Items.Clear();
+            _Items.Clear();
             foreach( var casesAnd in casesAndOr.CasesAnd )
                 FillWith( casesAnd );
+            Items.Sort = string.Join( ",", GetNewColumnNames() );
+        }
+
+
+        private List<string> GetNewColumnNames()
+        {
+            var result = new List<string>();
+            for( var i = 6; i < _Items.Columns.Count; i++ )
+                result.Add( _Items.Columns[ i ].ColumnName );
+            return result;
         }
 
 
         private void FillWith( CasesAnd casesAnd )
         {
-            var row = Items.NewRow();
+            var row = _Items.NewRow();
             if( !string.IsNullOrEmpty( casesAnd.TestName ) )
             {
                 row[ "Test" ] = casesAnd.TestClassName + '.' + casesAnd.TestName;
@@ -52,13 +66,13 @@ namespace SmartTestsExtension.Results
                 foreach( var expression in cases.Value.Expressions )
                 {
                     var criterion = expression.Split( '.' );
-                    if( !Items.Columns.Contains( criterion[ 0 ] ) )
-                        Items.Columns.Add( criterion[ 0 ] );
+                    if( !_Items.Columns.Contains( criterion[ 0 ] ) )
+                        _Items.Columns.Add( criterion[ 0 ] );
                     row[ criterion[ 0 ] ] = criterion[ 1 ];
                 }
             }
 
-            Items.Rows.Add( row );
+            _Items.Rows.Add( row );
         }
     }
 }
