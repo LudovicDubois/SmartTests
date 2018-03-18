@@ -26,17 +26,13 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
-        <DockPanel Grid.Row="0" Grid.Column="0">
+        <DockPanel Grid.Column="0">
             <DockPanel.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type results:ProjectTests}" ItemsSource="{Binding TestsResult.Names}">
                     <TextBlock Text="{Binding ProjectName}" ToolTip="{Binding ProjectFullName}"/>
@@ -48,15 +44,12 @@
                     <TextBlock Text="{Binding Name}" />
                 </DataTemplate>
             </DockPanel.Resources>
-            <ToolBar DockPanel.Dock="Top" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}">
-
-            </ToolBar>
             <TreeView Name="Tested" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}"
                       ItemsSource="{Binding Source={x:Static smartTestsExtension:AnalyzerResults.Instance}, Path=TestedProjects}"/>
         </DockPanel>
-        <GridSplitter Grid.Row="0" Grid.Column="1" Width="4" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBorderKey}}"
+        <GridSplitter Grid.Column="1" Width="4" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBorderKey}}"
                       ResizeBehavior="PreviousAndNext"  VerticalAlignment="Stretch"/>
-        <ListView Grid.Row="0" Grid.Column="2" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}"
+        <ListView Grid.Column="2" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}"
                   ItemsSource="{Binding ElementName=Tested, Path=SelectedItem.Items}" 
                   helpers:ListViewHelper.AutoGenerateFromColumn="1"
                   helpers:ListViewHelper.ExcludeColumns="TestNamespaceName;TestClassName;TestName;TestFileName;TestLine;TestLocation;Test;HasError;IsMissing">
@@ -86,8 +79,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StatusBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}">
-            <TextBlock Text="Status"/>
-        </StatusBar>
     </Grid>
 </UserControl>
