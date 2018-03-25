@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Windows;
@@ -97,6 +98,16 @@ namespace SmartTestsExtension
             {
                 Trace.WriteLine( e );
             }
+        }
+
+
+        private static readonly HashSet<string> _HiddenColumns = new HashSet<string>( new[] { "Test", "TestFileName", "TestLine", "TestLocation", "HasError", "IsMissing" } );
+
+
+        private void DataGrid_OnAutoGeneratingColumn( object sender, DataGridAutoGeneratingColumnEventArgs e )
+        {
+            if( _HiddenColumns.Contains( e.Column.Header.ToString() ) )
+                e.Cancel = true;
         }
     }
 }

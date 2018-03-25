@@ -21,8 +21,8 @@
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowTextKey}}"/>
         </Style>
         <Style TargetType="GridViewColumnHeader">
-            <Setter Property="Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}" />
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowTextKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowTextKey}}"/>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -33,51 +33,97 @@
         </Grid.ColumnDefinitions>
 
         <DockPanel Grid.Column="0">
-            <DockPanel.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type results:ProjectTests}" ItemsSource="{Binding TestsResult.Names}">
-                    <TextBlock Text="{Binding ProjectName}" ToolTip="{Binding ProjectFullName}"/>
-                </HierarchicalDataTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type results:NameResult}" ItemsSource="{Binding SubNames}">
-                    <TextBlock Text="{Binding Name}" />
-                </HierarchicalDataTemplate>
-                <DataTemplate DataType="{x:Type results:MemberResult}">
-                    <TextBlock Text="{Binding Name}" />
-                </DataTemplate>
-            </DockPanel.Resources>
             <TreeView Name="Tested" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}"
-                      ItemsSource="{Binding Source={x:Static smartTestsExtension:AnalyzerResults.Instance}, Path=TestedProjects}"/>
+                      ItemsSource="{Binding Source={x:Static smartTestsExtension:AnalyzerResults.Instance}, Path=TestedProjects}">
+                <TreeView.Resources>
+                    <Style x:Key="ForcedBackground" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=TreeViewItem}, Path=IsSelected}" Value="True"/>
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=TreeViewItem}, Path=IsSelectionActive}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowButtonDownKey}}"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <HierarchicalDataTemplate DataType="{x:Type results:ProjectTests}" ItemsSource="{Binding TestsResult.Names}">
+                        <TextBlock Text="{Binding ProjectName}" ToolTip="{Binding ProjectFullName}"
+                                   Style="{StaticResource ForcedBackground}"/>
+                    </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type results:NameResult}" ItemsSource="{Binding SubNames}">
+                        <TextBlock Text="{Binding Name}"
+                                   Style="{StaticResource ForcedBackground}"/>
+                    </HierarchicalDataTemplate>
+                    <DataTemplate DataType="{x:Type results:MemberResult}">
+                        <TextBlock Text="{Binding Name}"
+                                   Style="{StaticResource ForcedBackground}"/>
+                    </DataTemplate>
+                </TreeView.Resources>
+            </TreeView>
         </DockPanel>
         <GridSplitter Grid.Column="1" Width="4" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBorderKey}}"
-                      ResizeBehavior="PreviousAndNext"  VerticalAlignment="Stretch"/>
-        <ListView Grid.Column="2" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}"
-                  ItemsSource="{Binding ElementName=Tested, Path=SelectedItem.Items}" 
-                  helpers:ListViewHelper.AutoGenerateFromColumn="1"
-                  helpers:ListViewHelper.ExcludeColumns="TestNamespaceName;TestClassName;TestName;TestFileName;TestLine;TestLocation;Test;HasError;IsMissing">
-            <ListView.Resources>
-                <Style TargetType="ListViewItem">
+                      ResizeBehavior="PreviousAndNext" VerticalAlignment="Stretch"/>
+        <DataGrid Name="ResultsGrid" Grid.Column="2" Background="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}" GridLinesVisibility="None"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding ElementName=Tested, Path=SelectedItem.Items}" AutoGenerateColumns="True" AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRowHeader" BasedOn="{StaticResource {x:Type DataGridRowHeader}}">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowTextKey}}"/>
+                </Style>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowTabGradientKey}}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowTabTextKey}}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowTabTextKey}}"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Padding" Value="3 0"/>
+                </Style>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowBackgroundKey}}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowTextKey}}"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding HasError}" Value="True">
-                            <Setter Property="FontStyle" Value="Italic"/>
-                        </DataTrigger>
                         <DataTrigger Binding="{Binding IsMissing}" Value="True">
                             <Setter Property="Background" Value="Red"/>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding HasError}" Value="True">
+                            <Setter Property="FontStyle" Value="Italic"/>
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </ListView.Resources>
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Test">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock ToolTip="{Binding TestLocation}"><Hyperlink Click="Hyperlink_OnClick"><Run Text="{Binding Test}"/></Hyperlink></TextBlock>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
+            </DataGrid.Resources>
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowButtonDownKey}}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsshell:VsBrushes.ToolWindowTextKey}}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Test">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Hyperlink Click="Hyperlink_OnClick">
+                                    <Run Text="{Binding Test}"/>
+                                </Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>
