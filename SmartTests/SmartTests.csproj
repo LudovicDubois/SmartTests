@@ -4,18 +4,18 @@
     <Title>SmartTests</Title>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>SmartTests</PackageId>
-    <Version>1.1.2</Version>
-    <PackageVersion>1.1.2</PackageVersion>
-    <AssemblyVersion>1.1.2.0</AssemblyVersion>
-    <FileVersion>1.1.2.0</FileVersion>
-    <PackageReleaseNotes>Smart Assertions added: 
-    1. Wait: to test parallel code.
-    2. Within: to test Act code is done within specific time.</PackageReleaseNotes>
+    <Version>1.3.0</Version>
+    <AssemblyVersion>1.3.0.0</AssemblyVersion>
+    <FileVersion>1.3.0.0</FileVersion>
+    <PackageReleaseNotes>We now have 3 Smart... products working together:
+1. SmartTests: a library to write Smart Tests.
+2. SmartTests.Analyzer: a Roslyn Analyzer to show missing tests in Visual Studio as warnings.
+3. SmartTests.Extension: a Visual Studio Extension to show tests in a Tool Window. It enables you to see current tests, and navigate quickly  to any; and to see missing tests.</PackageReleaseNotes>
     <Authors>Ludovic Dubois</Authors>
     <summary>SmartTests enables you to write Smarter unit tests, whether you use NUnit, Xunit or MSTests.</summary>
     <description>SmartTests enables you to write Smarter unit tests, wether you use NUnit, Xunit or MSTests.
 
-It is best to install SmartTests.Analyzer so that missing tests will be displayed.
+It is best to install SmartTests.Analyzer and SmartTests.Extension so that missing tests will be displayed.
 
 They are Smart in the sense that:
     1. The Act line of your test is instantly identifiable.
