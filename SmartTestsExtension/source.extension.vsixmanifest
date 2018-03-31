@@ -3,10 +3,9 @@
     <Metadata>
         <Identity Id="SmartTestsExtension.b14ea0e3-351e-4f51-bee3-3b32cab5a1fd" Version="1.3" Language="en-US" Publisher="Ludovic Dubois" />
         <DisplayName>SmartTests.Extension</DisplayName>
-        <Description xml:space="preserve">Smart Tests Extension</Description>
+        <Description xml:space="preserve">Smart Tests Extension is an extension to show current and missing tests for NUnit, Xunit and MSTests, providing you use Smart Tests (c) library and Smart Tests Analyzer (c).</Description>
         <License>https://opensource.org/licenses/MS-PL</License>
-        <ReleaseNotes>We now have 3 Smart... products working together:</ReleaseNotes>
-        <Icon>https://github.com/LudovicDubois/SmartTests/raw/master/SmartTests.png</Icon>
+        <Icon>https://github.com/LudovicDubois/SmartTests/raw/master/SmartTests-256.png</Icon>
         <Tags>SmartTests test testing tdd framework assert NUnit MSTests Xunit</Tags>
     </Metadata>
     <Installation>
