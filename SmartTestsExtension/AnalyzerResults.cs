@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -60,13 +61,30 @@ namespace SmartTestsExtension
         private ProjectTests GetTests( Project project ) => TestedProjects.SingleOrDefault( tested => tested.Project == project );
 
 
-        public void Clear() => TestedProjects.Clear();
+        public void Clear()
+        {
+            try
+            {
+                TestedProjects.Clear();
+            }
+            catch( Exception e )
+            {
+                Trace.TraceError( e.Message + Environment.NewLine + e.StackTrace );
+            }
+        }
 
 
         public void SetSolution( Solution solution )
         {
-            foreach( Project project in solution.Projects )
-                AddProject( project );
+            try
+            {
+                foreach( Project project in solution.Projects )
+                    AddProject( project );
+            }
+            catch( Exception e )
+            {
+                Trace.TraceError( e.Message + Environment.NewLine + e.StackTrace );
+            }
         }
 
 
@@ -82,9 +100,16 @@ namespace SmartTestsExtension
 
         public void AddProject( Project project )
         {
-            var path = GetTestsFile( project );
-            if( path != null )
-                AddOrUpdate( project, path );
+            try
+            {
+                var path = GetTestsFile( project );
+                if( path != null )
+                    AddOrUpdate( project, path );
+            }
+            catch( Exception e )
+            {
+                Trace.TraceError( e.Message + Environment.NewLine + e.StackTrace );
+            }
         }
 
 
@@ -145,9 +170,29 @@ namespace SmartTestsExtension
         }
 
 
-        public void RenameProject( Project project, string _ ) => GetTests( project )?.ProjectRenamed();
+        public void RenameProject( Project project, string _ )
+        {
+            try
+            {
+                GetTests( project )?.ProjectRenamed();
+            }
+            catch( Exception e )
+            {
+                Trace.TraceError( e.Message + Environment.NewLine + e.StackTrace );
+            }
+        }
 
 
-        public void RemoveProject( Project project ) => TestedProjects.Remove( GetTests( project ) );
+        public void RemoveProject( Project project )
+        {
+            try
+            {
+                TestedProjects.Remove( GetTests( project ) );
+            }
+            catch( Exception e )
+            {
+                Trace.TraceError( e.Message + Environment.NewLine + e.StackTrace );
+            }
+        }
     }
 }
