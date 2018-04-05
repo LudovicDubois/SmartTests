@@ -36,6 +36,7 @@ They are Smart in the sense that:
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
     <ApplicationIcon>SmartTests-perspective.ico</ApplicationIcon>
+    <Company>Pretty Objects Computers inc.</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
