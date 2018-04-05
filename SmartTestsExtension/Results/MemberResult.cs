@@ -32,7 +32,13 @@ namespace SmartTestsExtension.Results
 
         private void FillWith( CasesAndOr casesAndOr )
         {
-            _Items.Clear();
+            _Items.Reset();
+            _Items.Columns.Add( "Test" );
+            _Items.Columns.Add( "TestFileName" );
+            _Items.Columns.Add( "TestLine" );
+            _Items.Columns.Add( "TestLocation" );
+            _Items.Columns.Add( "HasError" );
+            _Items.Columns.Add( "IsMissing" );
             foreach( var casesAnd in casesAndOr.CasesAnd )
                 FillWith( casesAnd );
             Items.Sort = string.Join( ",", GetNewColumnNames() );
