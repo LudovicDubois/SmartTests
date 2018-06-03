@@ -11,6 +11,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SmartTestsAnalyzer.Helpers;
+using SmartTestsAnalyzer.Criterias;
 
 #endif
 
@@ -39,7 +40,7 @@ namespace SmartTestsAnalyzer
         { }
 
 
-        public CasesAnd( ExpressionSyntax parameterNameExpression, string parameterName, ExpressionSyntax caseExpression, IFieldSymbol criterion, bool hasError )
+        public CasesAnd( ExpressionSyntax parameterNameExpression, string parameterName, ExpressionSyntax caseExpression, CriteriaAnalysis criterion, bool hasError )
         {
             Debug.Assert( parameterName != null );
 
@@ -109,18 +110,17 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void FillCriteriaTypes( Dictionary<string, HashSet<ITypeSymbol>> criteriaTypes )
+        public void FillCriteriaValues( Dictionary<string, Dictionary<string,CriteriaValues>> criteriaTypes, INamedTypeSymbol errorType )
         {
             foreach( var pair in Cases )
             {
-                HashSet<ITypeSymbol> types;
-                if( !criteriaTypes.TryGetValue( pair.Key, out types ) )
+                if( !criteriaTypes.TryGetValue( pair.Key, out var values ) )
                 {
-                    types = new HashSet<ITypeSymbol>();
-                    criteriaTypes[ pair.Key ] = types;
+                    values = new Dictionary<string, CriteriaValues>();
+                    criteriaTypes[ pair.Key ] = values;
                 }
 
-                pair.Value.FillCriteriaTypes( types );
+                pair.Value.FillCriteriaValues( values, errorType );
             }
         }
 

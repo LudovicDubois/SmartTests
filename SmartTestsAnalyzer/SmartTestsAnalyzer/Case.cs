@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,6 +16,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 
 using SmartTestsAnalyzer.Helpers;
+using SmartTestsAnalyzer.Criterias;
 
 #endif
 
@@ -49,27 +51,27 @@ namespace SmartTestsAnalyzer
         public string ParameterName { get; }
         [JsonIgnore]
         public List<ExpressionSyntax> CaseExpressions { get; } = new List<ExpressionSyntax>();
-        public List<string> Expressions => CriteriaFields.Select( criteria => criteria.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) ).ToList();
+        public List<string> Expressions => CriteriaAnalysis.Select( criteria => criteria.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) ).ToList();
         [JsonIgnore]
-        public List<IFieldSymbol> CriteriaFields { get; } = new List<IFieldSymbol>();
+        public List<CriteriaAnalysis> CriteriaAnalysis { get; } = new List<CriteriaAnalysis>();
         public bool HasError { get; private set; }
 
 
-        public void Add( ExpressionSyntax caseExpression, IFieldSymbol criterion, bool hasError )
+        public void Add( ExpressionSyntax caseExpression, CriteriaAnalysis criterion, bool hasError )
         {
             if( caseExpression != null )
                 CaseExpressions.Add( caseExpression );
 
-            CriteriaFields.Add( criterion );
+            CriteriaAnalysis.Add( criterion );
             if( hasError )
                 HasError = true;
         }
 
 
-        public void FillCriteriaTypes( HashSet<ITypeSymbol> types )
+        public void FillCriteriaValues( Dictionary<string, CriteriaValues> types, INamedTypeSymbol errorType )
         {
-            foreach( var field in CriteriaFields )
-                types.Add( field.ContainingType );
+            foreach( var analysis in CriteriaAnalysis )
+                analysis.AddValues( types, errorType );
         }
 
 
@@ -77,7 +79,7 @@ namespace SmartTestsAnalyzer
         {
             Debug.Assert( otherCase.ParameterName == ParameterName );
             CaseExpressions.AddRange( otherCase.CaseExpressions );
-            CriteriaFields.AddRange( otherCase.CriteriaFields );
+            CriteriaAnalysis.AddRange( otherCase.CriteriaAnalysis );
             if( otherCase.HasError )
                 HasError = true;
         }
@@ -90,15 +92,16 @@ namespace SmartTestsAnalyzer
                     result.Add( expression );
         }
 
+
         public override bool Equals(object other) => Equals(other as Case);
 
 
         private bool Equals(Case other) => string.Equals(ParameterName, other?.ParameterName) &&
                                              // ReSharper disable once PossibleNullReferenceException
-                                             CriteriaFields.Equivalent(other.CriteriaFields);
+                                             CriteriaAnalysis.Equivalent(other.CriteriaAnalysis);
 
 
-        public override int GetHashCode() => CriteriaFields.Aggregate(ParameterName.GetHashCode(), (current, field) => current ^ field.GetHashCode());
+        public override int GetHashCode() => CriteriaAnalysis.Aggregate(ParameterName.GetHashCode(), (current, field) => current ^ field.GetHashCode());
 
 #endif
 

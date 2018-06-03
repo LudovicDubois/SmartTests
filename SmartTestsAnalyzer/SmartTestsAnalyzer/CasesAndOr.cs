@@ -12,6 +12,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SmartTestsAnalyzer.Helpers;
+using SmartTestsAnalyzer.Criterias;
 
 #endif
 
@@ -20,20 +21,20 @@ using SmartTestsAnalyzer.Helpers;
 namespace SmartTestsAnalyzer
 {
     /// <summary>
-    ///     A list of test cases (IFieldSymbol of Criteria subclasses) combined with logical AND to represents the criteria of
+    ///     A list of test cases (CriteriaAnalysis of Criteria subclasses) combined with logical AND to represents the criteria of
     ///     a parameter of a tested member.
     /// </summary>
     /// <remarks>
     ///     It is used for user test cases and for expected test cases (when computing all expected test cases)
     /// </remarks>
     /// <example>
-    ///     'Case( Criteria1.Good1 )': Good1 field of Criteria1
-    ///     'Case( Criteria1.Good1 | Criteria1.Good2 )': Good1 field of Criteria1 is one CriteriaAnd and Good2 field of
-    ///     Criteria1 is another one
-    ///     'Case( Criteria1.Good1 & Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
-    ///     CriteriaAnd
-    ///     'Case( Criteria1.Good1 > Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
-    ///     CriteriaAnd
+    ///     <para>'Case( Criteria1.Good1 )': Good1 field of Criteria1</para>
+    ///     <para>'Case( Criteria1.Good1 | Criteria1.Good2 )': Good1 field of Criteria1 is one CriteriaAnd and Good2 field of
+    ///     Criteria1 is another one</para>
+    ///     <para>'Case( Criteria1.Good1 & Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
+    ///     CriteriaAnd</para>
+    ///     <para>'Case( Criteria1.Good1 > Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
+    ///     CriteriaAnd</para>
     /// </example>
     [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class CasesAndOr
@@ -48,13 +49,13 @@ namespace SmartTestsAnalyzer
         { }
 
 
-        private CasesAndOr( string parameterName, IFieldSymbol criteria, bool hasError )
+        private CasesAndOr( string parameterName, CriteriaAnalysis criteria, bool hasError )
         {
             CasesAnd.Add( new CasesAnd( null, parameterName, null, criteria, hasError ) );
         }
 
 
-        public CasesAndOr( ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression, string parameterName, IFieldSymbol criteria, bool hasError )
+        public CasesAndOr( ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression, string parameterName, CriteriaAnalysis criteria, bool hasError )
         {
             CasesAnd.Add( new CasesAnd( parameterNameExpression, parameterName, casesExpression, criteria, hasError ) );
         }
@@ -141,31 +142,33 @@ namespace SmartTestsAnalyzer
         private CasesAndOr ComputeAllCases( INamedTypeSymbol errorType )
         {
             var result = new CasesAndOr();
-            foreach( var pair in GetAllCriteriaTypes() )
-                result.CombineAnd( ComputeAllCases( errorType, pair.Key, pair.Value ) );
+            var values = GetAllValues( errorType );
+            foreach( var pair in values )
+                result.CombineAnd( ComputeAllCases( pair.Key, pair.Value.Values ) );
             return result;
         }
 
 
-        private static CasesAndOr ComputeAllCases( INamedTypeSymbol errorType, string parameterName, IEnumerable<ITypeSymbol> types )
+        private Dictionary<string, Dictionary<string, CriteriaValues>> GetAllValues( INamedTypeSymbol errorType )
+        {
+            var result = new Dictionary<string, Dictionary<string, CriteriaValues>>();
+            foreach( var criteria in CasesAnd )
+                criteria.FillCriteriaValues( result, errorType );
+            return result;
+        }
+
+
+
+        private static CasesAndOr ComputeAllCases( string parameterName, Dictionary<string, CriteriaValues>.ValueCollection criteriaValues )
         {
             var result = new CasesAndOr();
-            foreach( var typeSymbol in types )
+            foreach( var criteriaValue in criteriaValues )
             {
-                var typeCases = new CasesAndOr();
-                foreach( var criterion in typeSymbol.GetMembers().Where( member => member is IFieldSymbol ).Cast<IFieldSymbol>() )
-                    typeCases.CombineOr( new CasesAndOr( parameterName, criterion, criterion.HasAttribute( errorType ) ) );
-                result.CombineAnd( typeCases );
+                var cases = new CasesAndOr();
+                foreach( var criterion in criteriaValue.Values )
+                    cases.CombineOr( new CasesAndOr( parameterName, criterion.Analysis, criterion.IsError ) );
+                result.CombineAnd( cases );
             }
-            return result;
-        }
-
-
-        private Dictionary<string, HashSet<ITypeSymbol>> GetAllCriteriaTypes()
-        {
-            var result = new Dictionary<string, HashSet<ITypeSymbol>>();
-            foreach( var criteria in CasesAnd )
-                criteria.FillCriteriaTypes( result );
             return result;
         }
 #endif

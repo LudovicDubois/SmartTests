@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTestsExtension", "Smar
 		{C22596FD-95AC-4689-836C-2D0C5DB37D31} = {C22596FD-95AC-4689-836C-2D0C5DB37D31}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTests.Test", "SmartTests.Test\SmartTests.Test.csproj", "{8798CAF4-4EC3-46E1-9C65-63C7C3C2F694}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{455052FD-0901-44DD-8D77-29B6AF45B49C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{455052FD-0901-44DD-8D77-29B6AF45B49C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{455052FD-0901-44DD-8D77-29B6AF45B49C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8798CAF4-4EC3-46E1-9C65-63C7C3C2F694}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8798CAF4-4EC3-46E1-9C65-63C7C3C2F694}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8798CAF4-4EC3-46E1-9C65-63C7C3C2F694}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8798CAF4-4EC3-46E1-9C65-63C7C3C2F694}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

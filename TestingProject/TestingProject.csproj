@@ -86,6 +86,7 @@
     <Compile Include="MultipleCriteriasTests\AndMissing2CasesTest.cs" />
     <Compile Include="MultipleCriteriasTests\AndMissing3OppositesCasesTest.cs" />
     <Compile Include="MultipleCriteriasTests\AndMissing3CasesTest.cs" />
+    <Compile Include="Ranges\Missing1Case.cs" />
     <Compile Include="ThreeCasesTests\MissingNoCaseTest.cs" />
     <Compile Include="ThreeCasesTests\MissingThirdCaseTest.cs" />
     <Compile Include="ThreeCasesTests\MissingSecondCaseTest.cs" />

@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using SmartTests.Acts;
 using SmartTests.Assertions;
 using SmartTests.Helpers;
+using SmartTests.Ranges;
 
 
 
@@ -156,11 +157,12 @@ namespace SmartTests
 
 
         /// <summary>
-        ///     Executes the Act part of the test, and its related Smart Assertions, that involves implicit declarations for Assertions.
+        ///     Executes the Act part of the test, and its related Smart Assertions, that involves implicit declarations for
+        ///     Assertions.
         /// </summary>
         /// <typeparam name="T">The <see cref="Type" /> of the expression in the Act part of the test.</typeparam>
         /// <param name="cases">The <see cref="Criteria" /> expression for the tested expression.</param>
-        /// <param name="act">A lambda expression representing the tested expression with an <see cref="ActContext"/>.</param>
+        /// <param name="act">A lambda expression representing the tested expression with an <see cref="ActContext" />.</param>
         /// <param name="assertions">The Smart Assertions for this <paramref name="act" />.</param>
         /// <returns>The value of the expression of the <paramref name="act" />.</returns>
         /// <remarks>
@@ -168,7 +170,11 @@ namespace SmartTests
         ///     <see cref="RunTest(SmartTests.Case,Expression{Action{ActContext}},SmartTests.Assertion[])" /> instead.
         /// </remarks>
         /// <example>
-        ///     <para> In this example, the <see cref="WaitAssertions.WaitContextHandle(SmartTests.SmartAssertPlaceHolder,double)"></see> wait for the implicit wait handle set by <see cref="WaitAssertions.SetHandle"/>.</para>
+        ///     <para>
+        ///         In this example, the
+        ///         <see cref="WaitAssertions.WaitContextHandle(SmartTests.SmartAssertPlaceHolder,double)"></see> wait for the
+        ///         implicit wait handle set by <see cref="WaitAssertions.SetHandle" />.
+        ///     </para>
         ///     <code>
         /// [Test]
         /// public void MyMethodTest()
@@ -230,11 +236,12 @@ namespace SmartTests
 
 
         /// <summary>
-        ///     Executes the Act part of the test, and its related Smart Assertions, that involves implicit declarations for Assertions.
+        ///     Executes the Act part of the test, and its related Smart Assertions, that involves implicit declarations for
+        ///     Assertions.
         /// </summary>
         /// <typeparam name="T">The <see cref="Type" /> of the expression in the Act part of the test.</typeparam>
         /// <param name="cases">The <see cref="Criteria" /> expression for the tested expression.</param>
-        /// <param name="act">A lambda expression representing the tested expression with an <see cref="ActContext"/>.</param>
+        /// <param name="act">A lambda expression representing the tested expression with an <see cref="ActContext" />.</param>
         /// <param name="assertions">The Smart Assertions for this <paramref name="act" />.</param>
         /// <returns>The value of the expression of the <paramref name="act" />.</returns>
         /// <remarks>
@@ -242,7 +249,11 @@ namespace SmartTests
         ///     <see cref="RunTest{T}(SmartTests.Case,Expression{Func{ActContext,T}},SmartTests.Assertion[])" /> instead.
         /// </remarks>
         /// <example>
-        ///     <para> In this example, the <see cref="WaitAssertions.WaitContextHandle(SmartTests.SmartAssertPlaceHolder,double)"></see> wait for the implicit wait handle set by <see cref="WaitAssertions.SetHandle"/>.</para>
+        ///     <para>
+        ///         In this example, the
+        ///         <see cref="WaitAssertions.WaitContextHandle(SmartTests.SmartAssertPlaceHolder,double)"></see> wait for the
+        ///         implicit wait handle set by <see cref="WaitAssertions.SetHandle" />.
+        ///     </para>
         ///     <code>
         /// [Test]
         /// public void MyMethodTest()
@@ -395,11 +406,12 @@ namespace SmartTests
         /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
         public static void RunTest( Criteria cases, Expression<Action> act, params Assertion[] assertions ) => RunTest( Case( cases ), new InvokeAct( act ), assertions );
 
+
         /// <summary>
         ///     Executes the Act part of the test and its related Smart Assertions.
         /// </summary>
         /// <param name="cases">The <see cref="Criteria" /> expression for the tested code.</param>
-        /// <param name="act">An <see cref="Action" /> representing the tested code with an <see cref="ActContext"/>.</param>
+        /// <param name="act">An <see cref="Action" /> representing the tested code with an <see cref="ActContext" />.</param>
         /// <param name="assertions">The Smart Assertions for this <paramref name="act" />.</param>
         /// <remarks>
         ///     If you need to specify <see cref="Criteria" /> expressions for multiple parameters, you have to use
@@ -474,7 +486,7 @@ namespace SmartTests
         ///     Executes the Act part of the test and its related Smart Assertions.
         /// </summary>
         /// <param name="cases">The <see cref="SmartTests.Case" /> expression for the tested code.</param>
-        /// <param name="act">A lambda expression representing the tested expression with an <see cref="ActContext"/>.</param>
+        /// <param name="act">A lambda expression representing the tested expression with an <see cref="ActContext" />.</param>
         /// <param name="assertions">The Smart Assertions for this <paramref name="act" />.</param>
         /// <remarks>
         ///     If you only have one <see cref="Criteria" /> expression, you can use
@@ -581,6 +593,97 @@ namespace SmartTests
         /// </remarks>
         /// <seealso cref="Assertion" />
         public static SmartAssertPlaceHolder SmartAssert { get; }
+
+        #endregion
+
+
+        #region Range
+
+        /// <summary>
+        ///     Creates a range of integer values
+        /// </summary>
+        /// <param name="min">The min value (included) of the range.</param>
+        /// <param name="max">The max value (included) of the range.</param>
+        /// <returns>The created <see cref="IntRange" />: [<paramref name="min" />..<paramref name="max" />].</returns>
+        public static IntRange Range( int min, int max ) => new IntRange( min, max );
+
+
+        /// <summary>
+        ///     Creates a range of integer values and select one randomly
+        /// </summary>
+        /// <param name="min">The min value (included) of the range.</param>
+        /// <param name="max">The max value (included) of the range.</param>
+        /// <param name="value">A random value between <paramref name="min" /> and <paramref name="max" />.</param>
+        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
+        public static Criteria Range( int min, int max, out int value ) => Range( min, max ).GetValue( out value );
+
+
+        /// <summary>
+        ///     Creates a range of integer values to max integer
+        /// </summary>
+        /// <param name="min">The min value (included) of the range.</param>
+        /// <returns>The created <see cref="IntRange" />: [<paramref name="min" />..<c>int.MaxValue</c>].</returns>
+        public static IntRange AboveOrEqual( int min ) => Range( min, int.MaxValue );
+
+
+        /// <summary>
+        ///     Creates a range of integer values to max integer
+        /// </summary>
+        /// <param name="min">The min value (included) of the range.</param>
+        /// <param name="value">A random value between <paramref name="min" /> and <c>int.MaxValue</c>.</param>
+        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
+        public static Criteria AboveOrEqual( int min, out int value ) => Range( min, int.MaxValue, out value );
+
+
+        /// <summary>
+        ///     Creates a range of integer values to max integer
+        /// </summary>
+        /// <param name="min">The min value (included) of the range.</param>
+        /// <returns>The created <see cref="IntRange" />: [<paramref name="min" /><c>+1</c>..<c>int.MaxValue</c>].</returns>
+        public static IntRange Above( int min ) => Range( min + 1, int.MaxValue );
+
+
+        /// <summary>
+        ///     Creates a range of integer values to max integer
+        /// </summary>
+        /// <param name="min">The min value (included) of the range.</param>
+        /// <param name="value">A random value between <paramref name="min" /><c>+1</c> and <c>int.MaxValue</c>.</param>
+        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
+        public static Criteria Above( int min, out int value ) => Range( min + 1, int.MaxValue, out value );
+
+
+        /// <summary>
+        ///     Creates a range of integer values from min integer
+        /// </summary>
+        /// <param name="max">The max value (included) of the range.</param>
+        /// <returns>The created <see cref="IntRange" />: [<c>int.MinValue</c>..<paramref name="max" />].</returns>
+        public static IntRange BelowOrEqual( int max ) => Range( int.MinValue, max );
+
+
+        /// <summary>
+        ///     Creates a range of integer values from min integer
+        /// </summary>
+        /// <param name="max">The max value (included) of the range.</param>
+        /// <param name="value">A random value between <c>int.MinValue</c> and <paramref name="max" />.</param>
+        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
+        public static Criteria BelowOrEqual( int max, out int value ) => Range( int.MinValue, max, out value );
+
+
+        /// <summary>
+        ///     Creates a range of integer values from min integer
+        /// </summary>
+        /// <param name="max">The max value (included) of the range.</param>
+        /// <returns>The created <see cref="IntRange" />: [<c>int.MinValue</c>..<paramref name="max" />-1].</returns>
+        public static IntRange Below( int max ) => Range( int.MinValue, max - 1 );
+
+
+        /// <summary>
+        ///     Creates a range of integer values from min integer
+        /// </summary>
+        /// <param name="max">The max value (included) of the range.</param>
+        /// <param name="value">A random value between <c>int.MinValue</c> and <paramref name="max" /><c>-1</c>.</param>
+        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
+        public static Criteria Below( int max, out int value ) => Range( int.MinValue, max - 1, out value );
 
         #endregion
     }
