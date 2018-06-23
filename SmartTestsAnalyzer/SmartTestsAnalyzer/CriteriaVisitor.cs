@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SmartTests;
+using SmartTests.Ranges;
 
 using SmartTestsAnalyzer.Criterias;
 using SmartTestsAnalyzer.Helpers;
@@ -23,6 +24,7 @@ namespace SmartTestsAnalyzer
             _ParameterNameExpression = parameterNameExpression;
             _ErrorAttribute = _Model.Compilation.GetTypeByMetadataName( "SmartTests.ErrorAttribute" );
             Debug.Assert( _ErrorAttribute != null );
+            // SmartTests.Range
             var smartTestType = _Model.Compilation.GetTypeByMetadataName( "SmartTests.SmartTest" );
             var rangeMethods = smartTestType.GetMethods( "Range" );
             Debug.Assert( rangeMethods.Length == 2, "Problem with SmartTest.Range methods" );
@@ -38,7 +40,33 @@ namespace SmartTestsAnalyzer
             }
             Debug.Assert( _RangeMethod.Parameters.Length == 2, "Problem with SmartTest.Range(int, int) methods" );
             Debug.Assert( _RangeValueMethod.Parameters.Length == 3, "Problem with SmartTest.Range(int, int, out int) methods" );
-            Debug.Assert( _RangeValueMethod.Parameters[2].RefKind == RefKind.Out, "Problem with SmartTest.Range(int, int, out int) methods" );
+            Debug.Assert( _RangeValueMethod.Parameters[ 2 ].RefKind == RefKind.Out, "Problem with SmartTest.Range(int, int, out int) methods" );
+
+            // IntRange.Add
+            var intRangeType = _RangeMethod.ReturnType;
+            var addMethods = intRangeType.GetMethods( "Add" );
+            Debug.Assert( addMethods.Length == 2, "Problem with IntRange.Add methods" );
+            if( addMethods[ 0 ].Parameters.Length == 2 )
+            {
+                _AddMethod = addMethods[ 0 ];
+                _AddValueMethod = addMethods[ 1 ];
+            }
+            else
+            {
+                _AddMethod = rangeMethods[ 1 ];
+                _AddValueMethod = rangeMethods[ 0 ];
+            }
+            Debug.Assert( _AddMethod.Parameters.Length == 2, "Problem with IntRange.Add(int, int) methods" );
+            Debug.Assert( _AddValueMethod.Parameters.Length == 3, "Problem with IntRange.Add(int, int, out int) methods" );
+            Debug.Assert( _AddValueMethod.Parameters[ 2 ].RefKind == RefKind.Out, "Problem with IntRange.Add(int, int, out int) methods" );
+
+            _SpecialMethods = new HashSet<IMethodSymbol>
+                              {
+                                  _RangeMethod,
+                                  _RangeValueMethod,
+                                  _AddMethod,
+                                  _AddValueMethod
+                              };
         }
 
 
@@ -46,15 +74,18 @@ namespace SmartTestsAnalyzer
         private readonly ExpressionSyntax _CasesExpression;
         private readonly ExpressionSyntax _ParameterNameExpression;
         private readonly INamedTypeSymbol _ErrorAttribute;
+        private readonly HashSet<IMethodSymbol> _SpecialMethods;
         private readonly IMethodSymbol _RangeMethod;
         private readonly IMethodSymbol _RangeValueMethod;
+        private readonly IMethodSymbol _AddMethod;
+        private readonly IMethodSymbol _AddValueMethod;
 
 
         public override CasesAndOr VisitMemberAccessExpression( MemberAccessExpressionSyntax node )
         {
             var criteria = _Model.GetSymbolInfo( node ).Symbol as IFieldSymbol;
             if( criteria == null )
-                return null;
+                return node.Expression.Accept( this );
 
             var parameterName = _ParameterNameExpression != null
                                     ? _Model.GetConstantValue( _ParameterNameExpression ).Value as string
@@ -94,22 +125,48 @@ namespace SmartTestsAnalyzer
         }
 
 
+        private IntRange _CurrentRange;
+
+
         public override CasesAndOr VisitInvocationExpression( InvocationExpressionSyntax node )
         {
             var criteria = _Model.GetSymbolInfo( node ).Symbol as IMethodSymbol;
-            if( criteria != _RangeValueMethod &&
-                criteria != _RangeMethod )
+            if( criteria == null ||
+                !_SpecialMethods.Contains( criteria ) )
                 return base.VisitInvocationExpression( node );
 
-            // Search for arguments
-            var min = _Model.GetConstantValue( node.GetArgument( 0 ).Expression );
-            //TODO: If no constant? Not an int?
-            var max = _Model.GetConstantValue( node.GetArgument( 1 ).Expression );
-            //TODO: If no constant? Not an int?
+            if( criteria == _RangeValueMethod || 
+                criteria == _RangeMethod )
+            {
+                var min = _Model.GetConstantValue( node.GetArgument( 0 ).Expression );
+                //TODO: If no constant? Not an int?
+                var max = _Model.GetConstantValue( node.GetArgument( 1 ).Expression );
+                //TODO: If no constant? Not an int?
 
-            var range = SmartTest.Range( (int)min.Value, (int)max.Value );
+                _CurrentRange = new IntRange( (int)min.Value, (int)max.Value );
 
-            return new CasesAndOr( _CasesExpression, _ParameterNameExpression, Case.NoParameter, new RangeAnalysis( range ), false );
+                return new CasesAndOr( _CasesExpression, _ParameterNameExpression, Case.NoParameter, new RangeAnalysis( _CurrentRange ), false );
+            }
+
+            if( criteria == _AddValueMethod ||
+                criteria == _AddMethod )
+            {
+                var result = node.Expression.Accept( this );
+
+                var min = _Model.GetConstantValue( node.GetArgument( 0 ).Expression );
+                //TODO: If no constant? Not an int?
+                var max = _Model.GetConstantValue( node.GetArgument( 1 ).Expression );
+                //TODO: If no constant? Not an int?
+
+                _CurrentRange.Add( (int)min.Value, (int)max.Value );
+
+                if( criteria == _AddValueMethod )
+                    // last one
+                    _CurrentRange = null;
+                return result;
+            }
+
+            throw new NotImplementedException();
         }
     }
 }
