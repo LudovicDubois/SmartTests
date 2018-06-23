@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using Microsoft.CodeAnalysis;
@@ -22,8 +21,22 @@ namespace SmartTestsAnalyzer.Criterias
 
         public override void AddValues( Dictionary<string, CriteriaValues> values, INamedTypeSymbol errorType )
         {
-            throw new NotImplementedException();
+            if( !values.TryGetValue( "IntRange", out var intRangeValues ) )
+            {
+                intRangeValues = new RangeValues();
+                values[ "IntRange" ] = intRangeValues;
+            }
+            intRangeValues.Add( new RangeAnalysis( Range ), false );
         }
+
+
+        public override bool Equals( object obj ) => Equals( obj as RangeAnalysis );
+
+
+        protected bool Equals( RangeAnalysis other ) => other?.GetType() == typeof(RangeAnalysis) && Equals( Range, other.Range );
+
+
+        public override int GetHashCode() => Range?.GetHashCode() ?? 0;
 
 
         public override string ToDisplayString( SymbolDisplayFormat displayFormat ) => Range.ToString();

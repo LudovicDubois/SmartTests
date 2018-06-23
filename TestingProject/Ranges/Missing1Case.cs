@@ -80,7 +80,7 @@ namespace TestingProject.Ranges
         public void RangeIITestTwice()
         {
             var result = RunTest( Range( 1, int.MaxValue )
-                                      .AddChunk( int.MinValue, -1 )
+                                      .Add( int.MinValue, -1 )
                                       .GetValue( out var value ),
                                   () => MyClass.M2( value ) );
 
@@ -92,7 +92,7 @@ namespace TestingProject.Ranges
         public void RangeIITestOutTwice()
         {
             var result = RunTest( Range( 1, int.MaxValue )
-                                      .AddChunk( int.MinValue, -1, out var value ),
+                                      .Add( int.MinValue, -1, out var value ),
                                   () => MyClass.M2( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );

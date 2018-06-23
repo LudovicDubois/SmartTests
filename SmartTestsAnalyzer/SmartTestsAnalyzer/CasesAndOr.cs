@@ -154,6 +154,9 @@ namespace SmartTestsAnalyzer
             var result = new Dictionary<string, Dictionary<string, CriteriaValues>>();
             foreach( var criteria in CasesAnd )
                 criteria.FillCriteriaValues( result, errorType );
+            foreach( var resultValue in result.Values )
+                foreach( var criteriaValue in resultValue.Values )
+                    criteriaValue.CompleteValues();
             return result;
         }
 

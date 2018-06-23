@@ -15,6 +15,15 @@ namespace SmartTests.Ranges
     public class IntRange
     {
         /// <summary>
+        ///     Creates a new Range of integer with no chunk
+        /// </summary>
+        public IntRange()
+        {
+            Chunks = new List<Chunk>();
+        }
+
+
+        /// <summary>
         ///     Creates a new Range of integer with only one chunk
         /// </summary>
         /// <param name="min">The min value (included) of the chunk.</param>
@@ -40,10 +49,16 @@ namespace SmartTests.Ranges
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return <c>this</c> so that adding chunks can be chained.</returns>
-        public IntRange AddChunk( int min, int max )
+        public IntRange Add( int min, int max )
         {
             if( min > max )
                 throw new ArgumentException( "min should be lower or equal to max" );
+
+            if( Chunks.Count == 0 )
+            {
+                Chunks.Add( new Chunk( min, max ) );
+                return this;
+            }
 
             var lastChunk = Chunks.Last();
             if( min > lastChunk.Max )
@@ -128,11 +143,31 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="value">A random value within this range.</param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        /// <seealso cref="AddChunk(int,int)" />
+        /// <seealso cref="Add(int,int)" />
         /// <seealso cref="GetValue" />
-        public Criteria AddChunk( int min, int max, out int value ) => AddChunk( min, max ).GetValue( out value );
+        public Criteria Add( int min, int max, out int value ) => Add( min, max ).GetValue( out value );
 
 
+        /// <inheritdoc />
+        public override bool Equals( object obj ) => Equals( obj as IntRange );
+
+
+        /// <summary>
+        ///     Compare two IntRange
+        /// </summary>
+        /// <param name="other">The other IntRange to compare with.</param>
+        /// <returns>
+        ///     <c>true</c> if <c>this</c> and <paramref name="other" /> have the same <see cref="Chunks" />; <c>false</c>
+        ///     otherwise
+        /// </returns>
+        protected bool Equals( IntRange other ) => other?.GetType() == typeof(IntRange) && Equals( Chunks, other.Chunks );
+
+
+        /// <inheritdoc />
+        public override int GetHashCode() => Chunks?.GetHashCode() ?? 0;
+
+
+        /// <inheritdoc />
         public override string ToString()
         {
             var result = new StringBuilder();
@@ -168,10 +203,33 @@ namespace SmartTests.Ranges
             ///     The min value (included) of this chunk
             /// </summary>
             public int Min { get; }
+
             /// <summary>
             ///     The maximum value (included) of this chunk
             /// </summary>
             public int Max { get; }
+
+
+            /// <inheritdoc />
+            public override bool Equals( object obj ) => obj?.GetType() == typeof(Chunk) && Equals( (Chunk)obj );
+
+
+            /// <summary>
+            ///     Compare two <c>Chunk</c>
+            /// </summary>
+            /// <param name="other">The other <see cref="Chunk" /> to compare with</param>
+            /// <returns><c>true</c> if <c>this</c> have the same <see cref="Min" /> and <see cref="Max" />; <c>false</c> otherwise</returns>
+            public bool Equals( Chunk other ) => Min == other.Min && Max == other.Max;
+
+
+            /// <inheritdoc />
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return ( Min * 397 ) ^ Max;
+                }
+            }
 
 
             /// <inheritdoc />

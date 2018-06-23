@@ -30,7 +30,7 @@ namespace SmartTestsAnalyzer.Criterias
                 // Already added
                 return;
 
-            var value = new CriteriaValues();
+            var value = new FieldValues();
             values[ ContainingType.Name ] = value;
             foreach( var criterion in ContainingType.GetMembers().Where( member => member is IFieldSymbol ).Cast<IFieldSymbol>() )
                 value.Add( new FieldAnalysis( criterion ), criterion.HasAttribute( errorType ) );

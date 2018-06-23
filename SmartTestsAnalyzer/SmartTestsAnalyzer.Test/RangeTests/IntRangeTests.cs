@@ -12,41 +12,98 @@ namespace SmartTestsAnalyzer.Test.RangeTests
     class IntRangeTests: CodeFixVerifier
     {
         [Test]
-        public void RangeTest()
+        public void OneChunkInOneRange()
         {
             var test = @"
-using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
 
 namespace TestingProject
 {
+    class Class1
+    {
+        public static double Inverse(int i) => 1 / i;
+    }
+
     [TestFixture]
     public class MyTestClass
     {
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Range( 10, int.MaxValue, out var value ), 
-                                  () => Math.Sqrt( value ) );
+            var result = RunTest( Range( 1, int.MaxValue, out var value ), 
+                                  () => Class1.Inverse( value ) );
 
-            Assert.That( result * result, Is.EqualTo(value) );
+            Assert.That( 1 / result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: Range(int.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Range(-2147483648, 0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 15, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 )
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
+
+
+        [Test]
+        public void TwoChunksInTwoRanges()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Inverse(int i) => 1 / i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Range( 1, int.MaxValue, out var value ), 
+                                  () => Class1.Inverse( value ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void Test2Method()
+        {
+            var result = RunTest( Range( int.MinValue, -1, out var value ), 
+                                  () => Class1.Inverse( value ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Range(0, 0)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 27, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
 
         protected override SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();
     }
