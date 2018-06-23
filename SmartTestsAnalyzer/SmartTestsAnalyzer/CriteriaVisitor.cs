@@ -60,12 +60,18 @@ namespace SmartTestsAnalyzer
             Debug.Assert( _AddValueMethod.Parameters.Length == 3, "Problem with IntRange.Add(int, int, out int) methods" );
             Debug.Assert( _AddValueMethod.Parameters[ 2 ].RefKind == RefKind.Out, "Problem with IntRange.Add(int, int, out int) methods" );
 
+            // GetValue
+            _GetValueMethod = intRangeType.GetMethods( "GetValue" )[ 0 ];
+            Debug.Assert( _GetValueMethod.Parameters.Length == 1, "Problem with IntRange.GetValue(out int) method" );
+            Debug.Assert( _GetValueMethod.Parameters[ 0 ].RefKind == RefKind.Out, "Problem with IntRange.GetValue(out int) method" );
+
             _SpecialMethods = new HashSet<IMethodSymbol>
                               {
                                   _RangeMethod,
                                   _RangeValueMethod,
                                   _AddMethod,
-                                  _AddValueMethod
+                                  _AddValueMethod,
+                                  _GetValueMethod
                               };
         }
 
@@ -79,6 +85,7 @@ namespace SmartTestsAnalyzer
         private readonly IMethodSymbol _RangeValueMethod;
         private readonly IMethodSymbol _AddMethod;
         private readonly IMethodSymbol _AddValueMethod;
+        private readonly IMethodSymbol _GetValueMethod;
 
 
         public override CasesAndOr VisitMemberAccessExpression( MemberAccessExpressionSyntax node )
@@ -135,7 +142,7 @@ namespace SmartTestsAnalyzer
                 !_SpecialMethods.Contains( criteria ) )
                 return base.VisitInvocationExpression( node );
 
-            if( criteria == _RangeValueMethod || 
+            if( criteria == _RangeValueMethod ||
                 criteria == _RangeMethod )
             {
                 var min = _Model.GetConstantValue( node.GetArgument( 0 ).Expression );
@@ -163,6 +170,13 @@ namespace SmartTestsAnalyzer
                 if( criteria == _AddValueMethod )
                     // last one
                     _CurrentRange = null;
+                return result;
+            }
+
+            if( criteria == _GetValueMethod )
+            {
+                var result = node.Expression.Accept( this );
+                _CurrentRange = null;
                 return result;
             }
 
