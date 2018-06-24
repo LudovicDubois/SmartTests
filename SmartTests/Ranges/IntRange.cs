@@ -194,7 +194,7 @@ namespace SmartTests.Ranges
         {
             var result = new StringBuilder();
             foreach( var chunk in Chunks )
-                result.Append( $"Range({chunk.Min}, {chunk.Max}).Add" );
+                result.Append( $"Range({(chunk.Min == int.MinValue ? "int.MinValue" : chunk.Min.ToString())}, {(chunk.Max == int.MaxValue ? "int.MaxValue" : chunk.Max.ToString())}).Add" );
             result.Length -= 4;
 
             return result.ToString();

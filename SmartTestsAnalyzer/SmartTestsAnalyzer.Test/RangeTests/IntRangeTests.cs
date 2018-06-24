@@ -41,7 +41,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Range(-2147483648, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Range(int.MinValue, 0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -219,7 +219,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Range(-2147483648, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Range(int.MinValue, 0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
