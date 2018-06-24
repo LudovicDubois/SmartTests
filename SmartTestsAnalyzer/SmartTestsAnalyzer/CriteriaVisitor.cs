@@ -17,11 +17,12 @@ namespace SmartTestsAnalyzer
 {
     class CriteriaVisitor: CSharpSyntaxVisitor<CasesAndOr>
     {
-        public CriteriaVisitor( SemanticModel model, ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression )
+        public CriteriaVisitor( SemanticModel model, ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression, Action<Diagnostic> reportDiagnostic )
         {
             _Model = model;
             _CasesExpression = casesExpression;
             _ParameterNameExpression = parameterNameExpression;
+            _ReportDiagnostic = reportDiagnostic;
             _ErrorAttribute = _Model.Compilation.GetTypeByMetadataName( "SmartTests.ErrorAttribute" );
             Debug.Assert( _ErrorAttribute != null );
             // SmartTests.Range
@@ -79,6 +80,7 @@ namespace SmartTestsAnalyzer
         private readonly SemanticModel _Model;
         private readonly ExpressionSyntax _CasesExpression;
         private readonly ExpressionSyntax _ParameterNameExpression;
+        private readonly Action<Diagnostic> _ReportDiagnostic;
         private readonly INamedTypeSymbol _ErrorAttribute;
         private readonly HashSet<IMethodSymbol> _SpecialMethods;
         private readonly IMethodSymbol _RangeMethod;
@@ -146,9 +148,14 @@ namespace SmartTestsAnalyzer
                 criteria == _RangeMethod )
             {
                 var min = _Model.GetConstantValue( node.GetArgument( 0 ).Expression );
-                //TODO: If no constant? Not an int?
+                if( !min.HasValue )
+                    _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( node.GetArgument( 0 ) ) );
                 var max = _Model.GetConstantValue( node.GetArgument( 1 ).Expression );
-                //TODO: If no constant? Not an int?
+                if( !max.HasValue )
+                    _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( node.GetArgument( 1 ) ) );
+                if( !min.HasValue ||
+                    !max.HasValue )
+                    return base.VisitInvocationExpression( node );
 
                 _CurrentRange = new IntRange( (int)min.Value, (int)max.Value );
 
@@ -161,11 +168,16 @@ namespace SmartTestsAnalyzer
                 var result = node.Expression.Accept( this );
 
                 var min = _Model.GetConstantValue( node.GetArgument( 0 ).Expression );
-                //TODO: If no constant? Not an int?
+                if( !min.HasValue )
+                    _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( node.GetArgument( 0 ) ) );
                 var max = _Model.GetConstantValue( node.GetArgument( 1 ).Expression );
-                //TODO: If no constant? Not an int?
+                if( !max.HasValue )
+                    _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( node.GetArgument( 1 ) ) );
+                if( !min.HasValue ||
+                    !max.HasValue )
+                    return base.VisitInvocationExpression( node );
 
-                _CurrentRange.Add( (int)min.Value, (int)max.Value );
+                _CurrentRange?.Add( (int)min.Value, (int)max.Value );
 
                 if( criteria == _AddValueMethod )
                     // last one

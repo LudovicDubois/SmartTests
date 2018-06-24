@@ -189,7 +189,6 @@ namespace TestingProject
         }
 
 
-
         [Test]
         public void OneChunkGetValueInOneRange()
         {
@@ -230,6 +229,180 @@ namespace TestingProject
 
             VerifyCSharpDiagnostic(test, expected);
         }
+
+
+        [Test]
+        public void OneChunk_RangeMinNotAConstant()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Inverse(int i) => 1 / i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var one = 1;
+            var result = RunTest( Range( one, int.MaxValue, out var value ), 
+                                  () => Class1.Inverse( value ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_NotAConstant",
+                               Message = "A constant is expected",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 42 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic(test, 0, expected);
+        }
+
+
+        [Test]
+        public void OneChunk_RangeMaxNotAConstant()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Inverse(int i) => 1 / i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var one = 1;
+            var result = RunTest( Range( int.MinValue, one, out var value ), 
+                                  () => Class1.Inverse( value ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_NotAConstant",
+                               Message = "A constant is expected",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 56 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic(test, 0, expected);
+        }
+
+
+        [Test]
+        public void OneChunk_RangeAddMinNotAConstant()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Inverse(int i) => 1 / i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var one = 1;
+            var result = RunTest( Range( int.MinValue, -1 ).Add( one, int.MaxValue, out var value ), 
+                                  () => Class1.Inverse( value ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_NotAConstant",
+                               Message = "A constant is expected",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 66 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic(test, 0, expected);
+        }
+
+
+        [Test]
+        public void OneChunk_RangeAddMaxNotAConstant()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Inverse(int i) => 1 / i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var one = 1;
+            var result = RunTest( Range( int.MinValue, -1 ).Add( 1, one, out var value ), 
+                                  () => Class1.Inverse( value ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_NotAConstant",
+                               Message = "A constant is expected",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 69 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic(test, 0, expected);
+        }
+
+
         protected override SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();
     }
 }

@@ -19,6 +19,7 @@ namespace SmartTestsAnalyzer
 
         public TestVisitor( SemanticModelAnalysisContext context )
         {
+            _ReportDiagnostic = context.ReportDiagnostic;
             _Compilation = context.SemanticModel.Compilation;
             _TestingFrameworks = new TestingFrameworks( _Compilation );
             if( !IsTestProject )
@@ -41,6 +42,7 @@ namespace SmartTestsAnalyzer
         }
 
 
+        private readonly Action<Diagnostic> _ReportDiagnostic;
         private readonly Compilation _Compilation;
         private readonly TestingFrameworks _TestingFrameworks;
         private readonly INamedTypeSymbol _CaseType;
@@ -108,7 +110,7 @@ namespace SmartTestsAnalyzer
 
                 var aCase = runTestSymbol.Parameters[ 0 ].Type == _CaseType
                                 ? GetCases( model, argument0Syntax.Expression, argument0Syntax.Expression )
-                                : argument0Syntax.Expression.Accept( new CriteriaVisitor( model, argument0Syntax.Expression, null ) );
+                                : argument0Syntax.Expression.Accept( new CriteriaVisitor( model, argument0Syntax.Expression, null, _ReportDiagnostic ) );
                 if( aCase == null )
                     // ?!?
                     continue;
@@ -203,7 +205,7 @@ namespace SmartTestsAnalyzer
                 criterias = argumentInvocation.GetArgument( 1 )?.Expression;
             }
 
-            return criterias?.Accept( new CriteriaVisitor( model, casesExpression, parameterNameExpression ) );
+            return criterias?.Accept( new CriteriaVisitor( model, casesExpression, parameterNameExpression, _ReportDiagnostic ) );
         }
 
 

@@ -40,9 +40,18 @@ namespace SmartTestsAnalyzer
                                                                                                        true,
                                                                                                        LocalizeString( nameof(Resources.MissingParameterCase_Description) ) );
 
+        private static readonly DiagnosticDescriptor _ConstantExpected = new DiagnosticDescriptor( "SmartTestsAnalyzer_NotAConstant",
+                                                                                                   LocalizeString( nameof(Resources.NotAConstant_Title) ),
+                                                                                                   LocalizeString( nameof(Resources.NotAConstant_MessageFormat) ),
+                                                                                                   _Category,
+                                                                                                   DiagnosticSeverity.Error,
+                                                                                                   true,
+                                                                                                   LocalizeString( nameof(Resources.NotAConstant_Description) ) );
+
         public static ImmutableArray<DiagnosticDescriptor> DiagnosticDescriptors { get; } = ImmutableArray.Create( _MissingCases,
                                                                                                                    _WrongParameterName,
-                                                                                                                   _MissingParameterCase
+                                                                                                                   _MissingParameterCase,
+                                                                                                                   _ConstantExpected
                                                                                                                  );
 
 
@@ -76,6 +85,14 @@ namespace SmartTestsAnalyzer
                                       casesExpression.GetLocation(),
                                       testedMember.ToString(),
                                       parameterName
+                                    );
+        }
+
+
+        public static Diagnostic CreateNotAConstant( SyntaxNode expression )
+        {
+            return Diagnostic.Create( _ConstantExpected,
+                                      expression.GetLocation()
                                     );
         }
     }
