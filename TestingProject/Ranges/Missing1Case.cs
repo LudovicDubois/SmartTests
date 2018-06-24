@@ -9,7 +9,7 @@ namespace TestingProject.Ranges
     [TestFixture]
     public class RangeTests
     {
-        class MyClass
+        private static class MyClass
         {
             public static int M1( int i ) => i;
             public static int M2( int i ) => i;
@@ -19,7 +19,7 @@ namespace TestingProject.Ranges
         [Test]
         public void RangeIITest()
         {
-            var result = RunTest( Range( 0, int.MaxValue ).GetValue( out var value ),
+            var result = RunTest( Int.Range( 0, int.MaxValue ).GetValue( out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -29,7 +29,7 @@ namespace TestingProject.Ranges
         [Test]
         public void RangeIIOutTest()
         {
-            var result = RunTest( Range( 0, int.MaxValue, out var value ),
+            var result = RunTest( Int.Range( 0, int.MaxValue, out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -39,7 +39,7 @@ namespace TestingProject.Ranges
         [Test]
         public void AboveOrEqualTest()
         {
-            var result = RunTest( AboveOrEqual( 0 ).GetValue( out var value ),
+            var result = RunTest( Int.AboveOrEqual( 0 ).GetValue( out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -49,7 +49,7 @@ namespace TestingProject.Ranges
         [Test]
         public void AboveOrEqualOutTest()
         {
-            var result = RunTest( AboveOrEqual( 0, out var value ),
+            var result = RunTest( Int.AboveOrEqual( 0, out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -59,7 +59,7 @@ namespace TestingProject.Ranges
         [Test]
         public void BelowOrEqualTest()
         {
-            var result = RunTest( BelowOrEqual( 0 ).GetValue( out var value ),
+            var result = RunTest( Int.BelowOrEqual( 0 ).GetValue( out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -69,7 +69,7 @@ namespace TestingProject.Ranges
         [Test]
         public void BelowOrEqualOutTest()
         {
-            var result = RunTest( BelowOrEqual( 0, out var value ),
+            var result = RunTest( Int.BelowOrEqual( 0, out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -79,9 +79,9 @@ namespace TestingProject.Ranges
         [Test]
         public void RangeIITestTwice()
         {
-            var result = RunTest( Range( 1, int.MaxValue )
-                                      .Add( int.MinValue, -1 )
-                                      .GetValue( out var value ),
+            var result = RunTest( Int.Range( 1, int.MaxValue )
+                                     .Range( int.MinValue, -1 )
+                                     .GetValue( out var value ),
                                   () => MyClass.M2( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -91,8 +91,8 @@ namespace TestingProject.Ranges
         [Test]
         public void RangeIITestOutTwice()
         {
-            var result = RunTest( Range( 1, int.MaxValue )
-                                      .Add( int.MinValue, -1, out var value ),
+            var result = RunTest( Int.Range( 1, int.MaxValue )
+                                     .Range( int.MinValue, -1, out var value ),
                                   () => MyClass.M2( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );

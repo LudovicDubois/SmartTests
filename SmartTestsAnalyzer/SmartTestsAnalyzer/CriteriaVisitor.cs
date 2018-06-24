@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using SmartTests;
 using SmartTests.Ranges;
 
 using SmartTestsAnalyzer.Criterias;
@@ -25,55 +26,20 @@ namespace SmartTestsAnalyzer
             _ReportDiagnostic = reportDiagnostic;
             _ErrorAttribute = _Model.Compilation.GetTypeByMetadataName( "SmartTests.ErrorAttribute" );
             Debug.Assert( _ErrorAttribute != null );
-            // SmartTests.Range
+
             var smartTestType = _Model.Compilation.GetTypeByMetadataName( "SmartTests.SmartTest" );
-            var rangeMethods = smartTestType.GetMethods( "IntRange" );
-            Debug.Assert( rangeMethods.Length == 2, "Problem with SmartTest.Range methods" );
-            if( rangeMethods[ 0 ].Parameters.Length == 2 )
-            {
-                _RangeMethod = rangeMethods[ 0 ];
-                _RangeValueMethod = rangeMethods[ 1 ];
-            }
-            else
-            {
-                _RangeMethod = rangeMethods[ 1 ];
-                _RangeValueMethod = rangeMethods[ 0 ];
-            }
-            Debug.Assert( _RangeMethod.Parameters.Length == 2, "Problem with SmartTest.Range(int, int) methods" );
-            Debug.Assert( _RangeValueMethod.Parameters.Length == 3, "Problem with SmartTest.Range(int, int, out int) methods" );
-            Debug.Assert( _RangeValueMethod.Parameters[ 2 ].RefKind == RefKind.Out, "Problem with SmartTest.Range(int, int, out int) methods" );
+            // SmartTest type roots
+            AddType( smartTestType, "Int", () => SmartTest.Int );
 
-            // IntRange.Add
-            var intRangeType = _RangeMethod.ReturnType;
-            var addMethods = intRangeType.GetMethods( "Add" );
-            Debug.Assert( addMethods.Length == 2, "Problem with IntRange.Add methods" );
-            if( addMethods[ 0 ].Parameters.Length == 2 )
-            {
-                _AddMethod = addMethods[ 0 ];
-                _AddValueMethod = addMethods[ 1 ];
-            }
-            else
-            {
-                _AddMethod = rangeMethods[ 1 ];
-                _AddValueMethod = rangeMethods[ 0 ];
-            }
-            Debug.Assert( _AddMethod.Parameters.Length == 2, "Problem with IntRange.Add(int, int) methods" );
-            Debug.Assert( _AddValueMethod.Parameters.Length == 3, "Problem with IntRange.Add(int, int, out int) methods" );
-            Debug.Assert( _AddValueMethod.Parameters[ 2 ].RefKind == RefKind.Out, "Problem with IntRange.Add(int, int, out int) methods" );
+            // SmartTest type extension methods
+            AddRangeExtension( smartTestType, "Range", node => Range<int>( node, ( type, min, max ) => type.Range( min, max ) ) );
+            AddRangeExtension( smartTestType, "AboveOrEqual", node => Range<int>( node, ( type, min ) => type.Range( min, type.MaxValue ) ) );
+            AddRangeExtension( smartTestType, "Above", node => Range<int>( node, ( type, min ) => type.Range( type.GetNext( min ), type.MaxValue ) ) );
+            AddRangeExtension( smartTestType, "BelowOrEqual", node => Range<int>( node, ( type, max ) => type.Range( type.MinValue, max ) ) );
+            AddRangeExtension( smartTestType, "Below", node => Range<int>( node, ( type, max ) => type.Range( type.MinValue, type.GetPrevious( max ) ) ) );
 
-            // GetValue
-            _GetValueMethod = intRangeType.GetMethods( "GetValue" )[ 0 ];
-            Debug.Assert( _GetValueMethod.Parameters.Length == 1, "Problem with IntRange.GetValue(out int) method" );
-            Debug.Assert( _GetValueMethod.Parameters[ 0 ].RefKind == RefKind.Out, "Problem with IntRange.GetValue(out int) method" );
-
-            _SpecialMethods = new HashSet<IMethodSymbol>
-                              {
-                                  _RangeMethod,
-                                  _RangeValueMethod,
-                                  _AddMethod,
-                                  _AddValueMethod,
-                                  _GetValueMethod
-                              };
+            // IType<T> methods
+            AddITypeTMethods();
         }
 
 
@@ -82,24 +48,74 @@ namespace SmartTestsAnalyzer
         private readonly ExpressionSyntax _ParameterNameExpression;
         private readonly Action<Diagnostic> _ReportDiagnostic;
         private readonly INamedTypeSymbol _ErrorAttribute;
-        private readonly HashSet<IMethodSymbol> _SpecialMethods;
-        private readonly IMethodSymbol _RangeMethod;
-        private readonly IMethodSymbol _RangeValueMethod;
-        private readonly IMethodSymbol _AddMethod;
-        private readonly IMethodSymbol _AddValueMethod;
-        private readonly IMethodSymbol _GetValueMethod;
+        private readonly Dictionary<IPropertySymbol, Func<CasesAndOr>> _TypeProperties = new Dictionary<IPropertySymbol, Func<CasesAndOr>>();
+        private readonly Dictionary<IMethodSymbol, Func<InvocationExpressionSyntax, CasesAndOr>> _RangeMethods = new Dictionary<IMethodSymbol, Func<InvocationExpressionSyntax, CasesAndOr>>();
+
+
+        private void AddType( ITypeSymbol smartTestType, string propertyName, Func<IType> iTypeCreator )
+        {
+            var rootProperty = (IPropertySymbol)smartTestType.GetMembers( propertyName )[ 0 ];
+            Debug.Assert( rootProperty != null, $"Problem with SmartTest.{propertyName} property" );
+            _TypeProperties[ rootProperty ] = () => Root( iTypeCreator() );
+        }
+
+
+        private void AddRangeExtension( ITypeSymbol smartTestType, string methodName, Func<InvocationExpressionSyntax, CasesAndOr> func )
+        {
+            var rangeMethods = smartTestType.GetMethods( methodName );
+            foreach( var rangeMethod in rangeMethods )
+            {
+                Debug.Assert( rangeMethod != null, $"Problem with SmartTest.{methodName}<T> method" );
+                _RangeMethods[ rangeMethod ] = func;
+            }
+        }
+
+
+        private void AddITypeTMethods()
+        {
+            var typeName = typeof(IType<>).FullName;
+            var iTypeType = _Model.Compilation.GetTypeByMetadataName( typeName );
+            var rangeMethod = iTypeType.GetMethods( "Range" )[ 0 ];
+            Debug.Assert( rangeMethod.Parameters.Length == 2, $"Problem with {typeName}.Range(int, int) method" );
+            _RangeMethods[ rangeMethod ] = Range<int>;
+
+            // GetValue
+            var getValueMethod = iTypeType.GetMethods( "GetValue" )[ 0 ];
+            Debug.Assert( getValueMethod.Parameters.Length == 1, $"Problem with {typeName}.GetValue(out int) method" );
+            Debug.Assert( getValueMethod.Parameters[ 0 ].RefKind == RefKind.Out, $"Problem with {typeName}.GetValue(out int) method" );
+            _RangeMethods[ getValueMethod ] = GetValue;
+        }
+
+
+        // Visit Methods
+
+
+        public override CasesAndOr VisitIdentifierName( IdentifierNameSyntax node )
+        {
+            if( _Model.GetSymbol( node ) is IPropertySymbol propertySymbol &&
+                _TypeProperties.TryGetValue( propertySymbol, out var func ) )
+                return func();
+
+            return base.VisitIdentifierName( node );
+        }
 
 
         public override CasesAndOr VisitMemberAccessExpression( MemberAccessExpressionSyntax node )
         {
-            var criteria = _Model.GetSymbolInfo( node ).Symbol as IFieldSymbol;
-            if( criteria == null )
-                return node.Expression.Accept( this );
+            var member = _Model.GetSymbol( node );
+            if( member is IFieldSymbol criteria )
+            {
+                var parameterName = _ParameterNameExpression != null
+                                        ? _Model.GetConstantValue( _ParameterNameExpression ).Value as string
+                                        : null;
+                return new CasesAndOr( _CasesExpression, _ParameterNameExpression, parameterName ?? Case.NoParameter, new FieldAnalysis( criteria ), criteria.HasAttribute( _ErrorAttribute ) );
+            }
 
-            var parameterName = _ParameterNameExpression != null
-                                    ? _Model.GetConstantValue( _ParameterNameExpression ).Value as string
-                                    : null;
-            return new CasesAndOr( _CasesExpression, _ParameterNameExpression, parameterName ?? Case.NoParameter, new FieldAnalysis( criteria ), criteria.HasAttribute( _ErrorAttribute ) );
+            if( member is IPropertySymbol type )
+                if( _TypeProperties.TryGetValue( type, out var func ) )
+                    return func();
+
+            return node.Expression.Accept( this );
         }
 
 
@@ -134,65 +150,114 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private IntRange _CurrentRange;
+        // Analysis Methods
+
+        private IType _CurrentType;
+
+
+        private CasesAndOr Root( IType currentType )
+        {
+            _CurrentType = currentType;
+            return new CasesAndOr( _CasesExpression, _ParameterNameExpression, Case.NoParameter, new RangeAnalysis( _CurrentType ), false );
+        }
+
+
+        private bool TryGetConstant<T>( ExpressionSyntax expression, out T value )
+            where T: struct
+        {
+            var constant = _Model.GetConstantValue( expression );
+            if( !constant.HasValue )
+            {
+                _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( expression ) );
+                value = default(T);
+                return false;
+            }
+            value = (T)constant.Value;
+            return true;
+        }
+
+
+        private CasesAndOr Range<T>( InvocationExpressionSyntax node, Action<IType<T>, T, T> addRange )
+            where T: struct, IComparable<T>
+        {
+            if( !( TryGetConstant( node.GetArgument( 0 ).Expression, out T min ) &
+                   TryGetConstant( node.GetArgument( 1 ).Expression, out T max ) ) )
+                return base.VisitInvocationExpression( node );
+
+            var result = node.Expression.Accept( this );
+            addRange( (IType<T>)_CurrentType, min, max );
+            return result;
+        }
+
+
+        private CasesAndOr Range<T>( InvocationExpressionSyntax node, Action<IType<T>, T> addRange )
+            where T: struct, IComparable<T>
+        {
+            if( !TryGetConstant( node.GetArgument( 0 ).Expression, out T min ) )
+                return base.VisitInvocationExpression( node );
+
+            var result = node.Expression.Accept( this );
+            addRange( (IType<T>)_CurrentType, min );
+            return result;
+        }
+
+
+        private CasesAndOr Range<T>( InvocationExpressionSyntax node )
+            where T: struct, IComparable<T>
+        {
+            var result = node.Expression.Accept( this );
+
+            if( !( TryGetConstant( node.GetArgument( 0 ).Expression, out T min ) &
+                   TryGetConstant( node.GetArgument( 1 ).Expression, out T max ) ) )
+                return base.VisitInvocationExpression( node );
+
+            ( (IType<T>)_CurrentType ).Range( min, max );
+
+            if( node.ArgumentList.Arguments.Count == 3 )
+                _CurrentType = null;
+
+            return result;
+        }
+
+
+        private CasesAndOr GetValue( InvocationExpressionSyntax node )
+        {
+            var result = node.Expression.Accept( this );
+            _CurrentType = null;
+            return result;
+        }
 
 
         public override CasesAndOr VisitInvocationExpression( InvocationExpressionSyntax node )
         {
-            var criteria = _Model.GetSymbolInfo( node ).Symbol as IMethodSymbol;
-            if( criteria == null ||
-                !_SpecialMethods.Contains( criteria ) )
+            var criteria = _Model.GetSymbol( node ) as IMethodSymbol;
+            if( criteria == null )
                 return base.VisitInvocationExpression( node );
 
-            if( criteria == _RangeValueMethod ||
-                criteria == _RangeMethod )
-            {
-                var min = _Model.GetConstantValue( node.GetArgument( 0 ).Expression );
-                if( !min.HasValue )
-                    _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( node.GetArgument( 0 ) ) );
-                var max = _Model.GetConstantValue( node.GetArgument( 1 ).Expression );
-                if( !max.HasValue )
-                    _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( node.GetArgument( 1 ) ) );
-                if( !min.HasValue ||
-                    !max.HasValue )
-                    return base.VisitInvocationExpression( node );
 
-                _CurrentRange = new IntRange( (int)min.Value, (int)max.Value );
+            if (_RangeMethods.TryGetValue(criteria, out var func))
+                return Analyze(node);
 
-                return new CasesAndOr( _CasesExpression, _ParameterNameExpression, Case.NoParameter, new RangeAnalysis( _CurrentRange ), false );
-            }
+            if( criteria.ReducedFrom != null &&
+                _RangeMethods.TryGetValue( criteria.ReducedFrom, out func ) )
+                return Analyze(node);
 
-            if( criteria == _AddValueMethod ||
-                criteria == _AddMethod )
-            {
-                var result = node.Expression.Accept( this );
+            if ( criteria.OriginalDefinition != null &&
+                _RangeMethods.TryGetValue( criteria.OriginalDefinition, out func ) )
+                return Analyze(node);
 
-                var min = _Model.GetConstantValue( node.GetArgument( 0 ).Expression );
-                if( !min.HasValue )
-                    _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( node.GetArgument( 0 ) ) );
-                var max = _Model.GetConstantValue( node.GetArgument( 1 ).Expression );
-                if( !max.HasValue )
-                    _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( node.GetArgument( 1 ) ) );
-                if( !min.HasValue ||
-                    !max.HasValue )
-                    return base.VisitInvocationExpression( node );
+            return base.VisitInvocationExpression( node );
+        }
 
-                _CurrentRange?.Add( (int)min.Value, (int)max.Value );
 
-                if( criteria == _AddValueMethod )
-                    // last one
-                    _CurrentRange = null;
-                return result;
-            }
-
-            if( criteria == _GetValueMethod )
-            {
-                var result = node.Expression.Accept( this );
-                _CurrentRange = null;
-                return result;
-            }
-
-            throw new NotImplementedException();
+        private CasesAndOr Analyze(InvocationExpressionSyntax node)
+        {
+            var typeSearchVisitor = new TypeSearchVisitor(_Model, _ReportDiagnostic, node);
+            var iType = node.Accept(typeSearchVisitor);
+            if (iType == null)
+                // There was an error
+                return null;
+            return new CasesAndOr(_CasesExpression, _ParameterNameExpression, Case.NoParameter, new RangeAnalysis(iType), false);
         }
     }
 }

@@ -10,35 +10,35 @@ namespace SmartTestsAnalyzer.Criterias
 {
     class RangeAnalysis: CriteriaAnalysis
     {
-        public RangeAnalysis( IntRange range )
+        public RangeAnalysis( IType type )
         {
-            Range = range;
+            Type = type;
         }
 
 
-        public IntRange Range { get; }
+        public IType Type { get; }
 
 
         public override void AddValues( Dictionary<string, CriteriaValues> values, INamedTypeSymbol errorType )
         {
             if( !values.TryGetValue( "IntRange", out var intRangeValues ) )
             {
-                intRangeValues = new RangeValues();
+                intRangeValues = new RangeValues<int, IntType>();
                 values[ "IntRange" ] = intRangeValues;
             }
-            intRangeValues.Add( new RangeAnalysis( Range ), false );
+            intRangeValues.Add( new RangeAnalysis( Type ), false );
         }
 
 
         public override bool Equals( object obj ) => Equals( obj as RangeAnalysis );
 
 
-        protected bool Equals( RangeAnalysis other ) => other?.GetType() == typeof(RangeAnalysis) && Equals( Range, other.Range );
+        protected bool Equals( RangeAnalysis other ) => other?.GetType() == typeof(RangeAnalysis) && Equals( Type, other.Type );
 
 
-        public override int GetHashCode() => Range?.GetHashCode() ?? 0;
+        public override int GetHashCode() => Type?.GetHashCode() ?? 0;
 
 
-        public override string ToDisplayString( SymbolDisplayFormat displayFormat ) => Range.ToString();
+        public override string ToDisplayString( SymbolDisplayFormat displayFormat ) => Type.ToString();
     }
 }

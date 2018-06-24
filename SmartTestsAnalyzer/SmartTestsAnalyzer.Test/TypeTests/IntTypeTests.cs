@@ -6,10 +6,10 @@ using TestHelper;
 
 
 
-namespace SmartTestsAnalyzer.Test.RangeTests
+namespace SmartTestsAnalyzer.Test.TypeTests
 {
     [TestFixture]
-    class IntRangeTests: CodeFixVerifier
+    class IntTypeTests: CodeFixVerifier
     {
         [Test]
         public void OneChunkInOneRange()
@@ -31,7 +31,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( IntRange( 1, int.MaxValue, out var value ), 
+            var result = RunTest( Int.Range( 1, int.MaxValue, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -41,7 +41,92 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: IntRange(int.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Int.Range(int.MinValue, 0)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
+        public void OneChunkInOneRangeTypedRoot()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Inverse(int i) => 1 / i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( SmartTest.Int.Range( 1, int.MaxValue, out var value ), 
+                                  () => Class1.Inverse( value ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Int.Range(int.MinValue, 0)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
+        public void OneChunkInOneRangeFullRoot()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Inverse(int i) => 1 / i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( SmartTests.SmartTest.Int.Range( 1, int.MaxValue, out var value ), 
+                                  () => Class1.Inverse( value ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Int.Range(int.MinValue, 0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -73,7 +158,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( IntRange( 1, int.MaxValue, out var value ), 
+            var result = RunTest( Int.Range( 1, int.MaxValue, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -82,7 +167,7 @@ namespace TestingProject
         [Test]
         public void Test2Method()
         {
-            var result = RunTest( IntRange( int.MinValue, -1, out var value ), 
+            var result = RunTest( Int.Range( int.MinValue, -1, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -92,7 +177,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: IntRange(0, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Int.Range(0, 0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -125,7 +210,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( IntRange( int.MinValue, -1 ).Add( 1, int.MaxValue, out var value ), 
+            var result = RunTest( Int.Range( int.MinValue, -1 ).Range( 1, int.MaxValue, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -135,7 +220,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: IntRange(0, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Int.Range(0, 0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -167,7 +252,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( IntRange( int.MinValue, -1 ).Add( 1, 10 ).Add( 11, int.MaxValue, out var value ), 
+            var result = RunTest( Int.Range( int.MinValue, -1 ).Range( 1, 10 ).Range( 11, int.MaxValue, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -177,7 +262,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: IntRange(0, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Int.Range(0, 0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -209,7 +294,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( IntRange( 1, int.MaxValue ).GetValue( out var value ), 
+            var result = RunTest( Int.Range( 1, int.MaxValue ).GetValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -219,7 +304,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: IntRange(int.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Int.Range(int.MinValue, 0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -252,7 +337,7 @@ namespace TestingProject
         public void TestMethod()
         {
             var one = 1;
-            var result = RunTest( IntRange( one, int.MaxValue, out var value ), 
+            var result = RunTest( Int.Range( one, int.MaxValue, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -266,7 +351,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 19, 45 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 46 )
                                            }
                            };
 
@@ -295,7 +380,7 @@ namespace TestingProject
         public void TestMethod()
         {
             var one = 1;
-            var result = RunTest( IntRange( int.MinValue, one, out var value ), 
+            var result = RunTest( Int.Range( int.MinValue, one, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -309,7 +394,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 19, 59 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 60 )
                                            }
                            };
 
@@ -338,7 +423,7 @@ namespace TestingProject
         public void TestMethod()
         {
             var one = 1;
-            var result = RunTest( IntRange( int.MinValue, -1 ).Add( one, int.MaxValue, out var value ), 
+            var result = RunTest( Int.Range( int.MinValue, -1 ).Range( one, int.MaxValue, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -352,7 +437,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 19, 69 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 72 )
                                            }
                            };
 
@@ -381,7 +466,7 @@ namespace TestingProject
         public void TestMethod()
         {
             var one = 1;
-            var result = RunTest( IntRange( int.MinValue, -1 ).Add( 1, one, out var value ), 
+            var result = RunTest( Int.Range( int.MinValue, -1 ).Range( 1, one, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -395,7 +480,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 19, 72 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 75 )
                                            }
                            };
 
@@ -423,7 +508,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( IntRange( 1, 10, out var value ), 
+            var result = RunTest( Int.Range( 1, 10, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -433,7 +518,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: IntRange(int.MinValue, 0).Add(11, int.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Int.Range(int.MinValue, 0).Range(11, int.MaxValue)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -465,7 +550,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( IntRange( -10, -1 ).Add( 1, 10, out var value ), 
+            var result = RunTest( Int.Range( -10, -1 ).Range( 1, 10, out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -475,7 +560,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: IntRange(int.MinValue, -11).Add(0, 0).Add(11, int.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Int.Range(int.MinValue, -11).Range(0, 0).Range(11, int.MaxValue)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
