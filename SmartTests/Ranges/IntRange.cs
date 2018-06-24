@@ -192,7 +192,7 @@ namespace SmartTests.Ranges
         /// <inheritdoc />
         public override string ToString()
         {
-            var result = new StringBuilder( "Range" );
+            var result = new StringBuilder( "IntRange" );
             foreach( var chunk in Chunks )
                 result.Append( $"({( chunk.Min == int.MinValue ? "int.MinValue" : chunk.Min.ToString() )}, {( chunk.Max == int.MaxValue ? "int.MaxValue" : chunk.Max.ToString() )}).Add" );
             result.Length -= 4;

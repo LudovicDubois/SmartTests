@@ -597,15 +597,15 @@ namespace SmartTests
         #endregion
 
 
-        #region Range
+        #region IntRange
 
         /// <summary>
         ///     Creates a range of integer values
         /// </summary>
         /// <param name="min">The min value (included) of the range.</param>
         /// <param name="max">The max value (included) of the range.</param>
-        /// <returns>The created <see cref="IntRange" />: [<paramref name="min" />..<paramref name="max" />].</returns>
-        public static IntRange Range( int min, int max ) => new IntRange( min, max );
+        /// <returns>The created <see cref="Ranges.IntRange" />: [<paramref name="min" />..<paramref name="max" />].</returns>
+        public static IntRange IntRange( int min, int max ) => new IntRange( min, max );
 
 
         /// <summary>
@@ -615,15 +615,15 @@ namespace SmartTests
         /// <param name="max">The max value (included) of the range.</param>
         /// <param name="value">A random value between <paramref name="min" /> and <paramref name="max" />.</param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        public static Criteria Range( int min, int max, out int value ) => Range( min, max ).GetValue( out value );
+        public static Criteria IntRange( int min, int max, out int value ) => IntRange( min, max ).GetValue( out value );
 
 
         /// <summary>
         ///     Creates a range of integer values to max integer
         /// </summary>
         /// <param name="min">The min value (included) of the range.</param>
-        /// <returns>The created <see cref="IntRange" />: [<paramref name="min" />..<c>int.MaxValue</c>].</returns>
-        public static IntRange AboveOrEqual( int min ) => Range( min, int.MaxValue );
+        /// <returns>The created <see cref="Ranges.IntRange" />: [<paramref name="min" />..<c>int.MaxValue</c>].</returns>
+        public static IntRange IntAboveOrEqual( int min ) => IntRange( min, int.MaxValue );
 
 
         /// <summary>
@@ -632,15 +632,15 @@ namespace SmartTests
         /// <param name="min">The min value (included) of the range.</param>
         /// <param name="value">A random value between <paramref name="min" /> and <c>int.MaxValue</c>.</param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        public static Criteria AboveOrEqual( int min, out int value ) => Range( min, int.MaxValue, out value );
+        public static Criteria IntAboveOrEqual( int min, out int value ) => IntRange( min, int.MaxValue, out value );
 
 
         /// <summary>
         ///     Creates a range of integer values to max integer
         /// </summary>
         /// <param name="min">The min value (included) of the range.</param>
-        /// <returns>The created <see cref="IntRange" />: [<paramref name="min" /><c>+1</c>..<c>int.MaxValue</c>].</returns>
-        public static IntRange Above( int min ) => Range( min + 1, int.MaxValue );
+        /// <returns>The created <see cref="Ranges.IntRange" />: [<paramref name="min" /><c>+1</c>..<c>int.MaxValue</c>].</returns>
+        public static IntRange IntAbove( int min ) => IntRange( min + 1, int.MaxValue );
 
 
         /// <summary>
@@ -649,15 +649,15 @@ namespace SmartTests
         /// <param name="min">The min value (included) of the range.</param>
         /// <param name="value">A random value between <paramref name="min" /><c>+1</c> and <c>int.MaxValue</c>.</param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        public static Criteria Above( int min, out int value ) => Range( min + 1, int.MaxValue, out value );
+        public static Criteria IntAbove( int min, out int value ) => IntRange( min + 1, int.MaxValue, out value );
 
 
         /// <summary>
         ///     Creates a range of integer values from min integer
         /// </summary>
         /// <param name="max">The max value (included) of the range.</param>
-        /// <returns>The created <see cref="IntRange" />: [<c>int.MinValue</c>..<paramref name="max" />].</returns>
-        public static IntRange BelowOrEqual( int max ) => Range( int.MinValue, max );
+        /// <returns>The created <see cref="Ranges.IntRange" />: [<c>int.MinValue</c>..<paramref name="max" />].</returns>
+        public static IntRange IntBelowOrEqual( int max ) => IntRange( int.MinValue, max );
 
 
         /// <summary>
@@ -666,15 +666,15 @@ namespace SmartTests
         /// <param name="max">The max value (included) of the range.</param>
         /// <param name="value">A random value between <c>int.MinValue</c> and <paramref name="max" />.</param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        public static Criteria BelowOrEqual( int max, out int value ) => Range( int.MinValue, max, out value );
+        public static Criteria IntBelowOrEqual( int max, out int value ) => IntRange( int.MinValue, max, out value );
 
 
         /// <summary>
         ///     Creates a range of integer values from min integer
         /// </summary>
         /// <param name="max">The max value (included) of the range.</param>
-        /// <returns>The created <see cref="IntRange" />: [<c>int.MinValue</c>..<paramref name="max" />-1].</returns>
-        public static IntRange Below( int max ) => Range( int.MinValue, max - 1 );
+        /// <returns>The created <see cref="Ranges.IntRange" />: [<c>int.MinValue</c>..<paramref name="max" />-1].</returns>
+        public static IntRange IntBelow( int max ) => IntRange( int.MinValue, max - 1 );
 
 
         /// <summary>
@@ -683,7 +683,7 @@ namespace SmartTests
         /// <param name="max">The max value (included) of the range.</param>
         /// <param name="value">A random value between <c>int.MinValue</c> and <paramref name="max" /><c>-1</c>.</param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        public static Criteria Below( int max, out int value ) => Range( int.MinValue, max - 1, out value );
+        public static Criteria IntBelow( int max, out int value ) => IntRange( int.MinValue, max - 1, out value );
 
         #endregion
     }

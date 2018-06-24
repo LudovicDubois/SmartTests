@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using SmartTests.Ranges;
 
@@ -68,7 +69,7 @@ namespace SmartTestsAnalyzer.Criterias
                 value = chunk.Max + 1;
             }
 
-            if( value < int.MaxValue )
+            if( currentRange.Chunks.Last().Max < int.MaxValue )
                 missing.Add( value, int.MaxValue );
 
             if( missing.Chunks.Count > 0 )

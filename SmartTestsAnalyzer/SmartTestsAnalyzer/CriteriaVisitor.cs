@@ -27,7 +27,7 @@ namespace SmartTestsAnalyzer
             Debug.Assert( _ErrorAttribute != null );
             // SmartTests.Range
             var smartTestType = _Model.Compilation.GetTypeByMetadataName( "SmartTests.SmartTest" );
-            var rangeMethods = smartTestType.GetMethods( "Range" );
+            var rangeMethods = smartTestType.GetMethods( "IntRange" );
             Debug.Assert( rangeMethods.Length == 2, "Problem with SmartTest.Range methods" );
             if( rangeMethods[ 0 ].Parameters.Length == 2 )
             {
