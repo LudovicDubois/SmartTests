@@ -130,9 +130,31 @@ namespace SmartTests.Ranges
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
         public Criteria GetValue( out int value )
         {
-            //TODO: multiple chunks
-            value = 0;
-            return AnyValue.IsValid;
+            // Ensure values are well distributed
+            var max = int.MinValue;
+            foreach( var chunk in Chunks )
+                max += chunk.Max - chunk.Min;
+            var random = new Random();
+
+            if( max == int.MaxValue )
+            {
+                value = random.Next();
+                return AnyValue.IsValid;
+            }
+
+            value = random.Next( int.MinValue, max );
+            max = int.MinValue;
+            foreach( var chunk in Chunks )
+            {
+                var min = max + 1;
+                max += chunk.Max - chunk.Min;
+                if( value > max )
+                    continue;
+                value = value - min + chunk.Min;
+                return AnyValue.IsValid;
+            }
+
+            throw new NotImplementedException();
         }
 
 
