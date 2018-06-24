@@ -68,6 +68,9 @@ namespace SmartTestsAnalyzer.Criterias
                 value = chunk.Max + 1;
             }
 
+            if( value < int.MaxValue )
+                missing.Add( value, int.MaxValue );
+
             if( missing.Chunks.Count > 0 )
                 Values.Add( new CriteriaValue( new RangeAnalysis( missing ), false ) );
         }

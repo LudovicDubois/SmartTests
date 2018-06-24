@@ -403,6 +403,90 @@ namespace TestingProject
         }
 
 
+        [Test]
+        public void OneChunkInOneRangeMissingMinMax()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Inverse(int i) => 1 / i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Range( 1, 10, out var value ), 
+                                  () => Class1.Inverse( value ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Range(int.MinValue, 0).Add(11, int.MaxValue)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
+        public void OneChunkInOneRangeMissingMinMiddleMax()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Inverse(int i) => 1 / i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Range( -10, -1 ).Add( 1, 10, out var value ), 
+                                  () => Class1.Inverse( value ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(int)' has some missing Test Cases: Range(int.MinValue, -11).Add(0, 0).Add(11, int.MaxValue)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
         protected override SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();
     }
 }
