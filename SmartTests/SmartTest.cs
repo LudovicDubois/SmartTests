@@ -604,6 +604,7 @@ namespace SmartTests
         /// </summary>
         /// <seealso cref="IType{T}" />
         public static IType<int> Int => new IntType();
+        public static IType<long> Long => new LongType();
 
         #endregion
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Microsoft.CodeAnalysis;
@@ -10,6 +11,16 @@ namespace SmartTestsAnalyzer.Criterias
 {
     class RangeAnalysis: CriteriaAnalysis
     {
+        private static readonly Dictionary<Type, Func<CriteriaValues>> _CriteriaValuesGenerator = new Dictionary<Type, Func<CriteriaValues>>();
+
+
+        static RangeAnalysis()
+        {
+            _CriteriaValuesGenerator[ typeof(IntType) ] = () => new RangeValues<int, IntType>();
+            _CriteriaValuesGenerator[ typeof(LongType) ] = () => new RangeValues<long, LongType>();
+        }
+
+
         public RangeAnalysis( IType type )
         {
             Type = type;
@@ -21,12 +32,13 @@ namespace SmartTestsAnalyzer.Criterias
 
         public override void AddValues( Dictionary<string, CriteriaValues> values, INamedTypeSymbol errorType )
         {
-            if( !values.TryGetValue( "IntRange", out var intRangeValues ) )
+            if( !values.TryGetValue( "Range", out var rangeValues ) )
             {
-                intRangeValues = new RangeValues<int, IntType>();
-                values[ "IntRange" ] = intRangeValues;
+                rangeValues = _CriteriaValuesGenerator[ Type.GetType() ]();
+                values[ "Range" ] = rangeValues;
             }
-            intRangeValues.Add( new RangeAnalysis( Type ), false );
+
+            rangeValues.Add( new RangeAnalysis( Type ), false );
         }
 
 

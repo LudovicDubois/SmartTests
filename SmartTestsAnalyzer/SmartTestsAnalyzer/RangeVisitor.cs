@@ -104,7 +104,7 @@ namespace SmartTestsAnalyzer
                 return false;
             }
 
-            value = (T)constant.Value;
+            value = (T)Convert.ChangeType( constant.Value, typeof(T) );
             return true;
         }
 
