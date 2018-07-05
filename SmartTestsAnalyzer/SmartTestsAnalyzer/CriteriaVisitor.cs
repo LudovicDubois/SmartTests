@@ -6,8 +6,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SmartTests.Ranges;
-
 using SmartTestsAnalyzer.Criterias;
 using SmartTestsAnalyzer.Helpers;
 
@@ -26,15 +24,18 @@ namespace SmartTestsAnalyzer
             _ErrorAttribute = _Model.Compilation.GetTypeByMetadataName( "SmartTests.ErrorAttribute" );
             Debug.Assert( _ErrorAttribute != null );
 
-            var smartTestType = _Model.Compilation.GetTypeByMetadataName( "SmartTests.SmartTest" );
-
-            // For IType<T> extension methods
-            AddRangeExtension( smartTestType, "Range" );
-            AddRangeExtension( smartTestType, "AboveOrEqual" );
-            AddRangeExtension( smartTestType, "Above" );
-            AddRangeExtension( smartTestType, "BelowOrEqual" );
-            AddRangeExtension( smartTestType, "Below" );
-            AddITypeTMethods();
+            // For INumericType<T> methods
+            var iTypeType = _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.INumericType`1" );
+            AddRangeExtension( iTypeType, "Range" );
+            AddRangeExtension( iTypeType, "AboveOrEqual" );
+            AddRangeExtension( iTypeType, "Above" );
+            AddRangeExtension( iTypeType, "BelowOrEqual" );
+            AddRangeExtension( iTypeType, "Below" );
+            // GetValue
+            var getValueMethod = iTypeType.GetMethods( "GetValue" )[ 0 ];
+            Debug.Assert( getValueMethod.Parameters.Length == 1, "Problem with INumericType<T>.GetValue(out T) method" );
+            Debug.Assert( getValueMethod.Parameters[ 0 ].RefKind == RefKind.Out, "Problem with INumericType<T>.GetValue(out T) method" );
+            _RangeMethods.Add( getValueMethod );
         }
 
 
@@ -54,22 +55,6 @@ namespace SmartTestsAnalyzer
                 Debug.Assert( rangeMethod != null, $"Problem with SmartTest.{methodName}<T> method" );
                 _RangeMethods.Add( rangeMethod );
             }
-        }
-
-
-        private void AddITypeTMethods()
-        {
-            var typeName = typeof(IType<>).FullName;
-            var iTypeType = _Model.Compilation.GetTypeByMetadataName( typeName );
-            var rangeMethod = iTypeType.GetMethods( "Range" )[ 0 ];
-            Debug.Assert( rangeMethod.Parameters.Length == 2, $"Problem with {typeName}.Range(T, T) method" );
-            _RangeMethods.Add( rangeMethod );
-
-            // GetValue
-            var getValueMethod = iTypeType.GetMethods( "GetValue" )[ 0 ];
-            Debug.Assert( getValueMethod.Parameters.Length == 1, $"Problem with {typeName}.GetValue(out T) method" );
-            Debug.Assert( getValueMethod.Parameters[ 0 ].RefKind == RefKind.Out, $"Problem with {typeName}.GetValue(out T) method" );
-            _RangeMethods.Add( getValueMethod );
         }
 
 

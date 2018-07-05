@@ -95,7 +95,7 @@ namespace TestingProject.MultipleCasesTests
         var expected = new DiagnosticResult
                 {
                     Id = "SmartTestsAnalyzer_MissingCases",
-                    Message = "Tests for 'TestingProject.MyTestClass.MyClass.Add(int, int)' has some missing Test Cases: j:MinIncluded.IsBelowMin",
+                    Message = "Tests for 'TestingProject.MyTestClass.MyClass.Range(int, int)' has some missing Test Cases: j:MinIncluded.IsBelowMin",
                     Severity = DiagnosticSeverity.Warning,
                     Locations = new[]
                                 {

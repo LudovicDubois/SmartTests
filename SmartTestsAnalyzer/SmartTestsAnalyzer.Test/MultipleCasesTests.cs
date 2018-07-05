@@ -27,7 +27,7 @@ namespace TestingProject
     {
         public class MyClass
         {
-            public int Add( int i, int j ) 
+            public int Range( int i, int j ) 
             {
                 if( i < 0 )
                     throw new ArgumentOutOfRangeException( nameof(i) );
@@ -44,7 +44,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsAboveMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add(10, 20 ) );
+                                  () => mc.Range(10, 20 ) );
 
             Assert.That( result, Is.EqualTo( 30 ) );
         }
@@ -54,7 +54,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Add(int, int)' has some missing Test Cases: i:MinIncluded.IsBelowMin and j:MinIncluded.IsBelowMin and i:MinIncluded.IsMin & j:MinIncluded.IsMin and i:MinIncluded.IsMin & j:MinIncluded.IsAboveMin and i:MinIncluded.IsAboveMin & j:MinIncluded.IsMin",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Range(int, int)' has some missing Test Cases: i:MinIncluded.IsBelowMin and j:MinIncluded.IsBelowMin and i:MinIncluded.IsMin & j:MinIncluded.IsMin and i:MinIncluded.IsMin & j:MinIncluded.IsAboveMin and i:MinIncluded.IsAboveMin & j:MinIncluded.IsMin",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -82,7 +82,7 @@ namespace TestingProject
     {
         public class MyClass
         {
-            public int Add( int i, int j ) 
+            public int Range( int i, int j ) 
             {
                 if( i < 0 )
                     throw new ArgumentOutOfRangeException( nameof(i) );
@@ -99,7 +99,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsAboveMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add( 10, 20 ) );
+                                  () => mc.Range( 10, 20 ) );
 
             Assert.That( result, Is.EqualTo( 30 ) );
         }
@@ -111,7 +111,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add( 0, 20 ) );
+                                  () => mc.Range( 0, 20 ) );
 
             Assert.That( result, Is.EqualTo( 30 ) );
         }
@@ -121,7 +121,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Add(int, int)' has some missing Test Cases: i:MinIncluded.IsBelowMin and j:MinIncluded.IsBelowMin and i:MinIncluded.IsMin & j:MinIncluded.IsMin and i:MinIncluded.IsAboveMin & j:MinIncluded.IsMin",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Range(int, int)' has some missing Test Cases: i:MinIncluded.IsBelowMin and j:MinIncluded.IsBelowMin and i:MinIncluded.IsMin & j:MinIncluded.IsMin and i:MinIncluded.IsAboveMin & j:MinIncluded.IsMin",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -150,7 +150,7 @@ namespace TestingProject
     {
         public class MyClass
         {
-            public int Add( int i, int j ) 
+            public int Range( int i, int j ) 
             {
                 if( i < 0 )
                     throw new ArgumentOutOfRangeException( nameof(i) );
@@ -167,7 +167,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsAboveMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add( 10, 20 ) );
+                                  () => mc.Range( 10, 20 ) );
 
             Assert.That( result, Is.EqualTo( 30 ) );
         }
@@ -179,7 +179,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add( 0, 20 ) );
+                                  () => mc.Range( 0, 20 ) );
 
             Assert.That( result, Is.EqualTo( 30 ) );
         }
@@ -191,7 +191,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsAboveMin ) &
                                   Case( ""j"", MinIncluded.IsMin ),
-                                  () => mc.Add( 10, 0 ) );
+                                  () => mc.Range( 10, 0 ) );
 
             Assert.That( result, Is.EqualTo( 30 ) );
         }
@@ -201,7 +201,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Add(int, int)' has some missing Test Cases: i:MinIncluded.IsBelowMin and j:MinIncluded.IsBelowMin and i:MinIncluded.IsMin & j:MinIncluded.IsMin",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Range(int, int)' has some missing Test Cases: i:MinIncluded.IsBelowMin and j:MinIncluded.IsBelowMin and i:MinIncluded.IsMin & j:MinIncluded.IsMin",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -231,7 +231,7 @@ namespace TestingProject
     {
         public class MyClass
         {
-            public int Add( int i, int j ) 
+            public int Range( int i, int j ) 
             {
                 if( i < 0 )
                     throw new ArgumentOutOfRangeException( nameof(i) );
@@ -248,7 +248,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsAboveMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add( 10, 20 ) );
+                                  () => mc.Range( 10, 20 ) );
 
             Assert.That( result, Is.EqualTo( 30 ) );
         }
@@ -260,7 +260,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add( 0, 20 ) );
+                                  () => mc.Range( 0, 20 ) );
 
             Assert.That( result, Is.EqualTo( 20 ) );
         }
@@ -272,7 +272,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsAboveMin ) &
                                   Case( ""j"", MinIncluded.IsMin ),
-                                  () => mc.Add( 10, 0 ) );
+                                  () => mc.Range( 10, 0 ) );
 
             Assert.That( result, Is.EqualTo( 10 ) );
         }
@@ -284,7 +284,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsMin ) &
                                   Case( ""j"", MinIncluded.IsMin ),
-                                  () => mc.Add( 0, 0 ) );
+                                  () => mc.Range( 0, 0 ) );
 
             Assert.That( result, Is.EqualTo( 0 ) );
         }
@@ -294,7 +294,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Add(int, int)' has some missing Test Cases: i:MinIncluded.IsBelowMin and j:MinIncluded.IsBelowMin",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Range(int, int)' has some missing Test Cases: i:MinIncluded.IsBelowMin and j:MinIncluded.IsBelowMin",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -325,7 +325,7 @@ namespace TestingProject
     {
         public class MyClass
         {
-            public int Add( int i, int j ) 
+            public int Range( int i, int j ) 
             {
                 if( i < 0 )
                     throw new ArgumentOutOfRangeException( nameof(i) );
@@ -342,7 +342,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsAboveMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add( 10, 20 ) );
+                                  () => mc.Range( 10, 20 ) );
 
             Assert.That( result, Is.EqualTo( 30 ) );
         }
@@ -354,7 +354,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add( 0, 20 ) );
+                                  () => mc.Range( 0, 20 ) );
 
             Assert.That( result, Is.EqualTo( 20 ) );
         }
@@ -366,7 +366,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsAboveMin ) &
                                   Case( ""j"", MinIncluded.IsMin ),
-                                  () => mc.Add( 10, 0 ) );
+                                  () => mc.Range( 10, 0 ) );
 
             Assert.That( result, Is.EqualTo( 10 ) );
         }
@@ -378,7 +378,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsMin ) &
                                   Case( ""j"", MinIncluded.IsMin ),
-                                  () => mc.Add( 0, 0 ) );
+                                  () => mc.Range( 0, 0 ) );
 
             Assert.That( result, Is.EqualTo( 0 ) );
         }
@@ -389,7 +389,7 @@ namespace TestingProject
             var mc = new MyClass();
 
             var result = RunTest( Case( ""i"", MinIncluded.IsBelowMin ),
-                                  () => mc.Add( -1, 0 ) );
+                                  () => mc.Range( -1, 0 ) );
 
             Assert.That( result, Is.EqualTo( -1 ) );
         }
@@ -399,7 +399,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Add(int, int)' has some missing Test Cases: j:MinIncluded.IsBelowMin",
+                               Message = "Tests for 'TestingProject.MyTestClass.MyClass.Range(int, int)' has some missing Test Cases: j:MinIncluded.IsBelowMin",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -431,7 +431,7 @@ namespace TestingProject
     {
         public class MyClass
         {
-            public int Add( int i, int j ) 
+            public int Range( int i, int j ) 
             {
                 if( i < 0 )
                     throw new ArgumentOutOfRangeException( nameof(i) );
@@ -448,7 +448,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsAboveMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add( 10, 20 ) );
+                                  () => mc.Range( 10, 20 ) );
 
             Assert.That( result, Is.EqualTo( 30 ) );
         }
@@ -460,7 +460,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsMin ) &
                                   Case( ""j"", MinIncluded.IsAboveMin ),
-                                  () => mc.Add( 0, 20 ) );
+                                  () => mc.Range( 0, 20 ) );
 
             Assert.That( result, Is.EqualTo( 20 ) );
         }
@@ -472,7 +472,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsAboveMin ) &
                                   Case( ""j"", MinIncluded.IsMin ),
-                                  () => mc.Add( 10, 0 ) );
+                                  () => mc.Range( 10, 0 ) );
 
             Assert.That( result, Is.EqualTo( 10 ) );
         }
@@ -484,7 +484,7 @@ namespace TestingProject
 
             var result = RunTest( Case( ""i"", MinIncluded.IsMin ) &
                                   Case( ""j"", MinIncluded.IsMin ),
-                                  () => mc.Add( 0, 0 ) );
+                                  () => mc.Range( 0, 0 ) );
 
             Assert.That( result, Is.EqualTo( 0 ) );
         }
@@ -495,7 +495,7 @@ namespace TestingProject
             var mc = new MyClass();
 
             var result = RunTest( Case( ""i"", MinIncluded.IsBelowMin ),
-                                  () => mc.Add( -1, 0 ) );
+                                  () => mc.Range( -1, 0 ) );
 
             Assert.That( result, Is.EqualTo( -1 ) );
         }
@@ -506,7 +506,7 @@ namespace TestingProject
             var mc = new MyClass();
 
             var result = RunTest( Case( ""j"", MinIncluded.IsBelowMin ),
-                                  () => mc.Add( 0, -1 ) );
+                                  () => mc.Range( 0, -1 ) );
 
             Assert.That( result, Is.EqualTo( -1 ) );
         }

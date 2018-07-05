@@ -14,43 +14,30 @@ using SmartTestsAnalyzer.Helpers;
 
 namespace SmartTestsAnalyzer
 {
-    class RangeVisitor<T>: CSharpSyntaxVisitor<IType<T>>
+    class RangeVisitor<T>: CSharpSyntaxVisitor<INumericType<T>>
         where T: struct, IComparable<T>
     {
-        public RangeVisitor( SemanticModel model, IType<T> root, Action<Diagnostic> reportDiagnostic )
+        public RangeVisitor( SemanticModel model, INumericType<T> root, Action<Diagnostic> reportDiagnostic )
         {
             _Model = model;
             _Type = root;
             _ReportDiagnostic = reportDiagnostic;
 
-            var smartTestType = _Model.Compilation.GetTypeByMetadataName( "SmartTests.SmartTest" );
-            // SmartTest type extension methods
-            AddRangeExtension( smartTestType, "Range",
-                               node => Range( node, ( iType, min, max ) => iType.Range( min, max ) ) );
-            AddRangeExtension( smartTestType, "AboveOrEqual",
-                               node => Range( node, ( iType, min ) => iType.Range( min, iType.MaxValue ) ) );
-            AddRangeExtension( smartTestType, "Above",
-                               node => Range( node, ( iType, min ) => iType.Range( iType.GetNext( min ), iType.MaxValue ) ) );
-            AddRangeExtension( smartTestType, "BelowOrEqual",
-                               node => Range( node, ( iType, max ) => iType.Range( iType.MinValue, max ) ) );
-            AddRangeExtension( smartTestType, "Below",
-                               node => Range( node, ( iType, max ) => iType.Range( iType.MinValue, iType.GetPrevious( max ) ) ) );
-
-            // IType<T> methods
+            // INumericType<T> methods
             AddITypeTMethods();
         }
 
 
         private readonly SemanticModel _Model;
-        private readonly IType<T> _Type;
+        private readonly INumericType<T> _Type;
         private readonly Action<Diagnostic> _ReportDiagnostic;
 
-        private readonly Dictionary<IMethodSymbol, Func<InvocationExpressionSyntax, IType<T>>> _RangeMethods =
-            new Dictionary<IMethodSymbol, Func<InvocationExpressionSyntax, IType<T>>>();
+        private readonly Dictionary<IMethodSymbol, Func<InvocationExpressionSyntax, INumericType<T>>> _RangeMethods =
+            new Dictionary<IMethodSymbol, Func<InvocationExpressionSyntax, INumericType<T>>>();
 
 
         private void AddRangeExtension( ITypeSymbol smartTestType, string methodName,
-                                        Func<InvocationExpressionSyntax, IType<T>> func )
+                                        Func<InvocationExpressionSyntax, INumericType<T>> func )
         {
             var rangeMethods = smartTestType.GetMethods( methodName );
             foreach( var rangeMethod in rangeMethods )
@@ -63,11 +50,20 @@ namespace SmartTestsAnalyzer
 
         private void AddITypeTMethods()
         {
-            var typeName = typeof(IType<>).FullName;
+            var typeName = typeof(INumericType<>).FullName;
             var iTypeType = _Model.Compilation.GetTypeByMetadataName( typeName );
-            var rangeMethod = iTypeType.GetMethods( "Range" )[ 0 ];
-            Debug.Assert( rangeMethod.Parameters.Length == 2, $"Problem with {typeName}.Range(int, int) method" );
-            _RangeMethods[ rangeMethod ] = Range;
+
+            // SmartTest type extension methods
+            AddRangeExtension( iTypeType, "Range",
+                               node => Range( node, ( iType, min, max ) => iType.Range( min, max ) ) );
+            AddRangeExtension( iTypeType, "AboveOrEqual",
+                               node => Range( node, ( iType, min ) => iType.AboveOrEqual( min ) ) );
+            AddRangeExtension( iTypeType, "Above",
+                               node => Range( node, ( iType, min ) => iType.Above( min ) ) );
+            AddRangeExtension( iTypeType, "BelowOrEqual",
+                               node => Range( node, ( iType, max ) => iType.BelowOrEqual( max ) ) );
+            AddRangeExtension( iTypeType, "Below",
+                               node => Range( node, ( iType, max ) => iType.Below( max ) ) );
 
             // GetValue
             var getValueMethod = iTypeType.GetMethods( "GetValue" )[ 0 ];
@@ -79,16 +75,16 @@ namespace SmartTestsAnalyzer
 
 
         // Visit Methods
-        private IType<T> GetRoot( SyntaxNode node ) => _Model.GetSymbol( node ) is IPropertySymbol ? _Type : null;
+        private INumericType<T> GetRoot( SyntaxNode node ) => _Model.GetSymbol( node ) is IPropertySymbol ? _Type : null;
 
 
-        public override IType<T> VisitIdentifierName( IdentifierNameSyntax node ) => GetRoot( node ) ?? base.VisitIdentifierName( node );
+        public override INumericType<T> VisitIdentifierName( IdentifierNameSyntax node ) => GetRoot( node ) ?? base.VisitIdentifierName( node );
 
 
-        public override IType<T> VisitMemberAccessExpression( MemberAccessExpressionSyntax node ) => GetRoot( node ) ?? node.Expression.Accept( this );
+        public override INumericType<T> VisitMemberAccessExpression( MemberAccessExpressionSyntax node ) => GetRoot( node ) ?? node.Expression.Accept( this );
 
 
-        public override IType<T> VisitParenthesizedExpression( ParenthesizedExpressionSyntax node ) => node.Expression.Accept( this );
+        public override INumericType<T> VisitParenthesizedExpression( ParenthesizedExpressionSyntax node ) => node.Expression.Accept( this );
 
 
         // Analysis Methods
@@ -109,7 +105,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private IType<T> Range( InvocationExpressionSyntax node, Action<IType<T>, T, T> addRange )
+        private INumericType<T> Range( InvocationExpressionSyntax node, Action<INumericType<T>, T, T> addRange )
         {
             var result = node.Expression.Accept( this );
 
@@ -123,7 +119,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private IType<T> Range( InvocationExpressionSyntax node, Action<IType<T>, T> addRange )
+        private INumericType<T> Range( InvocationExpressionSyntax node, Action<INumericType<T>, T> addRange )
         {
             var result = node.Expression.Accept( this );
 
@@ -136,7 +132,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private IType<T> Range( InvocationExpressionSyntax node )
+        private INumericType<T> Range( InvocationExpressionSyntax node )
         {
             var result = node.Expression.Accept( this );
 
@@ -150,10 +146,10 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private IType<T> GetValue( InvocationExpressionSyntax node ) => node.Expression.Accept( this );
+        private INumericType<T> GetValue( InvocationExpressionSyntax node ) => node.Expression.Accept( this );
 
 
-        public override IType<T> VisitInvocationExpression( InvocationExpressionSyntax node )
+        public override INumericType<T> VisitInvocationExpression( InvocationExpressionSyntax node )
         {
             var criteria = _Model.GetSymbol( node ) as IMethodSymbol;
             if( criteria == null )

@@ -193,6 +193,8 @@
     <Compile Include="MemberTests\IndexerTests.cs" />
     <Compile Include="MemberTests\PropertyTests.cs" />
     <Compile Include="MultipleCasesTests.cs" />
+    <Compile Include="TypeTests\ShortTypeTests.cs" />
+    <Compile Include="TypeTests\ULongTypeTest.cs" />
     <Compile Include="TypeTests\LongTypeTest.cs" />
     <Compile Include="TypeTests\IntTypeTests.cs" />
     <Compile Include="ThreeCasesTests.cs" />

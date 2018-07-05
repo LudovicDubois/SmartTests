@@ -13,7 +13,7 @@ namespace SmartTests.Test
     [TestFixture]
     public class IntRangeTests
     {
-        private static void AssertChunks( IType<int> type, params int[] expectedChunks )
+        private static void AssertChunks( INumericType<int> type, params int[] expectedChunks )
         {
             Assert.AreEqual( expectedChunks.Length, 2 * type.Chunks.Count, "Bad chunk parts count" );
 

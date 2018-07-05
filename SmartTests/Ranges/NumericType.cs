@@ -9,13 +9,13 @@ namespace SmartTests.Ranges
     /// <summary>
     ///     Represents a Range of numeric values (with several chunks)
     /// </summary>
-    public abstract class NumericType<T, TType>: IType<T>
+    public abstract class NumericType<T, TType>: INumericType<T>
         where T: IComparable<T>
-        where TType: class, IType<T>
+        where TType: class, INumericType<T>
     {
         #region MinValue Property
 
-        T IType<T>.MinValue => MinValue;
+        T INumericType<T>.MinValue => MinValue;
 
         /// <inheritdoc cref="MinValue" />
         protected abstract T MinValue { get; }
@@ -25,7 +25,7 @@ namespace SmartTests.Ranges
 
         #region MaxValue Property
 
-        T IType<T>.MaxValue => MaxValue;
+        T INumericType<T>.MaxValue => MaxValue;
 
         /// <inheritdoc cref="MaxValue" />
         protected abstract T MaxValue { get; }
@@ -35,7 +35,7 @@ namespace SmartTests.Ranges
 
         #region GetPrevious Method
 
-        T IType<T>.GetPrevious( T n ) => GetPrevious( n );
+        T INumericType<T>.GetPrevious( T n ) => GetPrevious( n );
 
 
         /// <inheritdoc cref="GetPrevious(T)" />
@@ -46,7 +46,7 @@ namespace SmartTests.Ranges
 
         #region GetNext Method
 
-        T IType<T>.GetNext( T n ) => GetNext( n );
+        T INumericType<T>.GetNext( T n ) => GetNext( n );
 
 
         /// <inheritdoc cref="GetNext(T)" />
@@ -60,7 +60,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public IType<T> Range( T min, T max )
+        public INumericType<T> Range( T min, T max )
         {
             if( min.CompareTo( max ) > 0 )
                 throw new ArgumentException( "min should be lower or equal to max" );
@@ -116,6 +116,42 @@ namespace SmartTests.Ranges
         }
 
 
+        /// <inheritdoc />
+        public Criteria Range( T min, T max, out T value ) => Range( min, max ).GetValue( out value );
+
+
+        /// <inheritdoc />
+        public INumericType<T> AboveOrEqual( T min ) => Range( min, MaxValue );
+
+
+        /// <inheritdoc />
+        public Criteria AboveOrEqual( T min, out T value ) => Range( min, MaxValue, out value );
+
+
+        /// <inheritdoc />
+        public INumericType<T> Above( T min ) => Range( GetNext( min ), MaxValue );
+
+
+        /// <inheritdoc />
+        public Criteria Above( T min, out T value ) => Range( GetNext( min ), MaxValue, out value );
+
+
+        /// <inheritdoc />
+        public INumericType<T> BelowOrEqual( T max ) => Range( MinValue, max );
+
+
+        /// <inheritdoc />
+        public Criteria BelowOrEqual( T max, out T value ) => Range( MinValue, max, out value );
+
+
+        /// <inheritdoc />
+        public INumericType<T> Below( T max ) => Range( MinValue, GetPrevious( max ) );
+
+
+        /// <inheritdoc />
+        public Criteria Below( T max, out T value ) => Range( MinValue, GetPrevious( max ), out value );
+
+
         private void GetLocation( T value, out bool inChunk, out int chunkIndex )
         {
             for( chunkIndex = 0; chunkIndex < Chunks.Count; chunkIndex++ )
@@ -147,9 +183,9 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     Compare two IntRange
+        ///     Compare two NumericType
         /// </summary>
-        /// <param name="other">The other IntRange to compare with.</param>
+        /// <param name="other">The other NumericType to compare to.</param>
         /// <returns>
         ///     <c>true</c> if <c>this</c> and <paramref name="other" /> have the same <see cref="Chunks" />; <c>false</c>
         ///     otherwise

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -35,7 +36,7 @@ namespace SmartTests
         ///  [Test]
         ///  public void TestMethod()
         ///  {
-        ///      var result = RunTest( Case( MinIncluded.IsAboveMin ), 
+        ///      var result = RunTest( Case( MinIncluded.IsAboveMin ),
         ///                            () => Math.Sqrt( 4 ) );
         ///      Assert.That( result, Is.EqualTo( 2 ) );
         ///  }
@@ -576,6 +577,7 @@ namespace SmartTests
                     throw e;
                 throw new SmartTestException( "Unexpected error occurred!", e );
             }
+
             act.AfterAct();
         }
 
@@ -600,124 +602,25 @@ namespace SmartTests
         #region Type Roots
 
         /// <summary>
+        ///     Creates a new range of <c>short</c>
+        /// </summary>
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<short> Short => new ShortType();
+        /// <summary>
         ///     Creates a new range of <c>int</c>
         /// </summary>
-        /// <seealso cref="IType{T}" />
-        public static IType<int> Int => new IntType();
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<int> Int => new IntType();
         /// <summary>
         ///     Creates a new range of <c>long</c>
         /// </summary>
-        /// <seealso cref="IType{T}" />
-        public static IType<long> Long => new LongType();
-
-        #endregion
-
-
-        #region Type Extensions Methods
-
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<long> Long => new LongType();
         /// <summary>
-        ///     Creates a range of integer values and select one randomly
+        ///     Creates a new range of <c>ulong</c>
         /// </summary>
-        /// <param name="this">The range to which a new chunk must be added</param>
-        /// <param name="min">The min value (included) of the range.</param>
-        /// <param name="max">The max value (included) of the range.</param>
-        /// <param name="value">A random value between <paramref name="min" /> and <paramref name="max" />.</param>
-        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        public static Criteria Range<T>( this IType<T> @this, T min, T max, out T value )
-            where T: IComparable<T>
-            => @this.Range( min, max ).GetValue( out value );
-
-
-        /// <summary>
-        ///     Creates a range of integer values to max integer
-        /// </summary>
-        /// <param name="this">The range to which a new chunk must be added</param>
-        /// <param name="min">The min value (included) of the range.</param>
-        /// <returns>The created <see cref="IntType" />: [<paramref name="min" />..<c>int.MaxValue</c>].</returns>
-        public static IType<T> AboveOrEqual<T>( this IType<T> @this, T min )
-            where T: IComparable<T>
-            => @this.Range( min, @this.MaxValue );
-
-
-        /// <summary>
-        ///     Creates a range of integer values to max integer
-        /// </summary>
-        /// <param name="this">The range to which a new chunk must be added</param>
-        /// <param name="min">The min value (included) of the range.</param>
-        /// <param name="value">A random value between <paramref name="min" /> and <c>int.MaxValue</c>.</param>
-        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        public static Criteria AboveOrEqual<T>( this IType<T> @this, T min, out T value )
-            where T: IComparable<T>
-            => @this.Range( min, @this.MaxValue, out value );
-
-
-        /// <summary>
-        ///     Creates a range of integer values to max integer
-        /// </summary>
-        /// <param name="this">The range to which a new chunk must be added</param>
-        /// <param name="min">The min value (included) of the range.</param>
-        /// <returns>The created <see cref="IntType" />: [<paramref name="min" /><c>+1</c>..<c>int.MaxValue</c>].</returns>
-        public static IType<T> Above<T>( this IType<T> @this, T min )
-            where T: IComparable<T>
-            => @this.Range( @this.GetNext( min ), @this.MaxValue );
-
-
-        /// <summary>
-        ///     Creates a range of integer values to max integer
-        /// </summary>
-        /// <param name="this">The range to which a new chunk must be added</param>
-        /// <param name="min">The min value (included) of the range.</param>
-        /// <param name="value">A random value between <paramref name="min" /><c>+1</c> and <c>int.MaxValue</c>.</param>
-        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        public static Criteria Above<T>( this IType<T> @this, T min, out T value )
-            where T: IComparable<T>
-            => @this.Range( @this.GetNext( min ), @this.MaxValue, out value );
-
-
-        /// <summary>
-        ///     Creates a range of integer values from min integer
-        /// </summary>
-        /// <param name="this">The range to which a new chunk must be added</param>
-        /// <param name="max">The max value (included) of the range.</param>
-        /// <returns>The created <see cref="IntType" />: [<c>int.MinValue</c>..<paramref name="max" />].</returns>
-        public static IType<T> BelowOrEqual<T>( this IType<T> @this, T max )
-            where T: IComparable<T>
-            => @this.Range( @this.MinValue, max );
-
-
-        /// <summary>
-        ///     Creates a range of integer values from min integer
-        /// </summary>
-        /// <param name="this">The range to which a new chunk must be added</param>
-        /// <param name="max">The max value (included) of the range.</param>
-        /// <param name="value">A random value between <c>int.MinValue</c> and <paramref name="max" />.</param>
-        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        public static Criteria BelowOrEqual<T>( this IType<T> @this, T max, out T value )
-            where T: IComparable<T>
-            => @this.Range( @this.MinValue, max, out value );
-
-
-        /// <summary>
-        ///     Creates a range of integer values from min integer
-        /// </summary>
-        /// <param name="this">The range to which a new chunk must be added</param>
-        /// <param name="max">The max value (included) of the range.</param>
-        /// <returns>The created <see cref="IntType" />: [<c>int.MinValue</c>..<paramref name="max" />-1].</returns>
-        public static IType<T> Below<T>( this IType<T> @this, T max )
-            where T: IComparable<T>
-            => @this.Range( @this.MinValue, @this.GetPrevious( max ) );
-
-
-        /// <summary>
-        ///     Creates a range of integer values from min integer
-        /// </summary>
-        /// <param name="this">The range to which a new chunk must be added</param>
-        /// <param name="max">The max value (included) of the range.</param>
-        /// <param name="value">A random value between <c>int.MinValue</c> and <paramref name="max" /><c>-1</c>.</param>
-        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        public static Criteria Below<T>( this IType<T> @this, T max, out T value )
-            where T: IComparable<T>
-            => @this.Range( @this.MinValue, @this.GetPrevious( max ), out value );
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<ulong> ULong => new ULongType();
 
         #endregion
     }

@@ -21,10 +21,12 @@ namespace SmartTestsAnalyzer
                                   InvocationExpressionSyntax node )
         {
             _Model = model;
-            var smartTestType = model.Compilation.GetTypeByMetadataName( "SmartTests.SmartTest" );
 
+            var smartTestType = model.Compilation.GetTypeByMetadataName( "SmartTests.SmartTest" );
+            AddType( smartTestType, "Short", () => node.Accept( new RangeVisitor<short>( _Model, SmartTest.Short, reportDiagnostics ) ) );
             AddType( smartTestType, "Int", () => node.Accept( new RangeVisitor<int>( _Model, SmartTest.Int, reportDiagnostics ) ) );
             AddType( smartTestType, "Long", () => node.Accept( new RangeVisitor<long>( _Model, SmartTest.Long, reportDiagnostics ) ) );
+            AddType( smartTestType, "ULong", () => node.Accept( new RangeVisitor<ulong>( _Model, SmartTest.ULong, reportDiagnostics ) ) );
         }
 
 

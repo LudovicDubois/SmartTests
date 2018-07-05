@@ -43,7 +43,7 @@ namespace SmartTestsAnalyzer.Criterias
 
     public class RangeValues<T, TRange>: CriteriaValues
         where T: struct, IComparable<T>
-        where TRange: class, IType<T>, new()
+        where TRange: class, INumericType<T>, new()
     {
         public override void CompleteValues() => CompleteWithMissingChunks( GetAllCurrentChunks() );
 
@@ -57,6 +57,7 @@ namespace SmartTestsAnalyzer.Criterias
                 foreach( var chunk in ( (TRange)rangeAnalysis.Type ).Chunks )
                     result.Range( chunk.Min, chunk.Max );
             }
+
             return result;
         }
 
