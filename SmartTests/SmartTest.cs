@@ -612,6 +612,11 @@ namespace SmartTests
         /// <seealso cref="INumericType{T}" />
         public static INumericType<int> Int => new IntType();
         /// <summary>
+        ///     Creates a new range of <c>uint</c>
+        /// </summary>
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<uint> UInt => new UIntType();
+        /// <summary>
         ///     Creates a new range of <c>long</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />

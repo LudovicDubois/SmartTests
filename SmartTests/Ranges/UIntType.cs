@@ -2,6 +2,7 @@
 using System.Text;
 
 using SmartTests.Criterias;
+using SmartTests.Helpers;
 
 
 
@@ -10,39 +11,33 @@ namespace SmartTests.Ranges
     /// <summary>
     ///     Represents a Range of integer values (with several chunks)
     /// </summary>
-    public class IntType: NumericType<int, IntType>
+    public class UIntType: NumericType<uint, UIntType>
     {
         /// <inheritdoc />
-        protected override int MinValue => int.MinValue;
+        protected override uint MinValue => uint.MinValue;
         /// <inheritdoc />
-        protected override int MaxValue => int.MaxValue;
-
-
-        /// <inheritdoc />
-        protected override int GetPrevious( int n ) => n - 1;
+        protected override uint MaxValue => uint.MaxValue;
 
 
         /// <inheritdoc />
-        protected override int GetNext( int n ) => n + 1;
+        protected override uint GetPrevious( uint n ) => n - 1;
 
 
         /// <inheritdoc />
-        public override Criteria GetValue( out int value )
+        protected override uint GetNext( uint n ) => n + 1;
+
+
+        /// <inheritdoc />
+        public override Criteria GetValue( out uint value )
         {
             // Ensure values are well distributed
-            var max = int.MinValue;
+            var max = uint.MinValue;
             foreach( var chunk in Chunks )
                 max += chunk.Max - chunk.Min;
             var random = new Random();
 
-            if( max == int.MaxValue )
-            {
-                value = random.Next();
-                return AnyValue.IsValid;
-            }
-
-            value = random.Next( int.MinValue, max );
-            max = int.MinValue;
+            value = (uint)random.NextLong( uint.MinValue, max );
+            max = uint.MinValue;
             foreach( var chunk in Chunks )
             {
                 var min = max + 1;
@@ -60,9 +55,9 @@ namespace SmartTests.Ranges
         /// <inheritdoc />
         public override string ToString()
         {
-            var result = new StringBuilder( "Int" );
+            var result = new StringBuilder( "UInt" );
             foreach( var chunk in Chunks )
-                result.Append( $".Range({( chunk.Min == int.MinValue ? "int.MinValue" : chunk.Min.ToString() )}, {( chunk.Max == int.MaxValue ? "int.MaxValue" : chunk.Max.ToString() )})" );
+                result.Append( $".Range({chunk.Min}, {( chunk.Max == uint.MaxValue ? "uint.MaxValue" : chunk.Max.ToString() )})" );
             return result.ToString();
         }
     }

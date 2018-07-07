@@ -18,6 +18,7 @@ namespace SmartTestsAnalyzer.Criterias
         {
             _CriteriaValuesGenerator[ typeof(ShortType) ] = () => new RangeValues<short, ShortType>();
             _CriteriaValuesGenerator[ typeof(IntType) ] = () => new RangeValues<int, IntType>();
+            _CriteriaValuesGenerator[ typeof(UIntType) ] = () => new RangeValues<uint, UIntType>();
             _CriteriaValuesGenerator[ typeof(LongType) ] = () => new RangeValues<long, LongType>();
             _CriteriaValuesGenerator[ typeof(ULongType) ] = () => new RangeValues<ulong, ULongType>();
         }
