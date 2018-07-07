@@ -606,6 +606,11 @@ namespace SmartTests
         /// <seealso cref="INumericType{T}" />
         public static INumericType<byte> Byte => new ByteType();
         /// <summary>
+        ///     Creates a new range of <c>sbyte</c>
+        /// </summary>
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<sbyte> SByte => new SByteType();
+        /// <summary>
         ///     Creates a new range of <c>short</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
