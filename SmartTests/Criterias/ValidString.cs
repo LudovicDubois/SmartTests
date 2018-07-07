@@ -1,13 +1,9 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTests.Criterias
 {
     /// <summary>
     ///     Provides criterions for a string
     /// </summary>
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public class ValidString: Criteria
     {
         /// <summary>

@@ -1,12 +1,9 @@
-﻿using JetBrains.Annotations;
-
-#if !EXTENSION
+﻿#if !EXTENSION
 
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-
 
 using Microsoft.CodeAnalysis;
 
@@ -21,11 +18,9 @@ namespace SmartTestsAnalyzer
     /// <summary>
     ///     Test Cases for a tested member, i.e. all combined cases (normalized form) for a tested member.
     /// </summary>
-    [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class MemberTestCases
     {
 #if EXTENSION
-
         public string TestedType { get; set; }
         public TestedMemberKind TestedMemberKind { get; set; }
         public string TestedMemberName { get; set; }
@@ -33,6 +28,7 @@ namespace SmartTestsAnalyzer
         public CasesAndOr CasesAndOr { get; set; }
 
 #else
+
 
         public MemberTestCases( TestedMember testedMember )
         {
@@ -53,7 +49,7 @@ namespace SmartTestsAnalyzer
         public CasesAndOr CasesAndOr { get; } = new CasesAndOr();
 
 
-        public void CombineOr( [NotNull] CasesAndOr cases )
+        public void CombineOr( CasesAndOr cases )
         {
             if( cases == null )
                 throw new ArgumentNullException( nameof(cases) );
@@ -114,6 +110,7 @@ namespace SmartTestsAnalyzer
                     result = false;
                     reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, pair.Key, pair.Value.ParameterNameExpression ) );
                 }
+
             return result;
         }
 

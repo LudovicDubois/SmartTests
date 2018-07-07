@@ -1,13 +1,9 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTests.Criterias
 {
     /// <summary>
     ///     Provides criterions for a value that should be compared with another value
     /// </summary>
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public class Comparison: Criteria
     {
         /// <summary>

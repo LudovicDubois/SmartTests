@@ -1,13 +1,8 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTests.Criterias
 {
     /// <summary>
     ///     Provides criterions for a value that should be below or equal to an upper bound
     /// </summary>
-    [PublicAPI]
     public class MaxIncluded: Criteria
     {
         /// <summary>

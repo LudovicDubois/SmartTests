@@ -1,13 +1,9 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTests.Criterias
 {
     /// <summary>
     ///     Provides criterions for a value that should be above or equal to a lower bound
     /// </summary>
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public class MinIncluded: Criteria
     {
         /// <summary>

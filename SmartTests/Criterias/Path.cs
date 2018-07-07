@@ -1,13 +1,9 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTests.Criterias
 {
     /// <summary>
-    ///     Provides criterions for  path that should be vali
+    ///     Provides criterions for path that should be valid
     /// </summary>
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public class Path: Criteria
     {
         /// <summary>

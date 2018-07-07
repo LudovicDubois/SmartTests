@@ -1,10 +1,5 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTestsAnalyzer
 {
-    [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     class SmartTestsSettings
     {
         public bool IsEnabled { get; set; } = true;

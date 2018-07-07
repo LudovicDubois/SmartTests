@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using JetBrains.Annotations;
-
 
 
 namespace SmartTests
@@ -11,7 +9,6 @@ namespace SmartTests
     /// <summary>
     ///     A combination of <see cref="Criteria" /> expression for a parameter of the tested member.
     /// </summary>
-    [PublicAPI]
     public class Case: IEnumerable<Case>
     {
         /// <summary>
@@ -26,7 +23,7 @@ namespace SmartTests
         /// </summary>
         /// <param name="criteria">The <see cref="SmartTests.Criteria" /> expression.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="criteria" /> is <c>null</c>.</exception>
-        public Case( [NotNull] Criteria criteria )
+        public Case( Criteria criteria )
         {
             if( criteria == null )
                 throw new ArgumentNullException( nameof(criteria) );
@@ -46,7 +43,7 @@ namespace SmartTests
         ///     <paramref name="parameterName" />.
         /// </param>
         /// <exception cref="ArgumentNullException">If <paramref name="criteria" /> is <c>null</c>.</exception>
-        public Case( string parameterName, [NotNull] Criteria criteria )
+        public Case( string parameterName, Criteria criteria )
         {
             if( criteria == null )
                 throw new ArgumentNullException( nameof(criteria) );
@@ -79,7 +76,7 @@ namespace SmartTests
         ///     Use it to combine multiple cases, for example when testing a method/indexer/constructor with several
         ///     parameters.
         /// </remarks>
-        public static Case operator &( [NotNull] Case case1, [NotNull] Case case2 )
+        public static Case operator &( Case case1, Case case2 )
         {
             if( case1 == null )
                 throw new ArgumentNullException( nameof(case1) );
@@ -90,7 +87,7 @@ namespace SmartTests
         }
 
 
-        internal virtual Case Combine( [NotNull] Case other )
+        internal virtual Case Combine( Case other )
         {
             if( other == null )
                 throw new ArgumentNullException( nameof(other) );

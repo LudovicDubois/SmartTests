@@ -6,8 +6,6 @@ using System.Linq;
 
 using EnvDTE;
 
-using JetBrains.Annotations;
-
 using Microsoft.VisualStudio;
 
 using Newtonsoft.Json;
@@ -20,7 +18,6 @@ using SmartTestsExtension.Results;
 
 namespace SmartTestsExtension
 {
-    [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class AnalyzerResults
     {
         public static readonly AnalyzerResults Instance = new AnalyzerResults();

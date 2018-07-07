@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using JetBrains.Annotations;
-
 using Microsoft.CodeAnalysis;
 
 
@@ -11,7 +9,7 @@ namespace SmartTestsAnalyzer.Helpers
 {
     public static class TypeSymbolHelper
     {
-        public static IMethodSymbol[] GetMethods( [NotNull] this ITypeSymbol @this, [NotNull] string name )
+        public static IMethodSymbol[] GetMethods( this ITypeSymbol @this, string name )
         {
             if( @this == null )
                 throw new ArgumentNullException( nameof(@this) );
@@ -25,6 +23,6 @@ namespace SmartTestsAnalyzer.Helpers
         }
 
 
-        public static IMethodSymbol GetMethod( [NotNull] this ITypeSymbol @this, [NotNull] string name ) => @this.GetMethods( name )[ 0 ];
+        public static IMethodSymbol GetMethod( this ITypeSymbol @this, string name ) => @this.GetMethods( name )[ 0 ];
     }
 }

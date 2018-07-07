@@ -1,13 +1,9 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTests.Criterias
 {
     /// <summary>
     ///     Provides criterions for a string with specific format
     /// </summary>
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public class FormattedString: Criteria
     {
         /// <summary>

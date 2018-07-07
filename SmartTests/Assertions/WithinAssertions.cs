@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-using JetBrains.Annotations;
-
+// ReSharper disable UnusedMember.Global
 
 
 namespace SmartTests.Assertions
@@ -12,7 +11,7 @@ namespace SmartTests.Assertions
     /// </summary>
     /// <seealso cref="SmartTest.SmartAssert" />
     /// <seealso cref="SmartTest" />
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public static class WithinAssertions
     {
         /// <summary>
@@ -83,7 +82,6 @@ namespace SmartTests.Assertions
             {
                 _Stopwatch = new Stopwatch();
                 _Stopwatch.Start();
-
             }
 
 

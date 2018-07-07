@@ -5,10 +5,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-using JetBrains.Annotations;
-
 using SmartTests.Acts;
 using SmartTests.Helpers;
+// ReSharper disable UnusedMember.Global
 
 // ReSharper disable UnusedParameter.Global
 
@@ -20,6 +19,7 @@ namespace SmartTests.Assertions
     /// <seealso cref="SmartTest.SmartAssert" />
     /// <seealso cref="SmartTest.Assign{T}" />
     /// <seealso cref="SmartTest" />
+    // ReSharper disable once UnusedMember.Global
     public static class PropertyChangedAssertions
     {
         /// <summary>
@@ -158,7 +158,7 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Raised_PropertyChanged( mc, nameof(MyClass.MyProperty), nameof(MyClass.OtherProperty) ) );
         /// }</code>
         /// </example>
-        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T instance, params string[] propertyNames )
+        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, T instance, params string[] propertyNames )
             where T: INotifyPropertyChanged
         {
             if( instance == null )
@@ -253,7 +253,7 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Raised_PropertyChanged( mc, nameof(MyClass.MyProperty), 10 ) );
         /// }</code>
         /// </example>
-        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T instance, [NotNull] string propertyName, object expectedValue )
+        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, T instance, string propertyName, object expectedValue )
             where T: INotifyPropertyChanged
         {
             if( instance == null )
@@ -564,7 +564,7 @@ namespace SmartTests.Assertions
         ///              SmartAssert.NotRaised_PropertyChanged( mc ) );
         /// }</code>
         /// </example>
-        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T instance )
+        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, T instance )
             where T: INotifyPropertyChanged
         {
             if( instance == null )
@@ -630,7 +630,7 @@ namespace SmartTests.Assertions
         ///              SmartAssert.NotRaised_PropertyChanged( mc, nameof(MyClass.MyProperty), nameof(MyClass.OtherProperty) ) );
         /// }</code>
         /// </example>
-        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, [NotNull] T instance, params string[] propertyNames )
+        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, T instance, params string[] propertyNames )
             where T: INotifyPropertyChanged
         {
             if( instance == null )

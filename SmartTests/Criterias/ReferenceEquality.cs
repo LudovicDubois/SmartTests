@@ -1,13 +1,9 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTests.Criterias
 {
     /// <summary>
     ///     Provides criterions for two references comparison
     /// </summary>
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public class ReferenceEquality: Criteria
     {
         /// <summary>

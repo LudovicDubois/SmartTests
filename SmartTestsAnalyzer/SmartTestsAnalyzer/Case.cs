@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 
-using JetBrains.Annotations;
-
 #if !EXTENSION
-
 using System.Diagnostics;
 using System.Linq;
 
@@ -24,7 +20,6 @@ using SmartTestsAnalyzer.Criterias;
 
 namespace SmartTestsAnalyzer
 {
-    [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class Case
     {
         public static string NoParameter => "";
@@ -113,11 +108,13 @@ namespace SmartTestsAnalyzer
                 result.Append( ParameterName );
                 result.Append( ':' );
             }
+
             foreach( var field in Expressions )
             {
                 result.Append( field );
                 result.Append( " & " );
             }
+
             result.Length -= 3;
         }
 

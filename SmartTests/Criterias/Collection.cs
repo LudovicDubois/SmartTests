@@ -1,13 +1,9 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTests.Criterias
 {
     /// <summary>
     ///     Provides Criterions for a collection management
     /// </summary>
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public class Collection: Criteria
     {
         /// <summary>

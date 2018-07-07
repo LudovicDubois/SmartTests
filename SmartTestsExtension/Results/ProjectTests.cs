@@ -3,8 +3,6 @@ using System.Runtime.CompilerServices;
 
 using EnvDTE;
 
-using JetBrains.Annotations;
-
 using SmartTestsAnalyzer;
 
 
@@ -76,7 +74,6 @@ namespace SmartTestsExtension.Results
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        [NotifyPropertyChangedInvocator]
         private void RaisePropertyChanged( [CallerMemberName] string propertyName = null ) => PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( propertyName ) );
     }
 }

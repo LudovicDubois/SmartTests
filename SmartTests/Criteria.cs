@@ -1,7 +1,5 @@
 ﻿using System;
 
-using JetBrains.Annotations;
-
 
 
 namespace SmartTests
@@ -9,7 +7,6 @@ namespace SmartTests
     /// <summary>
     ///     An expression of Criterion to specify the goal of your test.
     /// </summary>
-    [PublicAPI]
     public abstract class Criteria
     {
         /// <summary>
@@ -26,7 +23,7 @@ namespace SmartTests
         ///     Use &amp; operator to combine orthogonal <see cref="Criteria" />s.
         /// </remarks>
         /// <seealso cref="op_BitwiseOr" />
-        public static Criteria operator &( [NotNull] Criteria criteria1, [NotNull] Criteria criteria2 )
+        public static Criteria operator &( Criteria criteria1, Criteria criteria2 )
         {
             if( criteria1 == null )
                 throw new ArgumentNullException( nameof(criteria1) );
@@ -51,7 +48,7 @@ namespace SmartTests
         ///     Use | operator to combine criterias of the same <see cref="Criteria" />.
         /// </remarks>
         /// <seealso cref="op_BitwiseAnd" />
-        public static Criteria operator |( [NotNull] Criteria criteria1, [NotNull] Criteria criteria2 )
+        public static Criteria operator |( Criteria criteria1, Criteria criteria2 )
         {
             if( criteria1 == null )
                 throw new ArgumentNullException( nameof(criteria1) );

@@ -1,13 +1,9 @@
-﻿using JetBrains.Annotations;
-
-
-
-namespace SmartTests.Criterias
+﻿namespace SmartTests.Criterias
 {
     /// <summary>
     ///     Provides criterions for a value that should be between a lower bound (inclusively) and an upper bound (inclusively)
     /// </summary>
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public class MinIncMaxInc: Criteria
     {
         /// <summary>
@@ -21,7 +17,7 @@ namespace SmartTests.Criterias
         /// </summary>
         public static readonly Criteria IsMin = new MinIncMaxInc();
         /// <summary>
-        ///     When the value is beetwween the lower bound and upper bound exclusively
+        ///     When the value is between the lower bound and upper bound exclusively
         /// </summary>
         public static readonly Criteria IsBetweenMinMax = new MinIncMaxInc();
         /// <summary>

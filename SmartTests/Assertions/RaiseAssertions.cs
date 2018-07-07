@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Reflection;
 
-using JetBrains.Annotations;
-
 using SmartTests.Helpers;
+
+// ReSharper disable UnusedMember.Global
 
 // ReSharper disable UnusedParameter.Global
 
@@ -16,6 +16,7 @@ namespace SmartTests.Assertions
     /// </summary>
     /// <seealso cref="SmartTest.SmartAssert" />
     /// <seealso cref="SmartTest" />
+    // ReSharper disable once UnusedMember.Global
     public static class RaiseAssertions
     {
         /// <summary>
@@ -71,7 +72,7 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion Raised( this SmartAssertPlaceHolder @this, [NotNull] string expectedEventName ) => new RaiseAssertion( null, true, expectedEventName );
+        public static Assertion Raised( this SmartAssertPlaceHolder @this, string expectedEventName ) => new RaiseAssertion( null, true, expectedEventName );
 
 
         /// <summary>
@@ -144,7 +145,7 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion Raised<T>( this SmartAssertPlaceHolder @this, [NotNull] string expectedEventName, EventHandler<T> assert )
+        public static Assertion Raised<T>( this SmartAssertPlaceHolder @this, string expectedEventName, EventHandler<T> assert )
             where T: EventArgs
             => assert != null
                    ? new RaiseAssertion<T>( null, true, expectedEventName, assert )
@@ -207,7 +208,7 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion Raised( this SmartAssertPlaceHolder @this, object instance, [NotNull] string expectedEventName ) => new RaiseAssertion( instance, true, expectedEventName );
+        public static Assertion Raised( this SmartAssertPlaceHolder @this, object instance, string expectedEventName ) => new RaiseAssertion( instance, true, expectedEventName );
 
 
         /// <summary>
@@ -283,7 +284,7 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion Raised<T>( this SmartAssertPlaceHolder @this, object instance, [NotNull] string expectedEventName, EventHandler<T> assert )
+        public static Assertion Raised<T>( this SmartAssertPlaceHolder @this, object instance, string expectedEventName, EventHandler<T> assert )
             where T: EventArgs
             => assert != null
                    ? new RaiseAssertion<T>( instance, true, expectedEventName, assert )
@@ -343,7 +344,7 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotRaised( this SmartAssertPlaceHolder @this, [NotNull] string eventName ) => new RaiseAssertion( null, false, eventName );
+        public static Assertion NotRaised( this SmartAssertPlaceHolder @this, string eventName ) => new RaiseAssertion( null, false, eventName );
 
 
         /// <summary>
@@ -400,12 +401,12 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotRaised( this SmartAssertPlaceHolder @this, object instance, [NotNull] string eventName ) => new RaiseAssertion( instance, false, eventName );
+        public static Assertion NotRaised( this SmartAssertPlaceHolder @this, object instance, string eventName ) => new RaiseAssertion( instance, false, eventName );
 
 
         private class RaiseAssertion: Assertion
         {
-            public RaiseAssertion( object instance, bool expectedRaised, [NotNull] string eventName )
+            public RaiseAssertion( object instance, bool expectedRaised, string eventName )
             {
                 if( eventName == null )
                     throw new ArgumentNullException( nameof(eventName) );
@@ -471,7 +472,7 @@ namespace SmartTests.Assertions
         private class RaiseAssertion<T>: RaiseAssertion
             where T: EventArgs
         {
-            public RaiseAssertion( object instance, bool expectedRaised, [NotNull] string eventName, EventHandler<T> assert )
+            public RaiseAssertion( object instance, bool expectedRaised, string eventName, EventHandler<T> assert )
                 : base( instance, expectedRaised, eventName )
             {
                 _Assert = assert;

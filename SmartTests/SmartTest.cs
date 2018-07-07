@@ -2,13 +2,12 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-using JetBrains.Annotations;
-
 using SmartTests.Acts;
 using SmartTests.Assertions;
 using SmartTests.Helpers;
 using SmartTests.Ranges;
 
+// ReSharper disable UnusedMember.Global
 
 
 namespace SmartTests
@@ -19,7 +18,6 @@ namespace SmartTests
     /// <remarks>
     ///     It is recommended to use it with <c>using static SmartTests.SmartTest</c>.
     /// </remarks>
-    [PublicAPI]
     public static class SmartTest
     {
         #region Case
@@ -309,7 +307,7 @@ namespace SmartTests
         /// <seealso cref="Assertion" />
         /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
         /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
-        public static T RunTest<T>( Criteria cases, [NotNull] Act<T> act, params Assertion[] assertions ) => RunTest( Case( cases ), act, assertions );
+        public static T RunTest<T>( Criteria cases, Act<T> act, params Assertion[] assertions ) => RunTest( Case( cases ), act, assertions );
 
 
         /// <summary>
@@ -346,7 +344,7 @@ namespace SmartTests
         /// <seealso cref="Assertion" />
         /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
         /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
-        public static T RunTest<T>( Case cases, [NotNull] Act<T> act, params Assertion[] assertions )
+        public static T RunTest<T>( Case cases, Act<T> act, params Assertion[] assertions )
         {
             if( act == null )
                 throw new ArgumentNullException( nameof(act) );
@@ -555,7 +553,7 @@ namespace SmartTests
         /// <seealso cref="Assertion" />
         /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
         /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
-        public static void RunTest( Case cases, [NotNull] Act act, params Assertion[] assertions )
+        public static void RunTest( Case cases, Act act, params Assertion[] assertions )
         {
             if( act == null )
                 throw new ArgumentNullException( nameof(act) );

@@ -2,8 +2,6 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
-using JetBrains.Annotations;
-
 using SmartTests.Helpers;
 
 
@@ -37,7 +35,7 @@ namespace SmartTests.Acts
         ///     </para>
         /// </remarks>
         /// <seealso cref="SmartTest" />
-        public InvokeAct( [NotNull] Expression<Action> invocation )
+        public InvokeAct( Expression<Action> invocation )
         {
             FillAct( invocation );
 
@@ -63,7 +61,7 @@ namespace SmartTests.Acts
         ///     </para>
         /// </remarks>
         /// <seealso cref="SmartTest" />
-        public InvokeAct( [NotNull] Expression<Action<ActContext>> invocation )
+        public InvokeAct( Expression<Action<ActContext>> invocation )
         {
             FillAct( invocation );
 

@@ -1,13 +1,9 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTests.Criterias
 {
     /// <summary>
     ///     Provides criterions for notifying clients that a property value has changed
     /// </summary>
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public class NotifyPropertyChanged: Criteria
     {
         /// <summary>

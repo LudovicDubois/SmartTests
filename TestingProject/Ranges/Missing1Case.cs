@@ -59,7 +59,7 @@ namespace TestingProject.Ranges
         [Test]
         public void BelowOrEqualTest()
         {
-            var result = RunTest( Int.BelowOrEqual( 0 ).GetValue( out var value ),
+            var result = RunTest( Int.BelowOrEqual( -10 ).GetValue( out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -69,7 +69,7 @@ namespace TestingProject.Ranges
         [Test]
         public void BelowOrEqualOutTest()
         {
-            var result = RunTest( Int.BelowOrEqual( 0, out var value ),
+            var result = RunTest( Int.BelowOrEqual( -10, out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );

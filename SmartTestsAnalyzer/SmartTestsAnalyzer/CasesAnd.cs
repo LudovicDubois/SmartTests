@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Text;
 
-using JetBrains.Annotations;
-
 #if !EXTENSION
 using System.Diagnostics;
 
@@ -19,7 +17,6 @@ using SmartTestsAnalyzer.Criterias;
 
 namespace SmartTestsAnalyzer
 {
-    [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class CasesAnd
     {
 #if EXTENSION
@@ -34,8 +31,6 @@ namespace SmartTestsAnalyzer
         public bool IsMissing { get; set; }
 
 #else
-
-
         private CasesAnd()
         { }
 
@@ -150,6 +145,7 @@ namespace SmartTestsAnalyzer
                 if( !Equals( otherCase.Value, parameterCase ) )
                     return false;
             }
+
             return true;
         }
 
@@ -167,6 +163,7 @@ namespace SmartTestsAnalyzer
                 aCase.ToString( result );
                 result.Append( " & " );
             }
+
             result.Length -= 3;
         }
 

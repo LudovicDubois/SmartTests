@@ -85,6 +85,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SmartTests\SmartTests.csproj">
+      <Project>{51fe4134-1e3b-4281-8330-be415f66fd39}</Project>
+      <Name>SmartTests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SmartTestsAnalyzer\SmartTestsAnalyzer.csproj">
       <Project>{c22596fd-95ac-4689-836c-2d0c5db37d31}</Project>
       <Name>SmartTestsAnalyzer</Name>

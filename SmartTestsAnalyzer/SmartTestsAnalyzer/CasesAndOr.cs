@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-
-using JetBrains.Annotations;
-
 #if !EXTENSION
-
 using System;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SmartTestsAnalyzer.Helpers;
 using SmartTestsAnalyzer.Criterias;
 
 #endif
@@ -21,7 +16,8 @@ using SmartTestsAnalyzer.Criterias;
 namespace SmartTestsAnalyzer
 {
     /// <summary>
-    ///     A list of test cases (CriteriaAnalysis of Criteria subclasses) combined with logical AND to represents the criteria of
+    ///     A list of test cases (CriteriaAnalysis of Criteria subclasses) combined with logical AND to represents the criteria
+    ///     of
     ///     a parameter of a tested member.
     /// </summary>
     /// <remarks>
@@ -29,21 +25,26 @@ namespace SmartTestsAnalyzer
     /// </remarks>
     /// <example>
     ///     <para>'Case( Criteria1.Good1 )': Good1 field of Criteria1</para>
-    ///     <para>'Case( Criteria1.Good1 | Criteria1.Good2 )': Good1 field of Criteria1 is one CriteriaAnd and Good2 field of
-    ///     Criteria1 is another one</para>
-    ///     <para>'Case( Criteria1.Good1 & Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
-    ///     CriteriaAnd</para>
-    ///     <para>'Case( Criteria1.Good1 > Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
-    ///     CriteriaAnd</para>
+    ///     <para>
+    ///         'Case( Criteria1.Good1 | Criteria1.Good2 )': Good1 field of Criteria1 is one CriteriaAnd and Good2 field of
+    ///         Criteria1 is another one
+    ///     </para>
+    ///     <para>
+    ///         'Case( Criteria1.Good1 & Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
+    ///         CriteriaAnd
+    ///     </para>
+    ///     <para>
+    ///         'Case( Criteria1.Good1 > Criteria2.GoodA )': Good1 field of Criteria1 and GoodB field of Criteria2 is one
+    ///         CriteriaAnd
+    ///     </para>
     /// </example>
-    [UsedImplicitly( ImplicitUseTargetFlags.WithMembers )]
     public class CasesAndOr
     {
 #if EXTENSION
-
         public List<CasesAnd> CasesAnd { get; } = new List<CasesAnd>();
 
 #else
+
 
         public CasesAndOr()
         { }
@@ -155,11 +156,10 @@ namespace SmartTestsAnalyzer
             foreach( var criteria in CasesAnd )
                 criteria.FillCriteriaValues( result, errorType );
             foreach( var resultValue in result.Values )
-                foreach( var criteriaValue in resultValue.Values )
-                    criteriaValue.CompleteValues();
+            foreach( var criteriaValue in resultValue.Values )
+                criteriaValue.CompleteValues();
             return result;
         }
-
 
 
         private static CasesAndOr ComputeAllCases( string parameterName, Dictionary<string, CriteriaValues>.ValueCollection criteriaValues )
@@ -172,6 +172,7 @@ namespace SmartTestsAnalyzer
                     cases.CombineOr( new CasesAndOr( parameterName, criterion.Analysis, criterion.IsError ) );
                 result.CombineAnd( cases );
             }
+
             return result;
         }
 #endif
@@ -184,6 +185,7 @@ namespace SmartTestsAnalyzer
                 criterias.ToString( result );
                 result.Append( " and " );
             }
+
             result.Length -= 5;
         }
 

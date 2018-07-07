@@ -1,7 +1,3 @@
-using JetBrains.Annotations;
-
-
-
 namespace SmartTests.Criterias
 {
     /// <summary>
@@ -10,7 +6,7 @@ namespace SmartTests.Criterias
     /// <remarks>
     ///     Can be useful for nullable references where <c>null</c> is invalid, for example.
     /// </remarks>
-    [PublicAPI]
+    // ReSharper disable once UnusedMember.Global
     public class ValidValue: Criteria
     {
         /// <summary>
