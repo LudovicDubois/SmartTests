@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -601,6 +600,11 @@ namespace SmartTests
 
         #region Type Roots
 
+        /// <summary>
+        ///     Creates a new range of <c>byte</c>
+        /// </summary>
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<byte> Byte => new ByteType();
         /// <summary>
         ///     Creates a new range of <c>short</c>
         /// </summary>

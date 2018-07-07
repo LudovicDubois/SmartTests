@@ -16,6 +16,7 @@ namespace SmartTestsAnalyzer.Criterias
 
         static RangeAnalysis()
         {
+            _CriteriaValuesGenerator[ typeof(ByteType) ] = () => new RangeValues<byte, ByteType>();
             _CriteriaValuesGenerator[ typeof(ShortType) ] = () => new RangeValues<short, ShortType>();
             _CriteriaValuesGenerator[ typeof(UShortType) ] = () => new RangeValues<ushort, UShortType>();
             _CriteriaValuesGenerator[ typeof(IntType) ] = () => new RangeValues<int, IntType>();
