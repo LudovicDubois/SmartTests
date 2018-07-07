@@ -194,6 +194,7 @@
     <Compile Include="MemberTests\PropertyTests.cs" />
     <Compile Include="MultipleCasesTests.cs" />
     <Compile Include="TypeTests\ShortTypeTests.cs" />
+    <Compile Include="TypeTests\UShortTypeTest.cs" />
     <Compile Include="TypeTests\UIntTypeTest.cs" />
     <Compile Include="TypeTests\ULongTypeTest.cs" />
     <Compile Include="TypeTests\LongTypeTest.cs" />

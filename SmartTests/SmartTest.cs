@@ -607,6 +607,11 @@ namespace SmartTests
         /// <seealso cref="INumericType{T}" />
         public static INumericType<short> Short => new ShortType();
         /// <summary>
+        ///     Creates a new range of <c>ushort</c>
+        /// </summary>
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<ushort> UShort => new UShortType();
+        /// <summary>
         ///     Creates a new range of <c>int</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />

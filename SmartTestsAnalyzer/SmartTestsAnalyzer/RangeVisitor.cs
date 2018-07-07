@@ -22,6 +22,7 @@ namespace SmartTestsAnalyzer
 
             var smartTestType = model.Compilation.GetTypeByMetadataName( "SmartTests.SmartTest" );
             AddType( smartTestType, "Short", () => new RangeVisitor<short>( model, SmartTest.Short, reportDiagnostic ) );
+            AddType( smartTestType, "UShort", () => new RangeVisitor<ushort>( model, SmartTest.UShort, reportDiagnostic ) );
             AddType( smartTestType, "Int", () => new RangeVisitor<int>( model, SmartTest.Int, reportDiagnostic ) );
             AddType( smartTestType, "UInt", () => new RangeVisitor<uint>( model, SmartTest.UInt, reportDiagnostic ) );
             AddType( smartTestType, "Long", () => new RangeVisitor<long>( model, SmartTest.Long, reportDiagnostic ) );
