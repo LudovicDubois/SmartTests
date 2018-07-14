@@ -908,6 +908,105 @@ namespace TestingProject
         }
 
 
+
+
+        [Test]
+        public void GetErrorValue_Error()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Computation(int i, int j) => 1 / i * j;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ""i"", Int.Range( int.MinValue, -1 ).Range( 1, int.MaxValue, out var valueI ) ) &
+                                  Case( ""j"", Int.Range( 0, int.MaxValue, out var valueJ ) ),
+                                  () => Class1.Computation( valueI, valueJ ) );
+
+            Assert.That( 1 / result, Is.EqualTo(valueI * valueJ ) );
+        }
+
+        [Test]
+        public void Test2Method()
+        {
+            var result = RunTest( Case( ""i"", Int.Range( 0, 0 ).GetErrorValue( out var value ) ),
+                                  () => Class1.Computation( value, 1 ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Computation(int, int)' has some missing Test Cases: i:Int.Range(int.MinValue, -1).Range(1, int.MaxValue) & j:Int.Range(int.MinValue, -1)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 28, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+
+        [Test]
+        public void GetErrorValue_NoError()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static double Computation(int i, int j) => 1 / i * j;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ""i"", Int.Range( int.MinValue, -1 ).Range( 1, int.MaxValue, out var valueI ) ) &
+                                  Case( ""j"", Int.Range( int.MinValue, int.MaxValue, out var valueJ ) ),
+                                  () => Class1.Computation( valueI, valueJ ) );
+
+            Assert.That( 1 / result, Is.EqualTo(valueI * valueJ ) );
+        }
+
+        [Test]
+        public void Test2Method()
+        {
+            var result = RunTest( Case( ""i"", Int.Range( 0, 0 ).GetErrorValue( out var value ) ),
+                                  () => Class1.Computation( value, 1 ) );
+
+            Assert.That( 1 / result, Is.EqualTo(value) );
+        }
+
+    }
+}";
+            VerifyCSharpDiagnostic( test );
+        }
+
+
         protected override SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();
     }
 }

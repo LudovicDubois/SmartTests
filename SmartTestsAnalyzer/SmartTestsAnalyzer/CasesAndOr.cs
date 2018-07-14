@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+
 #if !EXTENSION
 using System;
 using System.Linq;
@@ -44,8 +45,6 @@ namespace SmartTestsAnalyzer
         public List<CasesAnd> CasesAnd { get; } = new List<CasesAnd>();
 
 #else
-
-
         public CasesAndOr()
         { }
 
@@ -157,7 +156,7 @@ namespace SmartTestsAnalyzer
                 criteria.FillCriteriaValues( result, errorType );
             foreach( var resultValue in result.Values )
             foreach( var criteriaValue in resultValue.Values )
-                criteriaValue.CompleteValues();
+                criteriaValue.AddCurrentValues();
             return result;
         }
 

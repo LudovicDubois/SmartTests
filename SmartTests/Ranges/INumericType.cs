@@ -60,6 +60,13 @@ namespace SmartTests.Ranges
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
         Criteria GetValue( out T value );
 
+        /// <summary>
+        ///     Returns any value for this range (all values have the same probability) as an error value
+        /// </summary>
+        /// <param name="value">A random value within this range.</param>
+        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
+        Criteria GetErrorValue( out T value );
+
 
         /// <summary>
         ///     Adds a chunk of numeric values and returns a criteria for this range

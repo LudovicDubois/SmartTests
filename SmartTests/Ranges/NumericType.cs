@@ -199,6 +199,10 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
+        public Criteria GetErrorValue( out T value ) => GetValue( out value );
+
+
+        /// <inheritdoc />
         public override bool Equals( object obj ) => Equals( obj as TType );
 
 

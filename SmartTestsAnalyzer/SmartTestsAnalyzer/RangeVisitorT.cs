@@ -16,6 +16,7 @@ namespace SmartTestsAnalyzer
     interface IRangeVisitor
     {
         IType Root { get; }
+        bool IsError { get; }
 
         void VisitInvocationExpression( InvocationExpressionSyntax node );
     }
@@ -44,6 +45,7 @@ namespace SmartTestsAnalyzer
 
         private INumericType<T> _Root;
         public IType Root => _Root;
+        public bool IsError { get; set; }
 
 
         private void AddRangeExtension( ITypeSymbol smartTestType, string methodName,
@@ -74,6 +76,8 @@ namespace SmartTestsAnalyzer
                                node => Range( node, max => _Root.BelowOrEqual( max ) ) );
             AddRangeExtension( iTypeType, "Below",
                                node => Range( node, max => _Root.Below( max ) ) );
+            AddRangeExtension( iTypeType, "GetErrorValue",
+                              node => IsError = true );
         }
 
 

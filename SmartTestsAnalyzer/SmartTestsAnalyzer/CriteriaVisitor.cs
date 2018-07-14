@@ -42,12 +42,9 @@ namespace SmartTestsAnalyzer
         {
             var member = _Model.GetSymbol( node );
             if( member is IFieldSymbol criteria )
-            {
-                var parameterName = _ParameterNameExpression != null
-                                        ? _Model.GetConstantValue( _ParameterNameExpression ).Value as string
-                                        : null;
-                return new CasesAndOr( _CasesExpression, _ParameterNameExpression, parameterName ?? Case.NoParameter, new FieldAnalysis( criteria ), criteria.HasAttribute( _ErrorAttribute ) );
-            }
+                return new CasesAndOr( _CasesExpression,
+                                       _ParameterNameExpression, GetParameterName(),
+                                       new FieldAnalysis( criteria ), criteria.HasAttribute( _ErrorAttribute ) );
 
             return node.Expression.Accept( this );
         }
@@ -85,9 +82,23 @@ namespace SmartTestsAnalyzer
         {
             var visitor = node.Accept( _RangeVisitor );
             if( visitor?.Root != null )
-                return new CasesAndOr( _CasesExpression, _ParameterNameExpression, Case.NoParameter, new RangeAnalysis( visitor.Root ), false );
+                return new CasesAndOr( _CasesExpression,
+                                       _ParameterNameExpression, GetParameterName(),
+                                       new RangeAnalysis( visitor.Root, visitor.IsError ), visitor.IsError );
 
             return base.VisitInvocationExpression( node );
         }
+
+
+        private string GetParameterName()
+        {
+            return ( _ParameterNameExpression != null
+                         ? _Model.GetConstantValue( _ParameterNameExpression ).Value as string
+                         : null ) ??
+                   Case.NoParameter;
+        }
+
+
+        // Helper Methods
     }
 }

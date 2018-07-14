@@ -30,13 +30,18 @@ namespace SmartTestsAnalyzer.Criterias
         public void Add( CriteriaAnalysis analysis, bool isError ) => Values.Add( new CriteriaValue( analysis, isError ) );
 
 
-        public abstract void CompleteValues();
+        public abstract void AddCurrentValues();
+        public abstract void AddMissingValues();
     }
 
 
     public class FieldValues: CriteriaValues
     {
-        public override void CompleteValues()
+        public override void AddCurrentValues()
+        { }
+
+
+        public override void AddMissingValues()
         { }
     }
 
@@ -45,7 +50,8 @@ namespace SmartTestsAnalyzer.Criterias
         where T: struct, IComparable<T>
         where TRange: class, INumericType<T>, new()
     {
-        public override void CompleteValues() => CompleteWithMissingChunks( GetAllCurrentChunks() );
+        public override void AddCurrentValues() => CompleteWithMissingChunks( GetAllCurrentChunks() );
+        public override void AddMissingValues() => CompleteWithMissingChunks( GetAllCurrentChunks() );
 
 
         private TRange GetAllCurrentChunks()
@@ -77,7 +83,7 @@ namespace SmartTestsAnalyzer.Criterias
                 missing.Range( value, missing.MaxValue );
 
             if( missing.Chunks.Count > 0 )
-                Values.Add( new CriteriaValue( new RangeAnalysis( missing ), false ) );
+                Values.Add( new CriteriaValue( new RangeAnalysis( missing, false ), false ) );
         }
     }
 }

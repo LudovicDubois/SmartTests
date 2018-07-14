@@ -27,13 +27,15 @@ namespace SmartTestsAnalyzer.Criterias
         }
 
 
-        public RangeAnalysis( IType type )
+        public RangeAnalysis( IType type, bool isError )
         {
             Type = type;
+            IsError = isError;
         }
 
 
         public IType Type { get; }
+        public bool IsError { get; }
 
 
         public override void AddValues( Dictionary<string, CriteriaValues> values, INamedTypeSymbol errorType )
@@ -44,7 +46,7 @@ namespace SmartTestsAnalyzer.Criterias
                 values[ "Range" ] = rangeValues;
             }
 
-            rangeValues.Add( new RangeAnalysis( Type ), false );
+            rangeValues.Add( new RangeAnalysis( Type, IsError ), IsError );
         }
 
 
