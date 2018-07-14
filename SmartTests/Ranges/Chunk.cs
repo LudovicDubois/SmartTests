@@ -7,6 +7,7 @@ namespace SmartTests.Ranges
     /// <summary>
     ///     A chunk of consecutive integer values (from <see cref="Min" /> to <see cref="Max" />)
     /// </summary>
+    /// <typeparam name="T">The numeric type for which a chunk is constructed.</typeparam>
     public struct Chunk<T>
         where T: IComparable<T>
     {

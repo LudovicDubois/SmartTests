@@ -9,6 +9,8 @@ namespace SmartTests.Ranges
     /// <summary>
     ///     Represents a Range of numeric values (with several chunks)
     /// </summary>
+    /// <typeparam name="T">The type of integers for this range</typeparam>
+    /// <typeparam name="TType">The explicit Range Type (should be itself in sub-classes)</typeparam>
     public abstract class NumericType<T, TType>: INumericType<T>
         where T: IComparable<T>
         where TType: class, INumericType<T>
@@ -17,7 +19,7 @@ namespace SmartTests.Ranges
 
         T INumericType<T>.MinValue => MinValue;
 
-        /// <inheritdoc cref="MinValue" />
+        /// <inheritdoc cref="INumericType{T}.MinValue" />
         protected abstract T MinValue { get; }
 
         #endregion
@@ -27,7 +29,7 @@ namespace SmartTests.Ranges
 
         T INumericType<T>.MaxValue => MaxValue;
 
-        /// <inheritdoc cref="MaxValue" />
+        /// <inheritdoc cref="INumericType{T}.MaxValue" />
         protected abstract T MaxValue { get; }
 
         #endregion
@@ -38,7 +40,7 @@ namespace SmartTests.Ranges
         T INumericType<T>.GetPrevious( T n ) => GetPrevious( n );
 
 
-        /// <inheritdoc cref="GetPrevious(T)" />
+        /// <inheritdoc cref="INumericType{T}.GetPrevious(T)" />
         protected abstract T GetPrevious( T n );
 
         #endregion
@@ -49,7 +51,7 @@ namespace SmartTests.Ranges
         T INumericType<T>.GetNext( T n ) => GetNext( n );
 
 
-        /// <inheritdoc cref="GetNext(T)" />
+        /// <inheritdoc cref="INumericType{T}.GetNext(T)" />
         protected abstract T GetNext( T n );
 
         #endregion
