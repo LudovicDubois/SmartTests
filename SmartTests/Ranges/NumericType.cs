@@ -86,8 +86,8 @@ namespace SmartTests.Ranges
             }
 
             // Not in the right order!
-            GetLocation( min, out var minInChunk, out var minIndex );
-            GetLocation( max, out var maxInChunk, out var maxIndex );
+            GetMinLocation( min, out var minInChunk, out var minIndex );
+            GetMaxLocation( max, out var maxInChunk, out var maxIndex );
 
             if( minInChunk )
                 // In a chunk
@@ -101,14 +101,14 @@ namespace SmartTests.Ranges
                 if( maxInChunk )
                     Chunks.RemoveRange( minIndex, maxIndex - minIndex + 1 );
                 else
-                    Chunks.RemoveRange( minIndex, maxIndex - minIndex );
+                    Chunks.RemoveRange( minIndex, maxIndex - minIndex + 1 );
             }
             else
             {
                 if( maxInChunk )
                     Chunks.RemoveRange( minIndex, maxIndex - minIndex + 1 );
                 else
-                    Chunks.RemoveRange( minIndex, maxIndex - minIndex );
+                    Chunks.RemoveRange( minIndex, maxIndex - minIndex + 1 );
             }
 
             Chunks.Insert( minIndex, new Chunk<T>( min, max ) );
@@ -152,18 +152,38 @@ namespace SmartTests.Ranges
         public Criteria Below( T max, out T value ) => Range( MinValue, GetPrevious( max ), out value );
 
 
-        private void GetLocation( T value, out bool inChunk, out int chunkIndex )
+        private void GetMinLocation( T value, out bool inChunk, out int chunkIndex )
         {
             for( chunkIndex = 0; chunkIndex < Chunks.Count; chunkIndex++ )
             {
                 if( value.CompareTo( Chunks[ chunkIndex ].Min ) < 0 )
-                {
-                    inChunk = value.CompareTo( GetPrevious( Chunks[ chunkIndex ].Min ) ) == 0;
-                    return;
-                }
+                    break;
 
                 if( Chunks[ chunkIndex ].Min.CompareTo( value ) <= 0 &&
-                    value.CompareTo( Chunks[ chunkIndex ].Max.CompareTo( MaxValue ) == 0 ? MaxValue : GetNext( Chunks[ chunkIndex ].Max ) ) <= 0 )
+                    value.CompareTo( Chunks[ chunkIndex ].Max.CompareTo( MaxValue ) == 0
+                                         ? MaxValue
+                                         : GetNext( Chunks[ chunkIndex ].Max ) ) <= 0 )
+                {
+                    inChunk = true;
+                    return;
+                }
+            }
+
+            inChunk = false;
+        }
+
+
+        private void GetMaxLocation( T value, out bool inChunk, out int chunkIndex )
+        {
+            for( chunkIndex = Chunks.Count - 1; chunkIndex >= 0; chunkIndex-- )
+            {
+                if( value.CompareTo( Chunks[ chunkIndex ].Max ) >= 0 )
+                    break;
+
+                if( Chunks[ chunkIndex ].Max.CompareTo( value ) > 0 &&
+                    value.CompareTo( Chunks[ chunkIndex ].Min.CompareTo( MinValue ) == 0
+                                         ? MinValue
+                                         : GetPrevious( Chunks[ chunkIndex ].Min ) ) >= 0 )
                 {
                     inChunk = true;
                     return;
