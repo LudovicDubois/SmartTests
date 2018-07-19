@@ -27,7 +27,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override Criteria GetValue( out int value )
+        public override Criteria GetValidValue( out int value )
         {
             // Ensure values are well distributed
             var max = int.MinValue;

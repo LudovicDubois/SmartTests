@@ -119,7 +119,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public Criteria Range( T min, T max, out T value ) => Range( min, max ).GetValue( out value );
+        public Criteria Range( T min, T max, out T value ) => Range( min, max ).GetValidValue( out value );
 
 
         /// <inheritdoc />
@@ -197,11 +197,11 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public abstract Criteria GetValue( out T value );
+        public abstract Criteria GetValidValue( out T value );
 
 
         /// <inheritdoc />
-        public Criteria GetErrorValue( out T value ) => GetValue( out value );
+        public Criteria GetErrorValue( out T value ) => GetValidValue( out value );
 
 
         /// <inheritdoc />

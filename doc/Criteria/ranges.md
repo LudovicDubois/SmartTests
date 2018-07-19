@@ -75,7 +75,7 @@ You can not use it directly as a criteria as:
 1. It returns the created range.
 2. You need to have a value to use as the testing value.
 
-Once you have a filled Range, call its `GetValue( out var value )` to have the testing value. This method returns a Criteria.
+Once you have a filled Range, call its `GetValidValue( out var value )` to have the testing value. This method returns a Criteria.
 
 #### Multiple ranges in an equivalence class
 
@@ -94,10 +94,10 @@ Ranges have lots of helper methods to make it easier.
 3. `Int.BelowOrEqual(min)` is `Int.Below(int.MinValue, min)`
 4. `Int.Below(min)` is `Int.Below(int.MinValue, min - 1)`
 
-#### Overloads calling `GetValue`
+#### Overloads calling `GetValidValue`
 
-For simple usage, `Range` method has an overload that calls `GetValue`.
-Thus, `Int.Range( 0, 10, out var value )` is exactly the same as `Int.Range( 0, 10 ).GetValue( out var value )`.
+For simple usage, `Range` method has an overload that calls `GetValidValue`.
+Thus, `Int.Range( 0, 10, out var value )` is exactly the same as `Int.Range( 0, 10 ).GetValidValue( out var value )`.
 
 In the same way, all heper methods have the same overload:
 
@@ -108,11 +108,11 @@ In the same way, all heper methods have the same overload:
 
 They have to be the last ones when you use multiple ranges as they return a Criteria.
 
-> Tip: it's simpler to use these overloads instead of calling `GetValue`.
+> Tip: it's simpler to use these overloads instead of calling `GetValidValue`.
 
 ### GetErrorValue
 
-`GetValue(out var value)` enables you to:
+`GetValidValue(out var value)` enables you to:
 
 1. Use a *Range* where a Criteria is expected
 2. Have a valid value, from the *Range*, to use in your test.

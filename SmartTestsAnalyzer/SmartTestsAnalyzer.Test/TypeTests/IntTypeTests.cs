@@ -294,7 +294,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Int.Range( 1, int.MaxValue ).GetValue( out var value ), 
+            var result = RunTest( Int.Range( 1, int.MaxValue ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -634,7 +634,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Int.Above( 0 ).GetValue( out var value ), 
+            var result = RunTest( Int.Above( 0 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -718,7 +718,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Int.AboveOrEqual( 1 ).GetValue( out var value ), 
+            var result = RunTest( Int.AboveOrEqual( 1 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -802,7 +802,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Int.Below( 0 ).GetValue( out var value ), 
+            var result = RunTest( Int.Below( 0 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -886,7 +886,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Int.BelowOrEqual( -1 ).GetValue( out var value ), 
+            var result = RunTest( Int.BelowOrEqual( -1 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );

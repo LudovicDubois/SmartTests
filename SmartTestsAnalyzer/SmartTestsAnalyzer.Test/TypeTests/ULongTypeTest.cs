@@ -294,7 +294,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( ULong.Range( 100, ulong.MaxValue ).GetValue( out var value ), 
+            var result = RunTest( ULong.Range( 100, ulong.MaxValue ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -634,7 +634,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( ULong.Above( 100 ).GetValue( out var value ), 
+            var result = RunTest( ULong.Above( 100 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -718,7 +718,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( ULong.AboveOrEqual( 100 ).GetValue( out var value ), 
+            var result = RunTest( ULong.AboveOrEqual( 100 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -802,7 +802,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( ULong.Below( 100 ).GetValue( out var value ), 
+            var result = RunTest( ULong.Below( 100 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -886,7 +886,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( ULong.BelowOrEqual( 100 ).GetValue( out var value ), 
+            var result = RunTest( ULong.BelowOrEqual( 100 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );

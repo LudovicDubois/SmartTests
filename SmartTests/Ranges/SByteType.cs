@@ -27,7 +27,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override Criteria GetValue( out sbyte value )
+        public override Criteria GetValidValue( out sbyte value )
         {
             // Ensure values are well distributed
             int max = sbyte.MinValue;

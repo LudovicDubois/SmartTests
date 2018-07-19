@@ -19,7 +19,7 @@ namespace TestingProject.Ranges
         [Test]
         public void RangeIITest()
         {
-            var result = RunTest( Int.Range( 0, int.MaxValue ).GetValue( out var value ),
+            var result = RunTest( Int.Range( 0, int.MaxValue ).GetValidValue( out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -39,7 +39,7 @@ namespace TestingProject.Ranges
         [Test]
         public void AboveOrEqualTest()
         {
-            var result = RunTest( Int.AboveOrEqual( 0 ).GetValue( out var value ),
+            var result = RunTest( Int.AboveOrEqual( 0 ).GetValidValue( out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -59,7 +59,7 @@ namespace TestingProject.Ranges
         [Test]
         public void BelowOrEqualTest()
         {
-            var result = RunTest( Int.BelowOrEqual( -10 ).GetValue( out var value ),
+            var result = RunTest( Int.BelowOrEqual( -10 ).GetValidValue( out var value ),
                                   () => MyClass.M1( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );
@@ -81,7 +81,7 @@ namespace TestingProject.Ranges
         {
             var result = RunTest( Int.Range( 1, int.MaxValue )
                                      .Range( int.MinValue, -1 )
-                                     .GetValue( out var value ),
+                                     .GetValidValue( out var value ),
                                   () => MyClass.M2( value ) );
 
             Assert.That( result, Is.EqualTo( value ) );

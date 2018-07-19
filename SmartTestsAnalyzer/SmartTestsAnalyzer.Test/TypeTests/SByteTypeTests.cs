@@ -294,7 +294,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SByte.Range( 1, sbyte.MaxValue ).GetValue( out var value ), 
+            var result = RunTest( SByte.Range( 1, sbyte.MaxValue ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -634,7 +634,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SByte.Above( 0 ).GetValue( out var value ), 
+            var result = RunTest( SByte.Above( 0 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -718,7 +718,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SByte.AboveOrEqual( 1 ).GetValue( out var value ), 
+            var result = RunTest( SByte.AboveOrEqual( 1 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -802,7 +802,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SByte.Below( 0 ).GetValue( out var value ), 
+            var result = RunTest( SByte.Below( 0 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );
@@ -886,7 +886,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SByte.BelowOrEqual( -1 ).GetValue( out var value ), 
+            var result = RunTest( SByte.BelowOrEqual( -1 ).GetValidValue( out var value ), 
                                   () => Class1.Inverse( value ) );
 
             Assert.That( 1 / result, Is.EqualTo(value) );

@@ -28,7 +28,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override Criteria GetValue( out ulong value )
+        public override Criteria GetValidValue( out ulong value )
         {
             // Ensure values are well distributed
             var max = ulong.MinValue;
