@@ -119,6 +119,16 @@ Currently, predefined Criteria are the following:
 
 * [`NotifyPropertyChanged`](NotifyPropertyChanged.md)
 
+### Ranges
+
+Since v1.4, we can define criteria as ranges of integer values.
+
+It enables you to show logical equivalence groups right in your tests.
+
+For more information, see [`Ranges`](ranges.md).
+
+### Next
+
 We will add other Criteria.
 
 ## Combining Criteria
