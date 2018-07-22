@@ -62,6 +62,33 @@ namespace SmartTestsAnalyzer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your range is not valid as min value is greater than max value.
+        /// </summary>
+        internal static string MinShouldBeLessThanMax_Description {
+            get {
+                return ResourceManager.GetString("MinShouldBeLessThanMax_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min value ({0}) should be less than max value ({1}).
+        /// </summary>
+        internal static string MinShouldBeLessThanMax_MessageFormat {
+            get {
+                return ResourceManager.GetString("MinShouldBeLessThanMax_MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min value should be less than Max value.
+        /// </summary>
+        internal static string MinShouldBeLessThanMax_Title {
+            get {
+                return ResourceManager.GetString("MinShouldBeLessThanMax_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Some Test Cases are missing to have complete logical coverage..
         /// </summary>
         internal static string MissingCases_Description {

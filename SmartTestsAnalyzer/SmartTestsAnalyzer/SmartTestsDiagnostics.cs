@@ -48,10 +48,19 @@ namespace SmartTestsAnalyzer
                                                                                                    true,
                                                                                                    LocalizeString( nameof(Resources.NotAConstant_Description) ) );
 
+        private static readonly DiagnosticDescriptor _MinShouldBeLessThanMax = new DiagnosticDescriptor( "SmartTestsAnalyzer_MinShouldBeLessThanMax",
+                                                                                                   LocalizeString( nameof(Resources.MinShouldBeLessThanMax_Title) ),
+                                                                                                   LocalizeString( nameof(Resources.MinShouldBeLessThanMax_MessageFormat) ),
+                                                                                                   _Category,
+                                                                                                   DiagnosticSeverity.Error,
+                                                                                                   true,
+                                                                                                   LocalizeString( nameof(Resources.MinShouldBeLessThanMax_Description) ) );
+
         public static ImmutableArray<DiagnosticDescriptor> DiagnosticDescriptors { get; } = ImmutableArray.Create( _MissingCases,
                                                                                                                    _WrongParameterName,
                                                                                                                    _MissingParameterCase,
-                                                                                                                   _ConstantExpected
+                                                                                                                   _ConstantExpected,
+                                                                                                                   _MinShouldBeLessThanMax
                                                                                                                  );
 
 
@@ -94,6 +103,15 @@ namespace SmartTestsAnalyzer
             return Diagnostic.Create( _ConstantExpected,
                                       expression.GetLocation()
                                     );
+        }
+
+
+        public static Diagnostic CreateMinShouldBeLessThanMax( InvocationExpressionSyntax node, string min, string max )
+        {
+            return Diagnostic.Create( _MinShouldBeLessThanMax,
+                                      node.GetLocation(),
+                                      min,
+                                      max );
         }
     }
 }

@@ -101,7 +101,9 @@ namespace SmartTestsAnalyzer
             if( TryGetConstant( node.GetArgument( 0 ).Expression, out T min ) &
                 TryGetConstant( node.GetArgument( 1 ).Expression, out T max ) )
             {
-                if( _Root != null )
+                if( min.CompareTo( max ) > 0 )
+                    _ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, min.ToString(), max.ToString() ) );
+                else if( _Root != null )
                     addRange( min, max );
             }
             else

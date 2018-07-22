@@ -79,7 +79,9 @@ namespace SmartTestsAnalyzer.Criterias
                 value = missing.GetNext( chunk.Max );
             }
 
-            if( currentRange.Chunks.Last().Max.CompareTo( missing.MaxValue ) < 0 )
+            if( currentRange.Chunks.Count == 0)
+                missing.Range(missing.MinValue, missing.MaxValue);
+            else if ( currentRange.Chunks.Last().Max.CompareTo( missing.MaxValue ) < 0 )
                 missing.Range( value, missing.MaxValue );
 
             if( missing.Chunks.Count > 0 )
