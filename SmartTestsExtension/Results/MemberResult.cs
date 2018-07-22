@@ -71,7 +71,7 @@ namespace SmartTestsExtension.Results
             {
                 foreach( var expression in cases.Value.Expressions )
                 {
-                    var criterion = expression.Split( '.' );
+                    var criterion = expression.Split( new char[] { '.' }, 2 );
                     if( !_Items.Columns.Contains( criterion[ 0 ] ) )
                         _Items.Columns.Add( criterion[ 0 ] );
                     row[ criterion[ 0 ] ] = criterion[ 1 ];
