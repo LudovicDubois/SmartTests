@@ -90,14 +90,13 @@ namespace SmartTestsExtension
             try
             {
                 if( projectTests != null )
-                {
                     projectTests.Tests = tests;
-                    // DtaGrid did not regenerate its columns automatically!
-                    ResultsGrid.AutoGenerateColumns = false;
-                    ResultsGrid.AutoGenerateColumns = true;
-                }
                 else
                     AnalyzerResults.Instance.TestedProjects.Add( new ProjectTests( project, tests ) );
+
+                // DataGrid did not regenerate its columns automatically!
+                ResultsGrid.AutoGenerateColumns = false;
+                ResultsGrid.AutoGenerateColumns = true;
             }
             catch( Exception e )
             {

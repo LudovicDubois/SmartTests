@@ -13,7 +13,8 @@ namespace SmartTestsExtension.Results
             : base( name )
         {
             _Items = new DataTable();
-            _Items.Columns.Add( "Test" );
+            _Items.TableName = "Tests";
+            _Items.Columns.Add( "Test");
             _Items.Columns.Add( "TestFileName" );
             _Items.Columns.Add( "TestLine" );
             _Items.Columns.Add( "TestLocation" );
@@ -23,7 +24,7 @@ namespace SmartTestsExtension.Results
         }
 
 
-        private readonly DataTable _Items;
+        private DataTable _Items;
         public DataView Items { get; }
 
 
@@ -32,7 +33,8 @@ namespace SmartTestsExtension.Results
 
         private void FillWith( CasesAndOr casesAndOr )
         {
-            _Items.Reset();
+            _Items = new DataTable();
+            _Items.TableName = "Tests";
             _Items.Columns.Add( "Test" );
             _Items.Columns.Add( "TestFileName" );
             _Items.Columns.Add( "TestLine" );
@@ -41,6 +43,7 @@ namespace SmartTestsExtension.Results
             _Items.Columns.Add( "IsMissing" );
             foreach( var casesAnd in casesAndOr.CasesAnd )
                 FillWith( casesAnd );
+            Items.Table = _Items;
             Items.Sort = string.Join( ",", GetNewColumnNames() );
         }
 
