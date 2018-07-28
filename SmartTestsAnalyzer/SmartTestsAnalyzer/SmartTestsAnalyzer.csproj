@@ -15,18 +15,18 @@
     <RepositoryUrl>https://github.com/LudovicDubois/SmartTests</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>An analyzer to find missing tests for tests written with SmartTests.</Description>
-    <PackageReleaseNotes>We now have 3 Smart... products working together:
-1. SmartTests: a library to write Smart Tests.
-2. SmartTests.Analyzer: a Roslyn Analyzer to show missing tests in Visual Studio as warnings.
-3. SmartTests.Extension: a Visual Studio Extension to show tests in a Tool Window. It enables you to see current tests, and navigate quickly  to any; and to see missing tests.</PackageReleaseNotes>
+    <PackageReleaseNotes>Criteria can now be Ranges of integer values.
+This enables you to generate a random value within this range for your test and to be sure all ranges are tested (as expected for a criteria)</PackageReleaseNotes>
     <Copyright>Copyright (c) Pretty Objects Computers inc</Copyright>
     <PackageTags>SmartTests test testing tdd framework assert analyzer NUnit MSTests Xunit</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <ApplicationIcon>SmartTests-perspective.ico</ApplicationIcon>
-    <RepositoryType>GIT</RepositoryType>
-    <Version>1.3.0</Version>
-    <AssemblyVersion>1.3.0.0</AssemblyVersion>
-    <FileVersion>1.3.0.0</FileVersion>
+    <RepositoryType>git</RepositoryType>
+    <Version>1.4.0</Version>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
+    <NeutralLanguage>English</NeutralLanguage>
+    <Company>Pretty Objects Computers inc.</Company>
   </PropertyGroup>
    
   <ItemGroup>
