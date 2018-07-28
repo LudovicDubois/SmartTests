@@ -1,0 +1,150 @@
+SMARTTESTS RELEASE
+------------------
+
+1. Change version number of changed projects:
+    a. SmartTests: 
+        - Properties|Package|Package version
+        - Properties|Package|Release notes
+        - Properties|Package|Assembly version
+        - Properties|Package|Assembly File Version
+    b. SmartTestsAnalyzer:
+        - Properties|Package|Package version
+        - Properties|Package|Release notes
+        - Properties|Package|Assembly version
+        - Properties|Package|Assembly File Version
+    c. SmartTestsDoc:
+        - Properties|Help File|Help file version
+    d. SmartTestsExtension:
+        - Properties|AssemblyInfo.cs|AssemblyVersion
+        - Properties|AssemblyInfo.cs|AssemblyFileVersion
+        - source.extension.vsixmanifest|Version
+
+
+
+2. Build Release version
+
+
+
+3. Relase SmartTests Library
+    a. Login to https://www.nuget.org
+    b. LudovicDubois|Upload Package
+    c. Browse|"C:\Git\SmartTests\SmartTests\bin\Release\SmartTests.<version>.nupkg"
+    d. Import this documentation:
+---------------------------------------------------------------------------------------------------
+# Smart Tests
+
+## Context
+
+We all know how unit testing is important for non-regression of our softwares.
+
+We all know that TDD (Test Driven Development) enables us to have better code and better management of the development process.
+
+Fortunately, it is very easy to learn Testing Frameworks and to write unit tests technically.
+
+BUT, it is very hard to think the good way to write unit test:
+
+1. How do I know how many tests to write?
+1. More, how do I know which cases we have to test?
+1. According to our Act code, it is very easy to assert that:
+   1. A property changed, but how do we know if any other unexpected side effect occurred?
+   1. A property changed, but how do we know if our test is still correct if anyone changed our Setup?
+   For example, by giving the value you want to set as the initial value of your object?
+1. How can we show the expected effect of the Act code as we generally use hard coded values (because it is easier to code)?
+1. Finally, how can we do high level testing without multiple lines of code?
+
+## What is *Smart Tests*
+
+*Smart Tests* is a library and a Visual Studio Analyzer to respond to all these questions... and more!
+
+1. The Act line of your test is instantly identifiable.
+1. You express your Act logical intent and the Analyzer will display all missing tests.
+1. You can use smarter assertions than the ones provided by usual Testing Frameworks as *Smart Tests* knows what is your Act and when it is run.
+   1. You ensure that a PropertyChanged event is raised with only one line of code.
+   1. You ensure that any event is raised with only one line of code.
+   1. You ensure that an object didn't changed at all with only one line of code.
+   1. You ensure that your property set is effective by checking its value after is not equal to its value before with only one line of code.
+   1. You show each effect of your Act code relatively its previous value with only one line of code.
+
+For now, it supports C# with NUnit, Xunit or MSTests.
+
+However, it will very easy to add other Testing Frameworks (you only write a very simple sub-class).  
+You can also extend smart assertions in a very easily way.
+---------------------------------------------------------------------------------------------------        
+    e. Preview and ensure everything is AssemblyFileVersion
+    f. Submit
+
+
+
+4. Release SmartTestsAnalyzer
+    a. Login to https://www.nuget.org if necessary (should be logged in from previous step)
+    b. LudovicDubois|Upload Package
+    c. Browse|""C:\Git\SmartTests\SmartTestsAnalyzer\SmartTestsAnalyzer\bin\Release\SmartTests.Analyzer.<version>.nupkg""
+    d. Import this documentation:
+---------------------------------------------------------------------------------------------------
+# Smart Tests
+
+## Context
+
+We all know how unit testing is important for non-regression of our softwares.
+
+We all know that TDD (Test Driven Development) enables us to have better code and better management of the development process.
+
+Fortunately, it is very easy to learn Testing Frameworks and to write unit tests technically.
+
+BUT, it is very hard to think the good way to write unit test:
+
+1. How do I know how many tests to write?
+1. More, how do I know which cases we have to test?
+1. According to our Act code, it is very easy to assert that:
+   1. A property changed, but how do we know if any other unexpected side effect occurred?
+   1. A property changed, but how do we know if our test is still correct if anyone changed our Setup?
+   For example, by giving the value you want to set as the initial value of your object?
+1. How can we show the expected effect of the Act code as we generally use hard coded values (because it is easier to code)?
+1. Finally, how can we do high level testing without multiple lines of code?
+
+## What is *Smart Tests*
+
+*Smart Tests* is a library and a Visual Studio Analyzer to respond to all these questions... and more!
+
+1. The Act line of your test is instantly identifiable.
+1. You express your Act logical intent and the Analyzer will display all missing tests.
+1. You can use smarter assertions than the ones provided by usual Testing Frameworks as *Smart Tests* knows what is your Act and when it is run.
+   1. You ensure that a PropertyChanged event is raised with only one line of code.
+   1. You ensure that any event is raised with only one line of code.
+   1. You ensure that an object didn't changed at all with only one line of code.
+   1. You ensure that your property set is effective by checking its value after is not equal to its value before with only one line of code.
+   1. You show each effect of your Act code relatively its previous value with only one line of code.
+
+For now, it supports C# with NUnit, Xunit or MSTests.
+
+However, it will very easy to add other Testing Frameworks (you only write a very simple sub-class).  
+You can also extend smart assertions in a very easily way.
+---------------------------------------------------------------------------------------------------
+    e. Preview and ensure everything is AssemblyFileVersion
+    f. Submit
+
+
+
+5. Release of SmartTestsExtension
+    a. Login to https://marketplace.visualstudio.com/
+    b. Publish extensions
+    c. ... after SmartTests.Extension|Edit
+    d. Click on the pen in Upload extension|"C:\Git\SmartTests\SmartTestsExtension\bin\Release\SmartTestsExtension.vsix"
+    e. [Save & Upload]
+
+
+
+6. Release of documentation
+    a. Login to ftp://prettyobjects.com
+    b. Go to prettyobjects.com/wwwroot/Help
+    c. Replace everything with content of C:\Git\SmartTests\SmartTestsDoc\Help
+
+
+
+7. Publish Sources
+    a. Push source code to github
+    b. Add a version tag thaty is pushed too.
+
+
+
+That's all!
