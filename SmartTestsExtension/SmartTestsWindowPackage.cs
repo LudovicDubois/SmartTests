@@ -1,14 +1,13 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
+
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
+
+
 
 namespace SmartTestsExtension
 {
@@ -33,7 +32,7 @@ namespace SmartTestsExtension
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(SmartTestsWindow))]
-    [Guid(SmartTestsWindowPackage.PackageGuidString)]
+    [Guid(PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class SmartTestsWindowPackage : Package
     {
@@ -41,6 +40,7 @@ namespace SmartTestsExtension
         /// SmartTestsWindowPackage GUID string.
         /// </summary>
         public const string PackageGuidString = "7a04f852-4ba8-4df4-88a7-0fd2975edc58";
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SmartTestsWindow"/> class.
@@ -51,6 +51,11 @@ namespace SmartTestsExtension
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
+            if( (int?)Registry.GetValue( @"HKEY_CURRENT_USER\Software\Pretty Objects\SmartTests", "Trace", 0 ) == 1 )
+            {
+                Trace.Listeners.Add( new TextWriterTraceListener( Path.Combine( Path.GetTempPath(), $"SmartTests{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.log" ) ) );
+                Trace.TraceInformation( "Trace Started" );
+            }
         }
 
         #region Package Members
@@ -61,8 +66,17 @@ namespace SmartTestsExtension
         /// </summary>
         protected override void Initialize()
         {
-            SmartTestsWindowCommand.Initialize(this);
-            base.Initialize();
+            try
+            {
+                SmartTestsWindowCommand.Initialize(this);
+                base.Initialize();
+
+            }
+            catch( Exception e )
+            {
+                Trace.TraceError( e.Message + Environment.NewLine + e.StackTrace );
+                throw;
+            }
         }
 
         #endregion

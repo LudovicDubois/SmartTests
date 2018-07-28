@@ -75,8 +75,10 @@ namespace SmartTestsExtension
         {
             try
             {
+                Trace.TraceInformation( $"Loading solution '{solution.FullName}'" );
                 foreach( Project project in solution.Projects )
                     AddProject( project );
+                Trace.TraceInformation( $"Loaded solution '{solution.FullName}'" );
             }
             catch( Exception e )
             {
@@ -99,9 +101,11 @@ namespace SmartTestsExtension
         {
             try
             {
+                Trace.TraceInformation( $"Adding project '{project.FullName}'" );
                 var path = GetTestsFile( project );
                 if( path != null )
                     AddOrUpdate( project, path );
+                Trace.TraceInformation( $"Added project '{project.FullName}'" );
             }
             catch( Exception e )
             {
@@ -133,25 +137,37 @@ namespace SmartTestsExtension
 
         private void Load( Project project, string testsPath )
         {
-            if( Callback == null || // Smart Tool Window is not visible
-                !File.Exists( testsPath ) )
+            if( Callback == null )
+                // Smart Tool Window is not visible
                 return;
+
+            Trace.TraceInformation( $"Loading tests '{testsPath}' for project '{project.FullName}'" );
+            if( !File.Exists( testsPath ) )
+            {
+                Trace.TraceInformation( $"No tests file '{testsPath}' for project '{project.FullName}'" );
+                return;
+            }
 
             try
             {
                 var text = File.ReadAllText( testsPath );
                 if( text == _LastText )
+                {
                     // Already processed!
+                    Trace.TraceInformation( $"Same tests '{testsPath}' for project '{project.FullName}'" );
                     return;
+                }
 
                 _LastText = text;
                 Callback.Invoke( project,
                                  GetTests( project ),
                                  JsonConvert.DeserializeObject<Tests>( text ) );
+                Trace.TraceInformation( $"Loaded tests '{testsPath}' for project '{project.FullName}'" );
             }
-            catch( IOException )
+            catch( Exception e )
             {
                 // Not completely written yet!
+                Trace.TraceError( e.Message + Environment.NewLine + e.StackTrace );
             }
         }
 

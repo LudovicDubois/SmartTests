@@ -28,14 +28,23 @@ namespace SmartTestsExtension
     {
         static SmartTestsWindowControl()
         {
-            _Dte = (DTE)ServiceProvider.GlobalProvider.GetService( typeof(DTE) );
+            try
+            {
+                _Dte = (DTE)ServiceProvider.GlobalProvider.GetService( typeof(DTE) );
 
-            _SolutionEvents = _Dte.Events.SolutionEvents;
-            _SolutionEvents.Opened += () => AnalyzerResults.Instance.SetSolution( _Dte.Solution );
-            _SolutionEvents.AfterClosing += AnalyzerResults.Instance.Clear;
-            _SolutionEvents.ProjectAdded += AnalyzerResults.Instance.AddProject;
-            _SolutionEvents.ProjectRenamed += AnalyzerResults.Instance.RenameProject;
-            _SolutionEvents.ProjectRemoved += AnalyzerResults.Instance.RemoveProject;
+                _SolutionEvents = _Dte.Events.SolutionEvents;
+                _SolutionEvents.Opened += () => AnalyzerResults.Instance.SetSolution( _Dte.Solution );
+                _SolutionEvents.AfterClosing += AnalyzerResults.Instance.Clear;
+                _SolutionEvents.ProjectAdded += AnalyzerResults.Instance.AddProject;
+                _SolutionEvents.ProjectRenamed += AnalyzerResults.Instance.RenameProject;
+                _SolutionEvents.ProjectRemoved += AnalyzerResults.Instance.RemoveProject;
+
+            }
+            catch( Exception e )
+            {
+                Trace.TraceError( e.Message + Environment.NewLine + e.StackTrace );
+                throw;
+            }
         }
 
 
