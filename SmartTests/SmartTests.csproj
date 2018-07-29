@@ -4,9 +4,9 @@
     <Title>SmartTests</Title>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>SmartTests</PackageId>
-    <Version>1.4.0</Version>
-    <AssemblyVersion>1.4.0.0</AssemblyVersion>
-    <FileVersion>1.4.0.0</FileVersion>
+    <Version>1.4.1</Version>
+    <AssemblyVersion>1.4.1.0</AssemblyVersion>
+    <FileVersion>1.4.1.0</FileVersion>
     <PackageReleaseNotes>Criteria can now be Ranges of integer values.
 This enables you to generate a random value within this range for your test and to be sure all ranges are tested (as expected for a criteria)</PackageReleaseNotes>
     <Authors>Ludovic Dubois</Authors>
@@ -32,7 +32,7 @@ They are Smart in the sense that:
     <PackageIconUrl>https://github.com/LudovicDubois/SmartTests/raw/master/SmartTests.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/LudovicDubois/SmartTests</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <NeutralLanguage>en</NeutralLanguage>
+    <NeutralLanguage></NeutralLanguage>
     <ApplicationIcon>SmartTests-perspective.ico</ApplicationIcon>
     <Company>Pretty Objects Computers inc.</Company>
   </PropertyGroup>

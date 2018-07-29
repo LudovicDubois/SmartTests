@@ -22,10 +22,10 @@ This enables you to generate a random value within this range for your test and 
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <ApplicationIcon>SmartTests-perspective.ico</ApplicationIcon>
     <RepositoryType>git</RepositoryType>
-    <Version>1.4.0</Version>
-    <AssemblyVersion>1.4.0.0</AssemblyVersion>
-    <FileVersion>1.4.0.0</FileVersion>
-    <NeutralLanguage>English</NeutralLanguage>
+    <Version>1.4.1</Version>
+    <AssemblyVersion>1.4.1.0</AssemblyVersion>
+    <FileVersion>1.4.1.0</FileVersion>
+    <NeutralLanguage></NeutralLanguage>
     <Company>Pretty Objects Computers inc.</Company>
   </PropertyGroup>
    
