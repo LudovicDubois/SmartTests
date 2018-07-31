@@ -25,7 +25,12 @@ SMARTTESTS RELEASE
 
 
 
-3. Relase SmartTests Library
+3. Patche SmartTestsAnalyzer for dependencies
+   a. Open "C:\Git\SmartTests\SmartTestsAnalyzer\SmartTestsAnalyzer\bin\Release\SmartTests.Analyzer.<version>.nupkg" as a Zip file
+   b. Add "Newtonsoft.Json.dll" and SmartTests.dll from sub-directory "netstandard1.3" to sub-directory "analyzers\dotnet\cs\" of the Zip file
+
+
+4. Relase SmartTests Library
     a. Login to https://www.nuget.org
     b. LudovicDubois|Upload Package
     c. Browse|"C:\Git\SmartTests\SmartTests\bin\Release\SmartTests.<version>.nupkg"
@@ -75,7 +80,7 @@ You can also extend smart assertions in a very easily way.
 
 
 
-4. Release SmartTestsAnalyzer
+5. Release SmartTestsAnalyzer
     a. Login to https://www.nuget.org if necessary (should be logged in from previous step)
     b. LudovicDubois|Upload Package
     c. Browse|""C:\Git\SmartTests\SmartTestsAnalyzer\SmartTestsAnalyzer\bin\Release\SmartTests.Analyzer.<version>.nupkg""
@@ -125,7 +130,7 @@ You can also extend smart assertions in a very easily way.
 
 
 
-5. Release of SmartTestsExtension
+6. Release of SmartTestsExtension
     a. Login to https://marketplace.visualstudio.com/
     b. Publish extensions
     c. ... after SmartTests.Extension|Edit
@@ -134,14 +139,14 @@ You can also extend smart assertions in a very easily way.
 
 
 
-6. Release of documentation
+7. Release of documentation
     a. Login to ftp://prettyobjects.com
     b. Go to prettyobjects.com/wwwroot/Help
     c. Replace everything with content of C:\Git\SmartTests\SmartTestsDoc\Help
 
 
 
-7. Publish Sources
+8. Publish Sources
     a. Push source code to github
     b. Add a version tag thaty is pushed too.
 
