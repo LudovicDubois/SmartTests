@@ -12,6 +12,124 @@ namespace SmartTestsAnalyzer.Test.TypeTests
     class SByteTypeTests: CodeFixVerifier
     {
         [Test]
+        public void FullRange()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static sbyte Same(sbyte i) => i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( SByte.Range( sbyte.MinValue, sbyte.MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+
+        [Test]
+        public void AlmostFullRangeMin()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static sbyte Same(sbyte i) => i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( SByte.Range( sbyte.MinValue + 1, sbyte.MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Same(sbyte)' has some missing Test Cases: SByte.Range(sbyte.MinValue, sbyte.MinValue)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+
+        [Test]
+        public void AlmostFullRangeMax()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static sbyte Same(sbyte i) => i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( SByte.Range( sbyte.MinValue, sbyte.MaxValue - 1, out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Same(sbyte)' has some missing Test Cases: SByte.Range(sbyte.MaxValue, sbyte.MaxValue)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
         public void OneChunkInOneRange()
         {
             var test = @"

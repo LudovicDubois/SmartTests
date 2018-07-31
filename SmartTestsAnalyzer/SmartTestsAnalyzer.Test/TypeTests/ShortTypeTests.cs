@@ -12,6 +12,124 @@ namespace SmartTestsAnalyzer.Test.TypeTests
     class ShortTypeTests: CodeFixVerifier
     {
         [Test]
+        public void FullRange()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static short Same(short i) => i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Short.Range( short.MinValue, short.MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+
+        [Test]
+        public void AlmostFullRangeMin()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static short Same(short i) => i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Short.Range( short.MinValue + 1, short.MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Same(short)' has some missing Test Cases: Short.Range(short.MinValue, short.MinValue)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+
+        [Test]
+        public void AlmostFullRangeMax()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static short Same(short i) => i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Short.Range( short.MinValue, short.MaxValue - 1, out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Same(short)' has some missing Test Cases: Short.Range(short.MaxValue, short.MaxValue)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
         public void OneChunkInOneRange()
         {
             var test = @"

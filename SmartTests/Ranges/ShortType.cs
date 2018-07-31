@@ -2,7 +2,6 @@
 using System.Text;
 
 using SmartTests.Criterias;
-using SmartTests.Helpers;
 
 
 
@@ -44,11 +43,21 @@ namespace SmartTests.Ranges
                 max += chunk.Max - chunk.Min;
                 if( val > max )
                     continue;
-                value = (short)(val - min + chunk.Min);
+                value = (short)( val - min + chunk.Min );
                 return AnyValue.IsValid;
             }
 
             throw new NotImplementedException();
+        }
+
+
+        private static string ToString( short n )
+        {
+            if( n == short.MinValue )
+                return "short.MinValue";
+            if( n == short.MaxValue )
+                return "short.MaxValue";
+            return n.ToString();
         }
 
 
@@ -57,7 +66,7 @@ namespace SmartTests.Ranges
         {
             var result = new StringBuilder( "Short" );
             foreach( var chunk in Chunks )
-                result.Append( $".Range({( chunk.Min == short.MinValue ? "short.MinValue" : chunk.Min.ToString() )}, {( chunk.Max == short.MaxValue ? "short.MaxValue" : chunk.Max.ToString() )})" );
+                result.Append( $".Range({ToString( chunk.Min )}, {ToString( chunk.Max )})" );
             return result.ToString();
         }
     }

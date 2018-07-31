@@ -51,12 +51,20 @@ namespace SmartTests.Ranges
         }
 
 
+        private static string ToString( byte n )
+        {
+            if( n == byte.MaxValue )
+                return "byte.MaxValue";
+            return n.ToString();
+        }
+
+
         /// <inheritdoc />
         public override string ToString()
         {
             var result = new StringBuilder( "Byte" );
             foreach( var chunk in Chunks )
-                result.Append( $".Range({chunk.Min}, {( chunk.Max == byte.MaxValue ? "byte.MaxValue" : chunk.Max.ToString() )})" );
+                result.Append( $".Range({ToString( chunk.Min )}, {ToString( chunk.Max )})" );
             return result.ToString();
         }
     }

@@ -52,12 +52,22 @@ namespace SmartTests.Ranges
         }
 
 
+
+
+        private static string ToString( ulong n )
+        {
+            if( n == ulong.MaxValue )
+                return "ulong.MaxValue";
+            return n.ToString();
+        }
+
+
         /// <inheritdoc />
         public override string ToString()
         {
             var result = new StringBuilder( "ULong" );
             foreach( var chunk in Chunks )
-                result.Append( $".Range({chunk.Min}, {( chunk.Max.CompareTo( MaxValue ) == 0 ? "ulong.MaxValue" : chunk.Max.ToString() )})" );
+                result.Append( $".Range({ToString( chunk.Min )}, {ToString( chunk.Max )})" );
             return result.ToString();
         }
     }

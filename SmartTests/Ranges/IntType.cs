@@ -57,12 +57,22 @@ namespace SmartTests.Ranges
         }
 
 
+        private static string ToString( int n )
+        {
+            if( n == int.MinValue )
+                return "int.MinValue";
+            if( n == int.MaxValue )
+                return "int.MaxValue";
+            return n.ToString();
+        }
+
+
         /// <inheritdoc />
         public override string ToString()
         {
             var result = new StringBuilder( "Int" );
             foreach( var chunk in Chunks )
-                result.Append( $".Range({( chunk.Min == int.MinValue ? "int.MinValue" : chunk.Min.ToString() )}, {( chunk.Max == int.MaxValue ? "int.MaxValue" : chunk.Max.ToString() )})" );
+                result.Append( $".Range({ToString( chunk.Min )}, {ToString( chunk.Max )})" );
             return result.ToString();
         }
     }

@@ -30,10 +30,8 @@ namespace SmartTests.Test
         }
 
 
-        #region Constructor Tests
-
         [Test]
-        public void Constructor_MinLowerThanMax()
+        public void Range_MinLowerThanMax()
         {
             // Act
             var range = Int.Range( 10, 20 );
@@ -44,7 +42,7 @@ namespace SmartTests.Test
 
 
         [Test]
-        public void Constructor_MinEqualToMax()
+        public void Range_MinEqualToMax()
         {
             // Act
             var range = Int.Range( 10, 10 );
@@ -55,15 +53,13 @@ namespace SmartTests.Test
 
 
         [Test]
-        public void Constructor_MinGreaterThanMax()
+        public void Range_MinGreaterThanMax()
         {
             // Act & Assert
             Assert.Throws( typeof(ArgumentException),
                            // ReSharper disable once ObjectCreationAsStatement
                            () => Int.Range( 20, 10 ) );
         }
-
-        #endregion
 
 
         #region AddChunk Tests
