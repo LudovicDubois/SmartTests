@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 using SmartTests.Criterias;
 using SmartTests.Helpers;
@@ -11,37 +10,40 @@ namespace SmartTests.Ranges
     /// <summary>
     ///     Represents a Range of long values (with several chunks)
     /// </summary>
-    public class LongType : NumericType<long, LongType>
+    public class LongType: NumericType<long, LongType>
     {
         /// <inheritdoc />
         protected override long MinValue => long.MinValue;
         /// <inheritdoc />
         protected override long MaxValue => long.MaxValue;
 
+
         /// <inheritdoc />
-        protected override long GetPrevious(long n) => n - 1;
-        /// <inheritdoc />
-        protected override long GetNext(long n) => n + 1;
+        protected override long GetPrevious( long n ) => n - 1;
 
 
         /// <inheritdoc />
-        public override Criteria GetValidValue(out long value)
+        protected override long GetNext( long n ) => n + 1;
+
+
+        /// <inheritdoc />
+        public override Criteria GetValidValue( out long value )
         {
             // Ensure values are well distributed
             var max = long.MinValue;
-            foreach (var chunk in Chunks)
-                max += chunk.Max - chunk.Min;
+            foreach( var chunk in Chunks )
+                max += chunk.IncludedMax - chunk.IncludedMin;
             var random = new Random();
 
-            value = random.NextLong(long.MinValue, max);
+            value = random.NextLong( long.MinValue, max );
             max = long.MinValue;
-            foreach (var chunk in Chunks)
+            foreach( var chunk in Chunks )
             {
                 var min = max + 1;
-                max += chunk.Max - chunk.Min;
-                if (value > max)
+                max += chunk.IncludedMax - chunk.IncludedMin;
+                if( value > max )
                     continue;
-                value = value - min + chunk.Min;
+                value = value - min + chunk.IncludedMin;
                 return AnyValue.IsValid;
             }
 
@@ -49,23 +51,18 @@ namespace SmartTests.Ranges
         }
 
 
-        private static string ToString(long n)
+        /// <inheritdoc />
+        protected override string ToString( long value )
         {
-            if (n == long.MinValue)
+            if( value == long.MinValue )
                 return "long.MinValue";
-            if (n == long.MaxValue)
+            if( value == long.MaxValue )
                 return "long.MaxValue";
-            return n.ToString();
+            return value.ToString();
         }
 
 
         /// <inheritdoc />
-        public override string ToString()
-        {
-            var result = new StringBuilder("Long");
-            foreach (var chunk in Chunks)
-                result.Append($".Range({ToString(chunk.Min)}, {ToString(chunk.Max)})");
-            return result.ToString();
-        }
+        public override string ToString() => ToString( "Long" );
     }
 }

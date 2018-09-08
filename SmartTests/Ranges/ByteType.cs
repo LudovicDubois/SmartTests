@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 using SmartTests.Criterias;
 
@@ -32,7 +31,7 @@ namespace SmartTests.Ranges
             // Ensure values are well distributed
             int max = byte.MinValue;
             foreach( var chunk in Chunks )
-                max += chunk.Max - chunk.Min;
+                max += chunk.IncludedMax - chunk.IncludedMin;
             var random = new Random();
 
             value = (byte)random.Next( byte.MinValue, max );
@@ -40,10 +39,10 @@ namespace SmartTests.Ranges
             foreach( var chunk in Chunks )
             {
                 var min = max + 1;
-                max += chunk.Max - chunk.Min;
+                max += chunk.IncludedMax - chunk.IncludedMin;
                 if( value > max )
                     continue;
-                value = (byte)( value - min + chunk.Min );
+                value = (byte)( value - min + chunk.IncludedMin );
                 return AnyValue.IsValid;
             }
 
@@ -51,7 +50,8 @@ namespace SmartTests.Ranges
         }
 
 
-        private static string ToString( byte n )
+        /// <inheritdoc />
+        protected override string ToString( byte n )
         {
             if( n == byte.MaxValue )
                 return "byte.MaxValue";
@@ -60,12 +60,6 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override string ToString()
-        {
-            var result = new StringBuilder( "Byte" );
-            foreach( var chunk in Chunks )
-                result.Append( $".Range({ToString( chunk.Min )}, {ToString( chunk.Max )})" );
-            return result.ToString();
-        }
+        public override string ToString() => ToString( "Byte" );
     }
 }

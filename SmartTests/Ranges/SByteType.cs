@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 using SmartTests.Criterias;
 
@@ -32,7 +31,7 @@ namespace SmartTests.Ranges
             // Ensure values are well distributed
             int max = sbyte.MinValue;
             foreach( var chunk in Chunks )
-                max += chunk.Max - chunk.Min;
+                max += chunk.IncludedMax - chunk.IncludedMin;
             var random = new Random();
 
             value = (sbyte)random.Next( sbyte.MinValue, max );
@@ -40,10 +39,10 @@ namespace SmartTests.Ranges
             foreach( var chunk in Chunks )
             {
                 var min = max + 1;
-                max += chunk.Max - chunk.Min;
+                max += chunk.IncludedMax - chunk.IncludedMin;
                 if( value > max )
                     continue;
-                value = (sbyte)( value - min + chunk.Min );
+                value = (sbyte)( value - min + chunk.IncludedMin );
                 return AnyValue.IsValid;
             }
 
@@ -51,23 +50,18 @@ namespace SmartTests.Ranges
         }
 
 
-        private static string ToString( sbyte n )
+        /// <inheritdoc />
+        protected override string ToString( sbyte value )
         {
-            if( n == sbyte.MinValue )
+            if( value == sbyte.MinValue )
                 return "sbyte.MinValue";
-            if( n == sbyte.MaxValue )
+            if( value == sbyte.MaxValue )
                 return "sbyte.MaxValue";
-            return n.ToString();
+            return value.ToString();
         }
 
 
         /// <inheritdoc />
-        public override string ToString()
-        {
-            var result = new StringBuilder( "SByte" );
-            foreach( var chunk in Chunks )
-                result.Append( $".Range({ToString( chunk.Min )}, {ToString( chunk.Max )})" );
-            return result.ToString();
-        }
+        public override string ToString() => ToString( "SByte" );
     }
 }

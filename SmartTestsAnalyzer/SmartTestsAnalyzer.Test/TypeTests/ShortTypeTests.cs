@@ -43,7 +43,6 @@ namespace TestingProject
         }
 
 
-
         [Test]
         public void AlmostFullRangeMin()
         {
@@ -74,7 +73,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(short)' has some missing Test Cases: Short.Range(short.MinValue, short.MinValue)",
+                               Message = "Tests for 'TestingProject.Class1.Same(short)' has some missing Test Cases: Short.Value(short.MinValue)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -84,7 +83,6 @@ namespace TestingProject
 
             VerifyCSharpDiagnostic( test, expected );
         }
-
 
 
         [Test]
@@ -117,7 +115,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(short)' has some missing Test Cases: Short.Range(short.MaxValue, short.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Same(short)' has some missing Test Cases: Short.Value(short.MaxValue)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -159,7 +157,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(short.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -202,7 +200,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(short.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -244,7 +242,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(short.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -295,7 +293,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(0, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Value(0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -338,7 +336,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(0, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Value(0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -380,7 +378,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(0, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Value(0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -422,7 +420,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(short.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -636,7 +634,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(short.MinValue, 0).Range(11, short.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1).Above(10)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -678,7 +676,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(short.MinValue, -11).Range(0, 0).Range(11, short.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(-10).Value(0).Above(10)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -720,7 +718,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(short.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.BelowOrEqual(0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -762,7 +760,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(short.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.BelowOrEqual(0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -804,7 +802,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(short.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -846,7 +844,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(short.MinValue, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -888,7 +886,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(0, short.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.AboveOrEqual(0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -930,7 +928,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(0, short.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.AboveOrEqual(0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -972,7 +970,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(0, short.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Above(-1)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -1014,7 +1012,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Range(0, short.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Above(-1)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 
 
@@ -62,41 +63,53 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public INumericType<T> Range( T min, T max )
+        public INumericType<T> Range( T min, bool minIncluded, T max, bool maxIncluded )
         {
-            if( min.CompareTo( max ) > 0 )
+            var includedMin = minIncluded ? min : GetNext( min );
+            var includedMax = maxIncluded ? max : GetPrevious( max );
+
+            if( includedMin.CompareTo( includedMax ) > 0 )
                 throw new ArgumentException( "min should be lower or equal to max" );
 
             if( Chunks.Count == 0 )
             {
-                Chunks.Add( new Chunk<T>( min, max ) );
+                Chunks.Add( new Chunk<T>( min, max, includedMin, includedMax ) );
                 return this;
             }
 
             var lastChunk = Chunks.Last();
-            if( min.CompareTo( lastChunk.Max ) > 0 )
+            if( includedMin.CompareTo( lastChunk.IncludedMax ) > 0 )
             {
-                if( GetPrevious( min ).CompareTo( lastChunk.Max ) == 0 )
+                if( GetPrevious( includedMin ).CompareTo( lastChunk.IncludedMax ) == 0 )
                 {
                     // Why not having the right Chunk at first?
                     Chunks.RemoveAt( Chunks.Count - 1 );
                     min = lastChunk.Min;
+                    includedMin = lastChunk.IncludedMin;
                 }
 
-                Chunks.Add( new Chunk<T>( min, max ) );
+                Chunks.Add( new Chunk<T>( min, max, includedMin, includedMax ) );
                 return this;
             }
 
             // Not in the right order!
-            GetMinLocation( min, out var minInChunk, out var minIndex );
-            GetMaxLocation( max, out var maxInChunk, out var maxIndex );
+            GetMinLocation( includedMin, out var minInChunk, out var minIndex );
+            GetMaxLocation( includedMax, out var maxInChunk, out var maxIndex );
 
             if( minInChunk )
+            {
                 // In a chunk
                 min = Chunks[ minIndex ].Min;
+                includedMin = Chunks[ minIndex ].IncludedMin;
+            }
+
             if( maxInChunk )
+            {
                 // In a chunk
                 max = Chunks[ maxIndex ].Max;
+                includedMax = Chunks[ maxIndex ].IncludedMax;
+            }
+
 
             if( minInChunk )
             {
@@ -113,13 +126,21 @@ namespace SmartTests.Ranges
                     Chunks.RemoveRange( minIndex, maxIndex - minIndex + 1 );
             }
 
-            Chunks.Insert( minIndex, new Chunk<T>( min, max ) );
+            Chunks.Insert( minIndex, new Chunk<T>( min, max, includedMin, includedMax ) );
             return this;
         }
 
 
         /// <inheritdoc />
+        public INumericType<T> Range( T min, T max ) => Range( min, true, max, true );
+
+
+        /// <inheritdoc />
         public Criteria Range( T min, T max, out T value ) => Range( min, max ).GetValidValue( out value );
+
+
+        /// <inheritdoc />
+        public Criteria Range( T min, bool minIncluded, T max, bool maxIncluded, out T value ) => Range( min, minIncluded, max, maxIncluded ).GetValidValue( out value );
 
 
         /// <inheritdoc />
@@ -131,11 +152,11 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public INumericType<T> Above( T min ) => Range( GetNext( min ), MaxValue );
+        public INumericType<T> Above( T min ) => Range( min, false, MaxValue, true );
 
 
         /// <inheritdoc />
-        public Criteria Above( T min, out T value ) => Range( GetNext( min ), MaxValue, out value );
+        public Criteria Above( T min, out T value ) => Range( min, false, MaxValue, true, out value );
 
 
         /// <inheritdoc />
@@ -147,24 +168,32 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public INumericType<T> Below( T max ) => Range( MinValue, GetPrevious( max ) );
+        public INumericType<T> Below( T max ) => Range( MinValue, true, max, false );
 
 
         /// <inheritdoc />
-        public Criteria Below( T max, out T value ) => Range( MinValue, GetPrevious( max ), out value );
+        public Criteria Below( T max, out T value ) => Range( MinValue, true, max, false, out value );
+
+
+        /// <inheritdoc />
+        public INumericType<T> Value( T value ) => Range( value, value );
+
+
+        /// <inheritdoc />
+        public Criteria Value( T val, out T value ) => Range( val, val, out value );
 
 
         private void GetMinLocation( T value, out bool inChunk, out int chunkIndex )
         {
             for( chunkIndex = 0; chunkIndex < Chunks.Count; chunkIndex++ )
             {
-                if( value.CompareTo( Chunks[ chunkIndex ].Min ) < 0 )
+                if( value.CompareTo( Chunks[ chunkIndex ].IncludedMin ) < 0 )
                     break;
 
-                if( Chunks[ chunkIndex ].Min.CompareTo( value ) <= 0 &&
-                    value.CompareTo( Chunks[ chunkIndex ].Max.CompareTo( MaxValue ) == 0
+                if( Chunks[ chunkIndex ].IncludedMin.CompareTo( value ) <= 0 &&
+                    value.CompareTo( Chunks[ chunkIndex ].IncludedMax.CompareTo( MaxValue ) == 0
                                          ? MaxValue
-                                         : GetNext( Chunks[ chunkIndex ].Max ) ) <= 0 )
+                                         : GetNext( Chunks[ chunkIndex ].IncludedMax ) ) <= 0 )
                 {
                     inChunk = true;
                     return;
@@ -179,13 +208,13 @@ namespace SmartTests.Ranges
         {
             for( chunkIndex = Chunks.Count - 1; chunkIndex >= 0; chunkIndex-- )
             {
-                if( value.CompareTo( Chunks[ chunkIndex ].Max ) >= 0 )
+                if( value.CompareTo( Chunks[ chunkIndex ].IncludedMax ) >= 0 )
                     break;
 
-                if( Chunks[ chunkIndex ].Max.CompareTo( value ) > 0 &&
-                    value.CompareTo( Chunks[ chunkIndex ].Min.CompareTo( MinValue ) == 0
+                if( Chunks[ chunkIndex ].IncludedMax.CompareTo( value ) > 0 &&
+                    value.CompareTo( Chunks[ chunkIndex ].IncludedMin.CompareTo( MinValue ) == 0
                                          ? MinValue
-                                         : GetPrevious( Chunks[ chunkIndex ].Min ) ) >= 0 )
+                                         : GetPrevious( Chunks[ chunkIndex ].IncludedMin ) ) >= 0 )
                 {
                     inChunk = true;
                     return;
@@ -221,5 +250,71 @@ namespace SmartTests.Ranges
 
         /// <inheritdoc />
         public override int GetHashCode() => Chunks?.GetHashCode() ?? 0;
+
+
+        /// <summary>
+        ///     Returns the numeric value as a string.
+        /// </summary>
+        /// <param name="value">The value to convert to a string.</param>
+        /// <returns>The converted value as a string, using MinValue and MaxValue as needed.</returns>
+        protected abstract string ToString( T value );
+
+
+        private static string ToString( bool value ) => value ? "true" : "false";
+
+
+        /// <summary>
+        /// Computes the string representing this range, when its type as a string is provided
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        protected string ToString( string type )
+        {
+            var result = new StringBuilder( type );
+            foreach( var chunk in Chunks )
+            {
+                if( chunk.IncludedMin.CompareTo( chunk.IncludedMax ) == 0 )
+                {
+                    result.Append( $".Value({ToString( chunk.IncludedMin )})" );
+                    continue;
+                }
+
+                if( chunk.IncludedMin.CompareTo( MinValue ) == 0 )
+                {
+                    if( chunk.IncludedMax.CompareTo( MaxValue ) == 0 )
+                    {
+                        // Full range
+                        result.Append( $".Range({ToString( MinValue )}, {ToString( MaxValue )})" );
+                        continue;
+                    }
+
+                    // Below
+                    result.Append( chunk.MaxIncluded
+                                       ? $".BelowOrEqual({ToString( chunk.Max )})"
+                                       : $".Below({ToString( chunk.Max )})" );
+                    continue;
+                }
+
+                if( chunk.IncludedMax.CompareTo( MaxValue ) == 0 )
+                {
+                    // Above
+                    result.Append( chunk.MinIncluded
+                                       ? $".AboveOrEqual({ToString( chunk.Min )})"
+                                       : $".Above({ToString( chunk.Min )})" );
+                    continue;
+                }
+
+                // Sub range
+                if( chunk.MinIncluded && chunk.MaxIncluded )
+                {
+                    result.Append( $".Range({ToString( chunk.Min )}, {ToString( chunk.Max )})" );
+                    continue;
+                }
+
+                result.Append( $".Range({ToString( chunk.Min )}, {ToString( chunk.MinIncluded )}, {ToString( chunk.Max )}, {ToString( chunk.MaxIncluded )})" );
+            }
+
+            return result.ToString();
+        }
     }
 }

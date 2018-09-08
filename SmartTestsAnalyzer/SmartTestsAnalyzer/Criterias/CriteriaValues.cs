@@ -61,7 +61,7 @@ namespace SmartTestsAnalyzer.Criterias
             {
                 var rangeAnalysis = (RangeAnalysis)criteriaValue.Analysis;
                 foreach( var chunk in ( (TRange)rangeAnalysis.Type ).Chunks )
-                    result.Range( chunk.Min, chunk.Max );
+                    result.Range( chunk.Min, chunk.MinIncluded, chunk.Max, chunk.MaxIncluded );
             }
 
             return result;
@@ -71,18 +71,25 @@ namespace SmartTestsAnalyzer.Criterias
         private void CompleteWithMissingChunks( TRange currentRange )
         {
             var missing = new TRange();
-            var value = missing.MinValue;
-            foreach( var chunk in currentRange.Chunks )
+            if( currentRange.Chunks.Count == 0 )
             {
-                if( chunk.Min.CompareTo( value ) != 0 )
-                    missing.Range( value, missing.GetPrevious( chunk.Min ) );
-                value = missing.GetNext( chunk.Max );
+                missing.Range( missing.MinValue, missing.MaxValue );
+                Values.Add( new CriteriaValue( new RangeAnalysis( missing, false ), false ) );
+                return;
             }
 
-            if( currentRange.Chunks.Count == 0)
-                missing.Range(missing.MinValue, missing.MaxValue);
-            else if ( currentRange.Chunks.Last().Max.CompareTo( missing.MaxValue ) < 0 )
-                missing.Range( value, missing.MaxValue );
+            var value = missing.MinValue;
+            var valueIncluded = true;
+            foreach( var chunk in currentRange.Chunks )
+            {
+                if( chunk.IncludedMin.CompareTo( value ) != 0 )
+                    missing.Range( value, valueIncluded, chunk.Min, !chunk.MinIncluded );
+                value = chunk.Max;
+                valueIncluded = !chunk.MaxIncluded;
+            }
+
+            if( currentRange.Chunks.Last().IncludedMax.CompareTo( missing.MaxValue ) < 0 )
+                missing.Range( value, valueIncluded, missing.MaxValue, true );
 
             if( missing.Chunks.Count > 0 )
                 Values.Add( new CriteriaValue( new RangeAnalysis( missing, false ), false ) );

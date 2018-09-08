@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 using SmartTests.Criterias;
 using SmartTests.Helpers;
@@ -33,7 +32,7 @@ namespace SmartTests.Ranges
             // Ensure values are well distributed
             var max = ulong.MinValue;
             foreach( var chunk in Chunks )
-                max += chunk.Max - chunk.Min;
+                max += chunk.IncludedMax - chunk.IncludedMin;
 
             var random = new Random();
             value = random.NextULong( ulong.MinValue, max );
@@ -41,10 +40,10 @@ namespace SmartTests.Ranges
             foreach( var chunk in Chunks )
             {
                 var min = max + 1;
-                max += chunk.Max - chunk.Min;
+                max += chunk.IncludedMax - chunk.IncludedMin;
                 if( value > max )
                     continue;
-                value = value - min + chunk.Min;
+                value = value - min + chunk.IncludedMin;
                 return AnyValue.IsValid;
             }
 
@@ -52,23 +51,16 @@ namespace SmartTests.Ranges
         }
 
 
-
-
-        private static string ToString( ulong n )
+        /// <inheritdoc />
+        protected override string ToString( ulong value )
         {
-            if( n == ulong.MaxValue )
+            if( value == ulong.MaxValue )
                 return "ulong.MaxValue";
-            return n.ToString();
+            return value.ToString();
         }
 
 
         /// <inheritdoc />
-        public override string ToString()
-        {
-            var result = new StringBuilder( "ULong" );
-            foreach( var chunk in Chunks )
-                result.Append( $".Range({ToString( chunk.Min )}, {ToString( chunk.Max )})" );
-            return result.ToString();
-        }
+        public override string ToString() => ToString( "ULong" );
     }
 }

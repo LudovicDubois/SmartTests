@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 using SmartTests.Criterias;
 
@@ -32,7 +31,7 @@ namespace SmartTests.Ranges
             // Ensure values are well distributed
             int max = short.MinValue;
             foreach( var chunk in Chunks )
-                max += chunk.Max - chunk.Min;
+                max += chunk.IncludedMax - chunk.IncludedMin;
 
             var random = new Random();
             var val = random.Next( short.MinValue, max );
@@ -40,10 +39,10 @@ namespace SmartTests.Ranges
             foreach( var chunk in Chunks )
             {
                 var min = max + 1;
-                max += chunk.Max - chunk.Min;
+                max += chunk.IncludedMax - chunk.IncludedMin;
                 if( val > max )
                     continue;
-                value = (short)( val - min + chunk.Min );
+                value = (short)( val - min + chunk.IncludedMin );
                 return AnyValue.IsValid;
             }
 
@@ -51,23 +50,18 @@ namespace SmartTests.Ranges
         }
 
 
-        private static string ToString( short n )
+        /// <inheritdoc />
+        protected override string ToString( short value )
         {
-            if( n == short.MinValue )
+            if( value == short.MinValue )
                 return "short.MinValue";
-            if( n == short.MaxValue )
+            if( value == short.MaxValue )
                 return "short.MaxValue";
-            return n.ToString();
+            return value.ToString();
         }
 
 
         /// <inheritdoc />
-        public override string ToString()
-        {
-            var result = new StringBuilder( "Short" );
-            foreach( var chunk in Chunks )
-                result.Append( $".Range({ToString( chunk.Min )}, {ToString( chunk.Max )})" );
-            return result.ToString();
-        }
+        public override string ToString() => ToString( "Short" );
     }
 }

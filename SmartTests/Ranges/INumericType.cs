@@ -54,11 +54,23 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
+        ///     Adds a chunk of numeric values
+        /// </summary>
+        /// <param name="min">The min value (included) of the chunk.</param>
+        /// <param name="minIncluded"><c>true</c> to include min, <c>false</c> otherwise.</param>
+        /// <param name="max">The max value (included) of the chunk.</param>
+        /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
+        /// <returns>Return <c>this</c> so that adding chunks can be chained.</returns>
+        INumericType<T> Range( T min, bool minIncluded, T max, bool maxIncluded );
+
+
+        /// <summary>
         ///     Returns any value for this range (all values have the same probability)
         /// </summary>
         /// <param name="value">A random value within this range.</param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
         Criteria GetValidValue( out T value );
+
 
         /// <summary>
         ///     Returns any value for this range (all values have the same probability) as an error value
@@ -77,6 +89,18 @@ namespace SmartTests.Ranges
         /// <returns>The criteria representing the full range.</returns>
         /// <seealso cref="Criteria" />
         Criteria Range( T min, T max, out T value );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values
+        /// </summary>
+        /// <param name="min">The min value (included) of the chunk.</param>
+        /// <param name="minIncluded"><c>true</c> to include min, <c>false</c> otherwise.</param>
+        /// <param name="max">The max value (included) of the chunk.</param>
+        /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
+        /// <param name="value">A random value within this range.</param>
+        /// <returns>Return <c>this</c> so that adding chunks can be chained.</returns>
+        Criteria Range( T min, bool minIncluded, T max, bool maxIncluded, out T value );
 
 
         /// <summary>
@@ -145,5 +169,22 @@ namespace SmartTests.Ranges
         /// <param name="value">A random value within this range.</param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
         Criteria Below( T max, out T value );
+
+
+        /// <summary>
+        ///     Creates a range of one numeric value
+        /// </summary>
+        /// <param name="value">The minimum and maximum value of this range.</param>
+        /// <returns>returns <c>this</c>.</returns>
+        INumericType<T> Value( T value );
+
+
+        /// <summary>
+        ///     Creates a range of one numeric value and returns a criteria for this range
+        /// </summary>
+        /// <param name="val">The minimum and maximum value for the created chunk.</param>
+        /// <param name="value">A random value within this range.</param>
+        /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
+        Criteria Value( T val, out T value );
     }
 }

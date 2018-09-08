@@ -60,14 +60,30 @@ namespace SmartTestsAnalyzer
         }
 
 
+        private void AddRangeExtension( ITypeSymbol smartTestType, string methodName, int parameterCount,
+                                        Action<InvocationExpressionSyntax> action )
+        {
+            var rangeMethods = smartTestType.GetMethods( methodName );
+            foreach( var rangeMethod in rangeMethods )
+            {
+                Debug.Assert( rangeMethod != null, $"Problem with SmartTest.{methodName}<T> method" );
+                if( rangeMethod.Parameters.Length == parameterCount ||
+                    ( rangeMethod.Parameters.Length == parameterCount + 1 && rangeMethod.Parameters[ parameterCount ].RefKind == RefKind.Out ) )
+                    _RangeMethods[ rangeMethod ] = action;
+            }
+        }
+
+
         private void AddITypeTMethods()
         {
             var typeName = typeof(INumericType<>).FullName;
             var iTypeType = _Model.Compilation.GetTypeByMetadataName( typeName );
 
             // SmartTest type extension methods
-            AddRangeExtension( iTypeType, "Range",
+            AddRangeExtension( iTypeType, "Range", 2,
                                node => Range( node, ( min, max ) => _Root.Range( min, max ) ) );
+            AddRangeExtension( iTypeType, "Range", 4,
+                               node => Range( node, ( min, minIncluded, max, maxIncluded ) => _Root.Range( min, minIncluded, max, maxIncluded ) ) );
             AddRangeExtension( iTypeType, "AboveOrEqual",
                                node => Range( node, min => _Root.AboveOrEqual( min ) ) );
             AddRangeExtension( iTypeType, "Above",
@@ -77,7 +93,7 @@ namespace SmartTestsAnalyzer
             AddRangeExtension( iTypeType, "Below",
                                node => Range( node, max => _Root.Below( max ) ) );
             AddRangeExtension( iTypeType, "GetErrorValue",
-                              node => IsError = true );
+                               node => IsError = true );
         }
 
 
@@ -96,6 +112,21 @@ namespace SmartTestsAnalyzer
         }
 
 
+        private bool TryGetConstant( ExpressionSyntax expression, out bool value )
+        {
+            var constant = _Model.GetConstantValue( expression );
+            if( !constant.HasValue )
+            {
+                _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( expression ) );
+                value = default(bool);
+                return false;
+            }
+
+            value = (bool)Convert.ChangeType( constant.Value, typeof(bool) );
+            return true;
+        }
+
+
         private void Range( InvocationExpressionSyntax node, Action<T, T> addRange )
         {
             if( TryGetConstant( node.GetArgument( 0 ).Expression, out T min ) &
@@ -105,6 +136,23 @@ namespace SmartTestsAnalyzer
                     _ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, min.ToString(), max.ToString() ) );
                 else if( _Root != null )
                     addRange( min, max );
+            }
+            else
+                _Root = null;
+        }
+
+
+        private void Range( InvocationExpressionSyntax node, Action<T, bool, T, bool> addRange )
+        {
+            if( TryGetConstant( node.GetArgument( 0 ).Expression, out T min ) &
+                TryGetConstant( node.GetArgument( 1 ).Expression, out bool minIncluded ) &
+                TryGetConstant( node.GetArgument( 2 ).Expression, out T max ) &
+                TryGetConstant( node.GetArgument( 3 ).Expression, out bool maxIncluded ) )
+            {
+                if( min.CompareTo( max ) > 0 )
+                    _ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, min.ToString(), max.ToString() ) );
+                else if( _Root != null )
+                    addRange( min, minIncluded, max, maxIncluded );
             }
             else
                 _Root = null;

@@ -43,7 +43,6 @@ namespace TestingProject
         }
 
 
-
         [Test]
         public void AlmostFullRangeMin()
         {
@@ -74,7 +73,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(byte)' has some missing Test Cases: Byte.Range(0, 0)",
+                               Message = "Tests for 'TestingProject.Class1.Same(byte)' has some missing Test Cases: Byte.Value(0)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -84,7 +83,6 @@ namespace TestingProject
 
             VerifyCSharpDiagnostic( test, expected );
         }
-
 
 
         [Test]
@@ -117,7 +115,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(byte)' has some missing Test Cases: Byte.Range(byte.MaxValue, byte.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Same(byte)' has some missing Test Cases: Byte.Value(byte.MaxValue)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -159,7 +157,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(0, 99)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -202,7 +200,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(0, 99)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -244,7 +242,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(0, 99)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -295,7 +293,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(51, 99)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(50, false, 100, false)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -338,7 +336,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(51, 99)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(50, false, 100, false)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -380,7 +378,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(99, 99)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Value(99)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -422,7 +420,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(0, 99)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -636,7 +634,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(0, 49).Range(101, byte.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Below(50).Above(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -678,7 +676,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(0, 9).Range(51, 79).Range(101, byte.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Below(10).Range(50, false, 80, false).Above(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -720,7 +718,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(0, 100)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.BelowOrEqual(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -762,7 +760,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(0, 100)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.BelowOrEqual(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -804,7 +802,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(0, 99)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -846,7 +844,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(0, 99)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -888,7 +886,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(100, byte.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.AboveOrEqual(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -930,7 +928,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(100, byte.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.AboveOrEqual(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -972,7 +970,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(101, byte.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Above(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -1014,7 +1012,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Range(101, byte.MaxValue)",
+                               Message = "Tests for 'TestingProject.Class1.Inverse(byte)' has some missing Test Cases: Byte.Above(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {

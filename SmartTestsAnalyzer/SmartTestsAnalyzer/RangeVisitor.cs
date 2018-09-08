@@ -29,6 +29,7 @@ namespace SmartTestsAnalyzer
             AddType( smartTestType, "UInt", () => new RangeVisitor<uint>( model, SmartTest.UInt, reportDiagnostic ) );
             AddType( smartTestType, "Long", () => new RangeVisitor<long>( model, SmartTest.Long, reportDiagnostic ) );
             AddType( smartTestType, "ULong", () => new RangeVisitor<ulong>( model, SmartTest.ULong, reportDiagnostic ) );
+            AddType( smartTestType, "Float", () => new RangeVisitor<float>( model, SmartTest.Float, reportDiagnostic ) );
         }
 
 
