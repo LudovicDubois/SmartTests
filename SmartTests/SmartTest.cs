@@ -643,6 +643,11 @@ namespace SmartTests
         /// </summary>
         /// <seealso cref="INumericType{T}" />
         public static INumericType<float> Float => new FloatType();
+        /// <summary>
+        ///     Creates a new range of <c>double</c>
+        /// </summary>
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<double> Double => new DoubleType();
 
         #endregion
     }

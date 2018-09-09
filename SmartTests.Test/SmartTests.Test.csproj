@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DoubleRangeTests.cs" />
     <Compile Include="FloatRangeTests.cs" />
     <Compile Include="IntRangeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
