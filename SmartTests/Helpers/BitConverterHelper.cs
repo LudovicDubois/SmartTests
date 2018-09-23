@@ -13,6 +13,9 @@ namespace SmartTests.Helpers
         /// <summary>
         ///     Convert a float value to the bits of its representation
         /// </summary>
+        /// <param name="f">The float to be represented as an integer.</param>
+        /// <returns>An integer representation of the float.</returns>
+        /// <seealso cref="Int32BitsToFloat"/>
         public static int FloatToInt32Bits( float f )
         {
             var bits = default(FloatUnion);
@@ -24,6 +27,9 @@ namespace SmartTests.Helpers
         /// <summary>
         ///     Convert the bits of its representation to a float
         /// </summary>
+        /// <param name="i">The integer representation of the float.</param>
+        /// <returns>A float from its integer representation.</returns>
+        /// <seealso cref="FloatToInt32Bits"/>
         public static float Int32BitsToFloat( int i )
         {
             var bits = default(FloatUnion);

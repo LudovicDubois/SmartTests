@@ -51,11 +51,11 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        protected override string ToString( byte n )
+        protected override string ToString( byte value )
         {
-            if( n == byte.MaxValue )
+            if( value == byte.MaxValue )
                 return "byte.MaxValue";
-            return n.ToString();
+            return value.ToString();
         }
 
 

@@ -266,8 +266,8 @@ namespace SmartTests.Ranges
         /// <summary>
         /// Computes the string representing this range, when its type as a string is provided
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="type">The type name represented by this instance.</param>
+        /// <returns>The string representation of this instance.</returns>
         protected string ToString( string type )
         {
             var result = new StringBuilder( type );
