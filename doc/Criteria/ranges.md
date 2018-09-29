@@ -59,6 +59,8 @@ Roots property are the following:
 6. `UInt`
 7. `Long`
 8. `ULong`
+9. `Float`
+10. `Double`
 
 The created ranges are empty at creation time.
 
@@ -66,9 +68,9 @@ You have to call methods to actually add ranges as you need.
 
 ### Ranges methods
 
-Then, you have `Range` methods to specify a range of integers.
+Then, you have `Range` methods to specify a range of values.
 
-For example: `Int.Range( 0, 10 )` represent `[0, 10]` range.
+For example: `Int.Range( 0, 10 )` represents `[0, 10]` range while `Double.Range(0, false, 10, false)` represents `(0, 10)`.
 
 You can not use it directly as a criteria as:
 
@@ -87,12 +89,13 @@ For example: `Int.Range( int.MinValue, -1 ).Range( 1, int.MaxValue )`
 
 ### Other Helpers Methods
 
-Ranges have lots of helper methods to make it easier.
+Ranges have lots of helper methods to make it easier (these examples use `Int`, but can be any above root).
 
 1. `Int.AboveOrEqual(min)` is `Int.Range(min, int.MaxValue)`
-2. `Int.Above(min)` is `Int.Range(min + 1, int.MaxValue)`
+2. `Int.Above(min)` is `Int.Range(min, false, int.MaxValue, true)`
 3. `Int.BelowOrEqual(min)` is `Int.Below(int.MinValue, min)`
-4. `Int.Below(min)` is `Int.Below(int.MinValue, min - 1)`
+4. `Int.Below(min)` is `Int.Below(int.MinValue, true, min, false)`
+5. `Int.Value(value)` is `Int.Range(value, value)`
 
 #### Overloads calling `GetValidValue`
 
@@ -133,5 +136,4 @@ Thus, to have an error value for:
 
 3. Range `[-short.MinValue,-10] U [10, short.MaxValue]`
 
-    `Short.Below(-9).Above(9).GetErrorValue(out var value)` or
     `Short.BelowOrEqual(-10).AboveOrEqual(10).GetErrorValue(out var value)`

@@ -45,7 +45,7 @@ using static SmartTests.SmartTest;
 
 The first static method we will see is `RunTest`: it enables you to specify your *Act* part using a lambda expression.
 
-Thus, the *Arrange* part is everything that is before the `RunTest` call, while the *Assert* part is everything that is after the `RunTest` call.  
+Thus, the *Arrange* part is everything that is before the `RunTest` call, while the *Assert* part is everything that is after the `RunTest` call.
 Thus, no need for comments to identify the three parts.
 
 Here is a C# example of a Smart Test using NUnit:
@@ -74,7 +74,7 @@ In this example, I did not specify the first argument yet, we will see it in the
 As you know, `Math.Sqrt` has a min value: `0` that is valid.
 Any value greater than `0` is a valid argument, while any value lower than `0` is an invalid argument.
 
-Thus, you should have a test for a value greater than `0` and a test for a value lower than `0`. But what about the limit value itself? Is it `0` or `1` or `-1` or any other value?  
+Thus, you should have a test for a value greater than `0` and a test for a value lower than `0`. But what about the limit value itself? Is it `0` or `1` or `-1` or any other value?
 And this minimum value is correct or an error?
 
 For better logical coverage, you have to have a test for the minimum value that answers these questions.
@@ -112,3 +112,36 @@ This way, your test is clearer and you do not forget to write tests.
 This enables you to have a **Logical Coverage**, independently of the source code of your tested member.
 
 You can [learn more about Criteria](doc/Criteria/readme.md)
+
+### Ranges
+
+You can even do better for simple types: use Ranges.
+
+Ranges enables you to specify the range of the values your tests represent, and the Smart Tests Analyzer will ensure you have test for the full range.
+
+Thus, the previous example should use Ranges this way:
+
+```C#
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+[TestFixture]
+public class MathTest
+{
+    [Test]
+    public void Sqrt_ValueGreaterThanMin()
+    {
+        var result = RunTest( Double.AboveOrEqual(0, out var value),
+                              () => Math.Sqrt(value) );
+
+        Assert.AreEqual( value, result * 2 );
+    }
+}
+```
+
+What is interesting with this approach is that:
+
+1. Your intent (equivalence class) is clear.
+2. You use a random value within the specified range, thus you will perhaps find a bug that would not be found if the test had an hard-coded value.
+
+You can [learn more about Ranges](doc/Criteria/ranges.md)

@@ -1,5 +1,10 @@
 # What's new
 
+## version 1.5
+
+[`Criteria`](Criteria/readme.md) can now be [`Ranges`](Criteria/ranges.md) of real values.
+Ensuring all possible values are tested.
+
 ## Version 1.4
 
 [`Criteria`](Criteria/readme.md) can now be [`Ranges`](Criteria/ranges.md) of integer values.
