@@ -2,7 +2,7 @@ SMARTTESTS RELEASE
 ------------------
 
 1. Change version number of changed projects:
-    a. SmartTests: 
+    a. SmartTests:
         - Properties|Package|Package version
         - Properties|Package|Release notes
         - Properties|Package|Assembly version
@@ -72,10 +72,10 @@ BUT, it is very hard to think the good way to write unit test:
 
 For now, it supports C# with NUnit, Xunit or MSTests.
 
-However, it will very easy to add other Testing Frameworks (you only write a very simple sub-class).  
+However, it will very easy to add other Testing Frameworks (you only write a very simple sub-class).
 You can also extend smart assertions in a very easily way.
----------------------------------------------------------------------------------------------------        
-    e. Preview and ensure everything is AssemblyFileVersion
+---------------------------------------------------------------------------------------------------
+    e. Preview and ensure everything is correct
     f. Submit
 
 
@@ -122,10 +122,10 @@ BUT, it is very hard to think the good way to write unit test:
 
 For now, it supports C# with NUnit, Xunit or MSTests.
 
-However, it will very easy to add other Testing Frameworks (you only write a very simple sub-class).  
+However, it will very easy to add other Testing Frameworks (you only write a very simple sub-class).
 You can also extend smart assertions in a very easily way.
 ---------------------------------------------------------------------------------------------------
-    e. Preview and ensure everything is AssemblyFileVersion
+    e. Preview and ensure everything is correct
     f. Submit
 
 
@@ -148,7 +148,7 @@ You can also extend smart assertions in a very easily way.
 
 8. Publish Sources
     a. Push source code to github
-    b. Add a version tag thaty is pushed too.
+    b. Add a version tag that is pushed too.
 
 
 
