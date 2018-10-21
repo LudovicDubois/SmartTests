@@ -31,6 +31,7 @@ namespace SmartTestsAnalyzer
             AddType( smartTestType, "ULong", () => new RangeVisitor<ulong>( model, SmartTest.ULong, reportDiagnostic ) );
             AddType( smartTestType, "Float", () => new RangeVisitor<float>( model, SmartTest.Float, reportDiagnostic ) );
             AddType( smartTestType, "Double", () => new RangeVisitor<double>( model, SmartTest.Double, reportDiagnostic ) );
+            AddType( smartTestType, "Enum", () => new EnumVisitor( model, reportDiagnostic ) );
         }
 
 

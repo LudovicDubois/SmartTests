@@ -26,6 +26,7 @@ namespace SmartTestsAnalyzer.Criterias
             _CriteriaValuesGenerator[ typeof(ULongType) ] = () => new RangeValues<ulong, ULongType>();
             _CriteriaValuesGenerator[ typeof(FloatType) ] = () => new RangeValues<float, FloatType>();
             _CriteriaValuesGenerator[ typeof(DoubleType) ] = () => new RangeValues<double, DoubleType>();
+            _CriteriaValuesGenerator[ typeof(EnumTypeAnalyzer) ] = () => new EnumValues();
         }
 
 

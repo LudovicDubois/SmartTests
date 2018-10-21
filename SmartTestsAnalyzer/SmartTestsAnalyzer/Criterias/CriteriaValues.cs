@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.CodeAnalysis;
+
 using SmartTests.Ranges;
 
 
@@ -93,6 +95,42 @@ namespace SmartTestsAnalyzer.Criterias
 
             if( missing.Chunks.Count > 0 )
                 Values.Add( new CriteriaValue( new RangeAnalysis( missing, false ), false ) );
+        }
+    }
+
+
+    public class EnumValues: CriteriaValues
+    {
+        public override void AddCurrentValues() => CompleteWithMissingValues( GetAllCurrentValues() );
+        public override void AddMissingValues() => CompleteWithMissingValues( GetAllCurrentValues() );
+
+
+        private HashSet<IFieldSymbol> GetAllCurrentValues()
+        {
+            var result = new HashSet<IFieldSymbol>();
+            foreach( var criteriaValue in Values )
+            {
+                var rangeAnalysis = (RangeAnalysis)criteriaValue.Analysis;
+                foreach( var value in ( (EnumTypeAnalyzer)rangeAnalysis.Type ).Values )
+                    result.Add( value );
+            }
+
+            return result;
+        }
+
+
+        private void CompleteWithMissingValues( HashSet<IFieldSymbol> currentValues )
+        {
+            var first = currentValues.First();
+            var type = first.ContainingType;
+            var missings = new List<IFieldSymbol>();
+            foreach( IFieldSymbol value in type.GetMembers().Where( m => m.Kind == SymbolKind.Field ) )
+            {
+                if( !currentValues.Contains( value ) )
+                    missings.Add( value );
+            }
+
+            Values.Add( new CriteriaValue( new RangeAnalysis( new EnumTypeAnalyzer( null, missings.ToArray() ), false ), false ) );
         }
     }
 }

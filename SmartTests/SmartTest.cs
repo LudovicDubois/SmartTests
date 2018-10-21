@@ -648,6 +648,11 @@ namespace SmartTests
         /// </summary>
         /// <seealso cref="INumericType{T}" />
         public static INumericType<double> Double => new DoubleType();
+        /// <summary>
+        ///     Creates a new range of <c>double</c>
+        /// </summary>
+        /// <seealso cref="INumericType{T}" />
+        public static EnumType Enum => new EnumType();
 
         #endregion
     }

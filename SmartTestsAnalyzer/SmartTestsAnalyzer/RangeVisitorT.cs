@@ -13,31 +13,18 @@ using SmartTestsAnalyzer.Helpers;
 
 namespace SmartTestsAnalyzer
 {
-    interface IRangeVisitor
-    {
-        IType Root { get; }
-        bool IsError { get; }
-
-        void VisitInvocationExpression( InvocationExpressionSyntax node );
-    }
-
-
-    class RangeVisitor<T>: IRangeVisitor
+    class RangeVisitor<T>: BaseVisitor, IRangeVisitor
         where T: struct, IComparable<T>
     {
         public RangeVisitor( SemanticModel model, INumericType<T> root, Action<Diagnostic> reportDiagnostic )
+            : base( model, reportDiagnostic )
         {
-            _Model = model;
             _Root = root;
-            _ReportDiagnostic = reportDiagnostic;
 
             // INumericType<T> methods
             AddITypeTMethods();
         }
 
-
-        private readonly SemanticModel _Model;
-        private readonly Action<Diagnostic> _ReportDiagnostic;
 
         private readonly Dictionary<IMethodSymbol, Action<InvocationExpressionSyntax>> _RangeMethods =
             new Dictionary<IMethodSymbol, Action<InvocationExpressionSyntax>>();
@@ -77,7 +64,7 @@ namespace SmartTestsAnalyzer
         private void AddITypeTMethods()
         {
             var typeName = typeof(INumericType<>).FullName;
-            var iTypeType = _Model.Compilation.GetTypeByMetadataName( typeName );
+            var iTypeType = Model.Compilation.GetTypeByMetadataName( typeName );
 
             // SmartTest type extension methods
             AddRangeExtension( iTypeType, "Range", 2,
@@ -97,43 +84,13 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private bool TryGetConstant( ExpressionSyntax expression, out T value )
-        {
-            var constant = _Model.GetConstantValue( expression );
-            if( !constant.HasValue )
-            {
-                _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( expression ) );
-                value = default(T);
-                return false;
-            }
-
-            value = (T)Convert.ChangeType( constant.Value, typeof(T) );
-            return true;
-        }
-
-
-        private bool TryGetConstant( ExpressionSyntax expression, out bool value )
-        {
-            var constant = _Model.GetConstantValue( expression );
-            if( !constant.HasValue )
-            {
-                _ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( expression ) );
-                value = default(bool);
-                return false;
-            }
-
-            value = (bool)Convert.ChangeType( constant.Value, typeof(bool) );
-            return true;
-        }
-
-
         private void Range( InvocationExpressionSyntax node, Action<T, T> addRange )
         {
             if( TryGetConstant( node.GetArgument( 0 ).Expression, out T min ) &
                 TryGetConstant( node.GetArgument( 1 ).Expression, out T max ) )
             {
                 if( min.CompareTo( max ) > 0 )
-                    _ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, min.ToString(), max.ToString() ) );
+                    ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, min.ToString(), max.ToString() ) );
                 else if( _Root != null )
                     addRange( min, max );
             }
@@ -150,7 +107,7 @@ namespace SmartTestsAnalyzer
                 TryGetConstant( node.GetArgument( 3 ).Expression, out bool maxIncluded ) )
             {
                 if( min.CompareTo( max ) > 0 )
-                    _ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, min.ToString(), max.ToString() ) );
+                    ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, min.ToString(), max.ToString() ) );
                 else if( _Root != null )
                     addRange( min, minIncluded, max, maxIncluded );
             }
@@ -173,7 +130,7 @@ namespace SmartTestsAnalyzer
 
         void IRangeVisitor.VisitInvocationExpression( InvocationExpressionSyntax node )
         {
-            if( !( _Model.GetSymbol( node ) is IMethodSymbol criteria ) )
+            if( !( Model.GetSymbol( node ) is IMethodSymbol criteria ) )
                 return;
 
             if( _RangeMethods.TryGetValue( criteria, out var func ) )
