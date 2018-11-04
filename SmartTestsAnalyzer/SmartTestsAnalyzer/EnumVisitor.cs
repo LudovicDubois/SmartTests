@@ -51,20 +51,24 @@ namespace SmartTestsAnalyzer
             {
                 // Enum.Value
                 result.Append( "Enum.Value(" );
-                result.Append( Values[ 0 ] );
+                result.Append( Values[ 0 ].ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) );
                 result.Append( ')' );
                 return result.ToString();
             }
 
             // Enum.Values
             result.Append( "Enum.Values(" );
-            foreach( var value in Values )
+            if( Values.Count > 0 )
             {
-                result.Append( value.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) );
-                result.Append( ", " );
+                foreach( var value in Values )
+                {
+                    result.Append( value.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) );
+                    result.Append( ", " );
+                }
+
+                result.Length -= 2;
             }
 
-            result.Length -= 2;
             result.Append( ')' );
 
             return result.ToString();
@@ -105,11 +109,12 @@ namespace SmartTestsAnalyzer
 
         private void Values( InvocationExpressionSyntax node )
         {
-            var expression = node.GetArgument( 0 ).Expression;
+            // We do not care about argument 0, as it is the out parameter
+            var expression = node.GetArgument( 1 ).Expression;
             var enumType = new EnumTypeAnalyzer( Model.GetSymbol( expression ).ContainingType );
-            foreach( var argument in node.ArgumentList.Arguments )
+            foreach( var argument in node.ArgumentList.Arguments.Skip( 1 ) )
             {
-                if( !TryGetConstant( argument.Expression, out var value ) )
+                if( !TryGetConstant( argument.Expression, out int value ) )
                     return;
 
                 enumType.AddValue( value );

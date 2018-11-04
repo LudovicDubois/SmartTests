@@ -130,7 +130,8 @@ namespace SmartTestsAnalyzer.Criterias
                     missings.Add( value );
             }
 
-            Values.Add( new CriteriaValue( new RangeAnalysis( new EnumTypeAnalyzer( null, missings.ToArray() ), false ), false ) );
+            if( missings.Count > 0 )
+                Values.Add( new CriteriaValue( new RangeAnalysis( new EnumTypeAnalyzer( null, missings.ToArray() ), false ), false ) );
         }
     }
 }
