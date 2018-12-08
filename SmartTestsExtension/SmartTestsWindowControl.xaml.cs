@@ -38,7 +38,7 @@ namespace SmartTestsExtension
                 _SolutionEvents.ProjectAdded += AnalyzerResults.Instance.AddProject;
                 _SolutionEvents.ProjectRenamed += AnalyzerResults.Instance.RenameProject;
                 _SolutionEvents.ProjectRemoved += AnalyzerResults.Instance.RemoveProject;
-
+                AnalyzerResults.Instance.SetSolution( _Dte.Solution ); // Force detection of current solution
             }
             catch( Exception e )
             {
@@ -74,46 +74,14 @@ namespace SmartTestsExtension
 
         private void SmartTestsWindowControl_OnLoaded( object sender, RoutedEventArgs e )
         {
-            AnalyzerResults.Instance.Callback = Reload;
+            AnalyzerResults.Instance.Pause = false;
         }
 
 
         private void SmartTestsWindowControl_OnUnloaded( object sender, RoutedEventArgs e )
         {
-            AnalyzerResults.Instance.Callback = null;
+            AnalyzerResults.Instance.Pause = true;
         }
-
-
-        private DispatcherOperation _CurrentLoad;
-
-
-        private void Reload( Project project, ProjectTests projectTests, Tests tests )
-        {
-            _CurrentLoad?.Abort();
-            _CurrentLoad = Dispatcher.BeginInvoke( new Action<Project, ProjectTests, Tests>( SafeReload ), project, projectTests, tests );
-        }
-
-
-        private void SafeReload( Project project, ProjectTests projectTests, Tests tests )
-        {
-            try
-            {
-                if( projectTests != null )
-                    projectTests.Tests = tests;
-                else
-                    AnalyzerResults.Instance.TestedProjects.Add( new ProjectTests( project, tests ) );
-
-                // DataGrid did not regenerate its columns automatically!
-                ResultsGrid.AutoGenerateColumns = false;
-                ResultsGrid.AutoGenerateColumns = true;
-            }
-            catch( Exception e )
-            {
-                Trace.TraceError( e.Message + Environment.NewLine + e.StackTrace );
-            }
-        }
-
-
         private static readonly HashSet<string> _HiddenColumns = new HashSet<string>( new[] { "Test", "TestFileName", "TestLine", "TestLocation", "HasError", "IsMissing" } );
 
 

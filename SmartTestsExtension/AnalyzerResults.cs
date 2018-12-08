@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows;
 
 using EnvDTE;
 
@@ -24,33 +25,27 @@ namespace SmartTestsExtension
 
 
         private AnalyzerResults()
-        { }
-
-
-        #region Callback Property
-
-        private Action<Project, ProjectTests, Tests> _Callback;
-        private readonly object _CallbackLocker = new object();
-
-        public Action<Project, ProjectTests, Tests> Callback
         {
-            get
-            {
-                lock( _CallbackLocker )
-                    return _Callback;
-            }
-            set
-            {
-                lock( _CallbackLocker )
-                    _Callback = value;
-                if( value != null )
-                    foreach( var testedProject in TestedProjects )
-                        Load( testedProject.Project, GetTestsFile( testedProject.Project ) );
-            }
+            Pause = true;
         }
 
-        #endregion
 
+        private bool _Pause;
+        public bool Pause
+        {
+            get => _Pause;
+            set
+            {
+                if( value == _Pause )
+                    return;
+                _Pause = value;
+                foreach( var testedProject in TestedProjects )
+                {
+                    if( testedProject.IsDirty )
+                        Load( testedProject.Project, GetTestsFile( testedProject.Project ) );
+                }
+            }
+        }
 
         public ObservableCollection<ProjectTests> TestedProjects { get; } = new ObservableCollection<ProjectTests>();
 
@@ -128,7 +123,7 @@ namespace SmartTestsExtension
         private void AddOrUpdate( Project project, string testsPath )
         {
             Watch( project, testsPath );
-            //Load( project, testsPath );
+            Load( project, testsPath );
         }
 
 
@@ -137,9 +132,13 @@ namespace SmartTestsExtension
 
         private void Load( Project project, string testsPath )
         {
-            if( Callback == null )
-                // Smart Tool Window is not visible
+            var projectTests = GetTests( project );
+            if ( Pause )
+            {
+                _LastText = null;
+                SafeUpdateProject( projectTests, project, null );
                 return;
+            }
 
             Trace.TraceInformation( $"Loading tests '{testsPath}' for project '{project.FullName}'" );
             if( !File.Exists( testsPath ) )
@@ -147,6 +146,7 @@ namespace SmartTestsExtension
                 Trace.TraceInformation( $"No tests file '{testsPath}' for project '{project.FullName}'" );
                 return;
             }
+
 
             try
             {
@@ -159,9 +159,9 @@ namespace SmartTestsExtension
                 }
 
                 _LastText = text;
-                Callback.Invoke( project,
-                                 GetTests( project ),
-                                 JsonConvert.DeserializeObject<Tests>( text ) );
+                var tests = JsonConvert.DeserializeObject<Tests>( _LastText );
+                SafeUpdateProject( projectTests, project, tests );
+
                 Trace.TraceInformation( $"Loaded tests '{testsPath}' for project '{project.FullName}'" );
             }
             catch( Exception e )
@@ -169,6 +169,15 @@ namespace SmartTestsExtension
                 // Not completely written yet!
                 Trace.TraceError( e.Message + Environment.NewLine + e.StackTrace );
             }
+        }
+
+
+        private void SafeUpdateProject( ProjectTests projectTests, Project project, Tests tests )
+        {
+            if( projectTests == null )
+                Application.Current.Dispatcher.Invoke( () => TestedProjects.Add( new ProjectTests( project, tests ) ) );
+            else
+                Application.Current.Dispatcher.Invoke( () => projectTests.Tests = tests );
         }
 
 

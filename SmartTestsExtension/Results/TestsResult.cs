@@ -6,12 +6,6 @@ namespace SmartTestsExtension.Results
 {
     public class TestsResult
     {
-        public TestsResult( Tests tests )
-        {
-            Synchronize( tests );
-        }
-
-
         public NameResultList Names { get; } = new NameResultList();
 
 

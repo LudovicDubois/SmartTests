@@ -15,6 +15,7 @@ namespace SmartTestsExtension.Results
         {
             Project = project;
             Tests = tests;
+            IsDirty = tests == null;
         }
 
 
@@ -31,6 +32,9 @@ namespace SmartTestsExtension.Results
         }
 
 
+        public bool IsDirty { get; set; }
+
+
         #region Tests Property
 
         private Tests _Tests;
@@ -40,12 +44,19 @@ namespace SmartTestsExtension.Results
             get => _Tests;
             set
             {
+                if( value == null )
+                {
+                    // Do not update tests, make them dirty only
+                    IsDirty = true;
+                    return;
+                }
+
+                IsDirty = false;
                 _Tests = value;
                 RaisePropertyChanged();
-                if( _TestsResult == null )
-                    TestsResult = new TestsResult( _Tests );
-                else
-                    TestsResult.Synchronize( _Tests );
+                if( TestsResult == null )
+                    TestsResult = new TestsResult();
+                TestsResult.Synchronize( _Tests );
             }
         }
 

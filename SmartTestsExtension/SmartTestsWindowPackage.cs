@@ -93,6 +93,8 @@ namespace SmartTestsExtension
 
                 var solutionEvents = dte.Events.SolutionEvents;
                 solutionEvents.Opened += () => SolutionEventsOnOpened( dte.Solution );
+                if( dte.Solution != null )
+                    SolutionEventsOnOpened( dte.Solution ); // Force detection of current solution
             }
             catch( Exception e )
             {
