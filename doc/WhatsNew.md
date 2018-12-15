@@ -1,5 +1,10 @@
 # What's new
 
+## version 1.6
+
+[`Criteria`](Criteria/readme.md) can now be [`Enums`](Criteria/enums.md).
+Ensuring all possible values are tested.
+
 ## version 1.5
 
 [`Criteria`](Criteria/readme.md) can now be [`Ranges`](Criteria/ranges.md) of real values.
@@ -25,7 +30,7 @@ None
 Two new Smart Assertions:
 
 1. [`Wait`](Assertions/wait.md): to test parallel code.
-1. [`Within`](Assertions/within.md): to test code is done within specific time.
+2. [`Within`](Assertions/within.md): to test code is done within specific time.
 
 ### In the Analyzer
 

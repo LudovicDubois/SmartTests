@@ -144,4 +144,4 @@ What is interesting with this approach is that:
 1. Your intent (equivalence class) is clear.
 2. You use a random value within the specified range, thus you will perhaps find a bug that would not be found if the test had an hard-coded value.
 
-You can [learn more about Ranges](doc/Criteria/ranges.md)
+You can [learn more about Ranges](doc/Criteria/ranges.md) and [lean more about Enums Criteria](doc/Criteria/enums.md)

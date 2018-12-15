@@ -39,13 +39,13 @@ public class MathTest
 
 A *Range* is a sequence of integers, of any integer type, to test for a logical intent.
 
-For exanple, `Int.AboveOrEqual( 0, out var value )` is used to represent and test equivalence class `[0, int.MaxValue]`, typically for propertie and parametes values.
+For exanple, `Int.AboveOrEqual( 0, out var value )` is used to represent and test equivalence class `[0, int.MaxValue]`, typically for property and parameter values.
 
 The returned `value` should be used in your test as the value for the corresponding property or parameter (using [`Case`](../Cases/readme.md) if you have more than 1 parameter, as usual).
 
 ## Usage
 
-All Ranges can be created from a root propery of `SmartTest` class (so implicitly usable when importing `using static SmartTests.SmartTest`).
+All Ranges can be created from a root property of `SmartTest` class (so implicitly usable when importing `using static SmartTests.SmartTest`).
 
 ### Roots
 

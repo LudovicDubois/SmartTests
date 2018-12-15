@@ -122,10 +122,18 @@ Currently, predefined Criteria are the following:
 ### Ranges
 
 Since v1.4, we can define criteria as ranges of integer values.
-
 It enables you to show logical equivalence groups right in your tests.
 
 For more information, see [`Ranges`](ranges.md).
+
+Since v1.5, we can define criteria as ranges of floating point numbers.
+
+For more information, see [`Ranges`](ranges.md).
+
+### Enums
+
+Since v1.6, we can define criteria as enum values.
+For more information, see [`Enums`](enums.md)
 
 ### Next
 
