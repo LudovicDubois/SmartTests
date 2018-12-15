@@ -6,6 +6,9 @@ using SmartTests.Criterias;
 
 namespace SmartTests.Ranges
 {
+    /// <summary>
+    ///     Represents one or more enum values
+    /// </summary>
     public class EnumType: IType
     {
         /// <summary>
