@@ -14,7 +14,7 @@ namespace SmartTests.Ranges
         /// <typeparam name="T">An enum type.</typeparam>
         /// <param name="value">A random value within these values.</param>
         /// <param name="firstValue">To be sure there is at least one value.</param>
-        /// <param name="values">The values as an equivalence class for the current test.</param>
+        /// <param name="values">The other values as an equivalence class for the current test.</param>
         /// <returns>The criteria representing the full range.</returns>
         public Criteria Values<T>( out T value, T firstValue, params T[] values )
             where T: struct, IComparable
@@ -42,13 +42,15 @@ namespace SmartTests.Ranges
         /// </summary>
         /// <typeparam name="T">An enum type.</typeparam>
         /// <param name="value">A random value within these values.</param>
-        /// <param name="values">The values as an equivalence class for the current test.</param>
+        /// <param name="firstValue">To be sure there is at least one value.</param>
+        /// <param name="values">The other values as an equivalence class for the current test.</param>
         /// <returns>The criteria representing the full range.</returns>
-        public Criteria ErrorValues<T>( out T value, params T[] values )
+        public Criteria ErrorValues<T>( out T value, T firstValue, params T[] values )
             where T: struct, IComparable
         {
             var random = new Random();
-            value = values[ random.Next( values.Length ) ];
+            var index = random.Next( values.Length + 1 );
+            value = index == values.Length ? firstValue : values[ index ];
             return AnyValue.IsValid;
         }
 
