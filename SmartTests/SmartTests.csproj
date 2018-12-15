@@ -1,14 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Title>SmartTests</Title>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>SmartTests</PackageId>
-    <Version>1.5.0</Version>
-    <AssemblyVersion>1.5.0.0</AssemblyVersion>
-    <FileVersion>1.5.0.0</FileVersion>
-    <PackageReleaseNotes>Criteria can now be Ranges of real values.
-This enables you to generate a random value within this range for your test and to be sure all ranges are tested (as expected for a criteria)</PackageReleaseNotes>
+    <Version>1.6.0</Version>
+    <AssemblyVersion>1.6.0.0</AssemblyVersion>
+    <FileVersion>1.6.0.0</FileVersion>
+    <PackageReleaseNotes>Criteria can now be Enum values.
+This enables you to generate a random value within this equivalence class of enum values for your test and to be sure all possibilities are tested (as expected for a criteria)</PackageReleaseNotes>
     <Authors>Ludovic Dubois</Authors>
     <summary>SmartTests enables you to write Smarter unit tests, whether you use NUnit, Xunit or MSTests.</summary>
     <description>SmartTests enables you to write Smarter unit tests, wether you use NUnit, Xunit or MSTests.

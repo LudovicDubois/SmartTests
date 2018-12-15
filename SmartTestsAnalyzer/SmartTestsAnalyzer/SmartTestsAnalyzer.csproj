@@ -15,16 +15,16 @@
     <RepositoryUrl>https://github.com/LudovicDubois/SmartTests</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>An analyzer to find missing tests for tests written with SmartTests.</Description>
-    <PackageReleaseNotes>Criteria can now be Ranges of real values.
-This enables you to generate a random value within this range for your test and to be sure all ranges are tested (as expected for a criteria)</PackageReleaseNotes>
+    <PackageReleaseNotes>Criteria can now be Enum values.
+This enables you to generate a random value within this equivalence class of enum values for your test and to be sure all possibilities are tested (as expected for a criteria)</PackageReleaseNotes>
     <Copyright>Copyright (c) Pretty Objects Computers inc</Copyright>
     <PackageTags>SmartTests test testing tdd framework assert analyzer NUnit MSTests Xunit</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <ApplicationIcon>SmartTests-perspective.ico</ApplicationIcon>
     <RepositoryType>git</RepositoryType>
-    <Version>1.5.0</Version>
-    <AssemblyVersion>1.5.0.0</AssemblyVersion>
-    <FileVersion>1.5.0.0</FileVersion>
+    <Version>1.6.0</Version>
+    <AssemblyVersion>1.6.0.0</AssemblyVersion>
+    <FileVersion>1.6.0.0</FileVersion>
     <NeutralLanguage></NeutralLanguage>
     <Company>Pretty Objects Computers inc.</Company>
   </PropertyGroup>
