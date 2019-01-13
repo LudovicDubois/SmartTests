@@ -9,7 +9,7 @@ using TestHelper;
 namespace SmartTestsAnalyzer.Test
 {
     [TestFixture]
-    public class ParameterPathTests: CodeFixVerifier
+    public class ParameterPathTests : CodeFixVerifier
     {
         [Test]
         public void RightParameterName_NotMissingCases()
@@ -36,7 +36,7 @@ namespace TestingProject
     }
 }";
 
-            VerifyCSharpDiagnostic( test );
+            VerifyCSharpDiagnostic(test);
         }
 
 
@@ -65,25 +65,24 @@ namespace TestingProject
     }
 }";
             var expected = new DiagnosticResult
-                           {
-                               Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: d:ValidValue.IsInvalid",
-                               Severity = DiagnosticSeverity.Warning,
-                               Locations = new[]
+            {
+                Id = "SmartTestsAnalyzer_MissingCases",
+                Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: d:ValidValue.IsInvalid",
+                Severity = DiagnosticSeverity.Warning,
+                Locations = new[]
                                            {
                                                new DiagnosticResultLocation( "Test0.cs", 15, 35 )
                                            }
-                           };
+            };
 
-            VerifyCSharpDiagnostic( test, expected );
+            VerifyCSharpDiagnostic(test, expected);
         }
 
 
-        /*
-                [Test]
-                public void WrongParameterName()
-                {
-                    var test = @"
+        [Test]
+        public void WrongParameterName()
+        {
+            var test = @"
         using System;
         using NUnit.Framework;
         using SmartTests.Criterias;
@@ -97,7 +96,7 @@ namespace TestingProject
                 [Test]
                 public void MyTest1()
                 {
-                    var result = RunTest( Case( ""value"", AnyValue.IsValid ), 
+                    var result = RunTest( Case( (double value) => value, AnyValue.IsValid ), 
                                           () => Math.Sqrt(4) );
 
                     Assert.That( result, Is.EqualTo(2) );
@@ -105,332 +104,332 @@ namespace TestingProject
             }
         }";
 
-                    var expectedCase = new DiagnosticResult
-                                       {
-                                           Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                           Message = "Test for 'System.Math.Sqrt(double)' has no Case for parameter 'd'.",
-                                           Severity = DiagnosticSeverity.Error,
-                                           Locations = new[]
-                                                       {
-                                                           new DiagnosticResultLocation( "Test0.cs", 15, 35 )
+            var expectedCase = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_MissingParameterCase",
+                Message = "Test for 'System.Math.Sqrt(double)' has no Case for parameter 'd'.",
+                Severity = DiagnosticSeverity.Error,
+                Locations = new[]
+                                               {
+                                                           new DiagnosticResultLocation( "Test0.cs", 15, 43 )
                                                        }
-                                       };
-                    var expectedWrong = new DiagnosticResult
-                                        {
-                                            Id = "SmartTestsAnalyzer_WrongParameterName",
-                                            Message = "Test for 'System.Math.Sqrt(double)' has some invalid parameter 'value'.",
-                                            Severity = DiagnosticSeverity.Error,
-                                            Locations = new[]
-                                                        {
-                                                            new DiagnosticResultLocation( "Test0.cs", 15, 41 )
+            };
+            var expectedWrong = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_WrongParameterName",
+                Message = "Test for 'System.Math.Sqrt(double)' has some invalid parameter 'value'.",
+                Severity = DiagnosticSeverity.Error,
+                Locations = new[]
+                                                {
+                                                            new DiagnosticResultLocation( "Test0.cs", 15, 49 )
                                                         }
-                                        };
+            };
 
-                    VerifyCSharpDiagnostic( test, expectedCase, expectedWrong );
-                }
+            VerifyCSharpDiagnostic(test, expectedCase, expectedWrong);
+        }
+        /*
 
+                        [Test]
+                        public void Missing1ParameterCase()
+                        {
+                            var test = @"
+                using System;
+                using NUnit.Framework;
+                using SmartTests.Criterias;
+                using static SmartTests.SmartTest;
 
-                [Test]
-                public void Missing1ParameterCase()
+                namespace TestingProject
                 {
-                    var test = @"
-        using System;
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
+                    [TestFixture]
+                    public class MyTestClass
+                    {
+                        [Test]
+                        public void MyTest()
+                        {
+                            var reminder = default(int);
+                            var result = RunTest( Case( ""a"", AnyValue.IsValid ),
+                                                  () => Math.DivRem( 7, 3, out reminder ) );
 
-        namespace TestingProject
-        {
-            [TestFixture]
-            public class MyTestClass
-            {
-                [Test]
-                public void MyTest()
+                            Assert.That( result, Is.EqualTo( 2 ) );
+                            Assert.That( reminder, Is.EqualTo( 1 ) );
+                        }
+                    }
+                }";
+
+                            var expectedMissingCase = new DiagnosticResult
+                                                      {
+                                                          Id = "SmartTestsAnalyzer_MissingParameterCase",
+                                                          Message = "Test for 'System.Math.DivRem(int, int, out int)' has no Case for parameter 'b'.",
+                                                          Severity = DiagnosticSeverity.Error,
+                                                          Locations = new[]
+                                                                      {
+                                                                          new DiagnosticResultLocation( "Test0.cs", 16, 35 )
+                                                                      }
+                                                      };
+
+                            VerifyCSharpDiagnostic( test, expectedMissingCase );
+                        }
+
+
+                        [Test]
+                        public void Missing2ParameterCases()
+                        {
+                            var test = @"
+                using System;
+                using NUnit.Framework;
+                using SmartTests.Criterias;
+                using static SmartTests.SmartTest;
+
+                namespace TestingProject
                 {
-                    var reminder = default(int);
-                    var result = RunTest( Case( ""a"", AnyValue.IsValid ),
-                                          () => Math.DivRem( 7, 3, out reminder ) );
+                    [TestFixture]
+                    public class MyTestClass
+                    {
+                        [Test]
+                        public void MyTest()
+                        {
+                            var reminder = default(int);
+                            var result = RunTest( Case( AnyValue.IsValid ),
+                                                  () => Math.DivRem( 7, 3, out reminder ) );
 
-                    Assert.That( result, Is.EqualTo( 2 ) );
-                    Assert.That( reminder, Is.EqualTo( 1 ) );
-                }
-            }
-        }";
+                            Assert.That( result, Is.EqualTo( 2 ) );
+                            Assert.That( reminder, Is.EqualTo( 1 ) );
+                        }
+                    }
+                }";
 
-                    var expectedMissingCase = new DiagnosticResult
-                                              {
-                                                  Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                                  Message = "Test for 'System.Math.DivRem(int, int, out int)' has no Case for parameter 'b'.",
-                                                  Severity = DiagnosticSeverity.Error,
-                                                  Locations = new[]
-                                                              {
-                                                                  new DiagnosticResultLocation( "Test0.cs", 16, 35 )
-                                                              }
-                                              };
+                            var expectedMissingCaseA = new DiagnosticResult
+                                                       {
+                                                           Id = "SmartTestsAnalyzer_MissingParameterCase",
+                                                           Message = "Test for 'System.Math.DivRem(int, int, out int)' has no Case for parameter 'a'.",
+                                                           Severity = DiagnosticSeverity.Error,
+                                                           Locations = new[]
+                                                                       {
+                                                                           new DiagnosticResultLocation( "Test0.cs", 16, 35 )
+                                                                       }
+                                                       };
+                            var expectedMissingCaseB = new DiagnosticResult
+                                                       {
+                                                           Id = "SmartTestsAnalyzer_MissingParameterCase",
+                                                           Message = "Test for 'System.Math.DivRem(int, int, out int)' has no Case for parameter 'b'.",
+                                                           Severity = DiagnosticSeverity.Error,
+                                                           Locations = new[]
+                                                                       {
+                                                                           new DiagnosticResultLocation( "Test0.cs", 16, 35 )
+                                                                       }
+                                                       };
 
-                    VerifyCSharpDiagnostic( test, expectedMissingCase );
-                }
+                            VerifyCSharpDiagnostic( test, expectedMissingCaseA, expectedMissingCaseB );
+                        }
 
 
-                [Test]
-                public void Missing2ParameterCases()
+                        [Test]
+                        public void MissingNoParameterCases()
+                        {
+                            var test = @"
+                using System;
+                using NUnit.Framework;
+                using SmartTests.Criterias;
+                using static SmartTests.SmartTest;
+
+                namespace TestingProject
                 {
-                    var test = @"
-        using System;
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
+                    [TestFixture]
+                    public class MyTestClass
+                    {
+                        [Test]
+                        public void MyTest1()
+                        {
+                            var reminder = default(int);
+                            var result = RunTest( Case( ""a"", AnyValue.IsValid ) &
+                                                  Case( ""b"", ValidValue.IsValid ),
+                                                  () => Math.DivRem( 7, 3, out reminder ) );
 
-        namespace TestingProject
-        {
-            [TestFixture]
-            public class MyTestClass
-            {
-                [Test]
-                public void MyTest()
+                            Assert.That( result, Is.EqualTo( 2 ) );
+                            Assert.That( reminder, Is.EqualTo( 1 ) );
+                        }
+
+                        [Test]
+                        public void MyTest2()
+                        {
+                            int reminder;
+                            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""b"", ValidValue.IsInvalid ),
+                                                                                 () => Math.DivRem( 7, 0, out reminder ) ) );
+                        }
+                    }
+                }";
+
+                            VerifyCSharpDiagnostic( test );
+                        }
+
+
+                        [Test]
+                        public void MissingNoParameterCases_ErrorNotAlone()
+                        {
+                            var test = @"
+                using System;
+                using NUnit.Framework;
+                using SmartTests.Criterias;
+                using static SmartTests.SmartTest;
+
+                namespace TestingProject
                 {
-                    var reminder = default(int);
-                    var result = RunTest( Case( AnyValue.IsValid ),
-                                          () => Math.DivRem( 7, 3, out reminder ) );
+                    [TestFixture]
+                    public class MyTestClass
+                    {
+                        [Test]
+                        public void MyTest1()
+                        {
+                            var reminder = default(int);
+                            var result = RunTest( Case( ""a"", AnyValue.IsValid ) &
+                                                  Case( ""b"", ValidValue.IsValid ),
+                                                  () => Math.DivRem( 7, 3, out reminder ) );
 
-                    Assert.That( result, Is.EqualTo( 2 ) );
-                    Assert.That( reminder, Is.EqualTo( 1 ) );
-                }
-            }
-        }";
+                            Assert.That( result, Is.EqualTo( 2 ) );
+                            Assert.That( reminder, Is.EqualTo( 1 ) );
+                        }
 
-                    var expectedMissingCaseA = new DiagnosticResult
-                                               {
-                                                   Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                                   Message = "Test for 'System.Math.DivRem(int, int, out int)' has no Case for parameter 'a'.",
-                                                   Severity = DiagnosticSeverity.Error,
-                                                   Locations = new[]
-                                                               {
-                                                                   new DiagnosticResultLocation( "Test0.cs", 16, 35 )
-                                                               }
-                                               };
-                    var expectedMissingCaseB = new DiagnosticResult
-                                               {
-                                                   Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                                   Message = "Test for 'System.Math.DivRem(int, int, out int)' has no Case for parameter 'b'.",
-                                                   Severity = DiagnosticSeverity.Error,
-                                                   Locations = new[]
-                                                               {
-                                                                   new DiagnosticResultLocation( "Test0.cs", 16, 35 )
-                                                               }
-                                               };
+                        [Test]
+                        public void Mytest2()
+                        {
+                            int reminder;
+                            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""a"", AnyValue.IsValid ) &
+                                                                                 Case( ""b"", ValidValue.IsInvalid ),
+                                                                                 () => Math.DivRem( 7, 0, out reminder ) ) );
+                        }
+                    }
+                }";
 
-                    VerifyCSharpDiagnostic( test, expectedMissingCaseA, expectedMissingCaseB );
-                }
+                            VerifyCSharpDiagnostic( test );
+                        }
 
 
-                [Test]
-                public void MissingNoParameterCases()
+                        [Test]
+                        public void NoParameterNeeded_NoCase()
+                        {
+                            var test = @"
+                using NUnit.Framework;
+                using SmartTests.Criterias;
+                using static SmartTests.SmartTest;
+
+                namespace TestingProject
                 {
-                    var test = @"
-        using System;
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
+                    [TestFixture]
+                    public class MyTestClass
+                    {
+                        private static void NoParameter()
+                        { }
 
-        namespace TestingProject
-        {
-            [TestFixture]
-            public class MyTestClass
-            {
-                [Test]
-                public void MyTest1()
+                        [Test]
+                        public void MyTest()
+                        {
+                            RunTest( AnyValue.IsValid,
+                                     () => NoParameter() );
+                        }
+                    }
+                }";
+
+                            VerifyCSharpDiagnostic( test );
+                        }
+
+
+                        [Test]
+                        public void NoParameterNeeded_Case()
+                        {
+                            var test = @"
+                using NUnit.Framework;
+                using SmartTests.Criterias;
+                using static SmartTests.SmartTest;
+
+                namespace TestingProject
                 {
-                    var reminder = default(int);
-                    var result = RunTest( Case( ""a"", AnyValue.IsValid ) &
-                                          Case( ""b"", ValidValue.IsValid ),
-                                          () => Math.DivRem( 7, 3, out reminder ) );
+                    [TestFixture]
+                    public class MyTestClass
+                    {
+                        private static void NoParameter()
+                        { }
 
-                    Assert.That( result, Is.EqualTo( 2 ) );
-                    Assert.That( reminder, Is.EqualTo( 1 ) );
-                }
+                        [Test]
+                        public void MyTest()
+                        {
+                            RunTest( Case( AnyValue.IsValid ),
+                                     () => NoParameter() );
+                        }
+                    }
+                }";
 
-                [Test]
-                public void MyTest2()
+                            VerifyCSharpDiagnostic( test );
+                        }
+
+
+                        [Test]
+                        public void NoParameterNeeded_NullCase()
+                        {
+                            var test = @"
+                using NUnit.Framework;
+                using SmartTests.Criterias;
+                using static SmartTests.SmartTest;
+
+                namespace TestingProject
                 {
-                    int reminder;
-                    Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""b"", ValidValue.IsInvalid ),
-                                                                         () => Math.DivRem( 7, 0, out reminder ) ) );
-                }
-            }
-        }";
+                    [TestFixture]
+                    public class MyTestClass
+                    {
+                        private static void NoParameter()
+                        { }
 
-                    VerifyCSharpDiagnostic( test );
-                }
+                        [Test]
+                        public void MyTest()
+                        {
+                            RunTest( Case( null, AnyValue.IsValid ),
+                                     () => NoParameter() );
+                        }
+                    }
+                }";
+
+                            VerifyCSharpDiagnostic( test );
+                        }
 
 
-                [Test]
-                public void MissingNoParameterCases_ErrorNotAlone()
+                        [Test]
+                        public void NoParameterNeeded_ParameterCase()
+                        {
+                            var test = @"
+                using NUnit.Framework;
+                using SmartTests.Criterias;
+                using static SmartTests.SmartTest;
+
+                namespace TestingProject
                 {
-                    var test = @"
-        using System;
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
+                    [TestFixture]
+                    public class MyTestClass
+                    {
+                        private static void NoParameter()
+                        { }
 
-        namespace TestingProject
-        {
-            [TestFixture]
-            public class MyTestClass
-            {
-                [Test]
-                public void MyTest1()
-                {
-                    var reminder = default(int);
-                    var result = RunTest( Case( ""a"", AnyValue.IsValid ) &
-                                          Case( ""b"", ValidValue.IsValid ),
-                                          () => Math.DivRem( 7, 3, out reminder ) );
+                        [Test]
+                        public void MyTest()
+                        {
+                            RunTest( Case( ""value"", AnyValue.IsValid ),
+                                     () => NoParameter() );
+                        }
+                    }
+                }";
 
-                    Assert.That( result, Is.EqualTo( 2 ) );
-                    Assert.That( reminder, Is.EqualTo( 1 ) );
-                }
+                            var expected = new DiagnosticResult
+                                           {
+                                               Id = "SmartTestsAnalyzer_WrongParameterName",
+                                               Message = "Test for 'TestingProject.MyTestClass.NoParameter()' has some invalid parameter 'value'.",
+                                               Severity = DiagnosticSeverity.Error,
+                                               Locations = new[]
+                                                           {
+                                                               new DiagnosticResultLocation( "Test0.cs", 17, 28 )
+                                                           }
+                                           };
 
-                [Test]
-                public void Mytest2()
-                {
-                    int reminder;
-                    Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""a"", AnyValue.IsValid ) &
-                                                                         Case( ""b"", ValidValue.IsInvalid ),
-                                                                         () => Math.DivRem( 7, 0, out reminder ) ) );
-                }
-            }
-        }";
-
-                    VerifyCSharpDiagnostic( test );
-                }
-
-
-                [Test]
-                public void NoParameterNeeded_NoCase()
-                {
-                    var test = @"
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
-
-        namespace TestingProject
-        {
-            [TestFixture]
-            public class MyTestClass
-            {
-                private static void NoParameter()
-                { }
-
-                [Test]
-                public void MyTest()
-                {
-                    RunTest( AnyValue.IsValid,
-                             () => NoParameter() );
-                }
-            }
-        }";
-
-                    VerifyCSharpDiagnostic( test );
-                }
-
-
-                [Test]
-                public void NoParameterNeeded_Case()
-                {
-                    var test = @"
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
-
-        namespace TestingProject
-        {
-            [TestFixture]
-            public class MyTestClass
-            {
-                private static void NoParameter()
-                { }
-
-                [Test]
-                public void MyTest()
-                {
-                    RunTest( Case( AnyValue.IsValid ),
-                             () => NoParameter() );
-                }
-            }
-        }";
-
-                    VerifyCSharpDiagnostic( test );
-                }
-
-
-                [Test]
-                public void NoParameterNeeded_NullCase()
-                {
-                    var test = @"
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
-
-        namespace TestingProject
-        {
-            [TestFixture]
-            public class MyTestClass
-            {
-                private static void NoParameter()
-                { }
-
-                [Test]
-                public void MyTest()
-                {
-                    RunTest( Case( null, AnyValue.IsValid ),
-                             () => NoParameter() );
-                }
-            }
-        }";
-
-                    VerifyCSharpDiagnostic( test );
-                }
-
-
-                [Test]
-                public void NoParameterNeeded_ParameterCase()
-                {
-                    var test = @"
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
-
-        namespace TestingProject
-        {
-            [TestFixture]
-            public class MyTestClass
-            {
-                private static void NoParameter()
-                { }
-
-                [Test]
-                public void MyTest()
-                {
-                    RunTest( Case( ""value"", AnyValue.IsValid ),
-                             () => NoParameter() );
-                }
-            }
-        }";
-
-                    var expected = new DiagnosticResult
-                                   {
-                                       Id = "SmartTestsAnalyzer_WrongParameterName",
-                                       Message = "Test for 'TestingProject.MyTestClass.NoParameter()' has some invalid parameter 'value'.",
-                                       Severity = DiagnosticSeverity.Error,
-                                       Locations = new[]
-                                                   {
-                                                       new DiagnosticResultLocation( "Test0.cs", 17, 28 )
-                                                   }
-                                   };
-
-                    VerifyCSharpDiagnostic( test, expected );
-                }
-        */
+                            VerifyCSharpDiagnostic( test, expected );
+                        }
+                */
 
         protected override SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();
     }
