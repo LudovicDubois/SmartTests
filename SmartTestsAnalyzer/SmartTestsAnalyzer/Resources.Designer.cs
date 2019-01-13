@@ -195,5 +195,32 @@ namespace SmartTestsAnalyzer {
                 return ResourceManager.GetString("WrongParameterName_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A Parameter of the tested method has am invalid type..
+        /// </summary>
+        internal static string WrongParameterType_Description {
+            get {
+                return ResourceManager.GetString("WrongParameterType_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test for &apos;{0}&apos; has some invalid parameter type &apos;{1}&apos; for parameter &apos;{2}&apos;..
+        /// </summary>
+        internal static string WrongParameterType_MessageFormat {
+            get {
+                return ResourceManager.GetString("WrongParameterType_MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong Parameter Type.
+        /// </summary>
+        internal static string WrongParameterType_Title {
+            get {
+                return ResourceManager.GetString("WrongParameterType_Title", resourceCulture);
+            }
+        }
     }
 }

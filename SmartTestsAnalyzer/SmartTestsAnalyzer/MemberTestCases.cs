@@ -1,5 +1,4 @@
 ﻿#if !EXTENSION
-
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -28,8 +27,6 @@ namespace SmartTestsAnalyzer
         public CasesAndOr CasesAndOr { get; set; }
 
 #else
-
-
         public MemberTestCases( TestedMember testedMember )
         {
             TestedMember = testedMember;
@@ -77,21 +74,21 @@ namespace SmartTestsAnalyzer
             {
                 case TestedMemberKind.Method:
                     return ValidateParameterNames( reportError,
-                                                   GetTestedParameterNames( ( (IMethodSymbol)TestedMember.Symbol ).Parameters ) );
+                                                   GetTestedParameters( ( (IMethodSymbol)TestedMember.Symbol ).Parameters ) );
 
                 case TestedMemberKind.PropertyGet:
                     return ValidateNoParameterNames( reportError );
 
                 case TestedMemberKind.PropertySet:
-                    return ValidateParameterNames( reportError, _Value );
+                    return ValidateParameterNames( reportError, _Value.Select( v => Tuple.Create( v, (ITypeSymbol)null ) ).ToList() );
 
                 case TestedMemberKind.IndexerGet:
                     return ValidateParameterNames( reportError,
-                                                   GetTestedParameterNames( ( (IPropertySymbol)TestedMember.Symbol ).Parameters ) );
+                                                   GetTestedParameters( ( (IPropertySymbol)TestedMember.Symbol ).Parameters ) );
 
                 case TestedMemberKind.IndexerSet:
-                    var names = GetTestedParameterNames( ( (IPropertySymbol)TestedMember.Symbol ).Parameters );
-                    names.Add( "value" );
+                    var names = GetTestedParameters( ( (IPropertySymbol)TestedMember.Symbol ).Parameters );
+                    names.Add( Tuple.Create( "value", (ITypeSymbol)null ) );
                     return ValidateParameterNames( reportError, names );
 
                 default:
@@ -104,22 +101,22 @@ namespace SmartTestsAnalyzer
         {
             var result = true;
             foreach( var casesAnd in CasesAndOr.CasesAnd )
-            foreach( var pair in casesAnd.Cases )
-                if( pair.Key != Case.NoParameter )
-                {
-                    result = false;
-                    reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, pair.Key, pair.Value.ParameterNameExpression ) );
-                }
+                foreach( var pair in casesAnd.Cases )
+                    if( pair.Key != Case.NoParameter )
+                    {
+                        result = false;
+                        reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, pair.Key, pair.Value.ParameterNameExpression ) );
+                    }
 
             return result;
         }
 
 
-        private List<string> GetTestedParameterNames( ImmutableArray<IParameterSymbol> parameters )
-            => parameters.Where( p => p.RefKind != RefKind.Out ).Select( p => p.Name ).ToList();
+        private List<Tuple<string, ITypeSymbol>> GetTestedParameters( ImmutableArray<IParameterSymbol> parameters )
+            => parameters.Where( p => p.RefKind != RefKind.Out ).Select( p => Tuple.Create( p.Name, p.Type ) ).ToList();
 
 
-        private bool ValidateParameterNames( Action<Diagnostic> reportError, List<string> parameters )
+        private bool ValidateParameterNames( Action<Diagnostic> reportError, List<Tuple<string, ITypeSymbol>> parameters )
         {
             if( parameters.Count <= 1 )
             {
@@ -133,7 +130,7 @@ namespace SmartTestsAnalyzer
             var result = true;
             foreach( var casesAnd in CasesAndOr.CasesAnd )
             {
-                var unusedParameters = parameters.ToList();
+                var unusedParameters = parameters.ToDictionary( p => p.Item1 );
                 var hasAnonymousCase = false;
                 foreach( var aCase in casesAnd.Cases.Values )
                 {
@@ -143,12 +140,25 @@ namespace SmartTestsAnalyzer
                         continue;
                     }
 
-                    if( unusedParameters.Remove( aCase.ParameterName ) )
+                    if( !unusedParameters.TryGetValue( aCase.ParameterName, out var lambdaParameter ) )
+                    {
+                        // This parameter name does not exist
+                        result = false;
+                        reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, aCase.ParameterName, aCase.ParameterNameExpression ) );
                         continue;
 
-                    // This parameter name does not exist
-                    result = false;
-                    reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, aCase.ParameterName, aCase.ParameterNameExpression ) );
+                    }
+
+                    if( lambdaParameter.Item2 != null &&
+                        aCase.ParameterType != null &&
+                        !lambdaParameter.Item2.Equals( aCase.ParameterType ) )
+                    {
+                        // This parameter type is not the right one
+                        result = false;
+                        reportError( SmartTestsDiagnostics.CreateWrongParameterType( TestedMember, aCase.ParameterName, aCase.ParameterType.ToString(), aCase.ParameterNameExpression ) );
+                    }
+
+                    unusedParameters.Remove( aCase.ParameterName );
                 }
 
                 if( casesAnd.HasError )
@@ -163,7 +173,7 @@ namespace SmartTestsAnalyzer
                 foreach( var parameter in unusedParameters )
                 {
                     result = false;
-                    reportError( SmartTestsDiagnostics.CreateMissingParameterCase( TestedMember, parameter, casesAnd.Cases.First().Value.CaseExpressions.First() ) );
+                    reportError( SmartTestsDiagnostics.CreateMissingParameterCase( TestedMember, parameter.Key, casesAnd.Cases.First().Value.CaseExpressions.First() ) );
                 }
             }
 

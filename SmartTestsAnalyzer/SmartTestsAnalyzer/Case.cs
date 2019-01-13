@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Text;
-
 #if !EXTENSION
 using System.Diagnostics;
 using System.Linq;
-
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -26,23 +24,25 @@ namespace SmartTestsAnalyzer
 
 
 #if EXTENSION
-
         public string ParameterName { get; }
         public List<string> Expressions { get; } = new List<string>();
         public bool HasError { get; set; }
 
 
 #else
-        public Case( ExpressionSyntax parameterNameExpression, string parameterName )
+        public Case( ExpressionSyntax parameterNameExpression, string parameterName, ITypeSymbol parameterType )
         {
             Debug.Assert( parameterName != null );
             ParameterNameExpression = parameterNameExpression;
             ParameterName = parameterName;
+            ParameterType = parameterType;
         }
 
 
         [JsonIgnore]
         public ExpressionSyntax ParameterNameExpression { get; }
+        [JsonIgnore]
+        public ITypeSymbol ParameterType { get; }
         public string ParameterName { get; }
         [JsonIgnore]
         public List<ExpressionSyntax> CaseExpressions { get; } = new List<ExpressionSyntax>();
@@ -88,15 +88,15 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public override bool Equals(object other) => Equals(other as Case);
+        public override bool Equals( object other ) => Equals( other as Case );
 
 
-        private bool Equals(Case other) => string.Equals(ParameterName, other?.ParameterName) &&
+        private bool Equals( Case other ) => string.Equals( ParameterName, other?.ParameterName ) &&
                                              // ReSharper disable once PossibleNullReferenceException
-                                             CriteriaAnalysis.Equivalent(other.CriteriaAnalysis);
+                                             CriteriaAnalysis.Equivalent( other.CriteriaAnalysis );
 
 
-        public override int GetHashCode() => CriteriaAnalysis.Aggregate(ParameterName.GetHashCode(), (current, field) => current ^ field.GetHashCode());
+        public override int GetHashCode() => CriteriaAnalysis.Aggregate( ParameterName.GetHashCode(), ( current, field ) => current ^ field.GetHashCode() );
 
 #endif
 

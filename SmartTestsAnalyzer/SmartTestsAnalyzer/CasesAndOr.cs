@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-
 #if !EXTENSION
 using System;
 using System.Linq;
@@ -51,13 +50,13 @@ namespace SmartTestsAnalyzer
 
         private CasesAndOr( string parameterName, CriteriaAnalysis criteria, bool hasError )
         {
-            CasesAnd.Add( new CasesAnd( null, parameterName, null, criteria, hasError ) );
+            CasesAnd.Add( new CasesAnd( null, parameterName, null, null, criteria, hasError ) );
         }
 
 
-        public CasesAndOr( ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression, string parameterName, CriteriaAnalysis criteria, bool hasError )
+        public CasesAndOr( ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression, string parameterName, ITypeSymbol parameterType, CriteriaAnalysis criteria, bool hasError )
         {
-            CasesAnd.Add( new CasesAnd( parameterNameExpression, parameterName, casesExpression, criteria, hasError ) );
+            CasesAnd.Add( new CasesAnd( parameterNameExpression, parameterName, parameterType, casesExpression, criteria, hasError ) );
         }
 
 
@@ -155,8 +154,8 @@ namespace SmartTestsAnalyzer
             foreach( var criteria in CasesAnd )
                 criteria.FillCriteriaValues( result, errorType );
             foreach( var resultValue in result.Values )
-            foreach( var criteriaValue in resultValue.Values )
-                criteriaValue.AddCurrentValues();
+                foreach( var criteriaValue in resultValue.Values )
+                    criteriaValue.AddCurrentValues();
             return result;
         }
 

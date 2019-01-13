@@ -35,13 +35,13 @@ namespace SmartTestsAnalyzer
         { }
 
 
-        public CasesAnd( ExpressionSyntax parameterNameExpression, string parameterName, ExpressionSyntax caseExpression, CriteriaAnalysis criterion, bool hasError )
+        public CasesAnd( ExpressionSyntax parameterNameExpression, string parameterName, ITypeSymbol parameterType, ExpressionSyntax caseExpression, CriteriaAnalysis criterion, bool hasError )
         {
             Debug.Assert( parameterName != null );
 
             if( !Cases.TryGetValue( parameterName, out Case currentCase ) )
             {
-                currentCase = new Case( parameterNameExpression, parameterName );
+                currentCase = new Case( parameterNameExpression, parameterName, parameterType );
                 Cases[ parameterName ] = currentCase;
             }
             currentCase.Add( caseExpression, criterion, hasError );
@@ -97,7 +97,7 @@ namespace SmartTestsAnalyzer
                 Case parameterCase;
                 if( !Cases.TryGetValue( parameterName, out parameterCase ) )
                 {
-                    parameterCase = new Case( otherCase.ParameterNameExpression, parameterName );
+                    parameterCase = new Case( otherCase.ParameterNameExpression, parameterName, null );
                     Cases[ parameterName ] = parameterCase;
                 }
                 parameterCase.FillWith( otherCase );

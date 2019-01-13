@@ -127,6 +127,47 @@ namespace TestingProject
 
             VerifyCSharpDiagnostic(test, expectedCase, expectedWrong);
         }
+
+
+
+        [Test]
+        public void WrongParameterType()
+        {
+            var test = @"
+        using System;
+        using NUnit.Framework;
+        using SmartTests.Criterias;
+        using static SmartTests.SmartTest;
+
+        namespace TestingProject
+        {
+            [TestFixture]
+            public class MyTestClass
+            {
+                [Test]
+                public void MyTest1()
+                {
+                    var result = RunTest( Case( (int d) => d, AnyValue.IsValid ), 
+                                          () => Math.Sqrt(4) );
+
+                    Assert.That( result, Is.EqualTo(2) );
+                }
+            }
+        }";
+
+            var expectedWrongType = new DiagnosticResult
+                                {
+                                    Id = "SmartTestsAnalyzer_WrongParameterType",
+                                    Message = "Test for 'System.Math.Sqrt(double)' has some invalid parameter type 'int' for parameter 'd'.",
+                                    Severity = DiagnosticSeverity.Error,
+                                    Locations = new[]
+                                                {
+                                                    new DiagnosticResultLocation( "Test0.cs", 15, 49 )
+                                                }
+                                };
+
+            VerifyCSharpDiagnostic(test, expectedWrongType);
+        }
         /*
 
                         [Test]

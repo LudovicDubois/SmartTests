@@ -43,7 +43,7 @@ namespace SmartTestsAnalyzer
             var member = _Model.GetSymbol( node );
             if( member is IFieldSymbol criteria )
                 return new CasesAndOr( _CasesExpression,
-                                       _ParameterNameExpression, GetParameterName(),
+                                       _ParameterNameExpression, GetParameterNameAndType( out var type ), type,
                                        new FieldAnalysis( criteria ), criteria.HasAttribute( _ErrorAttribute ) );
 
             return node.Expression.Accept( this );
@@ -83,25 +83,29 @@ namespace SmartTestsAnalyzer
             var visitor = node.Accept( _RangeVisitor );
             if( visitor?.Root != null )
                 return new CasesAndOr( _CasesExpression,
-                                       _ParameterNameExpression, GetParameterName(),
+                                       _ParameterNameExpression, GetParameterNameAndType( out var type ), type,
                                        new RangeAnalysis( visitor.Root, visitor.IsError ), visitor.IsError );
 
             return base.VisitInvocationExpression( node );
         }
 
 
-        private string GetParameterName()
+        private string GetParameterNameAndType( out ITypeSymbol type )
         {
+            type = null;
             if( _ParameterNameExpression == null )
                 return Case.NoParameter;
 
-            var result = _Model.GetConstantValue( _ParameterNameExpression ).Value as string;
-            if( result != null )
+            if( _Model.GetConstantValue( _ParameterNameExpression ).Value is string result )
                 return result;
 
             // Lambda?
             if( _ParameterNameExpression is ParenthesizedLambdaExpressionSyntax lambda )
-                return lambda.ParameterList.Parameters[ 0 ].Identifier.Text;
+            {
+                var parameter = lambda.ParameterList.Parameters[ 0 ];
+                type = (ITypeSymbol)_Model.GetSymbol( parameter.Type );
+                return parameter.Identifier.Text;
+            }
 
             return Case.NoParameter;
         }
