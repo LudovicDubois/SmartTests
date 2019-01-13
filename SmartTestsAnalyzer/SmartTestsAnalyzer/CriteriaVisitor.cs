@@ -92,10 +92,18 @@ namespace SmartTestsAnalyzer
 
         private string GetParameterName()
         {
-            return ( _ParameterNameExpression != null
-                         ? _Model.GetConstantValue( _ParameterNameExpression ).Value as string
-                         : null ) ??
-                   Case.NoParameter;
+            if( _ParameterNameExpression == null )
+                return Case.NoParameter;
+
+            var result = _Model.GetConstantValue( _ParameterNameExpression ).Value as string;
+            if( result != null )
+                return result;
+
+            // Lambda?
+            if( _ParameterNameExpression is ParenthesizedLambdaExpressionSyntax lambda )
+                return lambda.ParameterList.Parameters[ 0 ].Identifier.Text;
+
+            return Case.NoParameter;
         }
 
 

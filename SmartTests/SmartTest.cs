@@ -69,6 +69,12 @@ namespace SmartTests
         /// <seealso cref="SmartTests.Case" />
         public static Case Case( string parameterName, Criteria criteria ) => new Case( parameterName, criteria );
 
+
+        public static Case Case<T>( Expression<Func<T, object>> path, Criteria criteria )
+        {
+            return new Case( path.Body.ToString(), criteria );
+        }
+
         #endregion
 
 
