@@ -38,6 +38,13 @@ namespace SmartTestsAnalyzer
                                                                                                      DiagnosticSeverity.Error,
                                                                                                      true,
                                                                                                      LocalizeString( nameof(Resources.WrongParameterType_Description) ) );
+        private static readonly DiagnosticDescriptor _WrongParameterPath = new DiagnosticDescriptor( "SmartTestsAnalyzer_WrongParameterPath",
+                                                                                                     LocalizeString( nameof(Resources.WrongParameterPath_Title) ),
+                                                                                                     LocalizeString( nameof(Resources.WrongParameterPath_MessageFormat) ),
+                                                                                                     _Category,
+                                                                                                     DiagnosticSeverity.Error,
+                                                                                                     true,
+                                                                                                     LocalizeString( nameof(Resources.WrongParameterPath_Description) ) );
 
         private static readonly DiagnosticDescriptor _MissingParameterCase = new DiagnosticDescriptor( "SmartTestsAnalyzer_MissingParameterCase",
                                                                                                        LocalizeString( nameof(Resources.MissingParameterCase_Title) ),
@@ -66,6 +73,7 @@ namespace SmartTestsAnalyzer
         public static ImmutableArray<DiagnosticDescriptor> DiagnosticDescriptors { get; } = ImmutableArray.Create( _MissingCases,
                                                                                                                    _WrongParameterName,
                                                                                                                    _WrongParameterType,
+                                                                                                                   _WrongParameterPath,
                                                                                                                    _MissingParameterCase,
                                                                                                                    _ConstantExpected,
                                                                                                                    _MinShouldBeLessThanMax
@@ -102,6 +110,16 @@ namespace SmartTestsAnalyzer
                                       parameterNameExpression?.GetLocation(),
                                       testedMember.ToString(),
                                       parameterType, parameterName
+                                    );
+        }
+
+
+        public static Diagnostic CreateWrongParameterPath( TestedMember testedMember, string parameterName, string parameterPath, ExpressionSyntax parameterNameExpression )
+        {
+            return Diagnostic.Create( _WrongParameterPath,
+                                      parameterNameExpression?.GetLocation(),
+                                      testedMember.ToString(),
+                                      parameterPath, parameterName
                                     );
         }
 

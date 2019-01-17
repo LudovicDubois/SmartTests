@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using Newtonsoft.Json;
 
@@ -57,7 +58,7 @@ namespace SmartTestsAnalyzer
 
         public void Validate( INamedTypeSymbol errorType, Action<Diagnostic> reportError )
         {
-            if( ValidateParameterNames( reportError ) )
+            if( ValidateParameters( reportError ) )
                 ValidateCriterias( errorType, reportError );
         }
 
@@ -68,28 +69,28 @@ namespace SmartTestsAnalyzer
                                                       };
 
 
-        private bool ValidateParameterNames( Action<Diagnostic> reportError )
+        private bool ValidateParameters( Action<Diagnostic> reportError )
         {
             switch( TestedMember.Kind )
             {
                 case TestedMemberKind.Method:
-                    return ValidateParameterNames( reportError,
-                                                   GetTestedParameters( ( (IMethodSymbol)TestedMember.Symbol ).Parameters ) );
+                    return ValidateParameters( reportError,
+                                               GetTestedParameters( ( (IMethodSymbol)TestedMember.Symbol ).Parameters ) );
 
                 case TestedMemberKind.PropertyGet:
                     return ValidateNoParameterNames( reportError );
 
                 case TestedMemberKind.PropertySet:
-                    return ValidateParameterNames( reportError, _Value.Select( v => Tuple.Create( v, (ITypeSymbol)null ) ).ToList() );
+                    return ValidateParameters( reportError, _Value.Select( v => Tuple.Create( v, (ITypeSymbol)null ) ).ToList() );
 
                 case TestedMemberKind.IndexerGet:
-                    return ValidateParameterNames( reportError,
-                                                   GetTestedParameters( ( (IPropertySymbol)TestedMember.Symbol ).Parameters ) );
+                    return ValidateParameters( reportError,
+                                               GetTestedParameters( ( (IPropertySymbol)TestedMember.Symbol ).Parameters ) );
 
                 case TestedMemberKind.IndexerSet:
                     var names = GetTestedParameters( ( (IPropertySymbol)TestedMember.Symbol ).Parameters );
                     names.Add( Tuple.Create( "value", (ITypeSymbol)null ) );
-                    return ValidateParameterNames( reportError, names );
+                    return ValidateParameters( reportError, names );
 
                 default:
                     throw new NotImplementedException();
@@ -116,9 +117,9 @@ namespace SmartTestsAnalyzer
             => parameters.Where( p => p.RefKind != RefKind.Out ).Select( p => Tuple.Create( p.Name, p.Type ) ).ToList();
 
 
-        private bool ValidateParameterNames( Action<Diagnostic> reportError, List<Tuple<string, ITypeSymbol>> parameters )
+        private bool ValidateParameters( Action<Diagnostic> reportError, List<Tuple<string, ITypeSymbol>> testedParameters )
         {
-            if( parameters.Count <= 1 )
+            if( testedParameters.Count <= 1 )
             {
                 // 0 or 1 parameter: the parameter name is not mandatory
                 if( CasesAndOr.CasesAnd.Count == 1 &&
@@ -130,7 +131,7 @@ namespace SmartTestsAnalyzer
             var result = true;
             foreach( var casesAnd in CasesAndOr.CasesAnd )
             {
-                var unusedParameters = parameters.ToDictionary( p => p.Item1 );
+                var untestedParameters = testedParameters.ToDictionary( p => p.Item1 );
                 var hasAnonymousCase = false;
                 foreach( var aCase in casesAnd.Cases.Values )
                 {
@@ -140,37 +141,50 @@ namespace SmartTestsAnalyzer
                         continue;
                     }
 
-                    if( !unusedParameters.TryGetValue( aCase.ParameterName, out var lambdaParameter ) )
+                    if( !untestedParameters.TryGetValue( aCase.ParameterName, out var testedParameter ) )
                     {
                         // This parameter name does not exist
                         result = false;
                         reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, aCase.ParameterName, aCase.ParameterNameExpression ) );
                         continue;
-
                     }
 
-                    if( lambdaParameter.Item2 != null &&
-                        aCase.ParameterType != null &&
-                        !lambdaParameter.Item2.Equals( aCase.ParameterType ) )
+                    // This parameter is tested
+                    if( aCase.ParameterType != null )
                     {
-                        // This parameter type is not the right one
-                        result = false;
-                        reportError( SmartTestsDiagnostics.CreateWrongParameterType( TestedMember, aCase.ParameterName, aCase.ParameterType.ToString(), aCase.ParameterNameExpression ) );
+                        if( testedParameter.Item2 != null &&
+                            !testedParameter.Item2.Equals( aCase.ParameterType ) )
+                        {
+                            // This parameter type is not the right one
+                            result = false;
+                            reportError( SmartTestsDiagnostics.CreateWrongParameterType( TestedMember, aCase.ParameterName, aCase.ParameterType.ToString(), aCase.ParameterNameExpression ) );
+                        }
+
+                        if( aCase.ParameterNameExpression is ParenthesizedLambdaExpressionSyntax lambda )
+                        {
+                            if( !( lambda.Body is IdentifierNameSyntax identifier ) ||
+                                identifier.Identifier.Text != aCase.ParameterName )
+                            {
+                                // This parameter lambda body is not a path
+                                result = false;
+                                reportError( SmartTestsDiagnostics.CreateWrongParameterPath( TestedMember, aCase.ParameterName, lambda.Body.ToString(), (ExpressionSyntax)lambda.Body ) );
+                            }
+                        }
                     }
 
-                    unusedParameters.Remove( aCase.ParameterName );
+                    untestedParameters.Remove( aCase.ParameterName );
                 }
 
                 if( casesAnd.HasError )
                     continue;
 
                 // Remaining parameters have no Case!
-                if( parameters.Count == 1 &&
+                if( testedParameters.Count == 1 &&
                     hasAnonymousCase )
                     // When 1 parameter, parameter name is not mandatory
                     continue;
 
-                foreach( var parameter in unusedParameters )
+                foreach( var parameter in untestedParameters )
                 {
                     result = false;
                     reportError( SmartTestsDiagnostics.CreateMissingParameterCase( TestedMember, parameter.Key, casesAnd.Cases.First().Value.CaseExpressions.First() ) );

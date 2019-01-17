@@ -166,12 +166,21 @@
     <value>Min value should be less than Max value</value>
   </data>
   <data name="WrongParameterType_Description" xml:space="preserve">
-    <value>A Parameter of the tested method has am invalid type.</value>
+    <value>A Tested Parameter of the method has an invalid type.</value>
   </data>
   <data name="WrongParameterType_MessageFormat" xml:space="preserve">
     <value>Test for '{0}' has some invalid parameter type '{1}' for parameter '{2}'.</value>
   </data>
   <data name="WrongParameterType_Title" xml:space="preserve">
     <value>Wrong Parameter Type</value>
+  </data>
+  <data name="WrongParameterPath_Description" xml:space="preserve">
+    <value>A Tested Parameter lambda has an invalid path (should be a path whose root is the parameter itself)</value>
+  </data>
+  <data name="WrongParameterPath_MessageFormat" xml:space="preserve">
+    <value>Test for '{0}' has an invalid path '{1}' for parameter '{2}'.</value>
+  </data>
+  <data name="WrongParameterPath_Title" xml:space="preserve">
+    <value>Wrong Parameter Path</value>
   </data>
 </root>

@@ -197,7 +197,34 @@ namespace SmartTestsAnalyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A Parameter of the tested method has am invalid type..
+        ///   Looks up a localized string similar to A Tested Parameter lambda has an invalid path (should be a path whose root is the parameter itself).
+        /// </summary>
+        internal static string WrongParameterPath_Description {
+            get {
+                return ResourceManager.GetString("WrongParameterPath_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test for &apos;{0}&apos; has an invalid path &apos;{1}&apos; for parameter &apos;{2}&apos;..
+        /// </summary>
+        internal static string WrongParameterPath_MessageFormat {
+            get {
+                return ResourceManager.GetString("WrongParameterPath_MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong Parameter Path.
+        /// </summary>
+        internal static string WrongParameterPath_Title {
+            get {
+                return ResourceManager.GetString("WrongParameterPath_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A Tested Parameter of the method has an invalid type..
         /// </summary>
         internal static string WrongParameterType_Description {
             get {

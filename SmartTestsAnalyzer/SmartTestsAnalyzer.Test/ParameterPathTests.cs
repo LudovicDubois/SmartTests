@@ -83,26 +83,26 @@ namespace TestingProject
         public void WrongParameterName()
         {
             var test = @"
-        using System;
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-        namespace TestingProject
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest1()
         {
-            [TestFixture]
-            public class MyTestClass
-            {
-                [Test]
-                public void MyTest1()
-                {
-                    var result = RunTest( Case( (double value) => value, AnyValue.IsValid ), 
-                                          () => Math.Sqrt(4) );
+            var result = RunTest( Case( (double value) => value, AnyValue.IsValid ), 
+                                  () => Math.Sqrt(4) );
 
-                    Assert.That( result, Is.EqualTo(2) );
-                }
-            }
-        }";
+            Assert.That( result, Is.EqualTo(2) );
+        }
+    }
+}";
 
             var expectedCase = new DiagnosticResult
                                {
@@ -111,7 +111,7 @@ namespace TestingProject
                                    Severity = DiagnosticSeverity.Error,
                                    Locations = new[]
                                                {
-                                                   new DiagnosticResultLocation( "Test0.cs", 15, 43 )
+                                                   new DiagnosticResultLocation( "Test0.cs", 15, 35 )
                                                }
                                };
             var expectedWrong = new DiagnosticResult
@@ -121,7 +121,7 @@ namespace TestingProject
                                     Severity = DiagnosticSeverity.Error,
                                     Locations = new[]
                                                 {
-                                                    new DiagnosticResultLocation( "Test0.cs", 15, 49 )
+                                                    new DiagnosticResultLocation( "Test0.cs", 15, 41 )
                                                 }
                                 };
 
@@ -133,26 +133,26 @@ namespace TestingProject
         public void WrongParameterType()
         {
             var test = @"
-        using System;
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-        namespace TestingProject
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest1()
         {
-            [TestFixture]
-            public class MyTestClass
-            {
-                [Test]
-                public void MyTest1()
-                {
-                    var result = RunTest( Case( (int d) => d, AnyValue.IsValid ), 
-                                          () => Math.Sqrt(4) );
+            var result = RunTest( Case( (int d) => d, AnyValue.IsValid ), 
+                                  () => Math.Sqrt(4) );
 
-                    Assert.That( result, Is.EqualTo(2) );
-                }
-            }
-        }";
+            Assert.That( result, Is.EqualTo(2) );
+        }
+    }
+}";
 
             var expectedWrongType = new DiagnosticResult
                                     {
@@ -161,7 +161,7 @@ namespace TestingProject
                                         Severity = DiagnosticSeverity.Error,
                                         Locations = new[]
                                                     {
-                                                        new DiagnosticResultLocation( "Test0.cs", 15, 49 )
+                                                        new DiagnosticResultLocation( "Test0.cs", 15, 41 )
                                                     }
                                     };
 
@@ -173,28 +173,28 @@ namespace TestingProject
         public void Missing1ParameterCase()
         {
             var test = @"
-                using System;
-                using NUnit.Framework;
-                using SmartTests.Criterias;
-                using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-                namespace TestingProject
-                {
-                    [TestFixture]
-                    public class MyTestClass
-                    {
-                        [Test]
-                        public void MyTest()
-                        {
-                            var reminder = default(int);
-                            var result = RunTest( Case( (int a) => a, AnyValue.IsValid ),
-                                                  () => Math.DivRem( 7, 3, out reminder ) );
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest()
+        {
+            var reminder = default(int);
+            var result = RunTest( Case( (int a) => a, AnyValue.IsValid ),
+                                  () => Math.DivRem( 7, 3, out reminder ) );
 
-                            Assert.That( result, Is.EqualTo( 2 ) );
-                            Assert.That( reminder, Is.EqualTo( 1 ) );
-                        }
-                    }
-                }";
+            Assert.That( result, Is.EqualTo( 2 ) );
+            Assert.That( reminder, Is.EqualTo( 1 ) );
+        }
+    }
+}";
 
             var expectedMissingCase = new DiagnosticResult
                                       {
@@ -203,7 +203,7 @@ namespace TestingProject
                                           Severity = DiagnosticSeverity.Error,
                                           Locations = new[]
                                                       {
-                                                          new DiagnosticResultLocation( "Test0.cs", 16, 51 )
+                                                          new DiagnosticResultLocation( "Test0.cs", 16, 35 )
                                                       }
                                       };
 
@@ -215,37 +215,37 @@ namespace TestingProject
         public void MissingNoParameterCases()
         {
             var test = @"
-                using System;
-                using NUnit.Framework;
-                using SmartTests.Criterias;
-                using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-                namespace TestingProject
-                {
-                    [TestFixture]
-                    public class MyTestClass
-                    {
-                        [Test]
-                        public void MyTest1()
-                        {
-                            var reminder = default(int);
-                            var result = RunTest( Case( (int a) => a, AnyValue.IsValid ) &
-                                                  Case( (int b) => b, ValidValue.IsValid ),
-                                                  () => Math.DivRem( 7, 3, out reminder ) );
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest1()
+        {
+            var reminder = default(int);
+            var result = RunTest( Case( (int a) => a, AnyValue.IsValid ) &
+                                  Case( (int b) => b, ValidValue.IsValid ),
+                                  () => Math.DivRem( 7, 3, out reminder ) );
 
-                            Assert.That( result, Is.EqualTo( 2 ) );
-                            Assert.That( reminder, Is.EqualTo( 1 ) );
-                        }
+            Assert.That( result, Is.EqualTo( 2 ) );
+            Assert.That( reminder, Is.EqualTo( 1 ) );
+        }
 
-                        [Test]
-                        public void MyTest2()
-                        {
-                            int reminder;
-                            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""b"", ValidValue.IsInvalid ),
-                                                                                 () => Math.DivRem( 7, 0, out reminder ) ) );
-                        }
-                    }
-                }";
+        [Test]
+        public void MyTest2()
+        {
+            int reminder;
+            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""b"", ValidValue.IsInvalid ),
+                                                                 () => Math.DivRem( 7, 0, out reminder ) ) );
+        }
+    }
+}";
 
             VerifyCSharpDiagnostic( test );
         }
@@ -255,38 +255,38 @@ namespace TestingProject
         public void MissingNoParameterCases_ErrorNotAlone()
         {
             var test = @"
-                using System;
-                using NUnit.Framework;
-                using SmartTests.Criterias;
-                using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-                namespace TestingProject
-                {
-                    [TestFixture]
-                    public class MyTestClass
-                    {
-                        [Test]
-                        public void MyTest1()
-                        {
-                            var reminder = default(int);
-                            var result = RunTest( Case( (int a) => a, AnyValue.IsValid ) &
-                                                  Case( (int b) => b, ValidValue.IsValid ),
-                                                  () => Math.DivRem( 7, 3, out reminder ) );
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest1()
+        {
+            var reminder = default(int);
+            var result = RunTest( Case( (int a) => a, AnyValue.IsValid ) &
+                                  Case( (int b) => b, ValidValue.IsValid ),
+                                  () => Math.DivRem( 7, 3, out reminder ) );
 
-                            Assert.That( result, Is.EqualTo( 2 ) );
-                            Assert.That( reminder, Is.EqualTo( 1 ) );
-                        }
+            Assert.That( result, Is.EqualTo( 2 ) );
+            Assert.That( reminder, Is.EqualTo( 1 ) );
+        }
 
-                        [Test]
-                        public void Mytest2()
-                        {
-                            int reminder;
-                            Assert.Throws<DivideByZeroException>( () => RunTest( Case( (int a) => a, AnyValue.IsValid ) &
-                                                                                 Case( (int b) => b, ValidValue.IsInvalid ),
-                                                                                 () => Math.DivRem( 7, 0, out reminder ) ) );
-                        }
-                    }
-                }";
+        [Test]
+        public void Mytest2()
+        {
+            int reminder;
+            Assert.Throws<DivideByZeroException>( () => RunTest( Case( (int a) => a, AnyValue.IsValid ) &
+                                                                 Case( (int b) => b, ValidValue.IsInvalid ),
+                                                                 () => Math.DivRem( 7, 0, out reminder ) ) );
+        }
+    }
+}";
 
             VerifyCSharpDiagnostic( test );
         }
@@ -296,26 +296,26 @@ namespace TestingProject
         public void NoParameterNeeded_ParameterCase()
         {
             var test = @"
-                using NUnit.Framework;
-                using SmartTests.Criterias;
-                using static SmartTests.SmartTest;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-                namespace TestingProject
-                {
-                    [TestFixture]
-                    public class MyTestClass
-                    {
-                        private static void NoParameter()
-                        { }
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        private static void NoParameter()
+        { }
 
-                        [Test]
-                        public void MyTest()
-                        {
-                            RunTest( Case( (int value) => value, AnyValue.IsValid ),
-                                     () => NoParameter() );
-                        }
-                    }
-                }";
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (int value) => value, AnyValue.IsValid ),
+                     () => NoParameter() );
+        }
+    }
+}";
 
             var expected = new DiagnosticResult
                            {
@@ -324,7 +324,84 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 17, 44 )
+                                               new DiagnosticResultLocation( "Test0.cs", 17, 28 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void NotPath_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (double d) => 123, AnyValue.IsValid ), 
+                     () => Math.Sqrt(4) );
+       }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_WrongParameterPath",
+                               Message = "Test for 'System.Math.Sqrt(double)' has an invalid path '123' for parameter 'd'.",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 15, 42 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void BadPath_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest()
+        {
+            var i = 123;
+            RunTest( Case( (double d) => i, AnyValue.IsValid ), 
+                     () => Math.Sqrt(4) );
+       }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_WrongParameterPath",
+                               Message = "Test for 'System.Math.Sqrt(double)' has an invalid path 'i' for parameter 'd'.",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 16, 42 )
                                            }
                            };
 
