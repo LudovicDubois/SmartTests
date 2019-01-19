@@ -409,6 +409,114 @@ namespace TestingProject
         }
 
 
+        [Test]
+        public void Parenthesized_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (double d) => (d), AnyValue.IsValid ), 
+                     () => Math.Sqrt(4) );
+       }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void Parenthesssssized_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (double d) => (((((d))))), AnyValue.IsValid ), 
+                     () => Math.Sqrt(4) );
+       }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void Casted_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (double d) => (object)d, AnyValue.IsValid ), 
+                     () => Math.Sqrt(4) );
+       }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void Parenthesized_Casted_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (double d) => ((object)d), AnyValue.IsValid ), 
+                     () => Math.Sqrt(4) );
+       }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
         protected override SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using Newtonsoft.Json;
@@ -162,8 +163,9 @@ namespace SmartTestsAnalyzer
 
                         if( aCase.ParameterNameExpression is ParenthesizedLambdaExpressionSyntax lambda )
                         {
-                            if( !( lambda.Body is IdentifierNameSyntax identifier ) ||
-                                identifier.Identifier.Text != aCase.ParameterName )
+                            var pathVisitor = new PathVisitor( aCase.ParameterName );
+                            pathVisitor.Visit( lambda.Body );
+                            if( pathVisitor.HasErrors )
                             {
                                 // This parameter lambda body is not a path
                                 result = false;
@@ -192,6 +194,13 @@ namespace SmartTestsAnalyzer
             }
 
             return result;
+        }
+
+
+        private bool IsValidBody( CSharpSyntaxNode lambdaBody, Case aCase )
+        {
+            return ( lambdaBody is IdentifierNameSyntax identifier ) &&
+                   identifier.Identifier.Text != aCase.ParameterName;
         }
 
 
