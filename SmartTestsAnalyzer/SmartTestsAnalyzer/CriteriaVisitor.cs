@@ -43,7 +43,7 @@ namespace SmartTestsAnalyzer
             var member = _Model.GetSymbol( node );
             if( member is IFieldSymbol criteria )
                 return new CasesAndOr( _CasesExpression,
-                                       _ParameterNameExpression, GetParameterNameAndType( out var type ), type,
+                                       new TestedParameter( _Model, _ParameterNameExpression ),
                                        new FieldAnalysis( criteria ), criteria.HasAttribute( _ErrorAttribute ) );
 
             return node.Expression.Accept( this );
@@ -83,34 +83,10 @@ namespace SmartTestsAnalyzer
             var visitor = node.Accept( _RangeVisitor );
             if( visitor?.Root != null )
                 return new CasesAndOr( _CasesExpression,
-                                       _ParameterNameExpression, GetParameterNameAndType( out var type ), type,
+                                       new TestedParameter( _Model, _ParameterNameExpression ),
                                        new RangeAnalysis( visitor.Root, visitor.IsError ), visitor.IsError );
 
             return base.VisitInvocationExpression( node );
         }
-
-
-        private string GetParameterNameAndType( out ITypeSymbol type )
-        {
-            type = null;
-            if( _ParameterNameExpression == null )
-                return Case.NoParameter;
-
-            if( _Model.GetConstantValue( _ParameterNameExpression ).Value is string result )
-                return result;
-
-            // Lambda?
-            if( _ParameterNameExpression is ParenthesizedLambdaExpressionSyntax lambda )
-            {
-                var parameter = lambda.ParameterList.Parameters[ 0 ];
-                type = (ITypeSymbol)_Model.GetSymbol( parameter.Type );
-                return parameter.Identifier.Text;
-            }
-
-            return Case.NoParameter;
-        }
-
-
-        // Helper Methods
     }
 }

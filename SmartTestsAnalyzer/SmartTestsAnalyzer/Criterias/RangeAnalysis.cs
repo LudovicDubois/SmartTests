@@ -41,12 +41,14 @@ namespace SmartTestsAnalyzer.Criterias
         public bool IsError { get; }
 
 
-        public override void AddValues( Dictionary<string, CriteriaValues> values, INamedTypeSymbol errorType )
+        private static readonly TestedParameter _RangeTestedParameter = new TestedParameter( "Range" );
+
+        public override void AddValues( Dictionary<TestedParameter, CriteriaValues> values, INamedTypeSymbol errorType )
         {
-            if( !values.TryGetValue( "Range", out var rangeValues ) )
+            if( !values.TryGetValue( _RangeTestedParameter, out var rangeValues ) )
             {
                 rangeValues = _CriteriaValuesGenerator[ Type.GetType() ]();
-                values[ "Range" ] = rangeValues;
+                values[ _RangeTestedParameter ] = rangeValues;
             }
 
             rangeValues.Add( new RangeAnalysis( Type, IsError ), IsError );

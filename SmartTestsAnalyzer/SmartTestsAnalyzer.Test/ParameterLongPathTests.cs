@@ -25,13 +25,13 @@ namespace TestingProject
     [TestFixture]
     public class MyTestClass
     {
+        public static void Method(Version v) {}
+
         [Test]
         public void MyTest()
         {
-            var result = RunTest( Case( (double d) => d, AnyValue.IsValid ), 
-                                  () => Math.Sqrt(4) );
-
-            Assert.That( result, Is.EqualTo(2) );
+            RunTest( Case( (Version v) => v.Major, AnyValue.IsValid ), 
+                     () => MyTestClass.Method( new Version() ) );
         }
     }
 }";
@@ -54,24 +54,24 @@ namespace TestingProject
     [TestFixture]
     public class MyTestClass
     {
+        public static void Method(Version v) {}
+
         [Test]
         public void MyTest()
         {
-            var result = RunTest( Case( (double d) => d, ValidValue.IsValid ), 
-                                  () => Math.Sqrt(4) );
-
-            Assert.That( result, Is.EqualTo(2) );
+            RunTest( Case( (Version v) => v.Major, ValidValue.IsValid ), 
+                           () => MyTestClass.Method( new Version() ) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'System.Math.Sqrt(double)' has some missing Test Cases: d:ValidValue.IsInvalid",
+                               Message = "Tests for 'TestingProject.MyTestClass.Method(System.Version)' has some missing Test Cases: v.Major:ValidValue.IsInvalid",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 15, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 17, 22 )
                                            }
                            };
 
@@ -83,45 +83,45 @@ namespace TestingProject
         public void WrongParameterName()
         {
             var test = @"
-        using System;
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-        namespace TestingProject
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v) {}
+
+        [Test]
+        public void MyTest1()
         {
-            [TestFixture]
-            public class MyTestClass
-            {
-                [Test]
-                public void MyTest1()
-                {
-                    var result = RunTest( Case( (double value) => value, AnyValue.IsValid ), 
-                                          () => Math.Sqrt(4) );
-
-                    Assert.That( result, Is.EqualTo(2) );
-                }
-            }
-        }";
+            RunTest( Case( (Version a) => a.Major, AnyValue.IsValid ), 
+                           () => MyTestClass.Method( new Version() ) );
+        }
+    }
+}";
 
             var expectedCase = new DiagnosticResult
                                {
                                    Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                   Message = "Test for 'System.Math.Sqrt(double)' has no Case for parameter 'd'.",
+                                   Message = "Test for 'TestingProject.MyTestClass.Method(System.Version)' has no Case for parameter 'v'.",
                                    Severity = DiagnosticSeverity.Error,
                                    Locations = new[]
                                                {
-                                                   new DiagnosticResultLocation( "Test0.cs", 15, 43 )
+                                                   new DiagnosticResultLocation( "Test0.cs", 17, 22 )
                                                }
                                };
             var expectedWrong = new DiagnosticResult
                                 {
                                     Id = "SmartTestsAnalyzer_WrongParameterName",
-                                    Message = "Test for 'System.Math.Sqrt(double)' has some invalid parameter 'value'.",
+                                    Message = "Test for 'TestingProject.MyTestClass.Method(System.Version)' has some invalid parameter 'a'.",
                                     Severity = DiagnosticSeverity.Error,
                                     Locations = new[]
                                                 {
-                                                    new DiagnosticResultLocation( "Test0.cs", 15, 49 )
+                                                    new DiagnosticResultLocation( "Test0.cs", 17, 28 )
                                                 }
                                 };
 
@@ -133,35 +133,35 @@ namespace TestingProject
         public void WrongParameterType()
         {
             var test = @"
-        using System;
-        using NUnit.Framework;
-        using SmartTests.Criterias;
-        using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-        namespace TestingProject
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v) {}
+
+        [Test]
+        public void MyTest1()
         {
-            [TestFixture]
-            public class MyTestClass
-            {
-                [Test]
-                public void MyTest1()
-                {
-                    var result = RunTest( Case( (int d) => d, AnyValue.IsValid ), 
-                                          () => Math.Sqrt(4) );
-
-                    Assert.That( result, Is.EqualTo(2) );
-                }
-            }
-        }";
+            RunTest( Case( (DateTime v) => v.Day, AnyValue.IsValid ), 
+                           () => MyTestClass.Method( new Version() ) );
+        }
+    }
+}";
 
             var expectedWrongType = new DiagnosticResult
                                     {
                                         Id = "SmartTestsAnalyzer_WrongParameterType",
-                                        Message = "Test for 'System.Math.Sqrt(double)' has some invalid parameter type 'int' for parameter 'd'.",
+                                        Message = "Test for 'TestingProject.MyTestClass.Method(System.Version)' has some invalid parameter type 'System.DateTime' for parameter 'v'.",
                                         Severity = DiagnosticSeverity.Error,
                                         Locations = new[]
                                                     {
-                                                        new DiagnosticResultLocation( "Test0.cs", 15, 49 )
+                                                        new DiagnosticResultLocation( "Test0.cs", 17, 28 )
                                                     }
                                     };
 
@@ -173,37 +173,35 @@ namespace TestingProject
         public void Missing1ParameterCase()
         {
             var test = @"
-                using System;
-                using NUnit.Framework;
-                using SmartTests.Criterias;
-                using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-                namespace TestingProject
-                {
-                    [TestFixture]
-                    public class MyTestClass
-                    {
-                        [Test]
-                        public void MyTest()
-                        {
-                            var reminder = default(int);
-                            var result = RunTest( Case( (int a) => a, AnyValue.IsValid ),
-                                                  () => Math.DivRem( 7, 3, out reminder ) );
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v1, Version v2) {}
 
-                            Assert.That( result, Is.EqualTo( 2 ) );
-                            Assert.That( reminder, Is.EqualTo( 1 ) );
-                        }
-                    }
-                }";
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (Version v1) => v1.Major, AnyValue.IsValid ), 
+                           () => MyTestClass.Method( new Version(), new Version() ) );
+        }
+    }
+}";
 
             var expectedMissingCase = new DiagnosticResult
                                       {
                                           Id = "SmartTestsAnalyzer_MissingParameterCase",
-                                          Message = "Test for 'System.Math.DivRem(int, int, out int)' has no Case for parameter 'b'.",
+                                          Message = "Test for 'TestingProject.MyTestClass.Method(System.Version, System.Version)' has no Case for parameter 'v2'.",
                                           Severity = DiagnosticSeverity.Error,
                                           Locations = new[]
                                                       {
-                                                          new DiagnosticResultLocation( "Test0.cs", 16, 51 )
+                                                          new DiagnosticResultLocation( "Test0.cs", 17, 22 )
                                                       }
                                       };
 
@@ -215,37 +213,34 @@ namespace TestingProject
         public void MissingNoParameterCases()
         {
             var test = @"
-                using System;
-                using NUnit.Framework;
-                using SmartTests.Criterias;
-                using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-                namespace TestingProject
-                {
-                    [TestFixture]
-                    public class MyTestClass
-                    {
-                        [Test]
-                        public void MyTest1()
-                        {
-                            var reminder = default(int);
-                            var result = RunTest( Case( (int a) => a, AnyValue.IsValid ) &
-                                                  Case( (int b) => b, ValidValue.IsValid ),
-                                                  () => Math.DivRem( 7, 3, out reminder ) );
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v1, Version v2) {}
 
-                            Assert.That( result, Is.EqualTo( 2 ) );
-                            Assert.That( reminder, Is.EqualTo( 1 ) );
-                        }
+        [Test]
+        public void MyTest1()
+        {
+            RunTest( Case( (Version v1) => v1.Major, AnyValue.IsValid ) &
+                     Case( (Version v2) => v2.Major, ValidValue.IsValid ),
+                     () => MyTestClass.Method( new Version(), new Version() ) );
+        }
 
-                        [Test]
-                        public void MyTest2()
-                        {
-                            int reminder;
-                            Assert.Throws<DivideByZeroException>( () => RunTest( Case( ""b"", ValidValue.IsInvalid ),
-                                                                                 () => Math.DivRem( 7, 0, out reminder ) ) );
-                        }
-                    }
-                }";
+        [Test]
+        public void MyTest2()
+        {
+            RunTest( Case( (Version v2) => v2.Major, ValidValue.IsInvalid ),
+                     () => MyTestClass.Method( new Version(), null ) );
+        }
+    }
+}";
 
             VerifyCSharpDiagnostic( test );
         }
@@ -255,38 +250,35 @@ namespace TestingProject
         public void MissingNoParameterCases_ErrorNotAlone()
         {
             var test = @"
-                using System;
-                using NUnit.Framework;
-                using SmartTests.Criterias;
-                using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-                namespace TestingProject
-                {
-                    [TestFixture]
-                    public class MyTestClass
-                    {
-                        [Test]
-                        public void MyTest1()
-                        {
-                            var reminder = default(int);
-                            var result = RunTest( Case( (int a) => a, AnyValue.IsValid ) &
-                                                  Case( (int b) => b, ValidValue.IsValid ),
-                                                  () => Math.DivRem( 7, 3, out reminder ) );
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v1, Version v2) {}
 
-                            Assert.That( result, Is.EqualTo( 2 ) );
-                            Assert.That( reminder, Is.EqualTo( 1 ) );
-                        }
+        [Test]
+        public void MyTest1()
+        {
+            RunTest( Case( (Version v1) => v1.Major, AnyValue.IsValid ) &
+                     Case( (Version v2) => v2.Major, ValidValue.IsValid ),
+                     () => MyTestClass.Method( new Version(), new Version() ) );
+        }
 
-                        [Test]
-                        public void Mytest2()
-                        {
-                            int reminder;
-                            Assert.Throws<DivideByZeroException>( () => RunTest( Case( (int a) => a, AnyValue.IsValid ) &
-                                                                                 Case( (int b) => b, ValidValue.IsInvalid ),
-                                                                                 () => Math.DivRem( 7, 0, out reminder ) ) );
-                        }
-                    }
-                }";
+        [Test]
+        public void MyTest2()
+        {
+            RunTest( Case( (Version v1) => v1.Major, AnyValue.IsValid ) &
+                     Case( (Version v2) => v2.Major, ValidValue.IsInvalid ),
+                     () => MyTestClass.Method( new Version(), null ) );
+        }
+    }
+}";
 
             VerifyCSharpDiagnostic( test );
         }
@@ -296,35 +288,320 @@ namespace TestingProject
         public void NoParameterNeeded_ParameterCase()
         {
             var test = @"
-                using NUnit.Framework;
-                using SmartTests.Criterias;
-                using static SmartTests.SmartTest;
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
 
-                namespace TestingProject
-                {
-                    [TestFixture]
-                    public class MyTestClass
-                    {
-                        private static void NoParameter()
-                        { }
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method() {}
 
-                        [Test]
-                        public void MyTest()
-                        {
-                            RunTest( Case( (int value) => value, AnyValue.IsValid ),
-                                     () => NoParameter() );
-                        }
-                    }
-                }";
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (Version v) => v.Major, AnyValue.IsValid ),
+                     () => Method() );
+        }
+    }
+}";
 
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_WrongParameterName",
-                               Message = "Test for 'TestingProject.MyTestClass.NoParameter()' has some invalid parameter 'value'.",
+                               Message = "Test for 'TestingProject.MyTestClass.Method()' has some invalid parameter 'v'.",
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 17, 44 )
+                                               new DiagnosticResultLocation( "Test0.cs", 17, 28 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void DifferentPaths()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v) {}
+
+        [Test]
+        public void MyTest1()
+        {
+            RunTest( Case( (Version v) => v.Major, ValidValue.IsValid ),
+                     () => MyTestClass.Method( new Version() ) );
+        }
+
+        [Test]
+        public void MyTest2()
+        {
+            RunTest( Case( (Version v) => v.Minor, ValidValue.IsInvalid ),
+                     () => MyTestClass.Method( new Version() ) );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.MyTestClass.Method(System.Version)' has some missing Test Cases: v.Major:ValidValue.IsValid & v.Minor:ValidValue.IsValid and v.Major:ValidValue.IsInvalid",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 17, 22 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 24, 22 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void BadPath_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v) {}
+
+        [Test]
+        public void MyTest()
+        {
+            Version v2 = new Version();
+            RunTest( Case( (Version v) => v2.Major, ValidValue.IsValid ),
+                     () => MyTestClass.Method( new Version() ) );
+       }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_WrongParameterPath",
+                               Message = "Test for 'TestingProject.MyTestClass.Method(System.Version)' has an invalid path 'v2.Major' for parameter 'v'.",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 43 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void Parenthesized_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v) {}
+
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (Version v) => ((v).Major), AnyValue.IsValid ), 
+                     () => MyTestClass.Method( new Version() ) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void Parenthesssssized_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v) {}
+
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (Version v) => ((((((v))).Major))), AnyValue.IsValid ), 
+                     () => MyTestClass.Method( new Version() ) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void Casted_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v) {}
+
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (Version v) => ((double)((Version)v).Major), AnyValue.IsValid ), 
+                     () => MyTestClass.Method( new Version() ) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void Parenthesized_Casted_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v) {}
+
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (Version v) => (((double)((Version)v).Major)), AnyValue.IsValid ), 
+                     () => MyTestClass.Method( new Version() ) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void NotAPath_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v) {}
+
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (Version v) => v.Major + 0, ValidValue.IsValid ),
+                     () => MyTestClass.Method( new Version() ) );
+       }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_WrongParameterPath",
+                               Message = "Test for 'TestingProject.MyTestClass.Method(System.Version)' has an invalid path 'v.Major + 0' for parameter 'v'.",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 17, 43 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void NotAPropertyPath_ParameterCase()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public static void Method(Version v) {}
+
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (Version v) => v.ToString(), ValidValue.IsValid ),
+                     () => MyTestClass.Method( new Version() ) );
+       }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_WrongParameterPath",
+                               Message = "Test for 'TestingProject.MyTestClass.Method(System.Version)' has an invalid path 'v.ToString()' for parameter 'v'.",
+                               Severity = DiagnosticSeverity.Error,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 17, 43 )
                                            }
                            };
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+
 #if !EXTENSION
 using System.Diagnostics;
 using System.Linq;
@@ -25,25 +26,23 @@ namespace SmartTestsAnalyzer
 
 #if EXTENSION
         public string ParameterName { get; }
+        public string ParameterPath { get; }
         public List<string> Expressions { get; } = new List<string>();
         public bool HasError { get; set; }
 
 
 #else
-        public Case( ExpressionSyntax parameterNameExpression, string parameterName, ITypeSymbol parameterType )
+        public Case( TestedParameter testedParameter )
         {
-            Debug.Assert( parameterName != null );
-            ParameterNameExpression = parameterNameExpression;
-            ParameterName = parameterName;
-            ParameterType = parameterType;
+            Debug.Assert( testedParameter?.Name != null );
+            TestedParameter = testedParameter;
         }
 
 
+        public string ParameterName => TestedParameter.Name; // For serialization to Json for the Extension
+        public string ParameterPath => TestedParameter.Path; // For serialization to Json for the Extension
         [JsonIgnore]
-        public ExpressionSyntax ParameterNameExpression { get; }
-        [JsonIgnore]
-        public ITypeSymbol ParameterType { get; }
-        public string ParameterName { get; }
+        public TestedParameter TestedParameter { get; }
         [JsonIgnore]
         public List<ExpressionSyntax> CaseExpressions { get; } = new List<ExpressionSyntax>();
         public List<string> Expressions => CriteriaAnalysis.Select( criteria => criteria.ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) ).ToList();
@@ -63,7 +62,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public void FillCriteriaValues( Dictionary<string, CriteriaValues> types, INamedTypeSymbol errorType )
+        public void FillCriteriaValues( Dictionary<TestedParameter, CriteriaValues> types, INamedTypeSymbol errorType )
         {
             foreach( var analysis in CriteriaAnalysis )
                 analysis.AddValues( types, errorType );
@@ -72,7 +71,7 @@ namespace SmartTestsAnalyzer
 
         public void FillWith( Case otherCase )
         {
-            Debug.Assert( otherCase.ParameterName == ParameterName );
+            Debug.Assert( otherCase.TestedParameter.Name == TestedParameter.Name );
             CaseExpressions.AddRange( otherCase.CaseExpressions );
             CriteriaAnalysis.AddRange( otherCase.CriteriaAnalysis );
             if( otherCase.HasError )
@@ -91,12 +90,12 @@ namespace SmartTestsAnalyzer
         public override bool Equals( object other ) => Equals( other as Case );
 
 
-        private bool Equals( Case other ) => string.Equals( ParameterName, other?.ParameterName ) &&
+        private bool Equals( Case other ) => TestedParameter.Equals( other.TestedParameter ) &&
                                              // ReSharper disable once PossibleNullReferenceException
                                              CriteriaAnalysis.Equivalent( other.CriteriaAnalysis );
 
 
-        public override int GetHashCode() => CriteriaAnalysis.Aggregate( ParameterName.GetHashCode(), ( current, field ) => current ^ field.GetHashCode() );
+        public override int GetHashCode() => CriteriaAnalysis.Aggregate( TestedParameter.GetHashCode(), ( current, field ) => current ^ field.GetHashCode() );
 
 #endif
 
@@ -105,7 +104,7 @@ namespace SmartTestsAnalyzer
         {
             if( ParameterName != NoParameter )
             {
-                result.Append( ParameterName );
+                result.Append( ParameterPath );
                 result.Append( ':' );
             }
 

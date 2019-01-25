@@ -103,11 +103,11 @@ namespace SmartTestsAnalyzer
         {
             var result = true;
             foreach( var casesAnd in CasesAndOr.CasesAnd )
-                foreach( var pair in casesAnd.Cases )
-                    if( pair.Key != Case.NoParameter )
+                foreach( var aCase in casesAnd.Cases.Values )
+                    if( aCase.TestedParameter.Name != Case.NoParameter )
                     {
                         result = false;
-                        reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, pair.Key, pair.Value.ParameterNameExpression ) );
+                        reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, aCase.TestedParameter.Name, aCase.TestedParameter.Expression ) );
                     }
 
             return result;
@@ -125,7 +125,7 @@ namespace SmartTestsAnalyzer
                 // 0 or 1 parameter: the parameter name is not mandatory
                 if( CasesAndOr.CasesAnd.Count == 1 &&
                     CasesAndOr.CasesAnd[ 0 ].Cases.Count == 1 &&
-                    CasesAndOr.CasesAnd.First().Cases.Keys.First() == Case.NoParameter )
+                    CasesAndOr.CasesAnd.First().Cases.Values.First().TestedParameter.Name == Case.NoParameter )
                     return true;
             }
 
@@ -136,45 +136,39 @@ namespace SmartTestsAnalyzer
                 var hasAnonymousCase = false;
                 foreach( var aCase in casesAnd.Cases.Values )
                 {
-                    if( aCase.ParameterName == Case.NoParameter )
+                    if( aCase.TestedParameter.Name == Case.NoParameter )
                     {
                         hasAnonymousCase = true;
                         continue;
                     }
 
-                    if( !untestedParameters.TryGetValue( aCase.ParameterName, out var testedParameter ) )
+                    if( !untestedParameters.TryGetValue( aCase.TestedParameter.Name, out var testedParameter ) )
                     {
                         // This parameter name does not exist
                         result = false;
-                        reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, aCase.ParameterName, aCase.ParameterNameExpression ) );
+                        reportError( SmartTestsDiagnostics.CreateWrongParameterName( TestedMember, aCase.ParameterName, aCase.TestedParameter.Expression ) );
                         continue;
                     }
 
                     // This parameter is tested
-                    if( aCase.ParameterType != null )
+                    if( aCase.TestedParameter.IsLambda )
                     {
                         if( testedParameter.Item2 != null &&
-                            !testedParameter.Item2.Equals( aCase.ParameterType ) )
+                            !testedParameter.Item2.Equals( aCase.TestedParameter.Type ) )
                         {
                             // This parameter type is not the right one
                             result = false;
-                            reportError( SmartTestsDiagnostics.CreateWrongParameterType( TestedMember, aCase.ParameterName, aCase.ParameterType.ToString(), aCase.ParameterNameExpression ) );
+                            reportError( SmartTestsDiagnostics.CreateWrongParameterType( TestedMember, aCase.ParameterName, aCase.TestedParameter.Type.ToString(), aCase.TestedParameter.Expression ) );
                         }
 
-                        if( aCase.ParameterNameExpression is ParenthesizedLambdaExpressionSyntax lambda )
+                        if( aCase.TestedParameter.PathHasErrors )
                         {
-                            var pathVisitor = new PathVisitor( aCase.ParameterName );
-                            pathVisitor.Visit( lambda.Body );
-                            if( pathVisitor.HasErrors )
-                            {
-                                // This parameter lambda body is not a path
-                                result = false;
-                                reportError( SmartTestsDiagnostics.CreateWrongParameterPath( TestedMember, aCase.ParameterName, lambda.Body.ToString(), (ExpressionSyntax)lambda.Body ) );
-                            }
+                            result = false;
+                            reportError( SmartTestsDiagnostics.CreateWrongParameterPath( TestedMember, aCase.ParameterName, aCase.TestedParameter.Path, aCase.TestedParameter.PathExpression ) );
                         }
                     }
 
-                    untestedParameters.Remove( aCase.ParameterName );
+                    untestedParameters.Remove( aCase.TestedParameter.Name );
                 }
 
                 if( casesAnd.HasError )
@@ -194,13 +188,6 @@ namespace SmartTestsAnalyzer
             }
 
             return result;
-        }
-
-
-        private bool IsValidBody( CSharpSyntaxNode lambdaBody, Case aCase )
-        {
-            return ( lambdaBody is IdentifierNameSyntax identifier ) &&
-                   identifier.Identifier.Text != aCase.ParameterName;
         }
 
 

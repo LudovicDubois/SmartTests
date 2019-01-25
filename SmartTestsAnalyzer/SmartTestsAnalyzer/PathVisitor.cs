@@ -29,12 +29,9 @@ namespace SmartTestsAnalyzer
 
         public override void VisitIdentifierName( IdentifierNameSyntax node )
         {
-            if( _PathStr.Length == 0 )
-            {
-                if( node.Identifier.Text != _ParameterName )
-                    HasErrors = true;
-                _PathStr.Append( node.Identifier.Text );
-            }
+            if( node.Identifier.Text != _ParameterName )
+                HasErrors = true;
+            _PathStr.Append( node.Identifier.Text );
         }
 
 
@@ -42,5 +39,13 @@ namespace SmartTestsAnalyzer
 
 
         public override void VisitCastExpression( CastExpressionSyntax node ) => node.Expression.Accept( this );
+
+
+        public override void VisitMemberAccessExpression( MemberAccessExpressionSyntax node )
+        {
+            node.Expression.Accept( this );
+            _PathStr.Append( '.' );
+            _PathStr.Append( node.Name.Identifier.Text );
+        }
     }
 }

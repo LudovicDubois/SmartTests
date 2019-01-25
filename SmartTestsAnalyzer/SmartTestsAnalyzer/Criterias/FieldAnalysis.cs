@@ -24,14 +24,15 @@ namespace SmartTestsAnalyzer.Criterias
         public virtual ITypeSymbol ContainingType => Field.ContainingType;
 
 
-        public override void AddValues( Dictionary<string, CriteriaValues> values, INamedTypeSymbol errorType )
+        public override void AddValues( Dictionary<TestedParameter, CriteriaValues> values, INamedTypeSymbol errorType )
         {
-            if( values.ContainsKey( ContainingType.Name ) )
+            var testedType = new TestedParameter( ContainingType.Name );
+            if( values.ContainsKey( testedType ) )
                 // Already added
                 return;
 
             var value = new FieldValues();
-            values[ ContainingType.Name ] = value;
+            values[ testedType ] = value;
             foreach( var criterion in ContainingType.GetMembers().Where( member => member is IFieldSymbol ).Cast<IFieldSymbol>() )
                 value.Add( new FieldAnalysis( criterion ), criterion.HasAttribute( errorType ) );
         }

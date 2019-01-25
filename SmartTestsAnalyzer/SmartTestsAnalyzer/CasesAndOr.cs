@@ -48,15 +48,15 @@ namespace SmartTestsAnalyzer
         { }
 
 
-        private CasesAndOr( string parameterName, CriteriaAnalysis criteria, bool hasError )
+        private CasesAndOr( TestedParameter testedParameter, CriteriaAnalysis criteria, bool hasError )
         {
-            CasesAnd.Add( new CasesAnd( null, parameterName, null, null, criteria, hasError ) );
+            CasesAnd.Add( new CasesAnd( testedParameter, null, criteria, hasError ) );
         }
 
 
-        public CasesAndOr( ExpressionSyntax casesExpression, ExpressionSyntax parameterNameExpression, string parameterName, ITypeSymbol parameterType, CriteriaAnalysis criteria, bool hasError )
+        public CasesAndOr( ExpressionSyntax casesExpression, TestedParameter testedParameter, CriteriaAnalysis criteria, bool hasError )
         {
-            CasesAnd.Add( new CasesAnd( parameterNameExpression, parameterName, parameterType, casesExpression, criteria, hasError ) );
+            CasesAnd.Add( new CasesAnd( testedParameter, casesExpression, criteria, hasError ) );
         }
 
 
@@ -148,9 +148,9 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private Dictionary<string, Dictionary<string, CriteriaValues>> GetAllValues( INamedTypeSymbol errorType )
+        private Dictionary<TestedParameter, Dictionary<TestedParameter, CriteriaValues>> GetAllValues( INamedTypeSymbol errorType )
         {
-            var result = new Dictionary<string, Dictionary<string, CriteriaValues>>();
+            var result = new Dictionary<TestedParameter, Dictionary<TestedParameter, CriteriaValues>>();
             foreach( var criteria in CasesAnd )
                 criteria.FillCriteriaValues( result, errorType );
             foreach( var resultValue in result.Values )
@@ -160,14 +160,14 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private static CasesAndOr ComputeAllCases( string parameterName, Dictionary<string, CriteriaValues>.ValueCollection criteriaValues )
+        private static CasesAndOr ComputeAllCases( TestedParameter testedParameter, Dictionary<TestedParameter, CriteriaValues>.ValueCollection criteriaValues )
         {
             var result = new CasesAndOr();
             foreach( var criteriaValue in criteriaValues )
             {
                 var cases = new CasesAndOr();
                 foreach( var criterion in criteriaValue.Values )
-                    cases.CombineOr( new CasesAndOr( parameterName, criterion.Analysis, criterion.IsError ) );
+                    cases.CombineOr( new CasesAndOr( testedParameter, criterion.Analysis, criterion.IsError ) );
                 result.CombineAnd( cases );
             }
 

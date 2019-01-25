@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 #if !EXTENSION
 using System.Diagnostics;
 
@@ -20,7 +19,6 @@ namespace SmartTestsAnalyzer
     public class CasesAnd
     {
 #if EXTENSION
-
         public string TestNamespaceName { get; set; }
         public string TestClassName { get; set; }
         public string TestName { get; set; }
@@ -35,15 +33,16 @@ namespace SmartTestsAnalyzer
         { }
 
 
-        public CasesAnd( ExpressionSyntax parameterNameExpression, string parameterName, ITypeSymbol parameterType, ExpressionSyntax caseExpression, CriteriaAnalysis criterion, bool hasError )
+        public CasesAnd( TestedParameter testedParameter, ExpressionSyntax caseExpression, CriteriaAnalysis criterion, bool hasError )
         {
-            Debug.Assert( parameterName != null );
+            Debug.Assert( testedParameter?.Name != null );
 
-            if( !Cases.TryGetValue( parameterName, out Case currentCase ) )
+            if( !Cases.TryGetValue( testedParameter, out Case currentCase ) )
             {
-                currentCase = new Case( parameterNameExpression, parameterName, parameterType );
-                Cases[ parameterName ] = currentCase;
+                currentCase = new Case( testedParameter );
+                Cases[ testedParameter ] = currentCase;
             }
+
             currentCase.Add( caseExpression, criterion, hasError );
             if( currentCase.HasError )
                 HasError = true;
@@ -69,7 +68,7 @@ namespace SmartTestsAnalyzer
         public string TestName { get; private set; }
         public string TestFileName { get; private set; }
         public int TestLine { get; private set; }
-        public Dictionary<string, Case> Cases { get; } = new Dictionary<string, Case>();
+        public Dictionary<TestedParameter, Case> Cases { get; } = new Dictionary<TestedParameter, Case>();
         public bool HasError { get; private set; }
         public bool IsMissing { get; set; }
 
@@ -89,29 +88,28 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void FillCasesWith( Dictionary<string, Case> other )
+        private void FillCasesWith( Dictionary<TestedParameter, Case> other )
         {
-            foreach( var otherCase in other.Values )
+            foreach( var otherCase in other )
             {
-                var parameterName = otherCase.ParameterName;
-                Case parameterCase;
-                if( !Cases.TryGetValue( parameterName, out parameterCase ) )
+                if( !Cases.TryGetValue( otherCase.Key, out Case parameterCase ) )
                 {
-                    parameterCase = new Case( otherCase.ParameterNameExpression, parameterName, null );
-                    Cases[ parameterName ] = parameterCase;
+                    parameterCase = new Case( otherCase.Key );
+                    Cases[ otherCase.Key ] = parameterCase;
                 }
-                parameterCase.FillWith( otherCase );
+
+                parameterCase.FillWith( otherCase.Value );
             }
         }
 
 
-        public void FillCriteriaValues( Dictionary<string, Dictionary<string,CriteriaValues>> criteriaTypes, INamedTypeSymbol errorType )
+        public void FillCriteriaValues( Dictionary<TestedParameter, Dictionary<TestedParameter, CriteriaValues>> criteriaTypes, INamedTypeSymbol errorType )
         {
             foreach( var pair in Cases )
             {
                 if( !criteriaTypes.TryGetValue( pair.Key, out var values ) )
                 {
-                    values = new Dictionary<string, CriteriaValues>();
+                    values = new Dictionary<TestedParameter, CriteriaValues>();
                     criteriaTypes[ pair.Key ] = values;
                 }
 
