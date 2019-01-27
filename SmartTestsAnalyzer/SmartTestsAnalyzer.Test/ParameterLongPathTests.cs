@@ -80,6 +80,50 @@ namespace TestingProject
 
 
         [Test]
+        public void RightParameterName_Path3_MissingCases()
+        {
+            var test = @"
+using System;
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public class MyData
+        {
+            public Version Version { get; }
+        }
+
+        public static void Method(MyData md) {}
+
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (MyData md) => md.Version.Major, ValidValue.IsValid ), 
+                           () => MyTestClass.Method( new MyData() ) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.MyTestClass.Method(TestingProject.MyTestClass.MyData)' has some missing Test Cases: md.Version.Major:ValidValue.IsInvalid",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 22, 22 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
         public void WrongParameterName()
         {
             var test = @"
@@ -570,7 +614,50 @@ namespace TestingProject
 
 
         [Test]
-        public void NotAPropertyPath_ParameterCase()
+        public void FieldPath_ParameterCase()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Criterias;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    [TestFixture]
+    public class MyTestClass
+    {
+        public class MyData
+        {
+            public int Data;
+        }
+
+        public static void Method(MyData md) {}
+
+        [Test]
+        public void MyTest()
+        {
+            RunTest( Case( (MyData md) => md.Data, ValidValue.IsValid ), 
+                           () => MyTestClass.Method( new MyData() ) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.MyTestClass.Method(TestingProject.MyTestClass.MyData)' has some missing Test Cases: md.Data:ValidValue.IsInvalid",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 22 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void MethodPath_ParameterCase()
         {
             var test = @"
 using System;
