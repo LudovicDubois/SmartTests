@@ -64,7 +64,7 @@ This overload is for constructors and methods having parameters and indexers.
 Also,
 > Note that if your method has one parameter only, the Criteria expression can only be for this parameter; thus, the parameter name is optional: you can use the above overload or no `Case` at all (directly the Criteria).
 
-## with lambda expression
+## With lambda expression
 
 Since version 1.7, you can specify the parameter with a lambda expression instead of the name as a `string`.
 
@@ -93,7 +93,7 @@ public class MathTest
 
 The principal interest of this notation is that you can have cases specific to sub-properties (or sub-fields) of your parameter.
 
-Then, combine the different members for a better cases tracking (see [`Combining Cases`](#combinining-cases)).
+Then, combine the different members for a better cases tracking (see [`Combining Cases`](#combining-cases)).
 
 Suppose you want to test this code:
 
