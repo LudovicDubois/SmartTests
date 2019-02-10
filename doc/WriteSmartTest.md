@@ -24,7 +24,7 @@ public class MyTest
 
 As you surely know, a test should be written with AAA good practice in mind:
 
-1. **A**range
+1. **A**rrange
 1. **A**ct
 1. **A**ssert
 
@@ -67,11 +67,11 @@ public class MathTest
 }
 ```
 
-In this example, I did not specify the first argument yet, we will see it in the next part.
+In this example, I did not specify the first argument yet; we will see it in the next part.
 
 ## Criteria
 
-As you know, `Math.Sqrt` has a min value: `0` that is valid.
+As you know, `Math.Sqrt` has a min value: `0` which is valid.
 Any value greater than `0` is a valid argument, while any value lower than `0` is an invalid argument.
 
 Thus, you should have a test for a value greater than `0` and a test for a value lower than `0`. But what about the limit value itself? Is it `0` or `1` or `-1` or any other value?
