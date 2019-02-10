@@ -26,9 +26,9 @@ public class MathTest
 }
 ```
 
-This form is for properties or methods having one parameter only (thus, not ambiguity to what the criteria applies to).
+This way is for properties or methods having one parameter only (thus, no ambiguity to what the criteria applies to).
 
-> Note that an overload of `RunTest` enables you to specify the Criteria expression directly when you do not need the parameter name. Thus, this form is not really explicitly used.
+> Note that an overload of `RunTest` enables you to specify the Criteria expression directly when you do not need the parameter name. Thus, this way is not really explicitly used.
 
 ## With Parameter Name
 
@@ -63,6 +63,69 @@ This overload is for constructors and methods having parameters and indexers.
 
 Also,
 > Note that if your method has one parameter only, the Criteria expression can only be for this parameter; thus, the parameter name is optional: you can use the above overload or no `Case` at all (directly the Criteria).
+
+## with lambda expression
+
+Since version 1.7, you can specify the parameter with a lambda expression instead of the name as a `string`.
+
+
+It is a `public static` method of main class `SmartTest`:
+
+```C#
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+[TestFixture]
+public class MathTest
+{
+    [Test]
+    public void Sqrt_ValueGreaterThanMin()
+    {
+        var result = RunTest( Case( (double d) => d, MinIncluded.IsAboveMin ),
+                              () => Math.Sqrt(2) );
+
+        Assert.AreEqual( 2, result );
+    }
+}
+```
+
+> Note that, as for previous overload, a compile time error will occur if the parameter or the paraneter type of the lambda do not match a real parameter name and type of your tested member.
+
+The principal interest of this notation is that you can have cases specific to sub-properties (or sub-fields) of your parameter.
+
+Then, combine the different members for a better cases tracking (see [`Combining Cases`](#combinining-cases)).
+
+Suppose you want to test this code:
+
+```C#
+static class DateTimeHelper
+{
+    public static bool IsWeekEnd(DateTime date)
+    {
+        return date.DayOfWeek == DayOfWeek.Saturday ||
+            date.DayOfWeek == DayOfWeek.Sunday;
+    }
+}
+```
+
+You should test it this way:
+
+```C#
+[TestFixture]
+public class TestClass
+{
+    [Test]
+    public void FirstTest()
+    {
+        var result = RunTest(Case((DateTime date) => date.DayOfWeek, SmartTests.SmartTest.Enum.Values(out var value, DayOfWeek.Saturday, DayOfWeek.Sunday)),
+            () => DateTimeHelper.IsWeekEnd(new DateTime(2019, 2, 3)));
+
+        Assert.IsTrue(result);
+    }
+}
+```
+
+The `Smart Tests` analyzer will then warn you some tests are missing for `date.DayOfWeek`.
 
 ## Combining Cases
 

@@ -1,5 +1,10 @@
 # What's new
 
+## version 1.7
+
+[`Case`](Cases/readme.md) can now be associated with parameter properties and fields.
+Ensuring better representation of what properties/fields are involved in a test.
+
 ## version 1.6
 
 [`Criteria`](Criteria/readme.md) can now be [`Enums`](Criteria/enums.md).
