@@ -3,7 +3,7 @@
 ## version 1.7
 
 [`Case`](Cases/readme.md#with-lambda-expression) can now be associated with parameter properties and fields.
-Ensuring better representation of what properties/fields are involved in a test.
+Ensuring better representation of which properties/fields are involved in a test.
 
 ## version 1.6
 
