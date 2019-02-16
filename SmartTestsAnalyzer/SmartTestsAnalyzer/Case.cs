@@ -90,7 +90,8 @@ namespace SmartTestsAnalyzer
         public override bool Equals( object other ) => Equals( other as Case );
 
 
-        private bool Equals( Case other ) => TestedParameter.Equals( other.TestedParameter ) &&
+        private bool Equals( Case other ) => other != null &&
+                                             TestedParameter.Equals( other.TestedParameter ) &&
                                              // ReSharper disable once PossibleNullReferenceException
                                              CriteriaAnalysis.Equivalent( other.CriteriaAnalysis );
 
