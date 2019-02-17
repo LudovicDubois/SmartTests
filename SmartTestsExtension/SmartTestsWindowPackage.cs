@@ -106,28 +106,38 @@ namespace SmartTestsExtension
 
         private void SolutionEventsOnOpened( Solution solution )
         {
-            foreach( Project project in solution.Projects )
+            try
             {
-                if( project.Globals.VariableExists[ "UseSmartTests" ] )
-                    continue;
-
-                if( !IsTestProject( project ) )
-                    continue;
-
-                if( !IsSmartProject( project ) )
-                    // Do not want to use SmartTests
-                    if( !InstallSmartTests( project ) )
-                    {
-                        project.Globals[ "UseSmartTests" ] = "false";
-                        project.Globals.VariablePersists[ "UseSmartTests" ] = true;
+                foreach( Project project in solution.Projects )
+                {
+                    if( project.Globals == null )
+                        // ?!?
                         continue;
-                    }
+                    if( project.Globals.VariableExists[ "UseSmartTests" ] )
+                        continue;
 
-                if( !HasSmartAnalyzer( project ) )
-                    InstallSmartAnalyzer( project );
+                    if( !IsTestProject( project ) )
+                        continue;
 
-                project.Globals[ "UseSmartTests" ] = "true";
-                project.Globals.VariablePersists[ "UseSmartTests" ] = true;
+                    if( !IsSmartProject( project ) )
+                        // Do not want to use SmartTests
+                        if( !InstallSmartTests( project ) )
+                        {
+                            project.Globals[ "UseSmartTests" ] = "false";
+                            project.Globals.VariablePersists[ "UseSmartTests" ] = true;
+                            continue;
+                        }
+
+                    if( !HasSmartAnalyzer( project ) )
+                        InstallSmartAnalyzer( project );
+
+                    project.Globals[ "UseSmartTests" ] = "true";
+                    project.Globals.VariablePersists[ "UseSmartTests" ] = true;
+                }
+            }
+            catch( Exception e )
+            {
+                Trace.TraceError( e.Message + e.StackTrace );
             }
         }
 
