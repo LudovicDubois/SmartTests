@@ -21,16 +21,16 @@ namespace SmartTestsAnalyzer
             _Model = model;
 
             var smartTestType = model.Compilation.GetTypeByMetadataName( "SmartTests.SmartTest" );
-            AddType( smartTestType, "Byte", () => new RangeVisitor<byte>( model, SmartTest.Byte, reportDiagnostic ) );
-            AddType( smartTestType, "SByte", () => new RangeVisitor<sbyte>( model, SmartTest.SByte, reportDiagnostic ) );
-            AddType( smartTestType, "Short", () => new RangeVisitor<short>( model, SmartTest.Short, reportDiagnostic ) );
-            AddType( smartTestType, "UShort", () => new RangeVisitor<ushort>( model, SmartTest.UShort, reportDiagnostic ) );
-            AddType( smartTestType, "Int", () => new RangeVisitor<int>( model, SmartTest.Int, reportDiagnostic ) );
-            AddType( smartTestType, "UInt", () => new RangeVisitor<uint>( model, SmartTest.UInt, reportDiagnostic ) );
-            AddType( smartTestType, "Long", () => new RangeVisitor<long>( model, SmartTest.Long, reportDiagnostic ) );
-            AddType( smartTestType, "ULong", () => new RangeVisitor<ulong>( model, SmartTest.ULong, reportDiagnostic ) );
-            AddType( smartTestType, "Float", () => new RangeVisitor<float>( model, SmartTest.Float, reportDiagnostic ) );
-            AddType( smartTestType, "Double", () => new RangeVisitor<double>( model, SmartTest.Double, reportDiagnostic ) );
+            AddType( smartTestType, "Byte", () => new RangeVisitor<byte>( model, SmartTest.Byte, null, reportDiagnostic ) );
+            AddType( smartTestType, "SByte", () => new RangeVisitor<sbyte>( model, SmartTest.SByte, null, reportDiagnostic ) );
+            AddType( smartTestType, "Short", () => new RangeVisitor<short>( model, SmartTest.Short, null, reportDiagnostic ) );
+            AddType( smartTestType, "UShort", () => new RangeVisitor<ushort>( model, SmartTest.UShort, null, reportDiagnostic ) );
+            AddType( smartTestType, "Int", () => new RangeVisitor<int>( model, SmartTest.Int, null, reportDiagnostic ) );
+            AddType( smartTestType, "UInt", () => new RangeVisitor<uint>( model, SmartTest.UInt, null, reportDiagnostic ) );
+            AddType( smartTestType, "Long", () => new RangeVisitor<long>( model, SmartTest.Long, null, reportDiagnostic ) );
+            AddType( smartTestType, "ULong", () => new RangeVisitor<ulong>( model, SmartTest.ULong, null, reportDiagnostic ) );
+            AddType( smartTestType, "Float", () => new RangeVisitor<float>( model, SmartTest.Float, null, reportDiagnostic ) );
+            AddType( smartTestType, "Double", () => new RangeVisitor<double>( model, SmartTest.Double, null, reportDiagnostic ) );
             AddType( smartTestType, "Enum", () => new EnumVisitor( model, reportDiagnostic ) );
         }
 

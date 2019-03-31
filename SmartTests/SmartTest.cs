@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -114,39 +116,86 @@ namespace SmartTests
         /// </remarks>
         /// <example>
         ///     <code>
-        /// static class DateTimeHelper
-        /// {
-        ///     public static bool IsWeekEnd(DateTime date)
-        ///     {
-        ///         return date.DayOfWeek == DayOfWeek.Saturday ||
-        ///                date.DayOfWeek == DayOfWeek.Sunday;
-        ///     }
-        /// }
-        ///
-        /// ...
-        ///
-        /// private static DateTime GenerateDateOnWeekDay( DayOfWeek day )
-        /// {
-        ///     var result = DateTime.Now;
-        ///     return result.AddDays( day - result.DayOfWeek );
-        /// }
-        ///
-        /// [Test]
-        /// public void WeekEndTest()
-        /// {
-        ///     // You will have a warning because you do not test other days of the week
-        ///     var result = RunTest( Case( (DateTime date) => date.DayOfWeek,
-        ///                                 SmartTest.Enum.Values( out value, DayOfWeek.Saturday, DayOfWeek.Sunday ) ),
-        ///                           () => DateTimeHelper.IsWeekEnd( GenerateDateOnWeekDay( value ) ) );
-        ///   
-        ///     Assert.IsTrue( result );
-        /// }
-        /// </code>
+        ///  static class DateTimeHelper
+        ///  {
+        ///      public static bool IsWeekEnd(DateTime date)
+        ///      {
+        ///          return date.DayOfWeek == DayOfWeek.Saturday ||
+        ///                 date.DayOfWeek == DayOfWeek.Sunday;
+        ///      }
+        ///  }
+        /// 
+        ///  ...
+        /// 
+        ///  private static DateTime GenerateDateOnWeekDay( DayOfWeek day )
+        ///  {
+        ///      var result = DateTime.Now;
+        ///      return result.AddDays( day - result.DayOfWeek );
+        ///  }
+        /// 
+        ///  [Test]
+        ///  public void WeekEndTest()
+        ///  {
+        ///      // You will have a warning because you do not test other days of the week
+        ///      var result = RunTest( Case( (DateTime date) => date.DayOfWeek,
+        ///                                  SmartTest.Enum.Values( out value, DayOfWeek.Saturday, DayOfWeek.Sunday ) ),
+        ///                            () => DateTimeHelper.IsWeekEnd( GenerateDateOnWeekDay( value ) ) );
+        ///    
+        ///      Assert.IsTrue( result );
+        ///  }
+        ///  </code>
         /// </example>
         /// <seealso cref="Case(SmartTests.Criteria)" />
         /// <seealso cref="Case(string,SmartTests.Criteria)" />
         /// <seealso cref="SmartTests.Case" />
         public static Case Case<T>( Expression<Func<T, object>> path, Criteria criteria ) => new Case( path.Body.ToString(), criteria );
+
+
+        public static Case Case<TParam, T>( Expression<Func<TParam, INumericType<T>>> path, out T value )
+            where T: IComparable<T>
+        {
+            var range = ExtractRange( path.Body );
+            var evaluatedRange = (INumericType<T>)Expression.Lambda( range ).Compile().DynamicInvoke();
+
+            return new Case( path.Body.ToString(), evaluatedRange.GetValidValue( out value ) );
+        }
+
+
+        public static Case ErrorCase<TParam, T>( Expression<Func<TParam, INumericType<T>>> path, out T value )
+            where T: IComparable<T>
+        {
+            var range = ExtractRange( path.Body );
+            var evaluatedRange = (INumericType<T>)Expression.Lambda( range ).Compile().DynamicInvoke();
+
+            return new Case( path.Body.ToString(), evaluatedRange.GetErrorValue( out value ) );
+        }
+
+
+        private static Expression ExtractRange( Expression expression )
+        {
+            if( expression is MethodCallExpression methodCall )
+                return ExtractRange( methodCall );
+
+            return null;
+        }
+
+
+        private static MethodCallExpression ExtractRange( MethodCallExpression expression )
+        {
+            if( expression.Object != null )
+                return expression.Update( ExtractRange( expression.Object ), expression.Arguments );
+
+            if( expression.Arguments[ 0 ].NodeType == ExpressionType.MemberAccess ||
+                expression.Arguments[ 0 ].NodeType == ExpressionType.Parameter )
+            {
+                // Do not care about first argument!
+                var arguments = expression.Arguments.ToList();
+                arguments[ 0 ] = Expression.Default( arguments[ 0 ].Type );
+                return expression.Update( expression.Object, arguments );
+            }
+
+            return null;
+        }
 
         #endregion
 

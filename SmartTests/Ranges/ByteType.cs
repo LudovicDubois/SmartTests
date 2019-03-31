@@ -62,4 +62,77 @@ namespace SmartTests.Ranges
         /// <inheritdoc />
         public override string ToString() => ToString( "Byte" );
     }
+
+
+    /// <summary>
+    ///     A helper type to create <see cref="INumericType{T}" /> for byte from a byte.
+    /// </summary>
+    public static class ByteTypeHelper
+    {
+        /// <summary>
+        ///     Adds a chunk of numeric values
+        /// </summary>
+        /// <param name="this">A byte we do not care about, except to know to create a <see cref="INumericType{T}" /> for byte.</param>
+        /// <param name="min">The min value (included) of the chunk.</param>
+        /// <param name="max">The max value (included) of the chunk.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for byte so that adding chunks can be chained.</returns>
+        public static INumericType<byte> Range( this byte @this, byte min, byte max ) => SmartTest.Byte.Range( min, max );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values
+        /// </summary>
+        /// <param name="this">A byte we do not care about, except to know to create a <see cref="INumericType{T}" /> for byte.</param>
+        /// <param name="min">The min value (included) of the chunk.</param>
+        /// <param name="minIncluded"><c>true</c> to include min, <c>false</c> otherwise.</param>
+        /// <param name="max">The max value (included) of the chunk.</param>
+        /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for byte so that adding chunks can be chained.</returns>
+        public static INumericType<byte> Range( this byte @this, byte min, bool minIncluded, byte max, bool maxIncluded ) => SmartTest.Byte.Range( min, minIncluded, max, maxIncluded );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values above a min
+        /// </summary>
+        /// <param name="this">A byte we do not care about, except to know to create a <see cref="INumericType{T}" /> for byte.</param>
+        /// <param name="min">The min value (included) of the created chunk.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for byte so that adding chunks can be chained.</returns>
+        public static INumericType<byte> AboveOrEqual( this byte @this, byte min ) => SmartTest.Byte.AboveOrEqual( min );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values above max
+        /// </summary>
+        /// <param name="this">A byte we do not care about, except to know to create a <see cref="INumericType{T}" /> for byte.</param>
+        /// <param name="min">The min value (excluded) of the created chunk.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for byte so that adding chunks can be chained.</returns>
+        public static INumericType<byte> Above( this byte @this, byte min ) => SmartTest.Byte.Above( min );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values below or equal to min
+        /// </summary>
+        /// <param name="this">A byte we do not care about, except to know to create a <see cref="INumericType{T}" /> for byte.</param>
+        /// <param name="max">The max value (included) of the range.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for byte so that adding chunks can be chained.</returns>
+        public static INumericType<byte> BelowOrEqual( this byte @this, byte max ) => SmartTest.Byte.BelowOrEqual( max );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values below or equal to min
+        /// </summary>
+        /// <param name="this">A byte we do not care about, except to know to create a <see cref="INumericType{T}" /> for byte.</param>
+        /// <param name="max">The max value (included) of the range.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for byte so that adding chunks can be chained.</returns>
+        public static INumericType<byte> Below( this byte @this, byte max ) => SmartTest.Byte.Below( max );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values below or equal to min
+        /// </summary>
+        /// <param name="this">A byte we do not care about, except to know to create a <see cref="INumericType{T}" /> for byte.</param>
+        /// <param name="value">A random value within this range.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for byte so that adding chunks can be chained.</returns>
+        public static INumericType<byte> Value( this byte @this, byte value ) => SmartTest.Byte.Value( value );
+    }
 }

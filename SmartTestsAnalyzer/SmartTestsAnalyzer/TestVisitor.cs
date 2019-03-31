@@ -38,6 +38,7 @@ namespace SmartTestsAnalyzer
             Debug.Assert( _ErrorType != null );
             _RunTestMethods = smartTest.GetMethods( "RunTest" );
             _CaseMethods = smartTest.GetMethods( "Case" );
+            _ErrorCaseMethods = smartTest.GetMethods( "ErrorCase" );
             _AssignMethods = smartTest.GetMethods( "Assign" );
         }
 
@@ -49,11 +50,12 @@ namespace SmartTestsAnalyzer
         private readonly INamedTypeSymbol _ErrorType;
         private readonly IMethodSymbol[] _RunTestMethods;
         private readonly IMethodSymbol[] _CaseMethods;
+        private readonly IMethodSymbol[] _ErrorCaseMethods;
         private readonly IMethodSymbol[] _AssignMethods;
 
 
         public bool IsTestProject => _TestingFrameworks.IsTestProject;
-        public bool IsSmartTestProject { get; private set; }
+        public bool IsSmartTestProject { get; }
 
         public MembersTestCases MembersTestCases { get; } = new MembersTestCases();
 
@@ -91,6 +93,7 @@ namespace SmartTestsAnalyzer
                     model = _Compilation.GetSemanticModel( runTest.SyntaxTree );
                     Debug.Assert( model != null );
                 }
+
                 var member = AnalyzeMember( model, argument1Syntax.Expression );
                 if( member == null )
                     // ?!?!?
@@ -189,23 +192,37 @@ namespace SmartTestsAnalyzer
 
             var argumentInvocation = (InvocationExpressionSyntax)caseExpression;
             var caseMethod = model.FindMethodSymbol( argumentInvocation, _CaseMethods );
+            var isError = false;
+            if( caseMethod == null )
+            {
+                caseMethod = model.FindMethodSymbol( argumentInvocation, _ErrorCaseMethods );
+                if( caseMethod != null ) // Logical, even if it does not do anything in case caseMethod == null
+                    isError = true;
+            }
             if( caseMethod == null )
                 return null;
 
-            ExpressionSyntax criterias;
+            ExpressionSyntax criteria;
             ExpressionSyntax parameterNameExpression;
             if( caseMethod.Parameters.Length == 1 )
             {
                 parameterNameExpression = null;
-                criterias = argumentInvocation.GetArgument( 0 )?.Expression;
+                criteria = argumentInvocation.GetArgument( 0 )?.Expression;
             }
             else
             {
                 parameterNameExpression = argumentInvocation.GetArgument( 0 )?.Expression;
-                criterias = argumentInvocation.GetArgument( 1 )?.Expression;
+                if( parameterNameExpression != null &&
+                    caseMethod.Parameters[ 1 ].RefKind == RefKind.Out )
+                {
+                    var visitor = new TypeHelperVisitor( model, isError, _ReportDiagnostic );
+                    return visitor.GetCase( parameterNameExpression );
+                }
+
+                criteria = argumentInvocation.GetArgument( 1 )?.Expression;
             }
 
-            return criterias?.Accept( new CriteriaVisitor( model, casesExpression, parameterNameExpression, _ReportDiagnostic ) );
+            return criteria?.Accept( new CriteriaVisitor( model, casesExpression, parameterNameExpression, _ReportDiagnostic ) );
         }
 
 

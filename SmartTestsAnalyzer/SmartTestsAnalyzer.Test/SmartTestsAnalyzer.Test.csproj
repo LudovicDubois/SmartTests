@@ -219,6 +219,7 @@
     <Compile Include="MultipleCasesTests.cs" />
     <Compile Include="ParameterLongPathTests.cs" />
     <Compile Include="ParameterPathTests.cs" />
+    <Compile Include="TypeTests\ByteTypeHelperTest.cs" />
     <Compile Include="TypeTests\DoubleTypeTests.cs" />
     <Compile Include="TypeTests\FloatTypeTests.cs" />
     <Compile Include="TypeTests\EnumTypeTests.cs" />

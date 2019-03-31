@@ -16,13 +16,15 @@ namespace SmartTestsAnalyzer
     class RangeVisitor<T>: BaseVisitor, IRangeVisitor
         where T: struct, IComparable<T>
     {
-        public RangeVisitor( SemanticModel model, INumericType<T> root, Action<Diagnostic> reportDiagnostic )
+        public RangeVisitor( SemanticModel model, INumericType<T> root, Type helperType, Action<Diagnostic> reportDiagnostic )
             : base( model, reportDiagnostic )
         {
             _Root = root;
 
             // INumericType<T> methods
-            AddITypeTMethods();
+            AddMethods( typeof(INumericType<>), false );
+            if( helperType != null )
+                AddMethods( helperType, true );
         }
 
 
@@ -61,25 +63,27 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void AddITypeTMethods()
+        private void AddMethods( Type type, bool hasThisParameter )
         {
-            var typeName = typeof(INumericType<>).FullName;
-            var iTypeType = Model.Compilation.GetTypeByMetadataName( typeName );
+            var roslynType = Model.Compilation.GetTypeByMetadataName( type.FullName );
+            var thisCount = hasThisParameter ? 1 : 0;
 
             // SmartTest type extension methods
-            AddRangeExtension( iTypeType, "Range", 2,
+            AddRangeExtension( roslynType, "Range", thisCount + 2,
                                node => Range( node, ( min, max ) => _Root.Range( min, max ) ) );
-            AddRangeExtension( iTypeType, "Range", 4,
+            AddRangeExtension( roslynType, "Range", thisCount + 4,
                                node => Range( node, ( min, minIncluded, max, maxIncluded ) => _Root.Range( min, minIncluded, max, maxIncluded ) ) );
-            AddRangeExtension( iTypeType, "AboveOrEqual",
+            AddRangeExtension( roslynType, "AboveOrEqual",
                                node => Range( node, min => _Root.AboveOrEqual( min ) ) );
-            AddRangeExtension( iTypeType, "Above",
+            AddRangeExtension( roslynType, "Above",
                                node => Range( node, min => _Root.Above( min ) ) );
-            AddRangeExtension( iTypeType, "BelowOrEqual",
+            AddRangeExtension( roslynType, "BelowOrEqual",
                                node => Range( node, max => _Root.BelowOrEqual( max ) ) );
-            AddRangeExtension( iTypeType, "Below",
+            AddRangeExtension( roslynType, "Below",
                                node => Range( node, max => _Root.Below( max ) ) );
-            AddRangeExtension( iTypeType, "GetErrorValue",
+            AddRangeExtension( roslynType, "Value",
+                               node => Range( node, value => _Root.Value( value ) ) );
+            AddRangeExtension( roslynType, "GetErrorValue",
                                node => IsError = true );
         }
 

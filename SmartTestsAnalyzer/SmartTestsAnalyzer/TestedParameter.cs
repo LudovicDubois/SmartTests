@@ -54,10 +54,10 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public TestedParameter( string parameterName )
+        public TestedParameter( string parameterName, string parameterPath = null)
         {
             Name = parameterName;
-            Path = Name;
+            Path = parameterPath ?? Name;
         }
 
 

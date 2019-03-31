@@ -49,6 +49,7 @@
     <Compile Include="DoubleRangeTests.cs" />
     <Compile Include="FloatRangeTests.cs" />
     <Compile Include="IntRangeTests.cs" />
+    <Compile Include="LambdaRangeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
