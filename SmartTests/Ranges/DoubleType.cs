@@ -30,24 +30,21 @@ namespace SmartTests.Ranges
         public override Criteria GetValidValue( out double value )
         {
             // Ensure values are well distributed
-            var max = double.MinValue;
+            var max = MinValue;
             foreach( var chunk in Chunks )
-                max += chunk.IncludedMax - chunk.IncludedMin;
+                max += GetNext( chunk.IncludedMax - chunk.IncludedMin ); // GetNext because both are included
+
             var random = new Random();
-
-            if( max == double.MaxValue )
-            {
-                value = random.NextDouble() * ( double.MaxValue - double.MinValue ) + double.MinValue;
+            value = random.NextDouble() * ( max - MinValue ) + MinValue;
+            if( max == MaxValue )
                 return AnyValue.IsValid;
-            }
 
-            value = random.NextDouble() * ( max - double.MinValue ) + double.MinValue;
-            max = double.MinValue;
+            max = MinValue;
             foreach( var chunk in Chunks )
             {
-                var min = GetNext( max );
-                max += chunk.IncludedMax - chunk.IncludedMin;
-                if( value > max )
+                var min = max;
+                max += GetNext( chunk.IncludedMax - chunk.IncludedMin );
+                if( value >= max )
                     continue;
                 value = value - min + chunk.IncludedMin;
                 return AnyValue.IsValid;

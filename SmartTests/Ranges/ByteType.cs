@@ -29,18 +29,21 @@ namespace SmartTests.Ranges
         public override Criteria GetValidValue( out byte value )
         {
             // Ensure values are well distributed
-            int max = byte.MinValue;
+            int max = MinValue;
             foreach( var chunk in Chunks )
-                max += chunk.IncludedMax - chunk.IncludedMin;
-            var random = new Random();
+                max += chunk.IncludedMax - chunk.IncludedMin + 1; // +1 because both are included
 
-            value = (byte)random.Next( byte.MinValue, max );
-            max = byte.MinValue;
+            var random = new Random();
+            value = (byte)random.Next( MinValue, max );
+            if( max == MaxValue )
+                return AnyValue.IsValid;
+
+            max = MinValue;
             foreach( var chunk in Chunks )
             {
-                var min = max + 1;
-                max += chunk.IncludedMax - chunk.IncludedMin;
-                if( value > max )
+                var min = max;
+                max += chunk.IncludedMax - chunk.IncludedMin + 1;
+                if( value >= max )
                     continue;
                 value = (byte)( value - min + chunk.IncludedMin );
                 return AnyValue.IsValid;

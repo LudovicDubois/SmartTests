@@ -30,18 +30,21 @@ namespace SmartTests.Ranges
         public override Criteria GetValidValue( out ulong value )
         {
             // Ensure values are well distributed
-            var max = ulong.MinValue;
+            var max = MinValue;
             foreach( var chunk in Chunks )
-                max += chunk.IncludedMax - chunk.IncludedMin;
+                max += chunk.IncludedMax - chunk.IncludedMin + 1; // +1 because both are included
 
             var random = new Random();
-            value = random.NextULong( ulong.MinValue, max );
-            max = ulong.MinValue;
+            value = random.NextULong( MinValue, max );
+            if( max == MaxValue )
+                return AnyValue.IsValid;
+
+            max = MinValue;
             foreach( var chunk in Chunks )
             {
-                var min = max + 1;
-                max += chunk.IncludedMax - chunk.IncludedMin;
-                if( value > max )
+                var min = max;
+                max += chunk.IncludedMax - chunk.IncludedMin + 1;
+                if( value >= max )
                     continue;
                 value = value - min + chunk.IncludedMin;
                 return AnyValue.IsValid;
