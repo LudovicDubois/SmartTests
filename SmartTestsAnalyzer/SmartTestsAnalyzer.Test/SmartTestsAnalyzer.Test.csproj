@@ -222,6 +222,7 @@
     <Compile Include="TypeTests\ByteTypeHelperTests.cs" />
     <Compile Include="TypeTests\DoubleTypeHelperTests.cs" />
     <Compile Include="TypeTests\DoubleTypeTests.cs" />
+    <Compile Include="TypeTests\FloatTypeHelperTests.cs" />
     <Compile Include="TypeTests\FloatTypeTests.cs" />
     <Compile Include="TypeTests\EnumTypeTests.cs" />
     <Compile Include="TypeTests\SByteTypeTests.cs" />
