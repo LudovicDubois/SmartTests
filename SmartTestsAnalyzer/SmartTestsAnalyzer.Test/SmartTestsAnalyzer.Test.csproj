@@ -232,6 +232,7 @@
     <Compile Include="TypeTests\ShortTypeHelperTests.cs" />
     <Compile Include="TypeTests\ShortTypeTests.cs" />
     <Compile Include="TypeTests\ByteTypeTests.cs" />
+    <Compile Include="TypeTests\UIntTypeHelperTests.cs" />
     <Compile Include="TypeTests\UShortTypeTests.cs" />
     <Compile Include="TypeTests\UIntTypeTests.cs" />
     <Compile Include="TypeTests\ULongTypeTests.cs" />
