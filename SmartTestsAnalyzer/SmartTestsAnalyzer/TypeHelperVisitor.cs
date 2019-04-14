@@ -26,6 +26,7 @@ namespace SmartTestsAnalyzer
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.FloatTypeHelper" ), () => new RangeVisitor<float>( model, SmartTest.Float, typeof(FloatTypeHelper), reportDiagnostic ) );
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.IntTypeHelper" ), () => new RangeVisitor<int>( model, SmartTest.Int, typeof(IntTypeHelper), reportDiagnostic ) );
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.LongTypeHelper" ), () => new RangeVisitor<long>( model, SmartTest.Long, typeof(LongTypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.SByteTypeHelper" ), () => new RangeVisitor<sbyte>( model, SmartTest.SByte, typeof(SByteTypeHelper), reportDiagnostic ) );
         }
 
 

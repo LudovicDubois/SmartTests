@@ -227,6 +227,7 @@
     <Compile Include="TypeTests\EnumTypeTests.cs" />
     <Compile Include="TypeTests\IntTypeHelperTests.cs" />
     <Compile Include="TypeTests\LongTypeHelperTests.cs" />
+    <Compile Include="TypeTests\SByteTypeHelperTests.cs" />
     <Compile Include="TypeTests\SByteTypeTests.cs" />
     <Compile Include="TypeTests\ShortTypeTests.cs" />
     <Compile Include="TypeTests\ByteTypeTests.cs" />
