@@ -70,4 +70,77 @@ namespace SmartTests.Ranges
         /// <inheritdoc />
         public override string ToString() => ToString( "Short" );
     }
+
+
+    /// <summary>
+    ///     A helper type to create <see cref="INumericType{T}" /> for short from a short.
+    /// </summary>
+    public static class ShortTypeHelper
+    {
+        /// <summary>
+        ///     Adds a chunk of numeric values
+        /// </summary>
+        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="min">The min value (included) of the chunk.</param>
+        /// <param name="max">The max value (included) of the chunk.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
+        public static INumericType<short> Range( this short @this, short min, short max ) => SmartTest.Short.Range( min, max );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values
+        /// </summary>
+        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="min">The min value (included) of the chunk.</param>
+        /// <param name="minIncluded"><c>true</c> to include min, <c>false</c> otherwise.</param>
+        /// <param name="max">The max value (included) of the chunk.</param>
+        /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
+        public static INumericType<short> Range( this short @this, short min, bool minIncluded, short max, bool maxIncluded ) => SmartTest.Short.Range( min, minIncluded, max, maxIncluded );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values above a min
+        /// </summary>
+        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="min">The min value (included) of the created chunk.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
+        public static INumericType<short> AboveOrEqual( this short @this, short min ) => SmartTest.Short.AboveOrEqual( min );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values above max
+        /// </summary>
+        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="min">The min value (excluded) of the created chunk.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
+        public static INumericType<short> Above( this short @this, short min ) => SmartTest.Short.Above( min );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values below or equal to min
+        /// </summary>
+        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="max">The max value (included) of the range.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
+        public static INumericType<short> BelowOrEqual( this short @this, short max ) => SmartTest.Short.BelowOrEqual( max );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values below or equal to min
+        /// </summary>
+        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="max">The max value (included) of the range.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
+        public static INumericType<short> Below( this short @this, short max ) => SmartTest.Short.Below( max );
+
+
+        /// <summary>
+        ///     Adds a chunk of numeric values below or equal to min
+        /// </summary>
+        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="value">A random value within this range.</param>
+        /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
+        public static INumericType<short> Value( this short @this, short value ) => SmartTest.Short.Value( value );
+    }
 }
