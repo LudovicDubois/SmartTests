@@ -30,6 +30,7 @@ namespace SmartTestsAnalyzer
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.ShortTypeHelper" ), () => new RangeVisitor<short>( model, SmartTest.Short, typeof(ShortTypeHelper), reportDiagnostic ) );
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.UIntTypeHelper" ), () => new RangeVisitor<uint>( model, SmartTest.UInt, typeof(UIntTypeHelper), reportDiagnostic ) );
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.ULongTypeHelper" ), () => new RangeVisitor<ulong>( model, SmartTest.ULong, typeof(ULongTypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.UShortTypeHelper" ), () => new RangeVisitor<ushort>( model, SmartTest.UShort, typeof(UShortTypeHelper), reportDiagnostic ) );
         }
 
 
