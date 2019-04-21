@@ -87,12 +87,16 @@ namespace SmartTestsAnalyzer
             _ErrorValueMethod = enumType.GetMethod( nameof(EnumType.ErrorValue) );
             _ValuesMethod = enumType.GetMethod( nameof(EnumType.Values) );
             _ErrorValuesMethod = enumType.GetMethod( nameof(EnumType.ErrorValues) );
+
+            var enumHelperType = Model.Compilation.GetTypeByMetadataName( typeof(EnumTypeHelper).FullName );
+            _HelperValuesMethod = enumHelperType.GetMethod( nameof(EnumTypeHelper.Values) );
         }
 
 
         private readonly IMethodSymbol _ValueMethod;
         private readonly IMethodSymbol _ErrorValueMethod;
         private readonly IMethodSymbol _ValuesMethod;
+        private readonly IMethodSymbol _HelperValuesMethod;
         private readonly IMethodSymbol _ErrorValuesMethod;
 
         public IType Root { get; private set; }
@@ -107,12 +111,13 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void Values( InvocationExpressionSyntax node )
+        private void Values( InvocationExpressionSyntax node, bool fromStart )
         {
             // We do not care about argument 0, as it is the out parameter
-            var expression = node.GetArgument( 1 ).Expression;
+            var start = fromStart ? 0 : 1;
+            var expression = node.GetArgument( start ).Expression;
             var enumType = new EnumTypeAnalyzer( Model.GetSymbol( expression ).ContainingType );
-            foreach( var argument in node.ArgumentList.Arguments.Skip( 1 ) )
+            foreach( var argument in node.ArgumentList.Arguments.Skip( start ) )
             {
                 if( !TryGetConstant( argument.Expression, out int value ) )
                     return;
@@ -133,6 +138,13 @@ namespace SmartTestsAnalyzer
                 //?!?
                 return;
 
+
+            if( criteria.OriginalDefinition.ReducedFrom?.Equals( _HelperValuesMethod ) == true )
+            {
+                Values( node, true );
+                return;
+            }
+
             if( criteria.OriginalDefinition.Equals( _ValueMethod ) )
             {
                 Value( node );
@@ -148,13 +160,13 @@ namespace SmartTestsAnalyzer
 
             if( criteria.OriginalDefinition.Equals( _ValuesMethod ) )
             {
-                Values( node );
+                Values( node, false );
                 return;
             }
 
             if( criteria.OriginalDefinition.Equals( _ErrorValuesMethod ) )
             {
-                Values( node );
+                Values( node, false );
                 IsError = true;
             }
         }

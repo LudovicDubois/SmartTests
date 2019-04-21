@@ -68,4 +68,24 @@ namespace SmartTests.Ranges
             where T: struct, IComparable
             => AnyValue.IsValid;
     }
+
+
+    public static class EnumTypeHelper
+    {
+        public class PlaceHolder<T>
+            where T: struct, IComparable
+        { }
+
+
+        /// <summary>
+        ///     Adds enum values to test for as an equivalence class.
+        /// </summary>
+        /// <typeparam name="T">An enum type.</typeparam>
+        /// <param name="firstValue">To be sure there is at least one value.</param>
+        /// <param name="values">The other values as an equivalence class for the current test.</param>
+        /// <returns>The criteria representing the full range.</returns>
+        public static PlaceHolder<T> Values<T>( this T @this, params T[] values )
+            where T: struct, IComparable
+            => new PlaceHolder<T>();
+    }
 }

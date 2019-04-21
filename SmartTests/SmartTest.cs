@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -154,46 +153,127 @@ namespace SmartTests
         public static Case Case<TParam, T>( Expression<Func<TParam, INumericType<T>>> path, out T value )
             where T: IComparable<T>
         {
-            var range = ExtractRange( path.Body );
-            var evaluatedRange = (INumericType<T>)Expression.Lambda( range ).Compile().DynamicInvoke();
+            var range = ExtractNameAndRange( path.Body, out var name );
+            if( range == null )
+            {
+                value = default;
+                return null;
+            }
 
-            return new Case( path.Body.ToString(), evaluatedRange.GetValidValue( out value ) );
+            var evaluatedRange = (INumericType<T>)Expression.Lambda( range ).Compile().DynamicInvoke();
+            return new Case( name, evaluatedRange.GetValidValue( out value ) );
         }
 
 
         public static Case ErrorCase<TParam, T>( Expression<Func<TParam, INumericType<T>>> path, out T value )
             where T: IComparable<T>
         {
-            var range = ExtractRange( path.Body );
-            var evaluatedRange = (INumericType<T>)Expression.Lambda( range ).Compile().DynamicInvoke();
+            var range = ExtractNameAndRange( path.Body, out var name );
+            if( range == null )
+            {
+                value = default;
+                return null;
+            }
 
-            return new Case( path.Body.ToString(), evaluatedRange.GetErrorValue( out value ) );
+            var evaluatedRange = (INumericType<T>)Expression.Lambda( range ).Compile().DynamicInvoke();
+            return new Case( name, evaluatedRange.GetErrorValue( out value ) );
         }
 
 
-        private static Expression ExtractRange( Expression expression )
+        public static Case Case<TParam, T>( Expression<Func<TParam, EnumTypeHelper.PlaceHolder<T>>> path, out T value )
+            where T: struct, IComparable
+        {
+            var range = ExtractNameAndValues( path.Body, out var name );
+            if( range == null )
+            {
+                value = default;
+                return null;
+            }
+
+            var typedRange = range.Cast<T>().ToArray();
+            var enumType = new EnumType();
+            return new Case( name, enumType.Values( out value, typedRange[ 0 ], typedRange.Skip( 1 ).ToArray() ) );
+        }
+
+
+        public static Case ErrorCase<TParam, T>( Expression<Func<TParam, EnumTypeHelper.PlaceHolder<T>>> path, out T value )
+            where T: struct, IComparable
+        {
+            var range = ExtractNameAndValues( path.Body, out var name );
+            if( range == null )
+            {
+                value = default;
+                return null;
+            }
+
+            var typedRange = range.Cast<T>().ToArray();
+            var enumType = new EnumType();
+            return new Case( name, enumType.ErrorValues( out value, typedRange[ 0 ], typedRange.Skip( 1 ).ToArray() ) );
+        }
+
+
+        private static Expression ExtractNameAndRange( Expression expression, out string name )
         {
             if( expression is MethodCallExpression methodCall )
-                return ExtractRange( methodCall );
+                return ExtractNameAndRange( methodCall, out name );
 
+            name = null;
             return null;
         }
 
 
-        private static MethodCallExpression ExtractRange( MethodCallExpression expression )
+        private static MethodCallExpression ExtractNameAndRange( MethodCallExpression expression, out string name )
         {
             if( expression.Object != null )
-                return expression.Update( ExtractRange( expression.Object ), expression.Arguments );
+                return expression.Update( ExtractNameAndRange( expression.Object, out name ), expression.Arguments );
 
             if( expression.Arguments[ 0 ].NodeType == ExpressionType.MemberAccess ||
                 expression.Arguments[ 0 ].NodeType == ExpressionType.Parameter )
             {
-                // Do not care about first argument!
+                // First Argument is "this"
+                name = expression.Arguments[ 0 ].ToString();
                 var arguments = expression.Arguments.ToList();
                 arguments[ 0 ] = Expression.Default( arguments[ 0 ].Type );
                 return expression.Update( expression.Object, arguments );
             }
 
+            name = null;
+            return null;
+        }
+
+
+        private static object[] ExtractNameAndValues( Expression expression, out string name )
+        {
+            name = null;
+            return expression is MethodCallExpression methodCall
+                       ? ExtractNameAndValues( methodCall, out name )
+                       : null;
+        }
+
+
+        private static object[] ExtractNameAndValues( MethodCallExpression expression, out string name )
+        {
+            if( expression.Object != null )
+                return ExtractNameAndValues( expression.Object, out name );
+
+            if( expression.Arguments[ 0 ].NodeType == ExpressionType.MemberAccess ||
+                expression.Arguments[ 0 ].NodeType == ExpressionType.Parameter )
+            {
+                // First Argument is "this"
+                name = expression.Arguments[ 0 ].ToString();
+                if( !( expression.Arguments[ 1 ] is NewArrayExpression arrayInit ) )
+                    return null;
+                var otherArguments = arrayInit.Expressions;
+                if( otherArguments.Any( arg => arg.NodeType != ExpressionType.Constant ) )
+                {
+                    name = null;
+                    return null;
+                }
+
+                return otherArguments.Select( arg => ( (ConstantExpression)arg ).Value ).ToArray();
+            }
+
+            name = null;
             return null;
         }
 
