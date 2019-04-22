@@ -70,8 +70,18 @@ namespace SmartTests.Ranges
     }
 
 
+    /// <summary>
+    ///     A helper type to create <see cref="EnumType" />.
+    /// </summary>
     public static class EnumTypeHelper
     {
+        /// <summary>
+        ///     A place holder type to distinguish the right
+        ///     <see
+        ///         cref="SmartTest.Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        ///     .
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         public class PlaceHolder<T>
             where T: struct, IComparable
         { }
@@ -81,8 +91,8 @@ namespace SmartTests.Ranges
         ///     Adds enum values to test for as an equivalence class.
         /// </summary>
         /// <typeparam name="T">An enum type.</typeparam>
-        /// <param name="firstValue">To be sure there is at least one value.</param>
-        /// <param name="values">The other values as an equivalence class for the current test.</param>
+        /// <param name="this">An enum we do not care about, except to know to create a <see cref="EnumType" />.</param>
+        /// <param name="values">The values as an equivalence class for the current test.</param>
         /// <returns>The criteria representing the full range.</returns>
         public static PlaceHolder<T> Values<T>( this T @this, params T[] values )
             where T: struct, IComparable

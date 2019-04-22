@@ -74,10 +74,10 @@ namespace SmartTests
 
 
         /// <summary>
-        ///     Creates an instance of <see cref="SmartTests.Case" /> class for a specific parameter patth <see cref="Criteria" />.
+        ///     Creates an instance of <see cref="SmartTests.Case" /> class for a specific parameter path <see cref="Criteria" />.
         /// </summary>
         /// <typeparam name="T">The type of the parameter</typeparam>
-        /// <param name="path">An Expression of the path fot the created <see cref="SmartTests.Case" />.</param>
+        /// <param name="path">An Expression of the path for the created <see cref="SmartTests.Case" />.</param>
         /// <param name="criteria">The <see cref="Criteria" /> for the created <see cref="SmartTests.Case" />.</param>
         /// <returns>The newly created <see cref="SmartTests.Case" />.</returns>
         /// <remarks>
@@ -150,6 +150,74 @@ namespace SmartTests
         public static Case Case<T>( Expression<Func<T, object>> path, Criteria criteria ) => new Case( path.Body.ToString(), criteria );
 
 
+
+        /// <summary>
+        ///     Creates an instance of <see cref="SmartTests.Case" /> class for a specific parameter path.
+        /// </summary>
+        /// <typeparam name="T">The type of the parameter</typeparam>
+        /// <typeparam name="TParam">The type of the parameter of the method to test.</typeparam>
+        /// <param name="path">An Expression of the path and the criteria for the parameter of the method to test.</param>
+        /// <param name="value">One random value from the provided values in the equivalence class.</param>
+        /// <returns>The newly created <see cref="SmartTests.Case" />.</returns>
+        /// <remarks>
+        ///     <para>Warning: Not all lambda can be used.</para>
+        ///     <para>It has to have 2 constraints:</para>
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Valid Parameter Name</term>
+        ///             <decription>
+        ///                 The lambda should have 1 parameter whose name is the name of the parameter of the tested method
+        ///                 you want to describe the <see cref="Criteria" />.
+        ///             </decription>
+        ///         </item>
+        ///         <item>
+        ///             <term>Valid Parameter Type</term>
+        ///             <decription>
+        ///                 The type of the parameter of the lambda should be the type of the parameter whose name is the
+        ///                 name of the parameter of the tested method you want to describe the <see cref="Criteria" />.
+        ///             </decription>
+        ///         </item>
+        ///         <item>
+        ///             <term>Valid Path</term>
+        ///             <decription>
+        ///                 <para>
+        ///                     The expression in the lambda must be a path starting with the lambda parameter and having has
+        ///                     many properties/fields access.
+        ///                 </para>
+        ///                 <para>
+        ///                     The idea is to specify properties (or sub-properties....) of the parameter that have an effect
+        ///                     on the context of the test.
+        ///                 </para>
+        ///             </decription>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     <code>
+        ///  static class IntHelper
+        ///  {
+        ///      public static double Inverse(int n) => 1 / n;
+        ///  }
+        /// 
+        ///  ...
+        /// 
+        ///  [Test]
+        ///  public void IntTest()
+        ///  {
+        ///      var result = RunTest( Case( (int n) => n.Below( 0 ).Above( 0 ), out var value ),
+        ///                            () => IntHelper.Inverse( value ) );
+        ///    
+        ///      Assert.AreEqual( 1 / value, result );
+        ///  }
+        ///  </code>
+        /// </example>
+        /// <seealso cref="ErrorCase{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)"/>
+        /// <seealso
+        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        /// <seealso cref="Case{T}" />
+        /// <seealso cref="Case(SmartTests.Criteria)" />
+        /// <seealso cref="Case(string,SmartTests.Criteria)" />
+        /// <seealso cref="SmartTests.Case" />
         public static Case Case<TParam, T>( Expression<Func<TParam, INumericType<T>>> path, out T value )
             where T: IComparable<T>
         {
@@ -165,6 +233,71 @@ namespace SmartTests
         }
 
 
+        /// <summary>
+        ///     Creates an instance of <see cref="SmartTests.Case" /> class for a specific parameter path.
+        /// </summary>
+        /// <typeparam name="T">The type of the parameter</typeparam>
+        /// <typeparam name="TParam">The type of the parameter of the method to test.</typeparam>
+        /// <param name="path">An Expression of the path and the criteria for the parameter of the method to test.</param>
+        /// <param name="value">One random value from the provided values in the equivalence class.</param>
+        /// <returns>The newly created <see cref="SmartTests.Case" />.</returns>
+        /// <remarks>
+        ///     <para>Warning: Not all lambda can be used.</para>
+        ///     <para>It has to have 2 constraints:</para>
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Valid Parameter Name</term>
+        ///             <decription>
+        ///                 The lambda should have 1 parameter whose name is the name of the parameter of the tested method
+        ///                 you want to describe the <see cref="Criteria" />.
+        ///             </decription>
+        ///         </item>
+        ///         <item>
+        ///             <term>Valid Parameter Type</term>
+        ///             <decription>
+        ///                 The type of the parameter of the lambda should be the type of the parameter whose name is the
+        ///                 name of the parameter of the tested method you want to describe the <see cref="Criteria" />.
+        ///             </decription>
+        ///         </item>
+        ///         <item>
+        ///             <term>Valid Path</term>
+        ///             <decription>
+        ///                 <para>
+        ///                     The expression in the lambda must be a path starting with the lambda parameter and having has
+        ///                     many properties/fields access.
+        ///                 </para>
+        ///                 <para>
+        ///                     The idea is to specify properties (or sub-properties....) of the parameter that have an effect
+        ///                     on the context of the test.
+        ///                 </para>
+        ///             </decription>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     <code>
+        ///  static class IntHelper
+        ///  {
+        ///      public static double Inverse(int n) => 1 / n;
+        ///  }
+        /// 
+        ///  ...
+        /// 
+        ///  [Test]
+        ///  public void IntTest()
+        ///  {
+        ///      Assert.Throws&lt;DivideByZeroException&gt;, () => RunTest( ErrorCase( (int n) => n.Value( 0 ), out var value ),
+        ///                                                                      () => IntHelper.Inverse( value ) ));
+        ///  }
+        ///  </code>
+        /// </example>
+        /// <seealso cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)"/>
+        /// <seealso
+        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        /// <seealso cref="Case{T}" />
+        /// <seealso cref="Case(SmartTests.Criteria)" />
+        /// <seealso cref="Case(string,SmartTests.Criteria)" />
+        /// <seealso cref="SmartTests.Case" />
         public static Case ErrorCase<TParam, T>( Expression<Func<TParam, INumericType<T>>> path, out T value )
             where T: IComparable<T>
         {
@@ -180,6 +313,84 @@ namespace SmartTests
         }
 
 
+        /// <summary>
+        ///     Creates an instance of <see cref="SmartTests.Case" /> class for a specific parameter path.
+        /// </summary>
+        /// <typeparam name="T">The type of the parameter</typeparam>
+        /// <typeparam name="TParam">The type of the parameter of the method to test.</typeparam>
+        /// <param name="path">An Expression of the path and the criteria for the parameter of the method to test.</param>
+        /// <param name="value">One random value from the provided values in the equivalence class.</param>
+        /// <returns>The newly created <see cref="SmartTests.Case" />.</returns>
+        /// <remarks>
+        ///     <para>Warning: Not all lambda can be used.</para>
+        ///     <para>It has to have 2 constraints:</para>
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Valid Parameter Name</term>
+        ///             <decription>
+        ///                 The lambda should have 1 parameter whose name is the name of the parameter of the tested method
+        ///                 you want to describe the <see cref="Criteria" />.
+        ///             </decription>
+        ///         </item>
+        ///         <item>
+        ///             <term>Valid Parameter Type</term>
+        ///             <decription>
+        ///                 The type of the parameter of the lambda should be the type of the parameter whose name is the
+        ///                 name of the parameter of the tested method you want to describe the <see cref="Criteria" />.
+        ///             </decription>
+        ///         </item>
+        ///         <item>
+        ///             <term>Valid Path</term>
+        ///             <decription>
+        ///                 <para>
+        ///                     The expression in the lambda must be a path starting with the lambda parameter and having has
+        ///                     many properties/fields access.
+        ///                 </para>
+        ///                 <para>
+        ///                     The idea is to specify properties (or sub-properties....) of the parameter that have an effect
+        ///                     on the context of the test.
+        ///                 </para>
+        ///             </decription>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     <code>
+        ///  static class DateTimeHelper
+        ///  {
+        ///      public static bool IsWeekEnd(DateTime date)
+        ///      {
+        ///          return date.DayOfWeek == DayOfWeek.Saturday ||
+        ///                 date.DayOfWeek == DayOfWeek.Sunday;
+        ///      }
+        ///  }
+        /// 
+        ///  ...
+        /// 
+        ///  private static DateTime GenerateDateOnWeekDay( DayOfWeek day )
+        ///  {
+        ///      var result = DateTime.Now;
+        ///      return result.AddDays( day - result.DayOfWeek );
+        ///  }
+        /// 
+        ///  [Test]
+        ///  public void WeekEndTest()
+        ///  {
+        ///      // You will have a warning because you do not test other days of the week
+        ///      var result = RunTest( Case( (DateTime date) => date.DayOfWeek.Values( DayOfWeek.Saturday, DayOfWeek.Sunday ), out var value ),
+        ///                            () => DateTimeHelper.IsWeekEnd( GenerateDateOnWeekDay( value ) ) );
+        ///    
+        ///      Assert.IsTrue( result );
+        ///  }
+        ///  </code>
+        /// </example>
+        /// <seealso cref="ErrorCase{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)"/>
+        /// <seealso
+        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        /// <seealso cref="Case{T}" />
+        /// <seealso cref="Case(SmartTests.Criteria)" />
+        /// <seealso cref="Case(string,SmartTests.Criteria)" />
+        /// <seealso cref="SmartTests.Case" />
         public static Case Case<TParam, T>( Expression<Func<TParam, EnumTypeHelper.PlaceHolder<T>>> path, out T value )
             where T: struct, IComparable
         {
@@ -196,6 +407,83 @@ namespace SmartTests
         }
 
 
+        /// <summary>
+        ///     Creates an instance of <see cref="SmartTests.Case" /> class for a specific parameter path to manage errors.
+        /// </summary>
+        /// <typeparam name="T">The type of the parameter</typeparam>
+        /// <typeparam name="TParam">The type of the parameter of the method to test.</typeparam>
+        /// <param name="path">An Expression of the path and the criteria for the parameter of the method to test.</param>
+        /// <param name="value">One random value from the provided values in the equivalence class.</param>
+        /// <returns>The newly created <see cref="SmartTests.Case" />.</returns>
+        /// <remarks>
+        ///     <para>Warning: Not all lambda can be used.</para>
+        ///     <para>It has to have 2 constraints:</para>
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Valid Parameter Name</term>
+        ///             <decription>
+        ///                 The lambda should have 1 parameter whose name is the name of the parameter of the tested method
+        ///                 you want to describe the <see cref="Criteria" />.
+        ///             </decription>
+        ///         </item>
+        ///         <item>
+        ///             <term>Valid Parameter Type</term>
+        ///             <decription>
+        ///                 The type of the parameter of the lambda should be the type of the parameter whose name is the
+        ///                 name of the parameter of the tested method you want to describe the <see cref="Criteria" />.
+        ///             </decription>
+        ///         </item>
+        ///         <item>
+        ///             <term>Valid Path</term>
+        ///             <decription>
+        ///                 <para>
+        ///                     The expression in the lambda must be a path starting with the lambda parameter and having has
+        ///                     many properties/fields access.
+        ///                 </para>
+        ///                 <para>
+        ///                     The idea is to specify properties (or sub-properties....) of the parameter that have an effect
+        ///                     on the context of the test.
+        ///                 </para>
+        ///             </decription>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     <code>
+        ///  static class DateTimeHelper
+        ///  {
+        ///      public static bool IsWeekEnd(DateTime date)
+        ///      {
+        ///          return date.DayOfWeek == DayOfWeek.Saturday ||
+        ///                 date.DayOfWeek == DayOfWeek.Sunday;
+        ///      }
+        ///  }
+        /// 
+        ///  ...
+        /// 
+        ///  private static DateTime GenerateDateOnWeekDay( DayOfWeek day )
+        ///  {
+        ///      var result = DateTime.Now;
+        ///      return result.AddDays( day - result.DayOfWeek );
+        ///  }
+        /// 
+        ///  [Test]
+        ///  public void WeekEndTest()
+        ///  {
+        ///      // You will have a warning because you do not test other days of the week
+        ///      var result = RunTest( ErrorCase( (DateTime date) => date.DayOfWeek.Values( DayOfWeek.Saturday, DayOfWeek.Sunday ), out var value ),
+        ///                            () => DateTimeHelper.IsWeekEnd( GenerateDateOnWeekDay( value ) ) );
+        ///    
+        ///      Assert.IsTrue( result );
+        ///  }
+        ///  </code>
+        /// </example>
+        /// <seealso cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)"/>
+        /// <seealso cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)" />
+        /// <seealso cref="Case{T}" />
+        /// <seealso cref="Case(SmartTests.Criteria)" />
+        /// <seealso cref="Case(string,SmartTests.Criteria)" />
+        /// <seealso cref="SmartTests.Case" />
         public static Case ErrorCase<TParam, T>( Expression<Func<TParam, EnumTypeHelper.PlaceHolder<T>>> path, out T value )
             where T: struct, IComparable
         {
