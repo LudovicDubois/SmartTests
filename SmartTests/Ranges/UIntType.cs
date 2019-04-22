@@ -105,7 +105,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     Adds a chunk of numeric values above max
+        ///     Adds a chunk of numeric values above min
         /// </summary>
         /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
@@ -114,7 +114,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     Adds a chunk of numeric values below or equal to min
+        ///     Adds a chunk of numeric values below or equal to max
         /// </summary>
         /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="max">The max value (included) of the range.</param>
@@ -123,7 +123,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     Adds a chunk of numeric values below or equal to min
+        ///     Adds a chunk of numeric values below max
         /// </summary>
         /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="max">The max value (included) of the range.</param>
@@ -132,7 +132,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     Adds a chunk of numeric values below or equal to min
+        ///     Adds a chunk of one numeric value
         /// </summary>
         /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="value">A random value within this range.</param>

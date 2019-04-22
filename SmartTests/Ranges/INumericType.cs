@@ -121,7 +121,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     Adds a chunk of numeric values above max
+        ///     Adds a chunk of numeric values above min
         /// </summary>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>returns <c>this</c>.</returns>
@@ -129,7 +129,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     adds a chunk of numeric values above max and returns a criteria for this range
+        ///     adds a chunk of numeric values above min and returns a criteria for this range
         /// </summary>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <param name="value">A random value within this range.</param>
@@ -138,7 +138,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     Adds a chunk of numeric values below or equal to min
+        ///     Adds a chunk of numeric values below or equal to max
         /// </summary>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>returns <c>this</c>.</returns>
@@ -146,7 +146,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     Adds a range of numeric values below or equal to min and returns a criteria for this range
+        ///     Adds a range of numeric values below or equal to max and returns a criteria for this range
         /// </summary>
         /// <param name="max">The max value (included) of the created chunk.</param>
         /// <param name="value">A random value within this range.</param>
@@ -155,7 +155,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     Adds a chunk of numeric values below min
+        ///     Adds a chunk of numeric values below max
         /// </summary>
         /// <param name="max">The max value (excluded) of the created chunk.</param>
         /// <returns>returns <c>this</c>.</returns>
@@ -163,7 +163,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        ///     Creates a range of numeric values from min and returns a criteria for this range
+        ///     Creates a range of numeric values below max and returns a criteria for this range
         /// </summary>
         /// <param name="max">The max value (excluded) of the created chunk.</param>
         /// <param name="value">A random value within this range.</param>
