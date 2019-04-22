@@ -68,7 +68,6 @@ Also,
 
 Since version 1.7, you can specify the parameter with a lambda expression instead of the name as a `string`.
 
-
 It is a `public static` method of main class `SmartTest`:
 
 ```C#
@@ -81,7 +80,7 @@ public class MathTest
     [Test]
     public void Sqrt_ValueGreaterThanMin()
     {
-        var result = RunTest( Case( (double d) => d, MinIncluded.IsAboveMin ),
+        var result = RunTest( Case( (double d) => d, Double.AboveOrEqual(0) ),
                               () => Math.Sqrt(2) );
 
         Assert.AreEqual( 2, result );
@@ -89,7 +88,7 @@ public class MathTest
 }
 ```
 
-> Note that, as for previous overload, a compile time error will occur if the parameter or the paraneter type of the lambda do not match a real parameter name and type of your tested member.
+> Note that, as for previous overload, a compile time error will occur if the parameter or the parameter type of the lambda do not match a real parameter name and type of your tested member.
 
 The principal interest of this notation is that you can have cases specific to sub-properties (or sub-fields) of your parameter.
 
@@ -114,18 +113,90 @@ You should test it this way:
 [TestFixture]
 public class TestClass
 {
+    private static DateTime GenerateDateOnWeekDay( DayOfWeek day )
+    {
+        var result = DateTime.Now;
+        return result.AddDays( day - result.DayOfWeek );
+    }
+
     [Test]
     public void FirstTest()
     {
         var result = RunTest(Case((DateTime date) => date.DayOfWeek, SmartTests.SmartTest.Enum.Values(out var value, DayOfWeek.Saturday, DayOfWeek.Sunday)),
-            () => DateTimeHelper.IsWeekEnd(new DateTime(2019, 2, 3)));
+            () => DateTimeHelper.IsWeekEnd(GenerateDateOnWeekDay(value)));
 
         Assert.IsTrue(result);
     }
 }
 ```
 
-The `Smart Tests` analyzer will then warn you some tests are missing for `date.DayOfWeek`.
+The `Smart Tests` analyzer will then warn that you some tests are missing for `date.DayOfWeek`.
+
+## With lambda expression and equivalence class
+
+Since version 1.8, you can even specify the parameter and the equivalence class with a lambda expression instead of the name as a `string` and a `criteria`.
+
+```C#
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+[TestFixture]
+public class MathTest
+{
+    [Test]
+    public void Sqrt_ValueGreaterThanMin()
+    {
+        var result = RunTest( Case( (double d) => d.AboveOrEqual(0), out var value ),
+                              () => Math.Sqrt(value) );
+
+        Assert.AreEqual( 2, result );
+    }
+}
+```
+
+> Note that, as for previous overload, a compile time error will occur if the parameter or the parameter type of the lambda do not match a real parameter name and type of your tested member.
+
+The principal interest of this notation is that you can have cases specific to sub-properties (or sub-fields) of your parameter.
+
+Then, combine the different members for a better cases tracking (see [`Combining Cases`](#combining-cases)).
+
+Suppose you want to test this code:
+
+```C#
+static class DateTimeHelper
+{
+    public static bool IsWeekEnd(DateTime date)
+    {
+        return date.DayOfWeek == DayOfWeek.Saturday ||
+            date.DayOfWeek == DayOfWeek.Sunday;
+    }
+}
+```
+
+You should test it this way:
+
+```C#
+[TestFixture]
+public class TestClass
+{
+    private static DateTime GenerateDateOnWeekDay( DayOfWeek day )
+    {
+        var result = DateTime.Now;
+        return result.AddDays( day - result.DayOfWeek );
+    }
+
+    [Test]
+    public void FirstTest()
+    {
+        var result = RunTest(Case((DateTime date) => date.DayOfWeek.Values(DayOfWeek.Saturday, DayOfWeek.Sunday), out var value),
+            () => DateTimeHelper.IsWeekEnd(GenerateDateOnWeekDay(value)));
+
+        Assert.IsTrue(result);
+    }
+}
+```
+
+The `Smart Tests` analyzer will then warn you that some tests are missing for `date.DayOfWeek`.
 
 ## Combining Cases
 

@@ -1,5 +1,10 @@
 # What's new
 
+## version 1.8
+
+[`Case`](Cases/readme.md#with-lambda-expression-and-equivalence-class) can now be associated with parameter properties and fields and the equivalence class.
+Ensuring better representation of which properties/fields and equivalence classes are involved in a test.
+
 ## version 1.7
 
 [`Case`](Cases/readme.md#with-lambda-expression) can now be associated with parameter properties and fields.
