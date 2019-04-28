@@ -9,24 +9,25 @@
   <PropertyGroup>
     <PackageId>SmartTests.Analyzer</PackageId>
     <Authors>Ludovic Dubois</Authors>
-    <PackageLicenseUrl>https://opensource.org/licenses/MS-PL</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/LudovicDubois/SmartTests</PackageProjectUrl>
     <PackageIconUrl>https://github.com/LudovicDubois/SmartTests/raw/master/SmartTests.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/LudovicDubois/SmartTests</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>An analyzer to find missing tests for tests written with SmartTests.</Description>
-    <PackageReleaseNotes>Case can now be associated with parameter properties and fields.
-Ensuring better representation of which properties/fields are involved in a test.</PackageReleaseNotes>
+    <PackageReleaseNotes>Specify the parameter and the equivalence class with a lambda expression instead of the name as a string and a criteria.
+For example: RunTest( Case( (double d) =&gt; d.AboveOrEqual(0) out var value ), () =&gt; Math.Sqrt(value) );</PackageReleaseNotes>
     <Copyright>Copyright (c) Pretty Objects Computers inc</Copyright>
     <PackageTags>SmartTests test testing tdd framework assert analyzer NUnit MSTests Xunit</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <ApplicationIcon>SmartTests-perspective.ico</ApplicationIcon>
     <RepositoryType>git</RepositoryType>
-    <Version>1.7.0</Version>
-    <AssemblyVersion>1.7.0.0</AssemblyVersion>
-    <FileVersion>1.7.0.0</FileVersion>
+    <Version>1.8.0</Version>
+    <AssemblyVersion>1.8.0.0</AssemblyVersion>
+    <FileVersion>1.8.0.0</FileVersion>
     <NeutralLanguage></NeutralLanguage>
     <Company>Pretty Objects Computers inc.</Company>
+    <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
   </PropertyGroup>
    
   <ItemGroup>

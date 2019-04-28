@@ -4,11 +4,11 @@
     <Title>SmartTests</Title>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>SmartTests</PackageId>
-    <Version>1.7.0</Version>
-    <AssemblyVersion>1.7.0.0</AssemblyVersion>
-    <FileVersion>1.7.0.0</FileVersion>
-    <PackageReleaseNotes>Case can now be associated with parameter properties and fields.
-Ensuring better representation of which properties/fields are involved in a test.</PackageReleaseNotes>
+    <Version>1.8.0</Version>
+    <AssemblyVersion>1.8.0.0</AssemblyVersion>
+    <FileVersion>1.8.0.0</FileVersion>
+    <PackageReleaseNotes>Specify the parameter and the equivalence class with a lambda expression instead of the name as a string and a criteria.
+For example: RunTest( Case( (double d) =&gt; d.AboveOrEqual(0) out var value ), () =&gt; Math.Sqrt(value) );</PackageReleaseNotes>
     <Authors>Ludovic Dubois</Authors>
     <summary>SmartTests enables you to write Smarter unit tests, whether you use NUnit, Xunit or MSTests.</summary>
     <description>SmartTests enables you to write Smarter unit tests, wether you use NUnit, Xunit or MSTests.
@@ -28,13 +28,14 @@ They are Smart in the sense that:
     <copyright>Copyright (c) Pretty Objects Computers inc.</copyright>
     <PackageTags>SmartTests test testing tdd framework assert NUnit MSTests Xunit</PackageTags>
     <PackageProjectUrl>https://github.com/LudovicDubois/SmartTests</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MS-PL</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageIconUrl>https://github.com/LudovicDubois/SmartTests/raw/master/SmartTests.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/LudovicDubois/SmartTests</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage></NeutralLanguage>
     <ApplicationIcon>SmartTests-perspective.ico</ApplicationIcon>
     <Company>Pretty Objects Computers inc.</Company>
+    <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
