@@ -224,7 +224,7 @@ namespace SmartTests
             var range = ExtractNameAndRange( path.Body, out var name );
             if( range == null )
             {
-                value = default;
+                value = default(T);
                 return null;
             }
 
@@ -304,7 +304,7 @@ namespace SmartTests
             var range = ExtractNameAndRange( path.Body, out var name );
             if( range == null )
             {
-                value = default;
+                value = default(T);
                 return null;
             }
 
@@ -397,7 +397,7 @@ namespace SmartTests
             var range = ExtractNameAndValues( path.Body, out var name );
             if( range == null )
             {
-                value = default;
+                value = default(T);
                 return null;
             }
 
@@ -490,7 +490,7 @@ namespace SmartTests
             var range = ExtractNameAndValues( path.Body, out var name );
             if( range == null )
             {
-                value = default;
+                value = default(T);
                 return null;
             }
 
