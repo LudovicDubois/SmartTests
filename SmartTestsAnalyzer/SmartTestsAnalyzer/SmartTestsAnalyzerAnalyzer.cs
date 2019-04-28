@@ -25,12 +25,19 @@ namespace SmartTestsAnalyzer
         public override void Initialize( AnalysisContext context )
         {
             // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Analyzer%20Actions%20Semantics.md for more information
+            _AlreadyDone = false;
             context.RegisterSemanticModelAction( Analyze );
         }
 
 
+        private bool _AlreadyDone; // To avoid repetition of the errors (6 times when compling and I do not know why :-()
         private void Analyze( SemanticModelAnalysisContext context )
         {
+            if( _AlreadyDone )
+                return;
+            if( context.CancellationToken.IsCancellationRequested )
+                return;
+            _AlreadyDone = true;
             try
             {
                 var visitor = new TestVisitor( context );
@@ -38,9 +45,13 @@ namespace SmartTestsAnalyzer
                     return;
 
                 context.SemanticModel.Compilation.SourceModule.Accept( visitor );
+                if( context.CancellationToken.IsCancellationRequested )
+                    return;
                 Tests = visitor.MembersTestCases.MemberCases;
 
                 visitor.Validate( context.ReportDiagnostic );
+                if( context.CancellationToken.IsCancellationRequested )
+                    return;
 
                 var settings = GetSettings( context );
                 if( settings != null )
@@ -62,7 +73,7 @@ namespace SmartTestsAnalyzer
             var config = context.Options.AdditionalFiles.SingleOrDefault( file => Path.GetFileName( file.Path ) == "SmartTests.json" );
             if( config == null )
             {
-                var projectFolder = GetProjectFolder( context.SemanticModel );
+                var projectFolder = GetProjectFolder( context.SemanticModel.Compilation );
                 if( projectFolder == null )
                     return null;
 
@@ -80,10 +91,10 @@ namespace SmartTestsAnalyzer
         const string _AssemblyInfoPath = @"\Properties\AssemblyInfo.cs";
 
 
-        private string GetProjectFolder( SemanticModel semanticModel )
+        private string GetProjectFolder( Compilation compilation )
         {
             // Hope we will find a Properties\AssemblyInfo.cs file
-            foreach( var attribute in semanticModel.Compilation.Assembly.GetAttributes() )
+            foreach( var attribute in compilation.Assembly.GetAttributes() )
             {
                 var fileName = attribute.ApplicationSyntaxReference.SyntaxTree.FilePath;
                 if( fileName.EndsWith( _AssemblyInfoPath ) )
