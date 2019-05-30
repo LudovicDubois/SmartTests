@@ -64,5 +64,18 @@ namespace SmartTests.Helpers
             var max = new Decimal( maxValue );
             return (ulong)( rnd.NextULong() % ( max - min ) + min );
         }
+
+
+        public static decimal NextDecimal( this Random random )
+        {
+            decimal result;
+            do
+            {
+                // The high bits of 0.9999999999999999999999999999m are 542101086.
+                result = new decimal( random.Next(), random.Next(), random.Next( 542101087 ), false, 28 );
+            } while( result >= 1 );
+
+            return result;
+        }
     }
 }

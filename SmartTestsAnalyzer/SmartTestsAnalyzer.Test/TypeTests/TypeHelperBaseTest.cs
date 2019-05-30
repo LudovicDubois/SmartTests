@@ -14,6 +14,7 @@ namespace SmartTestsAnalyzer.Test.TypeTests
         {
             _Type = type;
             _SmartType = smartType;
+            _ReturnType = type == "decimal" ? "decimal" : "double";
             _IsUnsigned = _Type[ 0 ] == 'u' || _Type == "byte";
             _Min = _IsUnsigned
                        ? "0"
@@ -23,6 +24,7 @@ namespace SmartTestsAnalyzer.Test.TypeTests
 
         private readonly string _Type;
         private readonly string _SmartType;
+        private readonly string _ReturnType;
         private readonly bool _IsUnsigned;
         private readonly string _Min;
 
@@ -250,7 +252,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -293,7 +295,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -346,7 +348,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -389,7 +391,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -432,7 +434,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -476,7 +478,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -520,7 +522,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -564,7 +566,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -608,7 +610,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -651,7 +653,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -694,7 +696,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -737,7 +739,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -780,7 +782,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]
@@ -823,7 +825,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(" + _Type + @" i) => 1 / i;
+        public static " + _ReturnType + " Inverse(" + _Type + @" i) => 1 / i;
     }
 
     [TestFixture]

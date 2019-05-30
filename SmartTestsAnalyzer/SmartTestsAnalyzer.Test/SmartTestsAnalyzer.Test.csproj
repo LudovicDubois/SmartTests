@@ -220,7 +220,9 @@
     <Compile Include="ParameterLongPathTests.cs" />
     <Compile Include="ParameterPathTests.cs" />
     <Compile Include="TypeTests\ByteTypeHelperTests.cs" />
+    <Compile Include="TypeTests\DecimalTypeHelperTests.cs" />
     <Compile Include="TypeTests\DoubleTypeHelperTests.cs" />
+    <Compile Include="TypeTests\DecimalTypeTests.cs" />
     <Compile Include="TypeTests\DoubleTypeTests.cs" />
     <Compile Include="TypeTests\EnumTypeHelperTests.cs" />
     <Compile Include="TypeTests\FloatTypeHelperTests.cs" />

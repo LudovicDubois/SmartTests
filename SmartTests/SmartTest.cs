@@ -150,7 +150,6 @@ namespace SmartTests
         public static Case Case<T>( Expression<Func<T, object>> path, Criteria criteria ) => new Case( path.Body.ToString(), criteria );
 
 
-
         /// <summary>
         ///     Creates an instance of <see cref="SmartTests.Case" /> class for a specific parameter path.
         /// </summary>
@@ -211,7 +210,8 @@ namespace SmartTests
         ///  }
         ///  </code>
         /// </example>
-        /// <seealso cref="ErrorCase{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)"/>
+        /// <seealso
+        ///     cref="ErrorCase{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)" />
         /// <seealso
         ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
         /// <seealso cref="Case{T}" />
@@ -291,7 +291,8 @@ namespace SmartTests
         ///  }
         ///  </code>
         /// </example>
-        /// <seealso cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)"/>
+        /// <seealso
+        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)" />
         /// <seealso
         ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
         /// <seealso cref="Case{T}" />
@@ -384,7 +385,8 @@ namespace SmartTests
         ///  }
         ///  </code>
         /// </example>
-        /// <seealso cref="ErrorCase{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)"/>
+        /// <seealso
+        ///     cref="ErrorCase{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
         /// <seealso
         ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
         /// <seealso cref="Case{T}" />
@@ -478,8 +480,10 @@ namespace SmartTests
         ///  }
         ///  </code>
         /// </example>
-        /// <seealso cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)"/>
-        /// <seealso cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)" />
+        /// <seealso
+        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        /// <seealso
+        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)" />
         /// <seealso cref="Case{T}" />
         /// <seealso cref="Case(SmartTests.Criteria)" />
         /// <seealso cref="Case(string,SmartTests.Criteria)" />
@@ -566,19 +570,6 @@ namespace SmartTests
         }
 
         #endregion
-
-
-        [ThreadStatic]
-        private static object _Instance;
-        [ThreadStatic]
-        private static MethodBase _Method;
-
-
-        internal static void SetInfo( object instance, MethodBase method )
-        {
-            _Instance = instance;
-            _Method = method;
-        }
 
 
         #region Assign
@@ -1144,6 +1135,11 @@ namespace SmartTests
         /// </summary>
         /// <seealso cref="INumericType{T}" />
         public static INumericType<double> Double => new DoubleType();
+        /// <summary>
+        ///     Creates a new range of <c>decimal</c>
+        /// </summary>
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<decimal> Decimal => new DecimalType();
         /// <summary>
         ///     Creates a new range of <c>double</c>
         /// </summary>
