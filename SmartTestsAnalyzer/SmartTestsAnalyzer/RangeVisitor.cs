@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SmartTests;
+using SmartTests.Ranges;
 
 using SmartTestsAnalyzer.Helpers;
 
@@ -32,6 +33,7 @@ namespace SmartTestsAnalyzer
             AddType( smartTestType, "Float", () => new RangeVisitor<float>( model, SmartTest.Float, null, reportDiagnostic ) );
             AddType( smartTestType, "Double", () => new RangeVisitor<double>( model, SmartTest.Double, null, reportDiagnostic ) );
             AddType( smartTestType, "Decimal", () => new RangeVisitor<decimal>( model, SmartTest.Decimal, null, reportDiagnostic ) );
+            AddType( smartTestType, "DateTime", () => new RangeVisitor<DateTime>( model,SmartTest.DateTime, null, reportDiagnostic ) );
             AddType( smartTestType, "Enum", () => new EnumVisitor( model, reportDiagnostic ) );
         }
 

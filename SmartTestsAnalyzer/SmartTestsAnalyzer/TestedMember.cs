@@ -42,7 +42,7 @@ namespace SmartTestsAnalyzer
             {
                 case TestedMemberKind.Method:
                 case TestedMemberKind.Field:
-                    return typeAndMemberName;                    
+                    return typeAndMemberName;
 
                 case TestedMemberKind.PropertyGet:
                     return typeAndMemberName + " [get]";

@@ -62,6 +62,13 @@ namespace SmartTestsAnalyzer
                                                                                                    DiagnosticSeverity.Error,
                                                                                                    true,
                                                                                                    LocalizeString( nameof(Resources.NotAConstant_Description) ) );
+        private static readonly DiagnosticDescriptor _DateCreationExpected = new DiagnosticDescriptor( "SmartTestsAnalyzer_NotADateCreation",
+                                                                                                       LocalizeString( nameof(Resources.NotADate_Title) ),
+                                                                                                       LocalizeString( nameof(Resources.NotADate_MessageFormat) ),
+                                                                                                       _Category,
+                                                                                                       DiagnosticSeverity.Error,
+                                                                                                       true,
+                                                                                                       LocalizeString( nameof(Resources.NotADate_Description) ) );
 
         private static readonly DiagnosticDescriptor _MinShouldBeLessThanMax = new DiagnosticDescriptor( "SmartTestsAnalyzer_MinShouldBeLessThanMax",
                                                                                                    LocalizeString( nameof(Resources.MinShouldBeLessThanMax_Title) ),
@@ -77,6 +84,7 @@ namespace SmartTestsAnalyzer
                                                                                                                    _WrongParameterPath,
                                                                                                                    _MissingParameterCase,
                                                                                                                    _ConstantExpected,
+                                                                                                                   _DateCreationExpected,
                                                                                                                    _MinShouldBeLessThanMax
                                                                                                                  );
 
@@ -138,6 +146,14 @@ namespace SmartTestsAnalyzer
         public static Diagnostic CreateNotAConstant( SyntaxNode expression )
         {
             return Diagnostic.Create( _ConstantExpected,
+                                      expression.GetLocation()
+                                    );
+        }
+
+
+        public static Diagnostic CreateNotADateCreation( SyntaxNode expression )
+        {
+            return Diagnostic.Create( _DateCreationExpected,
                                       expression.GetLocation()
                                     );
         }

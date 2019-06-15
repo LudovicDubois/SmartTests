@@ -35,7 +35,7 @@ namespace SmartTests.Ranges
                 max += GetNext( chunk.IncludedMax - chunk.IncludedMin ); // GetNext because both are included
 
             var random = new Random();
-            value = random.NextDecimal() * ( max - MinValue ) + MinValue;
+            value = random.NextDecimal( MinValue, max );
             if( max == MaxValue )
                 return AnyValue.IsValid;
 

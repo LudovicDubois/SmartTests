@@ -20,7 +20,7 @@ namespace SmartTestsAnalyzer {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -166,6 +166,33 @@ namespace SmartTestsAnalyzer {
         internal static string NotAConstant_Title {
             get {
                 return ResourceManager.GetString("NotAConstant_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A DateTime  instantiation with constants is expected so that the Analyzer can use it.
+        /// </summary>
+        internal static string NotADate_Description {
+            get {
+                return ResourceManager.GetString("NotADate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A DateTime instantiation with constants is expected.
+        /// </summary>
+        internal static string NotADate_MessageFormat {
+            get {
+                return ResourceManager.GetString("NotADate_MessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No a DateTime instantiation.
+        /// </summary>
+        internal static string NotADate_Title {
+            get {
+                return ResourceManager.GetString("NotADate_Title", resourceCulture);
             }
         }
         

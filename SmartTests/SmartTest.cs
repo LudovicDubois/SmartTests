@@ -1141,6 +1141,11 @@ namespace SmartTests
         /// <seealso cref="INumericType{T}" />
         public static INumericType<decimal> Decimal => new DecimalType();
         /// <summary>
+        ///     Creates a new range of <c>DateTime</c>
+        /// </summary>
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<DateTime> DateTime => new DateTimeType();
+        /// <summary>
         ///     Creates a new range of <c>double</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />

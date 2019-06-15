@@ -183,4 +183,13 @@
   <data name="WrongParameterPath_Title" xml:space="preserve">
     <value>Wrong Parameter Path</value>
   </data>
+  <data name="NotADate_Title" xml:space="preserve">
+    <value>No a DateTime instantiation</value>
+  </data>
+  <data name="NotADate_MessageFormat" xml:space="preserve">
+    <value>A DateTime instantiation with constants is expected</value>
+  </data>
+  <data name="NotADate_Description" xml:space="preserve">
+    <value>A DateTime  instantiation with constants is expected so that the Analyzer can use it</value>
+  </data>
 </root>

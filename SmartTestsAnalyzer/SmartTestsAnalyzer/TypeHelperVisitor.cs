@@ -32,6 +32,7 @@ namespace SmartTestsAnalyzer
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.UIntTypeHelper" ), () => new RangeVisitor<uint>( model, SmartTest.UInt, typeof(UIntTypeHelper), reportDiagnostic ) );
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.ULongTypeHelper" ), () => new RangeVisitor<ulong>( model, SmartTest.ULong, typeof(ULongTypeHelper), reportDiagnostic ) );
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.UShortTypeHelper" ), () => new RangeVisitor<ushort>( model, SmartTest.UShort, typeof(UShortTypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.DateTimeTypeHelper" ), () => new RangeVisitor<DateTime>( model, SmartTest.DateTime, typeof(DateTimeTypeHelper), reportDiagnostic ) );
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.EnumTypeHelper" ), () => new EnumVisitor( model, reportDiagnostic ) );
         }
 
@@ -59,7 +60,7 @@ namespace SmartTestsAnalyzer
         public override void VisitParenthesizedLambdaExpression( ParenthesizedLambdaExpressionSyntax node )
         {
             // Start point
-            // => must must separate the path from the range
+            // => must separate the path from the range
             ( node.Body as ExpressionSyntax )?.Accept( this );
         }
 
