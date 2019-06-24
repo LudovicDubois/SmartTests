@@ -12,7 +12,6 @@ This way:
 1. They seem to be methods of `SmartAssert` property.
 1. You do not need to specify template arguments a they are inferred.
 
-
 ## `Assertion` class
 
 THe two main methods of abstract class `Assertion` are:

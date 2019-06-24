@@ -2,29 +2,28 @@
 
 *PropertyChanged Smart Assertions* are assertions that ensure `PropertyChanged` event is raised or not, depending on your Test Logical Intent.
 
-1. Before *Act*  
+1. Before *Act*
   Registers itself on the `PropertyChanged` event.
 1. During *Act*
    1. Setting a flag that the event was raised
    1. Ensuring that the `PropertyName` of the event is expected.
-1. After *Act*  
+1. After *Act*
   Ensures that the flag is `true` or `false`, as expected, otherwise generates a `SmartTestException`.
 
 > Note that if the instance does not implements `INotifyPropertyChanged`, a `BadTestException` is thrown.
 
 We have different PropertyChanged Smart Assertions:
 
-* [`Raised_PropertyChanged()`](#raised_propertychanged)
-* [`Raised_PropertyChanged<T>(T, params string[])`](#raised_propertychanged_t_strings)
-* [`Raised_PropertyChanged<T>(T, string, object)`](#raised_propertychanged_t_string_object)
-* [`Raised_PropertyChanged<T>(Expression<Func<T>> )`](#raised_propertychanged_expression)
-* [`Raised_PropertyChanged<T>(Expression<Func<T>>, T )`](#raised_propertychanged_expression_t)
-* [`NotRaised_PropertyChanged()`](#notraised_propertychanged)
-* [`NotRaised_PropertyChanged<T>(T)`](#notraised_propertychanged_t)
-* [`NotRaised_PropertyChanged<T>(T, params string[])`](#notraised_propertychanged_t_strings)
-* [`NotRaised_PropertyChanged<T>(Expression<Func<T>>)`](#notraised_propertychanged_expression)
-
-<a name="raised_propertychanged"></a>
+- [PropertyChanged Smart Assertions](#PropertyChanged-Smart-Assertions)
+  - [`Raised_PropertyChanged()`](#RaisedPropertyChanged)
+  - [`Raised_PropertyChanged<T>(T,params string[])`](#RaisedPropertyChangedTTparams-string)
+  - [`Raised_PropertyChanged<T>(T,string,object)`](#RaisedPropertyChangedTTstringobject)
+  - [`Raised_PropertyChanged<T>(Expression<Func<T>>)`](#RaisedPropertyChangedTExpressionFuncT)
+  - [`Raised_PropertyChanged<T>(Expression<Func<T>>, T)`](#RaisedPropertyChangedTExpressionFuncT-T)
+  - [`NotRaised_PropertyChanged()`](#NotRaisedPropertyChanged)
+  - [`NotRaised_PropertyChanged<T>(T)`](#NotRaisedPropertyChangedTT)
+  - [`NotRaised_PropertyChanged<T>(T, params string[])`](#NotRaisedPropertyChangedTT-params-string)
+  - [`NotRaised_PropertyChanged<T>(Expression<Func<T>>)`](#NotRaisedPropertyChangedTExpressionFuncT)
 
 ## `Raised_PropertyChanged()`
 
@@ -54,8 +53,6 @@ public class MyClassTest
 In this example, the Smart Assertion ensures that the `PropertyChanged` event is raised when `mc.MyProperty` is assigned for the `mc` instance, `MyProperty` property.
 
 > Note that if the names specified are not public property names, a `BadTestException` is thrown.
-
-<a name="raised_propertychanged_t_strings"></a>
 
 ## `Raised_PropertyChanged<T>(T,params string[])`
 
@@ -90,8 +87,6 @@ Also:
 Finally:
 > Note that if a property changed and is not listed here, a `SmartTestException` is thrown. If a property change twice, you have to specify its name twice.
 
-<a name="raised_propertychanged_t_string_object"></a>
-
 ## `Raised_PropertyChanged<T>(T,string,object)`
 
 This overload will ensure that the specified instance and properties raises a `PropertyChanged` event in the *Act*, and the property value is the specified one.
@@ -121,8 +116,6 @@ In this example, the Smart Assertion ensures that the `PropertyChanged` event is
 
 Finally:
 > Note that if a property changed and is not the specified property, a `SmartTestException` is thrown. If a property change twice, you have to specify its name twice.
-
-<a name="raised_propertychanged_expression"></a>
 
 ## `Raised_PropertyChanged<T>(Expression<Func<T>>)`
 
@@ -154,8 +147,6 @@ In this example, the Smart Assertion ensures that the `PropertyChanged` event is
 Finally:
 > Note that if a property changed and is not the property specified , a `SmartTestException` is thrown. If a property change twice, you have to specify its name twice.
 
-<a name="raised_propertychanged_expression_t"></a>
-
 ## `Raised_PropertyChanged<T>(Expression<Func<T>>, T)`
 
 This overload will ensure that the specified instance and property raises a `PropertyChanged` event in the *Act* and the property value is the specified one.
@@ -186,9 +177,6 @@ In this example, the Smart Assertion ensures that the `PropertyChanged` event is
 Finally:
 > Note that if a property changed and is not the property sepecified , a `SmartTestException` is thrown. If a property change twice, you have to specify its name twice.
 
-
-<a name="notraised_propertychanged"></a>
-
 ## `NotRaised_PropertyChanged()`
 
 This overload will ensure that the instance and property of the Assign *Act* do not raise a `PropertyChanged` event in the *Act*.
@@ -213,8 +201,6 @@ public class MyClassTest
 ```
 
 In this example, the Smart Assertion ensures that the `PropertyChanged` event is not raised when calling `mc.MyProperty = 10` for the `mc` instance, `MyProperty` property.
-
-<a name="notraised_propertychanged_t"></a>
 
 ## `NotRaised_PropertyChanged<T>(T)`
 
@@ -241,8 +227,6 @@ public class MyClassTest
 
 In this example, the Smart Assertion ensures that the `PropertyChanged` event is not raised when calling `mc.MyMethod()` for the `mc` instance.
 
-<a name="notraised_propertychanged_t_strings"></a>
-
 ## `NotRaised_PropertyChanged<T>(T, params string[])`
 
 This overload will ensure that the specified instance do not raise a `PropertyChanged` event in the *Act* for the specified properties only.
@@ -267,8 +251,6 @@ public class MyClassTest
 ```
 
 In this example, the Smart Assertion ensures that the `PropertyChanged` event is not raised for `MyProperty` nor `OtherProperty` when calling `mc.MyMethod()` for the `mc` instance.
-
-<a name="notraised_propertychanged_expression"></a>
 
 ## `NotRaised_PropertyChanged<T>(Expression<Func<T>>)`
 

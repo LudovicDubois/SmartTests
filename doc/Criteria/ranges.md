@@ -39,7 +39,7 @@ public class MathTest
 
 A *Range* is a sequence of integers, of any integer type, to test for a logical intent.
 
-For exanple, `Int.AboveOrEqual( 0, out var value )` is used to represent and test equivalence class `[0, int.MaxValue]`, typically for property and parameter values.
+For example, `Int.AboveOrEqual( 0, out var value )` is used to represent and test equivalence class `[0, int.MaxValue]`, typically for property and parameter values.
 
 The returned `value` should be used in your test as the value for the corresponding property or parameter (using [`Case`](../Cases/readme.md) if you have more than 1 parameter, as usual).
 
@@ -59,10 +59,13 @@ Roots property are the following:
 6. `UInt`
 7. `Long`
 8. `ULong`
-9. `Float`
-10. `Double`
+9. `Float`  (new from v1.5.0)
+10. `Double` (new from v1.5.0)
+11. `Decimal` (new from v1.9.0)
+12. `DateTime` (new from v1.9.0)
 
 The created ranges are empty at creation time.
+For `DateTime` values, you have to create the `DateTime` instance with constant in the `RunTest` statement.
 
 You have to call methods to actually add ranges as you need.
 
@@ -78,6 +81,9 @@ You can not use it directly as a criteria as:
 2. You need to have a value to use as the testing value.
 
 Once you have a filled Range, call its `GetValidValue( out var value )` to have the testing value. This method returns a Criteria.
+
+For `DateTime` values, you have to create the `DateTime` instance with constant in the `RunTest` statement, except for `Min` and `Max`.
+For example: `DateTime.Range( DateTime.Min, new System.DateTime(2019, 6, 23 ))`.
 
 #### Multiple ranges in an equivalence class
 
@@ -102,7 +108,7 @@ Ranges have lots of helper methods to make it easier (these examples use `Int`, 
 For simple usage, `Range` method has an overload that calls `GetValidValue`.
 Thus, `Int.Range( 0, 10, out var value )` is exactly the same as `Int.Range( 0, 10 ).GetValidValue( out var value )`.
 
-In the same way, all heper methods have the same overload:
+In the same way, all helper methods have the same overload:
 
 1. `Int.AboveOrEqual(min, out var value)`
 2. `Int.Above(min, out var value)`

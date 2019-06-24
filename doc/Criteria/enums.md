@@ -50,7 +50,7 @@ public class MathTest
 
 An *EnumType* is a group of enum values of the same enum, to test for a logical intent.
 
-For exanple,  `Enum.Values(out var value, System.String.StringComparison.CurrentCulture, System.String.StringComparison.InvariantCulture, System.String.StringComparison.Ordinal)` is used to represent equivalent enum values for your test, typically for property or parameter values.
+For example,  `Enum.Values(out var value, System.String.StringComparison.CurrentCulture, System.String.StringComparison.InvariantCulture, System.String.StringComparison.Ordinal)` is used to represent equivalent enum values for your test, typically for property or parameter values.
 
 The returned `value` should be used in your test as the value for the corresponding property or parameter (using [`Case`](../Cases/readme.md) if you have more than 1 parameter, as usual).
 

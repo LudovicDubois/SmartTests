@@ -1,5 +1,11 @@
 # What's new
 
+## version 1.9
+
+[`Criteria`](Criteria/readme.md) can now be [`Ranges`](Criteria/ranges.md) of `decimal` or `DateTime` values.
+For `DateTime` values, you have to create the `DateTime` instance with constant in the `RunTest` statement.
+Ensuring all possible values are tested.
+
 ## version 1.8
 
 [`Case`](Cases/readme.md#with-lambda-expression-and-equivalence-class) can now be associated with parameter properties and fields and the equivalence class.
@@ -44,7 +50,7 @@ Two new Smart Assertions:
 
 ### In the Analyzer
 
-Support for Xunit.
+Support for xUnit.
 
 ## Version 1
 

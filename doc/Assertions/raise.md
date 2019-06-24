@@ -1,26 +1,24 @@
-# Raise Smart Assertions
+# Raise Smart Assertions <!-- omit in toc -->
 
 *Raise Smart Assertions* are assertions that ensure an event (of type `EventHandler<T>`) is raised or not, depending on your Test Logical Intent.
 
-1. Before *Act*  
+1. Before *Act*
   Registers itself on the event.
-1. During *Act*  
+1. During *Act*
   Sets a flag that the event was raised
-1. After *Act*  
+1. After *Act*
   Ensures that the flag is `true` or `false`, as expected, otherwise generates a `SmartTestException`.
 
 > Note that if the instance does not have the specified event, a `BadTestException` is thrown.
 
 We have different Raise Smart Assertions:
 
-* [`Raised(string)`](#raised_string)
-* [`Raised<T>(string,EventHandler<T>)`](#raised_string_eventhandler)
-* [`Raised(object,string)`](#raised_object_string)
-* [`Raised<T>(object,string,EventHandler<T>)`](#raised_object_string_eventhandler)
-* [`NotRaised(string)`](#notraised_string)
-* [`NotRaised(object,string)`](#notraised_object_string)
-
-<a name="raised_string"></a>
+- [`Raised(string)`](#Raisedstring)
+- [`Raised<T>(string, EventHandler<T>)`](#RaisedTstring-EventHandlerT)
+- [`Raised(object, string)`](#Raisedobject-string)
+- [`Raised<T>(object, string, EventHandler<T>)`](#RaisedTobject-string-EventHandlerT)
+- [`NotRaised(string)`](#NotRaisedstring)
+- [`NotRaised(object, string)`](#NotRaisedobject-string)
 
 ## `Raised(string)`
 
@@ -50,8 +48,6 @@ public class MyClassTest
 In this example, the Smart Assertion ensures that the `MyEvent` event of the `mc` instance is raised when `mc.MyMethod()` is called.
 
 > Note that if the name specified is not a public event name, a `BadTestException` is thrown.
-
-<a name="raised_string_eventhandler"></a>
 
 ## `Raised<T>(string, EventHandler<T>)`
 
@@ -84,8 +80,6 @@ In this example, the Smart Assertion ensures that the `MyEvent` event of the `mc
 
 > Note that if the name specified is not a public event name, a `BadTestException` is thrown.
 
-<a name="raised_object_string"></a>
-
 ## `Raised(object, string)`
 
 This overload ensures that the specified instance raises the specified event.
@@ -112,8 +106,6 @@ public class MyClassTest
 In this example, the Smart Assertion ensures that the `MyEvent` event of the `mc.InnerObject` instance is raised when `mc.MyMethod()` is called.
 
 > Note that if the names specified is not public event name, a `BadTestException` is thrown.
-
-<a name="raised_object_string_eventhandler"></a>
 
 ## `Raised<T>(object, string, EventHandler<T>)`
 
@@ -147,8 +139,6 @@ In this example, the Smart Assertion ensures that the `MyEvent` event of the `mc
 
 > Note that if the name specified is not a public event name, a `BadTestException` is thrown.
 
-<a name="notraised_string"></a>
-
 ## `NotRaised(string)`
 
 This method ensures that the instance involved int the *Act* do not raise the specified event in the *Act*.
@@ -175,8 +165,6 @@ public class MyClassTest
 In this example, the Smart Assertion ensures that the `MyEvent` event is not raised when calling `mc.MyMethod()` for the `mc` instance.
 
 > Note that if the name specified is not a public event name, a `BadTestException` is thrown.
-
-<a name="notraised_object_string"></a>
 
 ## `NotRaised(object, string)`
 

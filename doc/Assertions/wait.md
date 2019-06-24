@@ -1,20 +1,18 @@
-# Wait Smart Assertions
+# Wait Smart Assertions <!-- omit in toc -->
 
 *Wait Smart Assertions* are assertions that wait for a handle set in the *Act* part of your test.
 
-1. Before *Act*  
+1. Before *Act*
    Creates an implicit `AutoResetEvent` in the Act Context, if none is specified.
-1. After *Act*  
+1. After *Act*
    Waits for the handle (specified or implicit) for the maximum specified amount of time. If this timeout is reached, the assertion fails.
 
 We have four *Wait* assertions:
 
-* [`Wait(WaitHandle,double)`](#wait_waithandle_double)
-* [`Wait(WaitHandle,TimeSpan)`](#wait_waithandle_timespan)
-* [`WaitContextHandle(double)`](#waitcontexthandle_double)
-* [`WaitContextHandle(TimeSpan)`](#waitcontexthandle_timespan)
-
-<a name="wait_long"></a>
+- [`Wait(WaitHandle,double)`](#WaitWaitHandledouble)
+- [`Wait(WaitHandle,TimeSpan)`](#WaitWaitHandleTimeSpan)
+- [`WaitContextHandle(double)`](#WaitContextHandledouble)
+- [`WaitContextHandle(TimeSpan)`](#WaitContextHandleTimeSpan)
 
 ## `Wait(WaitHandle,double)`
 
@@ -67,8 +65,6 @@ public class MyClassTest
 
 In this example, the Smart Assertion ensures that the call to `MyMethod` calls the provided argument within 1s.
 
-<a name="waitcontexthandle_double"></a>
-
 ## `WaitContextHandle(double)`
 
 ```C#
@@ -95,8 +91,6 @@ public class MyClassTest
 ```
 
 In this example, the Smart Assertion ensures that the call to `MyMethod` calls the provided argument within 1000ms.
-
-<a name="waitcontexthandle_timespan"></a>
 
 ## `WaitContextHandle(TimeSpan)`
 

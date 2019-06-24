@@ -11,7 +11,7 @@ Right now, *Smart Tests Analyzer* Supports two Testing Frameworks:
 
 1. NUnit.
 1. MS Tests.
-1. Xunit
+1. xUnit
 
 It is very easy to extend the supported Testing Frameworks, but not so easy to use the new ones.
 

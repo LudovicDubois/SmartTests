@@ -11,6 +11,7 @@ It is not so easy to create instances, especially if they have type parameters.
 Thus, we use method factories to create instances: the type parameters can be inferred from parameters of the method factory.
 
 The `SmartAssert` static property of the main class `SmartTest` cannot have all this method factories as:
+
 1. this class would be very huge
 1. it will not be easy to extend it with new method factories (except for the developers of *SmartTests* library).
 
@@ -53,7 +54,7 @@ namespace SmartTests.Assertions
 {
     public static class ChangedToAssertions
     {
-        public static Assertion ChangedTo<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> after, T value ) 
+        public static Assertion ChangedTo<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> after, T value )
             => new ChangedToAssertion<T>( after, value );
 
         private class ChangedToAssertion<T>: Assertion
@@ -120,7 +121,7 @@ namespace SmartTests.Assertions
 {
     public static class ChangedToAssertions
     {
-        public static Assertion ChangedTo<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> after, T value ) 
+        public static Assertion ChangedTo<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> after, T value )
             => new ChangedToAssertion<T>( after, value );
 
         private class ChangedToAssertion<T>: Assertion
