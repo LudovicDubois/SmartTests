@@ -8,7 +8,7 @@ namespace SmartTestsAnalyzer.Test.TypeTests
     class ByteTypeHelperTests: TypeHelperBaseTest
     {
         public ByteTypeHelperTests()
-            : base( "byte", "Byte" )
+            : base( "byte", "ByteRange" )
         { }
     }
 }

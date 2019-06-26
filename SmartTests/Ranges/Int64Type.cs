@@ -10,7 +10,7 @@ namespace SmartTests.Ranges
     /// <summary>
     ///     Represents a Range of long values (with several chunks)
     /// </summary>
-    public class LongType: NumericType<long, LongType>
+    public class Int64Type: NumericType<long, Int64Type>
     {
         /// <inheritdoc />
         protected override long MinValue => long.MinValue;
@@ -55,25 +55,18 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        protected override string ToString( long value )
-        {
-            if( value == long.MinValue )
-                return "long.MinValue";
-            if( value == long.MaxValue )
-                return "long.MaxValue";
-            return value.ToString();
-        }
+        protected override string ToString( long value ) => SmartTest.ToString( value );
 
 
         /// <inheritdoc />
-        public override string ToString() => ToString( "Long" );
+        public override string ToString() => ToString( "Int64Range" );
     }
 
 
     /// <summary>
     ///     A helper type to create <see cref="INumericType{T}" /> for long from a long.
     /// </summary>
-    public static class LongTypeHelper
+    public static class Int64TypeHelper
     {
         /// <summary>
         ///     Adds a chunk of numeric values
@@ -82,7 +75,7 @@ namespace SmartTests.Ranges
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for long so that adding chunks can be chained.</returns>
-        public static INumericType<long> Range( this long @this, long min, long max ) => SmartTest.Long.Range( min, max );
+        public static INumericType<long> Range( this long @this, long min, long max ) => SmartTest.Int64Range.Range( min, max );
 
 
         /// <summary>
@@ -94,7 +87,7 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for long so that adding chunks can be chained.</returns>
-        public static INumericType<long> Range( this long @this, long min, bool minIncluded, long max, bool maxIncluded ) => SmartTest.Long.Range( min, minIncluded, max, maxIncluded );
+        public static INumericType<long> Range( this long @this, long min, bool minIncluded, long max, bool maxIncluded ) => SmartTest.Int64Range.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
@@ -103,7 +96,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A long we do not care about, except to know to create a <see cref="INumericType{T}" /> for long.</param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for long so that adding chunks can be chained.</returns>
-        public static INumericType<long> AboveOrEqual( this long @this, long min ) => SmartTest.Long.AboveOrEqual( min );
+        public static INumericType<long> AboveOrEqual( this long @this, long min ) => SmartTest.Int64Range.AboveOrEqual( min );
 
 
         /// <summary>
@@ -112,7 +105,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A long we do not care about, except to know to create a <see cref="INumericType{T}" /> for long.</param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for long so that adding chunks can be chained.</returns>
-        public static INumericType<long> Above( this long @this, long min ) => SmartTest.Long.Above( min );
+        public static INumericType<long> Above( this long @this, long min ) => SmartTest.Int64Range.Above( min );
 
 
         /// <summary>
@@ -121,7 +114,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A long we do not care about, except to know to create a <see cref="INumericType{T}" /> for long.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for long so that adding chunks can be chained.</returns>
-        public static INumericType<long> BelowOrEqual( this long @this, long max ) => SmartTest.Long.BelowOrEqual( max );
+        public static INumericType<long> BelowOrEqual( this long @this, long max ) => SmartTest.Int64Range.BelowOrEqual( max );
 
 
         /// <summary>
@@ -130,7 +123,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A long we do not care about, except to know to create a <see cref="INumericType{T}" /> for long.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for long so that adding chunks can be chained.</returns>
-        public static INumericType<long> Below( this long @this, long max ) => SmartTest.Long.Below( max );
+        public static INumericType<long> Below( this long @this, long max ) => SmartTest.Int64Range.Below( max );
 
 
         /// <summary>
@@ -139,6 +132,6 @@ namespace SmartTests.Ranges
         /// <param name="this">A long we do not care about, except to know to create a <see cref="INumericType{T}" /> for long.</param>
         /// <param name="value">A random value within this range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for long so that adding chunks can be chained.</returns>
-        public static INumericType<long> Value( this long @this, long value ) => SmartTest.Long.Value( value );
+        public static INumericType<long> Value( this long @this, long value ) => SmartTest.Int64Range.Value( value );
     }
 }

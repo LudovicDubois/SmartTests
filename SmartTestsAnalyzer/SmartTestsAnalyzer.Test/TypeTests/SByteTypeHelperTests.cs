@@ -8,7 +8,7 @@ namespace SmartTestsAnalyzer.Test.TypeTests
     class SByteTypeHelperTests: TypeHelperBaseTest
     {
         public SByteTypeHelperTests()
-            : base( "sbyte", "SByte" )
+            : base( "sbyte", "SByteRange" )
         { }
     }
 }

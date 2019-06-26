@@ -9,7 +9,7 @@ namespace SmartTests.Ranges
     /// <summary>
     ///     Represents a Range of integer values (with several chunks)
     /// </summary>
-    public class UShortType: NumericType<ushort, UShortType>
+    public class UInt16Type: NumericType<ushort, UInt16Type>
     {
         /// <inheritdoc />
         protected override ushort MinValue => ushort.MinValue;
@@ -54,23 +54,18 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        protected override string ToString( ushort value )
-        {
-            if( value == ushort.MaxValue )
-                return "ushort.MaxValue";
-            return value.ToString();
-        }
+        protected override string ToString( ushort value ) => SmartTest.ToString( value );
 
 
         /// <inheritdoc />
-        public override string ToString() => ToString( "UShort" );
+        public override string ToString() => ToString( "UInt16Range" );
     }
 
 
     /// <summary>
     ///     A helper type to create <see cref="INumericType{T}" /> for ushort from a ushort.
     /// </summary>
-    public static class UShortTypeHelper
+    public static class UInt16TypeHelper
     {
         /// <summary>
         ///     Adds a chunk of numeric values
@@ -79,7 +74,7 @@ namespace SmartTests.Ranges
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ushort so that adding chunks can be chained.</returns>
-        public static INumericType<ushort> Range( this ushort @this, ushort min, ushort max ) => SmartTest.UShort.Range( min, max );
+        public static INumericType<ushort> Range( this ushort @this, ushort min, ushort max ) => SmartTest.UInt16Range.Range( min, max );
 
 
         /// <summary>
@@ -91,7 +86,7 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ushort so that adding chunks can be chained.</returns>
-        public static INumericType<ushort> Range( this ushort @this, ushort min, bool minIncluded, ushort max, bool maxIncluded ) => SmartTest.UShort.Range( min, minIncluded, max, maxIncluded );
+        public static INumericType<ushort> Range( this ushort @this, ushort min, bool minIncluded, ushort max, bool maxIncluded ) => SmartTest.UInt16Range.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
@@ -100,7 +95,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A ushort we do not care about, except to know to create a <see cref="INumericType{T}" /> for ushort.</param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ushort so that adding chunks can be chained.</returns>
-        public static INumericType<ushort> AboveOrEqual( this ushort @this, ushort min ) => SmartTest.UShort.AboveOrEqual( min );
+        public static INumericType<ushort> AboveOrEqual( this ushort @this, ushort min ) => SmartTest.UInt16Range.AboveOrEqual( min );
 
 
         /// <summary>
@@ -109,7 +104,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A ushort we do not care about, except to know to create a <see cref="INumericType{T}" /> for ushort.</param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ushort so that adding chunks can be chained.</returns>
-        public static INumericType<ushort> Above( this ushort @this, ushort min ) => SmartTest.UShort.Above( min );
+        public static INumericType<ushort> Above( this ushort @this, ushort min ) => SmartTest.UInt16Range.Above( min );
 
 
         /// <summary>
@@ -118,7 +113,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A ushort we do not care about, except to know to create a <see cref="INumericType{T}" /> for ushort.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ushort so that adding chunks can be chained.</returns>
-        public static INumericType<ushort> BelowOrEqual( this ushort @this, ushort max ) => SmartTest.UShort.BelowOrEqual( max );
+        public static INumericType<ushort> BelowOrEqual( this ushort @this, ushort max ) => SmartTest.UInt16Range.BelowOrEqual( max );
 
 
         /// <summary>
@@ -127,7 +122,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A ushort we do not care about, except to know to create a <see cref="INumericType{T}" /> for ushort.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ushort so that adding chunks can be chained.</returns>
-        public static INumericType<ushort> Below( this ushort @this, ushort max ) => SmartTest.UShort.Below( max );
+        public static INumericType<ushort> Below( this ushort @this, ushort max ) => SmartTest.UInt16Range.Below( max );
 
 
         /// <summary>
@@ -136,6 +131,6 @@ namespace SmartTests.Ranges
         /// <param name="this">A ushort we do not care about, except to know to create a <see cref="INumericType{T}" /> for ushort.</param>
         /// <param name="value">A random value within this range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ushort so that adding chunks can be chained.</returns>
-        public static INumericType<ushort> Value( this ushort @this, ushort value ) => SmartTest.UShort.Value( value );
+        public static INumericType<ushort> Value( this ushort @this, ushort value ) => SmartTest.UInt16Range.Value( value );
     }
 }

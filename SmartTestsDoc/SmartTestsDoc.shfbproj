@@ -59,6 +59,8 @@
 Current type are numeric types for defining ranges criteria.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="SmartTests.Helpers" isDocumented="True">The &lt;span class="selflink"&gt;SmartTests.Helpers&lt;/span&gt; namespace contains classes to enhance .NET types.</NamespaceSummaryItem>
     </NamespaceSummaries>
+    <FeedbackEMailAddress>ldubois%40prettyobjects.com</FeedbackEMailAddress>
+    <FeedbackEMailLinkText>Send Feedback</FeedbackEMailLinkText>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->

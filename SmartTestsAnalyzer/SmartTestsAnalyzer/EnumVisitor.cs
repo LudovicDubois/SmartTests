@@ -50,14 +50,14 @@ namespace SmartTestsAnalyzer
             if( Values.Count == 1 )
             {
                 // Enum.Value
-                result.Append( "Enum.Value(" );
+                result.Append( "EnumRange.Value(" );
                 result.Append( Values[ 0 ].ToDisplayString( SymbolDisplayFormat.CSharpShortErrorMessageFormat ) );
                 result.Append( ')' );
                 return result.ToString();
             }
 
             // Enum.Values
-            result.Append( "Enum.Values(" );
+            result.Append( "EnumRange.Values(" );
             if( Values.Count > 0 )
             {
                 foreach( var value in Values )

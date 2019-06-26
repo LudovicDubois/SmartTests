@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using SmartTests;
 using SmartTests.Ranges;
 
 using SmartTestsAnalyzer.Helpers;
@@ -94,7 +95,9 @@ namespace SmartTestsAnalyzer
                 TryGetConstant( node.GetArgument( 1 ).Expression, out T max ) )
             {
                 if( min.CompareTo( max ) > 0 )
-                    ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, min.ToString(), max.ToString() ) );
+                {
+                    ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, SmartTest.ToString( min ), SmartTest.ToString( max ) ) );
+                }
                 else if( _Root != null )
                     addRange( min, max );
             }

@@ -8,9 +8,24 @@ using TestHelper;
 
 namespace SmartTestsAnalyzer.Test.TypeTests
 {
-    [TestFixture]
-    class ShortTypeTests: CodeFixVerifier
+    abstract class TypeBaseTests: CodeFixVerifier
     {
+        protected TypeBaseTests( string type, string smartType )
+        {
+            _Type = type;
+            _SmartType = smartType;
+            var isUnsigned = _Type[ 0 ] == 'u' || _Type == "byte";
+            _Min = isUnsigned
+                       ? "0"
+                       : _Type + ".MinValue";
+        }
+
+
+        private readonly string _Type;
+        private readonly string _SmartType;
+        private readonly string _Min;
+
+
         [Test]
         public void FullRange()
         {
@@ -22,7 +37,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static short Same(short i) => i;
+        public static " + _Type + @" Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -31,7 +46,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Range( short.MinValue, short.MaxValue, out var value ), 
+            var result = RunTest( " + _SmartType + @".Range( " + _Type + @".MinValue, " + _Type + @".MaxValue, out var value ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -40,6 +55,91 @@ namespace TestingProject
 }";
 
             VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void FullRange2()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + @" Same(" + _Type + @" i) => i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( " + _SmartType + @".Range( " + _Type + @".MinValue, 10, out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( " + _SmartType + @".Range( 10, false, " + _Type + @".MaxValue, true, out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void ErrorCase()
+        {
+            var test = @"
+using NUnit.Framework;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + @" Min(" + _Type + @" a, " + _Type + @" b) => a < b ? a : b; 
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ""a"", " + _SmartType + @".Range( 0, " + _Type + @".MaxValue, out var value1 ) ) &
+                                  Case( ""b"", " + _SmartType + @".Value( 10 ).GetErrorValue( out var value2 ) ),
+                                  () => Class1.Min( value1, value2 ) );
+
+            Assert.That( result, Is.EqualTo( 0 ) );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Min({_Type}, {_Type})' has some missing Test Cases: b:{_SmartType}.Below(10).Above(10)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -54,7 +154,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static short Same(short i) => i;
+        public static " + _Type + @" Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -63,7 +163,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Range( short.MinValue + 1, short.MaxValue, out var value ), 
+            var result = RunTest( " + _SmartType + @".Range( " + _Type + @".MinValue, false, " + _Type + @".MaxValue, true, out var value ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -73,7 +173,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(short)' has some missing Test Cases: Short.Value(short.MinValue)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Value({_Min})",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -96,7 +196,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static short Same(short i) => i;
+        public static " + _Type + @" Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -105,7 +205,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Range( short.MinValue, short.MaxValue - 1, out var value ), 
+            var result = RunTest( " + _SmartType + @".Range( " + _Type + @".MinValue, true, " + _Type + @".MaxValue, false, out var value ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -115,7 +215,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(short)' has some missing Test Cases: Short.Value(short.MaxValue)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Value({_Type}.MaxValue)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -138,7 +238,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -147,17 +247,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Range( (short)1, short.MaxValue, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Range( 100, " + _Type + @".MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -174,14 +274,13 @@ namespace TestingProject
         {
             var test = @"
 using NUnit.Framework;
-using SmartTests;
 using static SmartTests.SmartTest;
 
 namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -190,21 +289,21 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Short.Range( 1, short.MaxValue, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Range( 100, " + _Type + @".MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 19, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 18, 35 )
                                            }
                            };
 
@@ -223,7 +322,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -232,17 +331,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTests.SmartTest.Short.Range( 1, short.MaxValue, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( SmartTests.SmartTest." + _SmartType + @".Range( 100, " + _Type + @".MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -265,7 +364,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -274,26 +373,26 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Range( 1, short.MaxValue, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Range( 100, " + _Type + @".MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
 
         [Test]
         public void Test2Method()
         {
-            var result = RunTest( Short.Range( short.MinValue, -1, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Range( " + _Type + @".MinValue, 50, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Value(0)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Range(50, false, 100, false)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -317,7 +416,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -326,17 +425,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Range( short.MinValue, -1 ).Range( 1, short.MaxValue, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Range( " + _Type + ".MinValue, 50 ).Range( 100, " + _Type + @".MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Value(0)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Range(50, false, 100, false)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -359,7 +458,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -368,17 +467,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Range( short.MinValue, -1 ).Range( 1, 10 ).Range( 11, short.MaxValue, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Range( " + _Type + @".MinValue, 50 ).Range( 50, true, 99, false ).Range( 99, false, " + _Type + @".MaxValue, true, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Value(0)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Value(99)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -401,7 +500,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -410,17 +509,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Range( 1, short.MaxValue ).GetValidValue( out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Range( 100, " + _Type + @".MaxValue ).GetValidValue( out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -443,7 +542,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -452,11 +551,11 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            short one = 1;
-            var result = RunTest( Short.Range( one, short.MaxValue, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            " + _Type + @" one = 1;
+            var result = RunTest( " + _SmartType + @".Range( one, " + _Type + @".MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
@@ -467,7 +566,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 19, 48 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 43 + _SmartType.Length )
                                            }
                            };
 
@@ -486,7 +585,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -495,11 +594,11 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            short one = 1;
-            var result = RunTest( Short.Range( short.MinValue, one, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            " + _Type + @" one = 1;
+            var result = RunTest( " + _SmartType + @".Range( 0, one, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
@@ -510,7 +609,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 19, 64 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 46 + _SmartType.Length )
                                            }
                            };
 
@@ -529,7 +628,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -538,11 +637,11 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            short one = 1;
-            var result = RunTest( Short.Range( short.MinValue, -1 ).Range( one, short.MaxValue, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            " + _Type + @" one = 1;
+            var result = RunTest( " + _SmartType + @".Range( 0, 100 ).Range( one, " + _Type + @".MaxValue, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
@@ -553,7 +652,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 19, 76 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 59 + _SmartType.Length )
                                            }
                            };
 
@@ -572,7 +671,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -581,11 +680,11 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            short one = 1;
-            var result = RunTest( Short.Range( short.MinValue, -1 ).Range( 1, one, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            " + _Type + @" one = 1;
+            var result = RunTest( " + _SmartType + @".Range( 0, 100 ).Range( 1, one, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
@@ -596,7 +695,7 @@ namespace TestingProject
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 19, 79 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 62 + _SmartType.Length )
                                            }
                            };
 
@@ -615,7 +714,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -624,17 +723,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Range( 1, 10, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Range( 50, 100, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1).Above(10)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Below(50).Above(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -657,7 +756,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -666,17 +765,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Range( -10, -1 ).Range( 1, 10, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Range( 10, 50 ).Range( 80, 100, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(-10).Value(0).Above(10)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Below(10).Range(50, false, 80, false).Above(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -699,7 +798,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -708,17 +807,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Above( 0, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Above( 100, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.BelowOrEqual(0)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.BelowOrEqual(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -731,7 +830,7 @@ namespace TestingProject
 
 
         [Test]
-        public void Above_GetValue()
+        public void Above_GetValidValue()
         {
             var test = @"
 using NUnit.Framework;
@@ -741,7 +840,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -750,17 +849,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Above( 0 ).GetValidValue( out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Above( 100 ).GetValidValue( out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.BelowOrEqual(0)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.BelowOrEqual(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -783,7 +882,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -792,17 +891,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.AboveOrEqual( 1, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".AboveOrEqual( 100, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -815,7 +914,7 @@ namespace TestingProject
 
 
         [Test]
-        public void AboveOrEqual_GetValue()
+        public void AboveOrEqual_GetValidValue()
         {
             var test = @"
 using NUnit.Framework;
@@ -825,7 +924,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -834,17 +933,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.AboveOrEqual( 1 ).GetValidValue( out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".AboveOrEqual( 100 ).GetValidValue( out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Below(1)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Below(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -867,7 +966,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -876,17 +975,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Below( 0, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Below( 100, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.AboveOrEqual(0)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.AboveOrEqual(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -899,7 +998,7 @@ namespace TestingProject
 
 
         [Test]
-        public void Below_GetValue()
+        public void Below_GetValidValue()
         {
             var test = @"
 using NUnit.Framework;
@@ -909,7 +1008,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -918,17 +1017,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.Below( 0 ).GetValidValue( out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".Below( 100 ).GetValidValue( out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.AboveOrEqual(0)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.AboveOrEqual(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -951,7 +1050,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -960,17 +1059,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.BelowOrEqual( -1, out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".BelowOrEqual( 100, out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Above(-1)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Above(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -983,7 +1082,7 @@ namespace TestingProject
 
 
         [Test]
-        public void BelowOrEqual_GetValue()
+        public void BelowOrEqual_GetValidValue()
         {
             var test = @"
 using NUnit.Framework;
@@ -993,7 +1092,7 @@ namespace TestingProject
 {
     class Class1
     {
-        public static double Inverse(short i) => 1 / i;
+        public static " + _Type + " Same(" + _Type + @" i) => i;
     }
 
     [TestFixture]
@@ -1002,17 +1101,17 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( Short.BelowOrEqual( -1 ).GetValidValue( out var value ), 
-                                  () => Class1.Inverse( value ) );
+            var result = RunTest( " + _SmartType + @".BelowOrEqual( 100 ).GetValidValue( out var value ), 
+                                  () => Class1.Same( value ) );
 
-            Assert.That( 1 / result, Is.EqualTo(value) );
+            Assert.That( result, Is.EqualTo(value) );
         }
     }
 }";
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Inverse(short)' has some missing Test Cases: Short.Above(-1)",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: {_SmartType}.Above(100)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -1022,6 +1121,7 @@ namespace TestingProject
 
             VerifyCSharpDiagnostic( test, expected );
         }
+
 
 
         protected override SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();

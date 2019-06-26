@@ -65,7 +65,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override string ToString() => ToString( "SByte" );
+        public override string ToString() => ToString( "SByteRange" );
     }
 
 
@@ -81,7 +81,7 @@ namespace SmartTests.Ranges
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for sbyte so that adding chunks can be chained.</returns>
-        public static INumericType<sbyte> Range( this sbyte @this, sbyte min, sbyte max ) => SmartTest.SByte.Range( min, max );
+        public static INumericType<sbyte> Range( this sbyte @this, sbyte min, sbyte max ) => SmartTest.SByteRange.Range( min, max );
 
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for sbyte so that adding chunks can be chained.</returns>
-        public static INumericType<sbyte> Range( this sbyte @this, sbyte min, bool minIncluded, sbyte max, bool maxIncluded ) => SmartTest.SByte.Range( min, minIncluded, max, maxIncluded );
+        public static INumericType<sbyte> Range( this sbyte @this, sbyte min, bool minIncluded, sbyte max, bool maxIncluded ) => SmartTest.SByteRange.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A sbyte we do not care about, except to know to create a <see cref="INumericType{T}" /> for sbyte.</param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for sbyte so that adding chunks can be chained.</returns>
-        public static INumericType<sbyte> AboveOrEqual( this sbyte @this, sbyte min ) => SmartTest.SByte.AboveOrEqual( min );
+        public static INumericType<sbyte> AboveOrEqual( this sbyte @this, sbyte min ) => SmartTest.SByteRange.AboveOrEqual( min );
 
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A sbyte we do not care about, except to know to create a <see cref="INumericType{T}" /> for sbyte.</param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for sbyte so that adding chunks can be chained.</returns>
-        public static INumericType<sbyte> Above( this sbyte @this, sbyte min ) => SmartTest.SByte.Above( min );
+        public static INumericType<sbyte> Above( this sbyte @this, sbyte min ) => SmartTest.SByteRange.Above( min );
 
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A sbyte we do not care about, except to know to create a <see cref="INumericType{T}" /> for sbyte.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for sbyte so that adding chunks can be chained.</returns>
-        public static INumericType<sbyte> BelowOrEqual( this sbyte @this, sbyte max ) => SmartTest.SByte.BelowOrEqual( max );
+        public static INumericType<sbyte> BelowOrEqual( this sbyte @this, sbyte max ) => SmartTest.SByteRange.BelowOrEqual( max );
 
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A sbyte we do not care about, except to know to create a <see cref="INumericType{T}" /> for sbyte.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for sbyte so that adding chunks can be chained.</returns>
-        public static INumericType<sbyte> Below( this sbyte @this, sbyte max ) => SmartTest.SByte.Below( max );
+        public static INumericType<sbyte> Below( this sbyte @this, sbyte max ) => SmartTest.SByteRange.Below( max );
 
 
         /// <summary>
@@ -138,6 +138,6 @@ namespace SmartTests.Ranges
         /// <param name="this">A sbyte we do not care about, except to know to create a <see cref="INumericType{T}" /> for sbyte.</param>
         /// <param name="value">A random value within this range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for sbyte so that adding chunks can be chained.</returns>
-        public static INumericType<sbyte> Value( this sbyte @this, sbyte value ) => SmartTest.SByte.Value( value );
+        public static INumericType<sbyte> Value( this sbyte @this, sbyte value ) => SmartTest.SByteRange.Value( value );
     }
 }

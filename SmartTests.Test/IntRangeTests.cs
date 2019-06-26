@@ -34,7 +34,7 @@ namespace SmartTests.Test
         public void Range_MinLowerThanMax()
         {
             // Act
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assert
             AssertChunks( range, 10, 20 );
@@ -45,7 +45,7 @@ namespace SmartTests.Test
         public void Range_MinEqualToMax()
         {
             // Act
-            var range = Int.Range( 10, 10 );
+            var range = Int32Range.Range( 10, 10 );
 
             // Assert
             AssertChunks( range, 10, 10 );
@@ -58,7 +58,7 @@ namespace SmartTests.Test
             // Act & Assert
             Assert.Throws( typeof(ArgumentException),
                            // ReSharper disable once ObjectCreationAsStatement
-                           () => Int.Range( 20, 10 ) );
+                           () => Int32Range.Range( 20, 10 ) );
         }
 
 
@@ -70,7 +70,7 @@ namespace SmartTests.Test
         public void AddChunk_Error()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -86,16 +86,16 @@ namespace SmartTests.Test
         public void AddChunk_InfinityBeforeMin()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
 
             // Act
-            range.Range( int.MinValue, 8 );
+            range.Range( Int32Range.MinValue, 8 );
 
             // Assert
-            AssertChunks( range, int.MinValue, 8, 10, 20 );
+            AssertChunks( range, Int32Range.MinValue, 8, 10, 20 );
         }
 
 
@@ -103,7 +103,7 @@ namespace SmartTests.Test
         public void AddChunk_BeforeMin()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -120,7 +120,7 @@ namespace SmartTests.Test
         public void AddChunk_MaxImmediatelyBeforeMin()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -137,7 +137,7 @@ namespace SmartTests.Test
         public void AddChunk_ImmediatelyBeforeMin1()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -154,7 +154,7 @@ namespace SmartTests.Test
         public void AddChunk_MinImmediatelyBeforeMin()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -171,7 +171,7 @@ namespace SmartTests.Test
         public void AddChunk_ContainingMin()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -188,7 +188,7 @@ namespace SmartTests.Test
         public void AddChunk_ContainingMinMax()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -205,7 +205,7 @@ namespace SmartTests.Test
         public void AddChunk_BetweenMinMax()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -222,7 +222,7 @@ namespace SmartTests.Test
         public void AddChunk_ContainingMax()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -239,7 +239,7 @@ namespace SmartTests.Test
         public void AddChunk_MinImmediatelyAfterMax()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -256,7 +256,7 @@ namespace SmartTests.Test
         public void AddChunk_ImmediatelyAfterMax1()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -273,7 +273,7 @@ namespace SmartTests.Test
         public void AddChunk_MaxImmediatelyAfterMax()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -290,7 +290,7 @@ namespace SmartTests.Test
         public void AddChunk_AfterMax()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
@@ -307,16 +307,16 @@ namespace SmartTests.Test
         public void AddChunk_AfterMaxInfinity()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
 
             // Assume
             AssertChunks( range, 10, 20 );
 
             // Act
-            range.Range( 30, int.MaxValue );
+            range.Range( 30, Int32Range.MaxValue );
 
             // Assert
-            AssertChunks( range, 10, 20, 30, int.MaxValue );
+            AssertChunks( range, 10, 20, 30, Int32Range.MaxValue );
         }
 
         #endregion
@@ -328,7 +328,7 @@ namespace SmartTests.Test
         public void AddChunk2_BeforeMin1()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -346,7 +346,7 @@ namespace SmartTests.Test
         public void AddChunk2_ImmediatelyBeforeMin1()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -364,7 +364,7 @@ namespace SmartTests.Test
         public void AddChunk2_ContainingMinMax1_BeforeMin2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -382,7 +382,7 @@ namespace SmartTests.Test
         public void AddChunk2_ContainingMinMax1_ImmediatelyBeforeMin2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -400,7 +400,7 @@ namespace SmartTests.Test
         public void AddChunk2_ContainingMinMax1_BetweenMinMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -418,7 +418,7 @@ namespace SmartTests.Test
         public void AddChunk2_ContainingMinMax1_AfterMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -436,17 +436,17 @@ namespace SmartTests.Test
         public void AddChunk2_ContainingMinMax1_Infinity()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
             AssertChunks( range, 10, 20, 30, 40 );
 
             // Act
-            range.Range( 5, int.MaxValue );
+            range.Range( 5, Int32Range.MaxValue );
 
             // Assert
-            AssertChunks( range, 5, int.MaxValue );
+            AssertChunks( range, 5, Int32Range.MaxValue );
         }
 
 
@@ -454,7 +454,7 @@ namespace SmartTests.Test
         public void AddChunk2_BetweenMinMax1()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -472,7 +472,7 @@ namespace SmartTests.Test
         public void AddChunk2_ContainingMax1_BeforeMin2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -490,7 +490,7 @@ namespace SmartTests.Test
         public void AddChunk2_ContainingMax1_ImmediatelyBeforeMin2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -508,7 +508,7 @@ namespace SmartTests.Test
         public void AddChunk2_ContainingMax1_ContainingMin2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -526,7 +526,7 @@ namespace SmartTests.Test
         public void AddChunk2_ContainingMax1_ContainingMinMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -544,7 +544,7 @@ namespace SmartTests.Test
         public void AddChunk2_ImmediatelyAfterMax1_BeforeMin2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -562,7 +562,7 @@ namespace SmartTests.Test
         public void AddChunk2_ImmediatelyAfterMax1_ImmediatelyBeforeMin2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -580,7 +580,7 @@ namespace SmartTests.Test
         public void AddChunk2_ImmediatelyAfterMax1_BetweenMinMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -598,7 +598,7 @@ namespace SmartTests.Test
         public void AddChunk2_ImmediatelyAfterMax1_AfterMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -616,17 +616,17 @@ namespace SmartTests.Test
         public void AddChunk2_ImmediatelyAfterMax1_Infinity()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
             AssertChunks( range, 10, 20, 30, 40 );
 
             // Act
-            range.Range( 21, int.MaxValue );
+            range.Range( 21, Int32Range.MaxValue );
 
             // Assert
-            AssertChunks( range, 10, int.MaxValue );
+            AssertChunks( range, 10, Int32Range.MaxValue );
         }
 
 
@@ -634,7 +634,7 @@ namespace SmartTests.Test
         public void AddChunk2_AfterMax1_BeforeMin2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -652,7 +652,7 @@ namespace SmartTests.Test
         public void AddChunk2_AfterMax1_ImmediatelyBeforeMin2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -670,7 +670,7 @@ namespace SmartTests.Test
         public void AddChunk2_AfterMax1_BetweenMinMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -688,7 +688,7 @@ namespace SmartTests.Test
         public void AddChunk2_AfterMax1_AfterMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -706,17 +706,17 @@ namespace SmartTests.Test
         public void AddChunk2_AfterMax1_Infinity()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
             AssertChunks( range, 10, 20, 30, 40 );
 
             // Act
-            range.Range( 23, int.MaxValue );
+            range.Range( 23, Int32Range.MaxValue );
 
             // Assert
-            AssertChunks( range, 10, 20, 23, int.MaxValue );
+            AssertChunks( range, 10, 20, 23, Int32Range.MaxValue );
         }
 
 
@@ -724,7 +724,7 @@ namespace SmartTests.Test
         public void AddChunk2_BetweenMinMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -742,7 +742,7 @@ namespace SmartTests.Test
         public void AddChunk2_BetweenMinMax2_AfterMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -760,17 +760,17 @@ namespace SmartTests.Test
         public void AddChunk2_BetweenMinMax2_Infinity()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
             AssertChunks( range, 10, 20, 30, 40 );
 
             // Act
-            range.Range( 34, int.MaxValue );
+            range.Range( 34, Int32Range.MaxValue );
 
             // Assert
-            AssertChunks( range, 10, 20, 30, int.MaxValue );
+            AssertChunks( range, 10, 20, 30, Int32Range.MaxValue );
         }
 
 
@@ -778,7 +778,7 @@ namespace SmartTests.Test
         public void AddChunk2_ImmediatelyAfterMax2_AfterMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -796,17 +796,17 @@ namespace SmartTests.Test
         public void AddChunk2_ImmediatelyAfterMax2_Infinity()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
             AssertChunks( range, 10, 20, 30, 40 );
 
             // Act
-            range.Range( 41, int.MaxValue );
+            range.Range( 41, Int32Range.MaxValue );
 
             // Assert
-            AssertChunks( range, 10, 20, 30, int.MaxValue );
+            AssertChunks( range, 10, 20, 30, Int32Range.MaxValue );
         }
 
 
@@ -814,7 +814,7 @@ namespace SmartTests.Test
         public void AddChunk2_AfterMax2()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
@@ -832,17 +832,17 @@ namespace SmartTests.Test
         public void AddChunk2_AfterMax2_Infinity()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
+            var range = Int32Range.Range( 10, 20 );
             range.Range( 30, 40 );
 
             // Assume
             AssertChunks( range, 10, 20, 30, 40 );
 
             // Act
-            range.Range( 45, int.MaxValue );
+            range.Range( 45, Int32Range.MaxValue );
 
             // Assert
-            AssertChunks( range, 10, 20, 30, 40, 45, int.MaxValue );
+            AssertChunks( range, 10, 20, 30, 40, 45, Int32Range.MaxValue );
         }
 
 
@@ -850,17 +850,17 @@ namespace SmartTests.Test
         public void AddChunk2Infinity()
         {
             // Arrange
-            var range = Int.Range( 10, 20 );
-            range.Range( 30, int.MaxValue );
+            var range = Int32Range.Range( 10, 20 );
+            range.Range( 30, Int32Range.MaxValue );
 
             // Assume
-            AssertChunks( range, 10, 20, 30, int.MaxValue );
+            AssertChunks( range, 10, 20, 30, Int32Range.MaxValue );
 
             // Act
             range.Range( 35, 45 );
 
             // Assert
-            AssertChunks( range, 10, 20, 30, int.MaxValue );
+            AssertChunks( range, 10, 20, 30, Int32Range.MaxValue );
         }
 
 
@@ -868,17 +868,17 @@ namespace SmartTests.Test
         public void AddChunkThatCompleteBoth()
         {
             // Arrange
-            var range = Int.Range( 1, int.MaxValue );
-            range.Range( int.MinValue, -1 );
+            var range = Int32Range.Range( 1, Int32Range.MaxValue );
+            range.Range( Int32Range.MinValue, -1 );
 
             // Assume
-            AssertChunks( range, int.MinValue, -1, 1, int.MaxValue );
+            AssertChunks( range, Int32Range.MinValue, -1, 1, Int32Range.MaxValue );
 
             // Act
             range.Range( 0, 0 );
 
             // Assert
-            AssertChunks( range, int.MinValue, int.MaxValue );
+            AssertChunks( range, Int32Range.MinValue, Int32Range.MaxValue );
         }
 
         #endregion

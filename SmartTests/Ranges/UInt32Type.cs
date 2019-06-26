@@ -10,7 +10,7 @@ namespace SmartTests.Ranges
     /// <summary>
     ///     Represents a Range of integer values (with several chunks)
     /// </summary>
-    public class UIntType: NumericType<uint, UIntType>
+    public class UInt32Type: NumericType<uint, UInt32Type>
     {
         /// <inheritdoc />
         protected override uint MinValue => uint.MinValue;
@@ -64,14 +64,14 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override string ToString() => ToString( "UInt" );
+        public override string ToString() => ToString( "UInt32Range" );
     }
 
 
     /// <summary>
     ///     A helper type to create <see cref="INumericType{T}" /> for uint from a uint.
     /// </summary>
-    public static class UIntTypeHelper
+    public static class UInt32TypeHelper
     {
         /// <summary>
         ///     Adds a chunk of numeric values
@@ -80,7 +80,7 @@ namespace SmartTests.Ranges
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> Range( this uint @this, uint min, uint max ) => SmartTest.UInt.Range( min, max );
+        public static INumericType<uint> Range( this uint @this, uint min, uint max ) => SmartTest.UInt32Range.Range( min, max );
 
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> Range( this uint @this, uint min, bool minIncluded, uint max, bool maxIncluded ) => SmartTest.UInt.Range( min, minIncluded, max, maxIncluded );
+        public static INumericType<uint> Range( this uint @this, uint min, bool minIncluded, uint max, bool maxIncluded ) => SmartTest.UInt32Range.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> AboveOrEqual( this uint @this, uint min ) => SmartTest.UInt.AboveOrEqual( min );
+        public static INumericType<uint> AboveOrEqual( this uint @this, uint min ) => SmartTest.UInt32Range.AboveOrEqual( min );
 
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> Above( this uint @this, uint min ) => SmartTest.UInt.Above( min );
+        public static INumericType<uint> Above( this uint @this, uint min ) => SmartTest.UInt32Range.Above( min );
 
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> BelowOrEqual( this uint @this, uint max ) => SmartTest.UInt.BelowOrEqual( max );
+        public static INumericType<uint> BelowOrEqual( this uint @this, uint max ) => SmartTest.UInt32Range.BelowOrEqual( max );
 
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> Below( this uint @this, uint max ) => SmartTest.UInt.Below( max );
+        public static INumericType<uint> Below( this uint @this, uint max ) => SmartTest.UInt32Range.Below( max );
 
 
         /// <summary>
@@ -137,6 +137,6 @@ namespace SmartTests.Ranges
         /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="value">A random value within this range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> Value( this uint @this, uint value ) => SmartTest.UInt.Value( value );
+        public static INumericType<uint> Value( this uint @this, uint value ) => SmartTest.UInt32Range.Value( value );
     }
 }

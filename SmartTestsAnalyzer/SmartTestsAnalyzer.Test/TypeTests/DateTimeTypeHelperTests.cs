@@ -15,7 +15,7 @@ namespace SmartTestsAnalyzer.Test.TypeTests
         public void FullRange()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -49,7 +49,7 @@ namespace TestingProject
         public void FullRange2()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -92,7 +92,7 @@ namespace TestingProject
         public void ErrorCase()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -120,7 +120,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Min(System.DateTime, System.DateTime)' has some missing Test Cases: b:DateTime.Below(new DateTime(2019, 6, 21)).Above(new DateTime(2019, 6, 21))",
+                Message = "Tests for 'TestingProject.Class1.Min(System.DateTime, System.DateTime)' has some missing Test Cases: b:DateTimeRange.Below(new DateTime(2019, 6, 21)).Above(new DateTime(2019, 6, 21))",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -136,7 +136,7 @@ namespace TestingProject
         public void AlmostFullRangeMin()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -164,7 +164,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.Value(DateTime.MinValue)",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.Value(DateTime.MinValue)",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -180,7 +180,7 @@ namespace TestingProject
         public void AlmostFullRangeMax()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -208,7 +208,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.Value(DateTime.MaxValue)",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.Value(DateTime.MaxValue)",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -224,7 +224,7 @@ namespace TestingProject
         public void OneChunkInOneRange()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -252,7 +252,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.Below(new DateTime(2019, 1, 1))",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.Below(new DateTime(2019, 1, 1))",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -268,7 +268,7 @@ namespace TestingProject
         public void TwoChunksInTwoRanges()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -305,7 +305,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.Range(new DateTime(2019, 1, 1), false, new DateTime(2019, 6, 21), false)",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.Range(new DateTime(2019, 1, 1), false, new DateTime(2019, 6, 21), false)",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -322,7 +322,7 @@ namespace TestingProject
         public void TwoChunksInOneRange()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -350,7 +350,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.Range(new DateTime(2019, 1, 1), false, new DateTime(2019, 6, 21), false)",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.Range(new DateTime(2019, 1, 1), false, new DateTime(2019, 6, 21), false)",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -366,7 +366,7 @@ namespace TestingProject
         public void ThreeChunksInOneRange()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -394,7 +394,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.Value(new DateTime(2019, 6, 21))",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.Value(new DateTime(2019, 6, 21))",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -410,7 +410,7 @@ namespace TestingProject
         public void OneChunk_RangeMinNotAConstant()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -455,7 +455,7 @@ namespace TestingProject
         public void OneChunk_RangeMinNotAConstant2()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -500,7 +500,7 @@ namespace TestingProject
         public void OneChunk_RangeMaxNotAConstant()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -545,7 +545,7 @@ namespace TestingProject
         public void OneChunk_RangeAddMinNotAConstant()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -590,7 +590,7 @@ namespace TestingProject
         public void OneChunk_RangeAddMaxNotAConstant()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -635,7 +635,7 @@ namespace TestingProject
         public void OneChunkInOneRangeMissingMinMax()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -663,7 +663,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.Below(new DateTime(2019, 1, 1)).Above(new DateTime(2019, 6, 23))",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.Below(new DateTime(2019, 1, 1)).Above(new DateTime(2019, 6, 23))",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -679,7 +679,7 @@ namespace TestingProject
         public void OneChunkInOneRangeMissingMinMiddleMax()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -707,7 +707,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.Below(new DateTime(2019, 1, 1)).Range(new DateTime(2019, 6, 23), false, new DateTime(2019, 12, 31), false).Above(new DateTime(2020, 5, 7))",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.Below(new DateTime(2019, 1, 1)).Range(new DateTime(2019, 6, 23), false, new DateTime(2019, 12, 31), false).Above(new DateTime(2020, 5, 7))",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -723,7 +723,7 @@ namespace TestingProject
         public void Above()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -751,7 +751,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.BelowOrEqual(new DateTime(2019, 1, 1))",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.BelowOrEqual(new DateTime(2019, 1, 1))",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -767,7 +767,7 @@ namespace TestingProject
         public void AboveOrEqual()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -795,7 +795,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.Below(new DateTime(2019, 1, 1))",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.Below(new DateTime(2019, 1, 1))",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -811,7 +811,7 @@ namespace TestingProject
         public void Below()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -839,7 +839,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.AboveOrEqual(new DateTime(2019, 1, 1))",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.AboveOrEqual(new DateTime(2019, 1, 1))",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {
@@ -855,7 +855,7 @@ namespace TestingProject
         public void BelowOrEqual()
         {
             var test = @"
-using DateTime = System.DateTime;
+using System;
 using NUnit.Framework;
 using SmartTests.Ranges;
 using static SmartTests.SmartTest;
@@ -883,7 +883,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
             {
                 Id = "SmartTestsAnalyzer_MissingCases",
-                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTime.Above(new DateTime(2019, 1, 1))",
+                Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: i:DateTimeRange.Above(new DateTime(2019, 1, 1))",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                                            {

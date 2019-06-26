@@ -18,13 +18,13 @@ namespace SmartTestsAnalyzer.Criterias
         {
             _CriteriaValuesGenerator[ typeof(ByteType) ] = () => new RangeValues<byte, ByteType>();
             _CriteriaValuesGenerator[ typeof(SByteType) ] = () => new RangeValues<sbyte, SByteType>();
-            _CriteriaValuesGenerator[ typeof(ShortType) ] = () => new RangeValues<short, ShortType>();
-            _CriteriaValuesGenerator[ typeof(UShortType) ] = () => new RangeValues<ushort, UShortType>();
-            _CriteriaValuesGenerator[ typeof(IntType) ] = () => new RangeValues<int, IntType>();
-            _CriteriaValuesGenerator[ typeof(UIntType) ] = () => new RangeValues<uint, UIntType>();
-            _CriteriaValuesGenerator[ typeof(LongType) ] = () => new RangeValues<long, LongType>();
-            _CriteriaValuesGenerator[ typeof(ULongType) ] = () => new RangeValues<ulong, ULongType>();
-            _CriteriaValuesGenerator[ typeof(FloatType) ] = () => new RangeValues<float, FloatType>();
+            _CriteriaValuesGenerator[ typeof(Int16Type) ] = () => new RangeValues<short, Int16Type>();
+            _CriteriaValuesGenerator[ typeof(UInt16Type) ] = () => new RangeValues<ushort, UInt16Type>();
+            _CriteriaValuesGenerator[ typeof(Int32Type) ] = () => new RangeValues<int, Int32Type>();
+            _CriteriaValuesGenerator[ typeof(UInt32Type) ] = () => new RangeValues<uint, UInt32Type>();
+            _CriteriaValuesGenerator[ typeof(Int64Type) ] = () => new RangeValues<long, Int64Type>();
+            _CriteriaValuesGenerator[ typeof(UInt64Type) ] = () => new RangeValues<ulong, UInt64Type>();
+            _CriteriaValuesGenerator[ typeof(SingleType) ] = () => new RangeValues<float, SingleType>();
             _CriteriaValuesGenerator[ typeof(DoubleType) ] = () => new RangeValues<double, DoubleType>();
             _CriteriaValuesGenerator[ typeof(DecimalType) ] = () => new RangeValues<decimal, DecimalType>();
             _CriteriaValuesGenerator[ typeof(DateTimeType) ] = () => new RangeValues<DateTime, DateTimeType>();
@@ -44,6 +44,7 @@ namespace SmartTestsAnalyzer.Criterias
 
 
         private static readonly TestedParameter _RangeTestedParameter = new TestedParameter( "Range" );
+
 
         public override void AddValues( Dictionary<TestedParameter, CriteriaValues> values, INamedTypeSymbol errorType )
         {

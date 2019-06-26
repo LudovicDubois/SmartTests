@@ -8,7 +8,7 @@ namespace SmartTestsAnalyzer.Test.TypeTests
     class DecimalTypeHelperTests: TypeHelperBaseTest
     {
         public DecimalTypeHelperTests()
-            : base( "decimal", "Decimal" )
+            : base( "decimal", "DecimalRange" )
         { }
     }
 }

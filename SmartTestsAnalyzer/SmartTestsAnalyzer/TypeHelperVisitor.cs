@@ -21,18 +21,18 @@ namespace SmartTestsAnalyzer
         {
             _Model = model;
             _IsError = isError;
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.ByteTypeHelper" ), () => new RangeVisitor<byte>( model, SmartTest.Byte, typeof(ByteTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.DecimalTypeHelper" ), () => new RangeVisitor<decimal>( model, SmartTest.Decimal, typeof(DecimalTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.DoubleTypeHelper" ), () => new RangeVisitor<double>( model, SmartTest.Double, typeof(DoubleTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.FloatTypeHelper" ), () => new RangeVisitor<float>( model, SmartTest.Float, typeof(FloatTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.IntTypeHelper" ), () => new RangeVisitor<int>( model, SmartTest.Int, typeof(IntTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.LongTypeHelper" ), () => new RangeVisitor<long>( model, SmartTest.Long, typeof(LongTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.SByteTypeHelper" ), () => new RangeVisitor<sbyte>( model, SmartTest.SByte, typeof(SByteTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.ShortTypeHelper" ), () => new RangeVisitor<short>( model, SmartTest.Short, typeof(ShortTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.UIntTypeHelper" ), () => new RangeVisitor<uint>( model, SmartTest.UInt, typeof(UIntTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.ULongTypeHelper" ), () => new RangeVisitor<ulong>( model, SmartTest.ULong, typeof(ULongTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.UShortTypeHelper" ), () => new RangeVisitor<ushort>( model, SmartTest.UShort, typeof(UShortTypeHelper), reportDiagnostic ) );
-            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.DateTimeTypeHelper" ), () => new RangeVisitor<DateTime>( model, SmartTest.DateTime, typeof(DateTimeTypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.ByteTypeHelper" ), () => new RangeVisitor<byte>( model, SmartTest.ByteRange, typeof(ByteTypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.DecimalTypeHelper" ), () => new RangeVisitor<decimal>( model, SmartTest.DecimalRange, typeof(DecimalTypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.DoubleTypeHelper" ), () => new RangeVisitor<double>( model, SmartTest.DoubleRange, typeof(DoubleTypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.SingleTypeHelper" ), () => new RangeVisitor<float>( model, SmartTest.SingleRange, typeof(SingleTypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.Int32TypeHelper" ), () => new RangeVisitor<int>( model, SmartTest.Int32Range, typeof(Int32TypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.Int64TypeHelper" ), () => new RangeVisitor<long>( model, SmartTest.Int64Range, typeof(Int64TypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.SByteTypeHelper" ), () => new RangeVisitor<sbyte>( model, SmartTest.SByteRange, typeof(SByteTypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.Int16TypeHelper" ), () => new RangeVisitor<short>( model, SmartTest.Int16Range, typeof(Int16TypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.UInt32TypeHelper" ), () => new RangeVisitor<uint>( model, SmartTest.UInt32Range, typeof(UInt32TypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.UInt64TypeHelper" ), () => new RangeVisitor<ulong>( model, SmartTest.UInt64Range, typeof(UInt64TypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.UInt16TypeHelper" ), () => new RangeVisitor<ushort>( model, SmartTest.UInt16Range, typeof(UInt16TypeHelper), reportDiagnostic ) );
+            _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.DateTimeTypeHelper" ), () => new RangeVisitor<DateTime>( model, SmartTest.DateTimeRange, typeof(DateTimeTypeHelper), reportDiagnostic ) );
             _Roots.Add( _Model.Compilation.GetTypeByMetadataName( "SmartTests.Ranges.EnumTypeHelper" ), () => new EnumVisitor( model, reportDiagnostic ) );
         }
 

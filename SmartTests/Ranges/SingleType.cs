@@ -10,7 +10,7 @@ namespace SmartTests.Ranges
     /// <summary>
     ///     Represents a Range of float values (with several chunks)
     /// </summary>
-    public class FloatType: NumericType<float, FloatType>
+    public class SingleType: NumericType<float, SingleType>
     {
         /// <inheritdoc />
         protected override float MinValue => float.MinValue;
@@ -55,26 +55,18 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        protected override string ToString( float value )
-        {
-            if( value == float.MinValue )
-                return "float.MinValue";
-            if( value == float.MaxValue )
-                return "float.MaxValue";
-
-            return value.ToString();
-        }
+        protected override string ToString( float value ) => SmartTest.ToString( value );
 
 
         /// <inheritdoc />
-        public override string ToString() => ToString( "Float" );
+        public override string ToString() => ToString( "SingleRange" );
     }
 
 
     /// <summary>
     ///     A helper type to create <see cref="INumericType{T}" /> for float from a float.
     /// </summary>
-    public static class FloatTypeHelper
+    public static class SingleTypeHelper
     {
         /// <summary>
         ///     Adds a chunk of numeric values
@@ -83,7 +75,7 @@ namespace SmartTests.Ranges
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> Range( this float @this, float min, float max ) => SmartTest.Float.Range( min, max );
+        public static INumericType<float> Range( this float @this, float min, float max ) => SmartTest.SingleRange.Range( min, max );
 
 
         /// <summary>
@@ -95,7 +87,7 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> Range( this float @this, float min, bool minIncluded, float max, bool maxIncluded ) => SmartTest.Float.Range( min, minIncluded, max, maxIncluded );
+        public static INumericType<float> Range( this float @this, float min, bool minIncluded, float max, bool maxIncluded ) => SmartTest.SingleRange.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
@@ -104,7 +96,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> AboveOrEqual( this float @this, float min ) => SmartTest.Float.AboveOrEqual( min );
+        public static INumericType<float> AboveOrEqual( this float @this, float min ) => SmartTest.SingleRange.AboveOrEqual( min );
 
 
         /// <summary>
@@ -113,7 +105,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> Above( this float @this, float min ) => SmartTest.Float.Above( min );
+        public static INumericType<float> Above( this float @this, float min ) => SmartTest.SingleRange.Above( min );
 
 
         /// <summary>
@@ -122,7 +114,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> BelowOrEqual( this float @this, float max ) => SmartTest.Float.BelowOrEqual( max );
+        public static INumericType<float> BelowOrEqual( this float @this, float max ) => SmartTest.SingleRange.BelowOrEqual( max );
 
 
         /// <summary>
@@ -131,7 +123,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> Below( this float @this, float max ) => SmartTest.Float.Below( max );
+        public static INumericType<float> Below( this float @this, float max ) => SmartTest.SingleRange.Below( max );
 
 
         /// <summary>
@@ -140,6 +132,6 @@ namespace SmartTests.Ranges
         /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="value">A random value within this range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> Value( this float @this, float value ) => SmartTest.Float.Value( value );
+        public static INumericType<float> Value( this float @this, float value ) => SmartTest.SingleRange.Value( value );
     }
 }

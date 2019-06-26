@@ -10,7 +10,7 @@ namespace SmartTests.Ranges
     /// <summary>
     ///     Represents a Range of long values (with several chunks)
     /// </summary>
-    public class ULongType: NumericType<ulong, ULongType>
+    public class UInt64Type: NumericType<ulong, UInt64Type>
     {
         /// <inheritdoc />
         protected override ulong MinValue => ulong.MinValue;
@@ -55,23 +55,18 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        protected override string ToString( ulong value )
-        {
-            if( value == ulong.MaxValue )
-                return "ulong.MaxValue";
-            return value.ToString();
-        }
+        protected override string ToString( ulong value ) => SmartTest.ToString( value );
 
 
         /// <inheritdoc />
-        public override string ToString() => ToString( "ULong" );
+        public override string ToString() => ToString( "UInt64Range" );
     }
 
 
     /// <summary>
     ///     A helper type to create <see cref="INumericType{T}" /> for ulong from a ulong.
     /// </summary>
-    public static class ULongTypeHelper
+    public static class UInt64TypeHelper
     {
         /// <summary>
         ///     Adds a chunk of numeric values
@@ -80,7 +75,7 @@ namespace SmartTests.Ranges
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ulong so that adding chunks can be chained.</returns>
-        public static INumericType<ulong> Range( this ulong @this, ulong min, ulong max ) => SmartTest.ULong.Range( min, max );
+        public static INumericType<ulong> Range( this ulong @this, ulong min, ulong max ) => SmartTest.UInt64Range.Range( min, max );
 
 
         /// <summary>
@@ -92,7 +87,7 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ulong so that adding chunks can be chained.</returns>
-        public static INumericType<ulong> Range( this ulong @this, ulong min, bool minIncluded, ulong max, bool maxIncluded ) => SmartTest.ULong.Range( min, minIncluded, max, maxIncluded );
+        public static INumericType<ulong> Range( this ulong @this, ulong min, bool minIncluded, ulong max, bool maxIncluded ) => SmartTest.UInt64Range.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
@@ -101,7 +96,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A ulong we do not care about, except to know to create a <see cref="INumericType{T}" /> for ulong.</param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ulong so that adding chunks can be chained.</returns>
-        public static INumericType<ulong> AboveOrEqual( this ulong @this, ulong min ) => SmartTest.ULong.AboveOrEqual( min );
+        public static INumericType<ulong> AboveOrEqual( this ulong @this, ulong min ) => SmartTest.UInt64Range.AboveOrEqual( min );
 
 
         /// <summary>
@@ -110,7 +105,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A ulong we do not care about, except to know to create a <see cref="INumericType{T}" /> for ulong.</param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ulong so that adding chunks can be chained.</returns>
-        public static INumericType<ulong> Above( this ulong @this, ulong min ) => SmartTest.ULong.Above( min );
+        public static INumericType<ulong> Above( this ulong @this, ulong min ) => SmartTest.UInt64Range.Above( min );
 
 
         /// <summary>
@@ -119,7 +114,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A ulong we do not care about, except to know to create a <see cref="INumericType{T}" /> for ulong.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ulong so that adding chunks can be chained.</returns>
-        public static INumericType<ulong> BelowOrEqual( this ulong @this, ulong max ) => SmartTest.ULong.BelowOrEqual( max );
+        public static INumericType<ulong> BelowOrEqual( this ulong @this, ulong max ) => SmartTest.UInt64Range.BelowOrEqual( max );
 
 
         /// <summary>
@@ -128,7 +123,7 @@ namespace SmartTests.Ranges
         /// <param name="this">A ulong we do not care about, except to know to create a <see cref="INumericType{T}" /> for ulong.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ulong so that adding chunks can be chained.</returns>
-        public static INumericType<ulong> Below( this ulong @this, ulong max ) => SmartTest.ULong.Below( max );
+        public static INumericType<ulong> Below( this ulong @this, ulong max ) => SmartTest.UInt64Range.Below( max );
 
 
         /// <summary>
@@ -137,6 +132,6 @@ namespace SmartTests.Ranges
         /// <param name="this">A ulong we do not care about, except to know to create a <see cref="INumericType{T}" /> for ulong.</param>
         /// <param name="value">A random value within this range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for ulong so that adding chunks can be chained.</returns>
-        public static INumericType<ulong> Value( this ulong @this, ulong value ) => SmartTest.ULong.Value( value );
+        public static INumericType<ulong> Value( this ulong @this, ulong value ) => SmartTest.UInt64Range.Value( value );
     }
 }

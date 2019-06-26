@@ -8,7 +8,7 @@ namespace SmartTestsAnalyzer.Test.TypeTests
     class DoubleTypeHelperTests: TypeHelperBaseTest
     {
         public DoubleTypeHelperTests()
-            : base( "double", "Double" )
+            : base( "double", "DoubleRange" )
         { }
     }
 }

@@ -5,10 +5,10 @@
 namespace SmartTestsAnalyzer.Test.TypeTests
 {
     [TestFixture]
-    class ByteTypeTests: TypeBaseTests
+    class Int16TypeTests: TypeBaseTests
     {
-        public ByteTypeTests()
-            : base("byte", "ByteRange")
+        public Int16TypeTests()
+            : base( "short", "Int16Range" )
         { }
     }
 }

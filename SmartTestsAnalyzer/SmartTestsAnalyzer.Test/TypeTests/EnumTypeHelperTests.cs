@@ -46,7 +46,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:Enum.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:EnumRange.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -91,7 +91,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:Enum.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:EnumRange.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -136,7 +136,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:Enum.Value(DayOfWeek.Wednesday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:EnumRange.Value(DayOfWeek.Wednesday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -229,7 +229,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:Enum.Values(DayOfWeek.Sunday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:EnumRange.Values(DayOfWeek.Sunday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -285,7 +285,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:Enum.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:EnumRange.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
@@ -341,7 +341,7 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:Enum.Value(DayOfWeek.Wednesday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: dow:EnumRange.Value(DayOfWeek.Wednesday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {

@@ -20,7 +20,6 @@ namespace SmartTestsAnalyzer.Test.TypeTests
 using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
-using SmartTest = SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -35,7 +34,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Enum.Value( DayOfWeek.Monday ), 
+            var result = RunTest( EnumRange.Value( DayOfWeek.Monday ), 
                                   () => Class1.Same( DayOfWeek.Monday ) );
 
             Assert.That( result, Is.EqualTo(DayOfWeek.Monday) );
@@ -46,11 +45,11 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: Enum.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: EnumRange.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 20, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 35 )
                                            }
                            };
 
@@ -65,7 +64,6 @@ namespace TestingProject
 using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
-using SmartTest = SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -80,7 +78,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Enum.Values( out var value, DayOfWeek.Monday ), 
+            var result = RunTest( EnumRange.Values( out var value, DayOfWeek.Monday ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -91,11 +89,11 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: Enum.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: EnumRange.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 20, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 35 )
                                            }
                            };
 
@@ -110,7 +108,6 @@ namespace TestingProject
 using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
-using SmartTest = SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -125,7 +122,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Enum.Values( out var value, DayOfWeek.Monday, DayOfWeek.Wednesday ), 
+            var result = RunTest( EnumRange.Values( out var value, DayOfWeek.Monday, DayOfWeek.Wednesday ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -136,11 +133,11 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: Enum.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: EnumRange.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 20, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 35 )
                                            }
                            };
 
@@ -155,7 +152,6 @@ namespace TestingProject
 using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
-using SmartTest = SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -170,7 +166,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Enum.Values( out var value, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday ), 
+            var result = RunTest( EnumRange.Values( out var value, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -181,11 +177,11 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: Enum.Value(DayOfWeek.Wednesday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: EnumRange.Value(DayOfWeek.Wednesday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 20, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 35 )
                                            }
                            };
 
@@ -200,7 +196,6 @@ namespace TestingProject
 using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
-using SmartTest = SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -215,7 +210,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Enum.Values( out var value, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday ), 
+            var result = RunTest( EnumRange.Values( out var value, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -238,7 +233,6 @@ namespace TestingProject
 using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
-using SmartTest = SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -253,7 +247,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Enum.Value( DayOfWeek.Monday ), 
+            var result = RunTest( EnumRange.Value( DayOfWeek.Monday ), 
                                   () => Class1.Same( DayOfWeek.Monday ) );
 
             Assert.That( result, Is.EqualTo(DayOfWeek.Monday) );
@@ -263,7 +257,7 @@ namespace TestingProject
         [Test]
         public void TestMethod2()
         {
-            var result = RunTest( SmartTest.Enum.Value( DayOfWeek.Tuesday ), 
+            var result = RunTest( EnumRange.Value( DayOfWeek.Tuesday ), 
                                   () => Class1.Same( DayOfWeek.Tuesday ) );
 
             Assert.That( result, Is.EqualTo(DayOfWeek.Monday) );
@@ -274,12 +268,12 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: Enum.Values(DayOfWeek.Sunday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: EnumRange.Values(DayOfWeek.Sunday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 20, 35 ),
-                                               new DiagnosticResultLocation( "Test0.cs", 30, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 35 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 29, 35 )
                                            }
                            };
 
@@ -294,7 +288,6 @@ namespace TestingProject
 using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
-using SmartTest = SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -309,7 +302,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Enum.Value( DayOfWeek.Monday ), 
+            var result = RunTest( EnumRange.Value( DayOfWeek.Monday ), 
                                   () => Class1.Same( DayOfWeek.Monday ) );
 
             Assert.That( result, Is.EqualTo(DayOfWeek.Monday) );
@@ -319,7 +312,7 @@ namespace TestingProject
         [Test]
         public void TestMethod2()
         {
-            var result = RunTest( SmartTest.Enum.Values( out var value, DayOfWeek.Tuesday ), 
+            var result = RunTest( EnumRange.Values( out var value, DayOfWeek.Tuesday ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -330,12 +323,12 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: Enum.Values(DayOfWeek.Sunday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: EnumRange.Values(DayOfWeek.Sunday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 20, 35 ),
-                                               new DiagnosticResultLocation( "Test0.cs", 30, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 35 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 29, 35 )
                                            }
                            };
 
@@ -350,7 +343,6 @@ namespace TestingProject
 using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
-using SmartTest = SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -365,7 +357,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Enum.Value( DayOfWeek.Monday ), 
+            var result = RunTest( EnumRange.Value( DayOfWeek.Monday ), 
                                   () => Class1.Same( DayOfWeek.Monday ) );
 
             Assert.That( result, Is.EqualTo(DayOfWeek.Monday) );
@@ -375,7 +367,7 @@ namespace TestingProject
         [Test]
         public void TestMethod2()
         {
-            var result = RunTest( SmartTest.Enum.Values( out var value, DayOfWeek.Friday, DayOfWeek.Wednesday ), 
+            var result = RunTest( EnumRange.Values( out var value, DayOfWeek.Friday, DayOfWeek.Wednesday ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -386,12 +378,12 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: Enum.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: EnumRange.Values(DayOfWeek.Sunday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 20, 35 ),
-                                               new DiagnosticResultLocation( "Test0.cs", 30, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 35 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 29, 35 )
                                            }
                            };
 
@@ -406,7 +398,6 @@ namespace TestingProject
 using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
-using SmartTest = SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -421,7 +412,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Enum.Values( out var value, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Friday ), 
+            var result = RunTest( EnumRange.Values( out var value, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Friday ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -431,7 +422,7 @@ namespace TestingProject
         [Test]
         public void TestMethod2()
         {
-            var result = RunTest( SmartTest.Enum.Values( out var value, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday ), 
+            var result = RunTest( EnumRange.Values( out var value, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -442,12 +433,12 @@ namespace TestingProject
             var expected = new DiagnosticResult
                            {
                                Id = "SmartTestsAnalyzer_MissingCases",
-                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: Enum.Value(DayOfWeek.Wednesday)",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DayOfWeek)' has some missing Test Cases: EnumRange.Value(DayOfWeek.Wednesday)",
                                Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 20, 35 ),
-                                               new DiagnosticResultLocation( "Test0.cs", 30, 35 )
+                                               new DiagnosticResultLocation( "Test0.cs", 19, 35 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 29, 35 )
                                            }
                            };
 
@@ -462,7 +453,6 @@ namespace TestingProject
 using System;
 using NUnit.Framework;
 using static SmartTests.SmartTest;
-using SmartTest = SmartTests.SmartTest;
 
 namespace TestingProject
 {
@@ -477,7 +467,7 @@ namespace TestingProject
         [Test]
         public void TestMethod()
         {
-            var result = RunTest( SmartTest.Enum.Values( out var value, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday ), 
+            var result = RunTest( EnumRange.Values( out var value, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );
@@ -487,7 +477,7 @@ namespace TestingProject
         [Test]
         public void TestMethod2()
         {
-            var result = RunTest( SmartTest.Enum.Values( out var value, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday ), 
+            var result = RunTest( EnumRange.Values( out var value, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Saturday ), 
                                   () => Class1.Same( value ) );
 
             Assert.That( result, Is.EqualTo(value) );

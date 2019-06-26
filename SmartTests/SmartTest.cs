@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 
 using SmartTests.Acts;
 using SmartTests.Assertions;
@@ -1088,68 +1087,317 @@ namespace SmartTests
         /// <summary>
         ///     Creates a new range of <c>byte</c>
         /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="ByteRange" /> instead.
+        /// </remarks>
         /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use ByteRange, so that all ranges are named the same way" )]
         public static INumericType<byte> Byte => new ByteType();
+        /// <summary>
+        ///     Creates a new range of <c>byte</c>
+        /// </summary>
+        /// <seealso cref="INumericType{T}" />
+        public static INumericType<byte> ByteRange => new ByteType();
+        /// <summary>
+        ///     Creates a new range of <c>sbyte</c>
+        /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="SByteRange" /> instead.
+        /// </remarks>
+        /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use SByteRange, so that all ranges are named the same way" )]
+        public static INumericType<sbyte> SByte => new SByteType();
         /// <summary>
         ///     Creates a new range of <c>sbyte</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<sbyte> SByte => new SByteType();
+        public static INumericType<sbyte> SByteRange => new SByteType();
+        /// <summary>
+        ///     Creates a new range of <c>short</c>
+        /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="Int16Range" /> instead.
+        /// </remarks>
+        /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use Int16Range, so that all ranges are named the same way" )]
+        public static INumericType<short> Short => new Int16Type();
         /// <summary>
         ///     Creates a new range of <c>short</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<short> Short => new ShortType();
+        public static INumericType<short> Int16Range => new Int16Type();
+        /// <summary>
+        ///     Creates a new range of <c>ushort</c>
+        /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="UInt16Range" /> instead.
+        /// </remarks>
+        /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use UInt16Range, so that all ranges are named the same way" )]
+        public static INumericType<ushort> UShort => new UInt16Type();
         /// <summary>
         ///     Creates a new range of <c>ushort</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<ushort> UShort => new UShortType();
+        public static INumericType<ushort> UInt16Range => new UInt16Type();
+        /// <summary>
+        ///     Creates a new range of <c>int</c>
+        /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="Int32Range" /> instead.
+        /// </remarks>
+        /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use Int32Range, so that all ranges are named the same way" )]
+        public static INumericType<int> Int => new Int32Type();
         /// <summary>
         ///     Creates a new range of <c>int</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<int> Int => new IntType();
+        public static INumericType<int> Int32Range => new Int32Type();
+        /// <summary>
+        ///     Creates a new range of <c>uint</c>
+        /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="UInt32Range" /> instead.
+        /// </remarks>
+        /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use UInt32Range, so that all ranges are named the same way" )]
+        public static INumericType<uint> UInt => new UInt32Type();
         /// <summary>
         ///     Creates a new range of <c>uint</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<uint> UInt => new UIntType();
+        public static INumericType<uint> UInt32Range => new UInt32Type();
+        /// <summary>
+        ///     Creates a new range of <c>long</c>
+        /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="Int64Range" /> instead.
+        /// </remarks>
+        /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use Int64Range, so that all ranges are named the same way" )]
+        public static INumericType<long> Long => new Int64Type();
         /// <summary>
         ///     Creates a new range of <c>long</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<long> Long => new LongType();
+        public static INumericType<long> Int64Range => new Int64Type();
+        /// <summary>
+        ///     Creates a new range of <c>ulong</c>
+        /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="UInt64Range" /> instead.
+        /// </remarks>
+        /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use UInt64Range, so that all ranges are named the same way" )]
+        public static INumericType<ulong> ULong => new UInt64Type();
         /// <summary>
         ///     Creates a new range of <c>ulong</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<ulong> ULong => new ULongType();
+        public static INumericType<ulong> UInt64Range => new UInt64Type();
+        /// <summary>
+        ///     Creates a new range of <c>float</c>
+        /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="SingleRange" /> instead.
+        /// </remarks>
+        /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use SingleRange, so that all ranges are named the same way" )]
+        public static INumericType<float> Float => new SingleType();
         /// <summary>
         ///     Creates a new range of <c>float</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<float> Float => new FloatType();
+        public static INumericType<float> SingleRange => new SingleType();
+        /// <summary>
+        ///     Creates a new range of <c>double</c>
+        /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="DoubleRange" /> instead.
+        /// </remarks>
+        /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use DoubleRange, so that there is no conflict with System.Double" )]
+        public static INumericType<double> Double => new DoubleType();
         /// <summary>
         ///     Creates a new range of <c>double</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<double> Double => new DoubleType();
+        public static INumericType<double> DoubleRange => new DoubleType();
         /// <summary>
         ///     Creates a new range of <c>decimal</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<decimal> Decimal => new DecimalType();
+        public static INumericType<decimal> DecimalRange => new DecimalType();
         /// <summary>
         ///     Creates a new range of <c>DateTime</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static INumericType<DateTime> DateTime => new DateTimeType();
+        public static INumericType<DateTime> DateTimeRange => new DateTimeType();
         /// <summary>
-        ///     Creates a new range of <c>double</c>
+        ///     Creates a new range of <c>Enum</c>
+        /// </summary>
+        /// <remarks>
+        ///     It is obsolete now. You should use <see cref="EnumRange" /> instead.
+        /// </remarks>
+        /// <seealso cref="INumericType{T}" />
+        [Obsolete( "Use EnumRange, so that there is no conflict with System.Enum" )]
+        public static EnumType Enum => new EnumType();
+        /// <summary>
+        ///     Creates a new range of <c>Enum</c>
         /// </summary>
         /// <seealso cref="INumericType{T}" />
-        public static EnumType Enum => new EnumType();
+        public static EnumType EnumRange => new EnumType();
+
+
+        /// <summary>
+        ///     Convert a value as a string
+        /// </summary>
+        /// <param name="value">The value to convert to a string.</param>
+        /// <returns>The converted value as a string.</returns>
+        public static string ToString( object value )
+        {
+            if( value is byte bt )
+                return ToString( bt );
+            if( value is DateTime dtTm )
+                return ToString( dtTm );
+            if( value is decimal dcm )
+                return ToString( dcm );
+            if( value is double dbl )
+                return ToString( dbl );
+            if( value is float flt )
+                return ToString( flt );
+            if( value is int nt )
+                return ToString( nt );
+            if( value is long lng )
+                return ToString( lng );
+            if( value is sbyte sbt )
+                return ToString( sbt );
+            if( value is uint unt )
+                return ToString( unt );
+            if( value is ulong ulg )
+                return ToString( ulg );
+            if( value is ushort ush )
+                return ToString( value );
+
+            throw new NotSupportedException( $"Type {value.GetType().FullName} not supported yet!" );
+        }
+
+
+        internal static string ToString( byte value ) => value == byte.MaxValue ? "byte.MaxValue" : value.ToString();
+
+
+        internal static string ToString( decimal value )
+        {
+            if( value == decimal.MinValue )
+                return "decimal.MinValue";
+            if( value == decimal.MaxValue )
+                return "decimal.MaxValue";
+
+            return value.ToString();
+        }
+
+
+        internal static string ToString( DateTime value )
+        {
+            if( value == DateTime.MinValue )
+                return "DateTime.MinValue";
+            if( value == DateTime.MaxValue )
+                return "DateTime.MaxValue";
+            return "new DateTime(" +
+                   ( value == value.Date
+                         ? value.ToString( "yyyy, M, d" )
+                         : value.Millisecond == 0
+                             ? value.ToString( "yyyy, M, d, H, m, s" )
+                             : value.ToString( "yyyy, M, d, H, m, s, f" ) ) +
+                   ")";
+        }
+
+
+        internal static string ToString( double value )
+        {
+            if( value == double.MinValue )
+                return "double.MinValue";
+            if( value == double.MaxValue )
+                return "double.MaxValue";
+
+            return value.ToString();
+        }
+
+
+        internal static string ToString( float value )
+        {
+            if( value == float.MinValue )
+                return "float.MinValue";
+            if( value == float.MaxValue )
+                return "float.MaxValue";
+
+            return value.ToString();
+        }
+
+
+        internal static string ToString( int value )
+        {
+            if( value == int.MinValue )
+                return "int.MinValue";
+            if( value == int.MaxValue )
+                return "int.MaxValue";
+            return value.ToString();
+        }
+
+
+        internal static string ToString( long value )
+        {
+            if( value == long.MinValue )
+                return "long.MinValue";
+            if( value == long.MaxValue )
+                return "long.MaxValue";
+            return value.ToString();
+        }
+
+
+        internal static string ToString( sbyte value )
+        {
+            if( value == sbyte.MinValue )
+                return "sbyte.MinValue";
+            if( value == sbyte.MaxValue )
+                return "sbyte.MaxValue";
+            return value.ToString();
+        }
+
+
+        internal static string ToString( short value )
+        {
+            if( value == short.MinValue )
+                return "short.MinValue";
+            if( value == short.MaxValue )
+                return "short.MaxValue";
+            return value.ToString();
+        }
+
+
+        internal static string ToString( uint value )
+        {
+            if( value == uint.MaxValue )
+                return "uint.MaxValue";
+            return value.ToString();
+        }
+
+
+        internal static string ToString( ulong value )
+        {
+            if( value == ulong.MaxValue )
+                return "ulong.MaxValue";
+            return value.ToString();
+        }
+
+
+        internal static string ToString( ushort value )
+        {
+            if( value == ushort.MaxValue )
+                return "ushort.MaxValue";
+            return value.ToString();
+        }
 
         #endregion
     }

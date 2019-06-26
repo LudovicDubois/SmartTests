@@ -55,24 +55,11 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        protected override string ToString( DateTime value )
-        {
-            if( value == DateTime.MinValue )
-                return "DateTime.MinValue";
-            if( value == DateTime.MaxValue )
-                return "DateTime.MaxValue";
-            return "new DateTime(" +
-                   ( value == value.Date
-                         ? value.ToString( "yyyy, M, d" )
-                         : value.Millisecond == 0
-                             ? value.ToString( "yyyy, M, d, H, m, s" )
-                             : value.ToString( "yyyy, M, d, H, m, s, f" ) ) +
-                   ")";
-        }
+        protected override string ToString( DateTime value ) => SmartTest.ToString( value );
 
 
         /// <inheritdoc />
-        public override string ToString() => ToString( "DateTime" );
+        public override string ToString() => ToString( "DateTimeRange" );
     }
 
 
@@ -91,7 +78,7 @@ namespace SmartTests.Ranges
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> Range( this DateTime @this, DateTime min, DateTime max ) => SmartTest.DateTime.Range( min, max );
+        public static INumericType<DateTime> Range( this DateTime @this, DateTime min, DateTime max ) => SmartTest.DateTimeRange.Range( min, max );
 
 
         /// <summary>
@@ -106,7 +93,7 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> Range( this DateTime @this, DateTime min, bool minIncluded, DateTime max, bool maxIncluded ) => SmartTest.DateTime.Range( min, minIncluded, max, maxIncluded );
+        public static INumericType<DateTime> Range( this DateTime @this, DateTime min, bool minIncluded, DateTime max, bool maxIncluded ) => SmartTest.DateTimeRange.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
@@ -118,7 +105,7 @@ namespace SmartTests.Ranges
         /// </param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> AboveOrEqual( this DateTime @this, DateTime min ) => SmartTest.DateTime.AboveOrEqual( min );
+        public static INumericType<DateTime> AboveOrEqual( this DateTime @this, DateTime min ) => SmartTest.DateTimeRange.AboveOrEqual( min );
 
 
         /// <summary>
@@ -130,7 +117,7 @@ namespace SmartTests.Ranges
         /// </param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> Above( this DateTime @this, DateTime min ) => SmartTest.DateTime.Above( min );
+        public static INumericType<DateTime> Above( this DateTime @this, DateTime min ) => SmartTest.DateTimeRange.Above( min );
 
 
         /// <summary>
@@ -142,7 +129,7 @@ namespace SmartTests.Ranges
         /// </param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> BelowOrEqual( this DateTime @this, DateTime max ) => SmartTest.DateTime.BelowOrEqual( max );
+        public static INumericType<DateTime> BelowOrEqual( this DateTime @this, DateTime max ) => SmartTest.DateTimeRange.BelowOrEqual( max );
 
 
         /// <summary>
@@ -154,7 +141,7 @@ namespace SmartTests.Ranges
         /// </param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> Below( this DateTime @this, DateTime max ) => SmartTest.DateTime.Below( max );
+        public static INumericType<DateTime> Below( this DateTime @this, DateTime max ) => SmartTest.DateTimeRange.Below( max );
 
 
         /// <summary>
@@ -166,6 +153,6 @@ namespace SmartTests.Ranges
         /// </param>
         /// <param name="value">A random value within this range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> Value( this DateTime @this, DateTime value ) => SmartTest.DateTime.Value( value );
+        public static INumericType<DateTime> Value( this DateTime @this, DateTime value ) => SmartTest.DateTimeRange.Value( value );
     }
 }
