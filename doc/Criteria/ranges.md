@@ -18,7 +18,7 @@ public class MathTest
     [Test]
     public void Sqrt_ValueGreaterOrEqualTo0()
     {
-        var result = RunTest( Int.AboveOrEqual( 0, out var value ),
+        var result = RunTest( Int32Range.AboveOrEqual( 0, out var value ),
                               () => Math.Abs( value ) );
 
         Assert.AreEqual( value, result );
@@ -27,7 +27,7 @@ public class MathTest
     [Test]
     public void Sqrt_ValueLowerOrEqualTo0()
     {
-        var result = RunTest( Int.BelowOrEqual( 0, out var value ),
+        var result = RunTest( Int32Range.BelowOrEqual( 0, out var value ),
                               () => Math.Abs( value ) );
 
         Assert.AreEqual( -value, result );
@@ -39,7 +39,7 @@ public class MathTest
 
 A *Range* is a sequence of integers, of any integer type, to test for a logical intent.
 
-For example, `Int.AboveOrEqual( 0, out var value )` is used to represent and test equivalence class `[0, int.MaxValue]`, typically for property and parameter values.
+For example, `Int32Range.AboveOrEqual( 0, out var value )` is used to represent and test equivalence class `[0, int.MaxValue]`, typically for property and parameter values.
 
 The returned `value` should be used in your test as the value for the corresponding property or parameter (using [`Case`](../Cases/readme.md) if you have more than 1 parameter, as usual).
 
@@ -51,29 +51,28 @@ All Ranges can be created from a root property of `SmartTest` class (so implicit
 
 Roots property are the following:
 
-1. `Byte`
-2. `SByte`
-3. `Short`
-4. `UShort`
-5. `Int`
-6. `UInt`
-7. `Long`
-8. `ULong`
-9. `Float`  (new from v1.5.0)
-10. `Double` (new from v1.5.0)
-11. `Decimal` (new from v1.9.0)
-12. `DateTime` (new from v1.9.0)
+1. `ByteRange`
+2. `SByteRange`
+3. `Int16Range`
+4. `UInt16Range`
+5. `Int32Range`
+6. `UInt32Range`
+7. `Int64Range`
+8. `UInt64Range`
+9. `SingleRange`
+10. `DoubleRange`
+11. `EnumRange` [see enum specific documentation](enums.md)
+12. `DecimalRange`
+13. `DateTimeRange`
 
 The created ranges are empty at creation time.
-For `DateTime` values, you have to create the `DateTime` instance with constant in the `RunTest` statement.
-
 You have to call methods to actually add ranges as you need.
 
 ### Ranges methods
 
 Then, you have `Range` methods to specify a range of values.
 
-For example: `Int.Range( 0, 10 )` represents `[0, 10]` range while `Double.Range(0, false, 10, false)` represents `(0, 10)`.
+For example: `Int32Range.Range( 0, 10 )` represents `[0, 10]` range while `DoubleRange.Range( 0, false, 10, false )` represents `(0, 10)`.
 
 You can not use it directly as a criteria as:
 
@@ -82,8 +81,8 @@ You can not use it directly as a criteria as:
 
 Once you have a filled Range, call its `GetValidValue( out var value )` to have the testing value. This method returns a Criteria.
 
-For `DateTime` values, you have to create the `DateTime` instance with constant in the `RunTest` statement, except for `Min` and `Max`.
-For example: `DateTime.Range( DateTime.Min, new System.DateTime(2019, 6, 23 ))`.
+For `DateTime` values, you have to create the `DateTime` instance with constants in the `RunTest` statement, except for `Min` and `Max`.
+For example: `DateTimeRange.Range( DateTime.Min, new DateTime( 2019, 6, 23 ) )`.
 
 #### Multiple ranges in an equivalence class
 
@@ -91,29 +90,29 @@ You can create an equivalence class with multiple integer sequences.
 
 For example, for an equivalence class that is all numbers except 0, you can call multiple times the `Range` method by chaining them.
 
-For example: `Int.Range( int.MinValue, -1 ).Range( 1, int.MaxValue )`
+For example: `Int32Range.Range( int.MinValue, -1 ).Range( 1, int.MaxValue )`
 
 ### Other Helpers Methods
 
-Ranges have lots of helper methods to make it easier (these examples use `Int`, but can be any above root).
+Ranges have lots of helper methods to make it easier (these examples use `IntRange`, but can be any above root).
 
-1. `Int.AboveOrEqual(min)` is `Int.Range(min, int.MaxValue)`
-2. `Int.Above(min)` is `Int.Range(min, false, int.MaxValue, true)`
-3. `Int.BelowOrEqual(min)` is `Int.Below(int.MinValue, min)`
-4. `Int.Below(min)` is `Int.Below(int.MinValue, true, min, false)`
-5. `Int.Value(value)` is `Int.Range(value, value)`
+1. `Int32Range.AboveOrEqual( min )` is `Int32Range.Range( min, int.MaxValue )`
+2. `Int32Range.Above( min )` is `Int32Range.Range( min, false, int.MaxValue, true )`
+3. `Int32Range.BelowOrEqual( min )` is `Int32Range.Below( int.MinValue, min )`
+4. `Int32Range.Below( min )` is `Int32Range.Below( int.MinValue, true, min, false )`
+5. `Int32Range.Value( value )` is `Int32Range.Range( value, value )`
 
 #### Overloads calling `GetValidValue`
 
 For simple usage, `Range` method has an overload that calls `GetValidValue`.
-Thus, `Int.Range( 0, 10, out var value )` is exactly the same as `Int.Range( 0, 10 ).GetValidValue( out var value )`.
+Thus, `Int32Range.Range( 0, 10, out var value )` is exactly the same as `Int32Range.Range( 0, 10 ).GetValidValue( out var value )`.
 
 In the same way, all helper methods have the same overload:
 
-1. `Int.AboveOrEqual(min, out var value)`
-2. `Int.Above(min, out var value)`
-3. `Int.BelowOrEqual(min, out var value)`
-4. `Int.Below(min, out var value)`
+1. `Int32Range.AboveOrEqual( min, out var value )`
+2. `Int32Range.Above( min, out var value )`
+3. `Int32Range.BelowOrEqual( min, out var value )`
+4. `Int32Range.Below( min, out var value )`
 
 They have to be the last ones when you use multiple ranges as they return a Criteria.
 
@@ -121,25 +120,25 @@ They have to be the last ones when you use multiple ranges as they return a Crit
 
 ### GetErrorValue
 
-`GetValidValue(out var value)` enables you to:
+`GetValidValue( out var value )` enables you to:
 
 1. Use a *Range* where a Criteria is expected
 2. Have a valid value, from the *Range*, to use in your test.
 
 But, we have to be able to get invalid values for ranges too (as they are not combined with other criteria).
 
-It is the goal of `GetErrorValue(out var value)`
+It is the goal of `GetErrorValue( out var value )`
 
 Thus, to have an error value for:
 
 1. A strictly negative value of integers
 
-   `Int.Below(0).GetErrorValue(out var value)`
+   `Int32Range.Below( 0 ).GetErrorValue( out var value )`
 
 2. Range `[-10, 10]`
 
-    `Int.Range(-10, -10).GetErrorValue(out var value)`
+    `Int32Range.Range( -10, -10 ).GetErrorValue( out var value )`
 
 3. Range `[-short.MinValue,-10] U [10, short.MaxValue]`
 
-    `Short.BelowOrEqual(-10).AboveOrEqual(10).GetErrorValue(out var value)`
+    `Int16Range.BelowOrEqual( -10 ).AboveOrEqual( 10 ).GetErrorValue( out var value )`

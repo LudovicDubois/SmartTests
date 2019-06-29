@@ -5,6 +5,10 @@
 [`Criteria`](Criteria/readme.md) can now be [`Ranges`](Criteria/ranges.md) of `decimal` or `DateTime` values.
 For `DateTime` values, you have to create the `DateTime` instance with constant in the `RunTest` statement.
 Ensuring all possible values are tested.
+To avoid name clash with `System` ones (`Double`, `Enum`, `Decimal` and `DateTime`), I now use the System name with `Range` suffix.
+All previous notation is obsolete now.
+Thus, `SmartTest.Double.Range...` is now `DoubleRange.Range...`.
+For homogeneity, names with no conflicts use the same approach: `Int.Range` is not `Int32.Range`.
 
 ## version 1.8
 
