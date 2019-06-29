@@ -4,11 +4,11 @@
     <Title>SmartTests</Title>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>SmartTests</PackageId>
-    <Version>1.8.0</Version>
-    <AssemblyVersion>1.8.0.0</AssemblyVersion>
-    <FileVersion>1.8.0.0</FileVersion>
-    <PackageReleaseNotes>Specify the parameter and the equivalence class with a lambda expression instead of the name as a string and a criteria.
-For example: RunTest( Case( (double d) =&gt; d.AboveOrEqual(0) out var value ), () =&gt; Math.Sqrt(value) );</PackageReleaseNotes>
+    <Version>1.9.0</Version>
+    <AssemblyVersion>1.9.0.0</AssemblyVersion>
+    <FileVersion>1.9.0.0</FileVersion>
+    <PackageReleaseNotes>- Criteria can now be Ranges decimal or DateTime values.
+- All ranges are now System type names with Range suffix (Int is now Int32Range, Float is now SingleRange....)</PackageReleaseNotes>
     <Authors>Ludovic Dubois</Authors>
     <summary>SmartTests enables you to write Smarter unit tests, whether you use NUnit, Xunit or MSTests.</summary>
     <description>SmartTests enables you to write Smarter unit tests, wether you use NUnit, Xunit or MSTests.
