@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using SmartTests.Criterias;
 using SmartTests.Helpers;
@@ -27,30 +28,37 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override Criteria GetValidValue( out DateTime value )
+        public override Criteria GetValidValue( out DateTime value, params DateTime[] avoidedValues )
         {
             // Ensure values are well distributed
             var max = MinValue;
             foreach( var chunk in Chunks )
-                max += chunk.IncludedMax.AddTicks( 1 ) - chunk.IncludedMin; // +1 because both are included
+                max += GetNext( chunk.IncludedMax ) - chunk.IncludedMin; // +1 because both are included
 
             var random = new Random();
-            value = random.NextDateTime( MinValue, max );
             if( max == MaxValue )
-                return AnyValue.IsValid;
+                while( true )
+                {
+                    value = random.NextDateTime();
+                    if( !avoidedValues.Contains( value ) )
+                        return AnyValue.IsValid;
+                }
 
-            max = MinValue;
-            foreach( var chunk in Chunks )
+            while( true )
             {
-                var min = max;
-                max += chunk.IncludedMax.AddTicks( 1 ) - chunk.IncludedMin;
-                if( value >= max )
-                    continue;
-                value = chunk.IncludedMin + ( value - min );
-                return AnyValue.IsValid;
+                var val = random.NextDateTime( MinValue, max );
+                max = MinValue;
+                foreach( var chunk in Chunks )
+                {
+                    var min = max;
+                    max += GetNext( chunk.IncludedMax ) - chunk.IncludedMin;
+                    if( val >= max )
+                        continue;
+                    value = chunk.IncludedMin + ( val - min );
+                    if( !avoidedValues.Contains( value ) )
+                        return AnyValue.IsValid;
+                }
             }
-
-            throw new NotImplementedException();
         }
 
 

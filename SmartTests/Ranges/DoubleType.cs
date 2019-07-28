@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using SmartTests.Criterias;
 using SmartTests.Helpers;
@@ -27,7 +28,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override Criteria GetValidValue( out double value )
+        public override Criteria GetValidValue( out double value, params double[] avoidedValues )
         {
             // Ensure values are well distributed
             var max = MinValue;
@@ -35,22 +36,31 @@ namespace SmartTests.Ranges
                 max += GetNext( chunk.IncludedMax - chunk.IncludedMin ); // GetNext because both are included
 
             var random = new Random();
-            value = random.NextDouble() * ( max - MinValue ) + MinValue;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if( max == MaxValue )
-                return AnyValue.IsValid;
+                while( true )
+                {
+                    value = random.NextDouble();
+                    if( !avoidedValues.Contains( value ) )
+                        return AnyValue.IsValid;
+                }
 
-            max = MinValue;
-            foreach( var chunk in Chunks )
+            while( true )
             {
-                var min = max;
-                max += GetNext( chunk.IncludedMax - chunk.IncludedMin );
-                if( value >= max )
-                    continue;
-                value = value - min + chunk.IncludedMin;
-                return AnyValue.IsValid;
-            }
+                var val = random.NextDouble( MinValue, max );
 
-            throw new NotImplementedException();
+                max = MinValue;
+                foreach( var chunk in Chunks )
+                {
+                    var min = max;
+                    max += GetNext( chunk.IncludedMax - chunk.IncludedMin );
+                    if( val >= max )
+                        continue;
+                    value = val - min + chunk.IncludedMin;
+                    if( !avoidedValues.Contains( value ) )
+                        return AnyValue.IsValid;
+                }
+            }
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using SmartTests.Criterias;
 
@@ -22,10 +23,38 @@ namespace SmartTests.Ranges
         public Criteria Values<T>( out T value, T firstValue, params T[] values )
             where T: struct, IComparable
         {
+            if( values == null )
+                values = new T[0];
+
             var random = new Random();
             var index = random.Next( values.Length + 1 );
             value = index == values.Length ? firstValue : values[ index ];
             return AnyValue.IsValid;
+        }
+
+
+        /// <summary>
+        ///     Adds enum values to test for as an equivalence class.
+        /// </summary>
+        /// <typeparam name="T">An enum type.</typeparam>
+        /// <param name="values">The other values as an equivalence class for the current test.</param>
+        /// <param name="value">A random value within these values.</param>
+        /// <param name="avoidedValues"></param>
+        /// <returns>The criteria representing the full range.</returns>
+        public Criteria GetValidValue<T>( T[] values, out T value, params T[] avoidedValues )
+        {
+            if( values == null )
+                throw new ArgumentNullException( nameof(values) );
+            if( values.Length == 0 )
+                throw new ArgumentException( "Should have at least one value", nameof(values) );
+
+            var random = new Random();
+            while( true )
+            {
+                value = values[ random.Next( values.Length ) ];
+                if( !avoidedValues.Contains( value ) )
+                    return AnyValue.IsValid;
+            }
         }
 
 
@@ -51,6 +80,9 @@ namespace SmartTests.Ranges
         public Criteria ErrorValues<T>( out T value, T firstValue, params T[] values )
             where T: struct, IComparable
         {
+            if( values == null )
+                values = new T[0];
+
             var random = new Random();
             var index = random.Next( values.Length + 1 );
             value = index == values.Length ? firstValue : values[ index ];
@@ -77,8 +109,7 @@ namespace SmartTests.Ranges
     {
         /// <summary>
         ///     A place holder type to distinguish the right
-        ///     <see
-        ///         cref="SmartTest.Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        ///     <see cref="SmartTest.Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
         ///     .
         /// </summary>
         /// <typeparam name="T"></typeparam>

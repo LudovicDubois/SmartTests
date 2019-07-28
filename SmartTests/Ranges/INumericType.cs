@@ -68,8 +68,13 @@ namespace SmartTests.Ranges
         ///     Returns any value for this range (all values have the same probability)
         /// </summary>
         /// <param name="value">A random value within this range.</param>
+        /// <param name="avoidedValues">
+        ///     A value to avoid in the range.
+        ///     For example, when testing a property setter with a different value, you do not want the value to be the current
+        ///     value, even if it is within the tested range.
+        /// </param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        Criteria GetValidValue( out T value );
+        Criteria GetValidValue( out T value, params T[] avoidedValues );
 
 
         /// <summary>
@@ -86,9 +91,14 @@ namespace SmartTests.Ranges
         /// <param name="min">The minimum value of the created chunk.</param>
         /// <param name="max">The maximum value of the created chunk.</param>
         /// <param name="value">A random value within this range.</param>
+        /// <param name="avoidedValues">
+        ///     A value to avoid in the range.
+        ///     For example, when testing a property setter with a different value, you do not want the value to be the current
+        ///     value, even if it is within the tested range.
+        /// </param>
         /// <returns>The criteria representing the full range.</returns>
         /// <seealso cref="Criteria" />
-        Criteria Range( T min, T max, out T value );
+        Criteria Range( T min, T max, out T value, params T[] avoidedValues );
 
 
         /// <summary>
@@ -99,8 +109,13 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <param name="value">A random value within this range.</param>
+        /// <param name="avoidedValues">
+        ///     A value to avoid in the range.
+        ///     For example, when testing a property setter with a different value, you do not want the value to be the current
+        ///     value, even if it is within the tested range.
+        /// </param>
         /// <returns>Return <c>this</c> so that adding chunks can be chained.</returns>
-        Criteria Range( T min, bool minIncluded, T max, bool maxIncluded, out T value );
+        Criteria Range( T min, bool minIncluded, T max, bool maxIncluded, out T value, params T[] avoidedValues );
 
 
         /// <summary>

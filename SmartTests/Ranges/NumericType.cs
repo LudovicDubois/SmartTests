@@ -136,11 +136,11 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public Criteria Range( T min, T max, out T value ) => Range( min, max ).GetValidValue( out value );
+        public Criteria Range( T min, T max, out T value, params T[] avoidedValues ) => Range( min, max ).GetValidValue( out value, avoidedValues );
 
 
         /// <inheritdoc />
-        public Criteria Range( T min, bool minIncluded, T max, bool maxIncluded, out T value ) => Range( min, minIncluded, max, maxIncluded ).GetValidValue( out value );
+        public Criteria Range( T min, bool minIncluded, T max, bool maxIncluded, out T value, params T[] avoidedValues ) => Range( min, minIncluded, max, maxIncluded ).GetValidValue( out value, avoidedValues );
 
 
         /// <inheritdoc />
@@ -226,7 +226,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public abstract Criteria GetValidValue( out T value );
+        public abstract Criteria GetValidValue( out T value, params T[] avoidedValues );
 
 
         /// <inheritdoc />
@@ -264,7 +264,7 @@ namespace SmartTests.Ranges
 
 
         /// <summary>
-        /// Computes the string representing this range, when its type as a string is provided
+        ///     Computes the string representing this range, when its type as a string is provided
         /// </summary>
         /// <param name="type">The type name represented by this instance.</param>
         /// <returns>The string representation of this instance.</returns>

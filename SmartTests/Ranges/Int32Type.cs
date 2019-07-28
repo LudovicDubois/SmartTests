@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using SmartTests.Criterias;
 
@@ -26,7 +27,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override Criteria GetValidValue( out int value )
+        public override Criteria GetValidValue( out int value, params int[] avoidedValues )
         {
             // Ensure values are well distributed
             var max = MinValue;
@@ -34,22 +35,30 @@ namespace SmartTests.Ranges
                 max += chunk.IncludedMax - chunk.IncludedMin + 1; // +1 because both are included
 
             var random = new Random();
-            value = random.Next( MinValue, max );
             if( max == MaxValue )
-                return AnyValue.IsValid;
+                while( true )
+                {
+                    value = random.Next();
+                    if( !avoidedValues.Contains( value ) )
+                        return AnyValue.IsValid;
+                }
 
-            max = MinValue;
-            foreach( var chunk in Chunks )
+            while( true )
             {
-                var min = max;
-                max += chunk.IncludedMax - chunk.IncludedMin + 1;
-                if( value >= max )
-                    continue;
-                value = value - min + chunk.IncludedMin;
-                return AnyValue.IsValid;
-            }
+                var val = random.Next( MinValue, max );
 
-            throw new NotImplementedException();
+                max = MinValue;
+                foreach( var chunk in Chunks )
+                {
+                    var min = max;
+                    max += chunk.IncludedMax - chunk.IncludedMin + 1;
+                    if( val >= max )
+                        continue;
+                    value = val - min + chunk.IncludedMin;
+                    if( !avoidedValues.Contains( value ) )
+                        return AnyValue.IsValid;
+                }
+            }
         }
 
 

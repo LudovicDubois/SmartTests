@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 
 using SmartTests.Criterias;
+using SmartTests.Helpers;
 
 
 
@@ -26,7 +28,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override Criteria GetValidValue( out short value )
+        public override Criteria GetValidValue( out short value, params short[] avoidedValues )
         {
             // Ensure values are well distributed
             int max = MinValue;
@@ -34,25 +36,30 @@ namespace SmartTests.Ranges
                 max += chunk.IncludedMax - chunk.IncludedMin + 1; // +1 because both are included
 
             var random = new Random();
-            var val = random.Next( MinValue, max );
             if( max == MaxValue )
-            {
-                value = (short)val;
-                return AnyValue.IsValid;
-            }
+                while( true )
+                {
+                    value = random.NextInt16();
+                    if( !avoidedValues.Contains( value ) )
+                        return AnyValue.IsValid;
+                }
 
-            max = MinValue;
-            foreach( var chunk in Chunks )
+            while( true )
             {
-                var min = max;
-                max += chunk.IncludedMax - chunk.IncludedMin + 1;
-                if( val >= max )
-                    continue;
-                value = (short)( val - min + chunk.IncludedMin );
-                return AnyValue.IsValid;
-            }
+                var val = random.Next( MinValue, max );
 
-            throw new NotImplementedException();
+                max = MinValue;
+                foreach( var chunk in Chunks )
+                {
+                    var min = max;
+                    max += chunk.IncludedMax - chunk.IncludedMin + 1;
+                    if( val >= max )
+                        continue;
+                    value = (short)( val - min + chunk.IncludedMin );
+                    if( !avoidedValues.Contains( value ) )
+                        return AnyValue.IsValid;
+                }
+            }
         }
 
 

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 
 using SmartTests.Criterias;
+using SmartTests.Helpers;
 
 
 
@@ -26,7 +28,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public override Criteria GetValidValue( out sbyte value )
+        public override Criteria GetValidValue( out sbyte value, params sbyte[] avoidedValues )
         {
             // Ensure values are well distributed
             int max = MinValue;
@@ -34,22 +36,30 @@ namespace SmartTests.Ranges
                 max += chunk.IncludedMax - chunk.IncludedMin + 1; // +1 because both are included
 
             var random = new Random();
-            value = (sbyte)random.Next( MinValue, max );
             if( max == MaxValue )
-                return AnyValue.IsValid;
+                while( true )
+                {
+                    value = random.NextSByte();
+                    if( !avoidedValues.Contains( value ) )
+                        return AnyValue.IsValid;
+                }
 
-            max = MinValue;
-            foreach( var chunk in Chunks )
+            while( true )
             {
-                var min = max;
-                max += chunk.IncludedMax - chunk.IncludedMin + 1;
-                if( value > max )
-                    continue;
-                value = (sbyte)( value - min + chunk.IncludedMin );
-                return AnyValue.IsValid;
-            }
+                var val = random.NextSByte( MinValue, (sbyte)max );
 
-            throw new NotImplementedException();
+                max = MinValue;
+                foreach( var chunk in Chunks )
+                {
+                    var min = max;
+                    max += chunk.IncludedMax - chunk.IncludedMin + 1;
+                    if( val > max )
+                        continue;
+                    value = (sbyte)( val - min + chunk.IncludedMin );
+                    if( !avoidedValues.Contains( value ) )
+                        return AnyValue.IsValid;
+                }
+            }
         }
 
 

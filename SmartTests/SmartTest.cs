@@ -7,6 +7,9 @@ using SmartTests.Assertions;
 using SmartTests.Helpers;
 using SmartTests.Ranges;
 
+
+// ReSharper disable UnusedMethodReturnValue.Global
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
 
@@ -39,7 +42,7 @@ namespace SmartTests
         ///  }
         ///  </code>
         /// </example>
-        /// <seealso cref="Case(string,SmartTests.Criteria)" />
+        /// <seealso cref="Case(string,Criteria)" />
         /// <seealso cref="Case{T}" />
         /// <seealso cref="SmartTests.Case" />
         public static Case Case( Criteria criteria ) => new Case( criteria );
@@ -143,8 +146,8 @@ namespace SmartTests
         ///  }
         ///  </code>
         /// </example>
-        /// <seealso cref="Case(SmartTests.Criteria)" />
-        /// <seealso cref="Case(string,SmartTests.Criteria)" />
+        /// <seealso cref="Case(Criteria)" />
+        /// <seealso cref="Case(string,Criteria)" />
         /// <seealso cref="SmartTests.Case" />
         public static Case Case<T>( Expression<Func<T, object>> path, Criteria criteria ) => new Case( path.Body.ToString(), criteria );
 
@@ -156,6 +159,11 @@ namespace SmartTests
         /// <typeparam name="TParam">The type of the parameter of the method to test.</typeparam>
         /// <param name="path">An Expression of the path and the criteria for the parameter of the method to test.</param>
         /// <param name="value">One random value from the provided values in the equivalence class.</param>
+        /// <param name="avoidedValues">
+        ///     A value to avoid in the range.
+        ///     For example, when testing a property setter with a different value, you do not want the value to be the current
+        ///     value, even if it is within the tested range.
+        /// </param>
         /// <returns>The newly created <see cref="SmartTests.Case" />.</returns>
         /// <remarks>
         ///     <para>Warning: Not all lambda can be used.</para>
@@ -209,26 +217,24 @@ namespace SmartTests
         ///  }
         ///  </code>
         /// </example>
-        /// <seealso
-        ///     cref="ErrorCase{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)" />
-        /// <seealso
-        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        /// <seealso cref="ErrorCase{TParam,T}(Expression{Func{TParam,INumericType{T}}},out T)" />
+        /// <seealso cref="Case{TParam,T}(Expression{Func{TParam,EnumTypeHelper.PlaceHolder{T}}},out T, T[])" />
         /// <seealso cref="Case{T}" />
-        /// <seealso cref="Case(SmartTests.Criteria)" />
-        /// <seealso cref="Case(string,SmartTests.Criteria)" />
+        /// <seealso cref="Case(Criteria)" />
+        /// <seealso cref="Case(string,Criteria)" />
         /// <seealso cref="SmartTests.Case" />
-        public static Case Case<TParam, T>( Expression<Func<TParam, INumericType<T>>> path, out T value )
+        public static Case Case<TParam, T>( Expression<Func<TParam, INumericType<T>>> path, out T value, params T[] avoidedValues )
             where T: IComparable<T>
         {
             var range = ExtractNameAndRange( path.Body, out var name );
             if( range == null )
             {
-                value = default(T);
+                value = default;
                 return null;
             }
 
             var evaluatedRange = (INumericType<T>)Expression.Lambda( range ).Compile().DynamicInvoke();
-            return new Case( name, evaluatedRange.GetValidValue( out value ) );
+            return new Case( name, evaluatedRange.GetValidValue( out value, avoidedValues ) );
         }
 
 
@@ -290,13 +296,11 @@ namespace SmartTests
         ///  }
         ///  </code>
         /// </example>
-        /// <seealso
-        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)" />
-        /// <seealso
-        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        /// <seealso cref="Case{TParam,T}(Expression{Func{TParam,INumericType{T}}}, out T, T[])" />
+        /// <seealso cref="Case{TParam,T}(Expression{Func{TParam,EnumTypeHelper.PlaceHolder{T}}},out T, T[])" />
         /// <seealso cref="Case{T}" />
-        /// <seealso cref="Case(SmartTests.Criteria)" />
-        /// <seealso cref="Case(string,SmartTests.Criteria)" />
+        /// <seealso cref="Case(Criteria)" />
+        /// <seealso cref="Case(string,Criteria)" />
         /// <seealso cref="SmartTests.Case" />
         public static Case ErrorCase<TParam, T>( Expression<Func<TParam, INumericType<T>>> path, out T value )
             where T: IComparable<T>
@@ -304,7 +308,7 @@ namespace SmartTests
             var range = ExtractNameAndRange( path.Body, out var name );
             if( range == null )
             {
-                value = default(T);
+                value = default;
                 return null;
             }
 
@@ -320,6 +324,11 @@ namespace SmartTests
         /// <typeparam name="TParam">The type of the parameter of the method to test.</typeparam>
         /// <param name="path">An Expression of the path and the criteria for the parameter of the method to test.</param>
         /// <param name="value">One random value from the provided values in the equivalence class.</param>
+        /// <param name="avoidedValues">
+        ///     A value to avoid in the range.
+        ///     For example, when testing a property setter with a different value, you do not want the value to be the current
+        ///     value, even if it is within the tested range.
+        /// </param>
         /// <returns>The newly created <see cref="SmartTests.Case" />.</returns>
         /// <remarks>
         ///     <para>Warning: Not all lambda can be used.</para>
@@ -384,27 +393,25 @@ namespace SmartTests
         ///  }
         ///  </code>
         /// </example>
-        /// <seealso
-        ///     cref="ErrorCase{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
-        /// <seealso
-        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        /// <seealso cref="ErrorCase{TParam,T}(Expression{Func{TParam,EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        /// <seealso cref="Case{TParam,T}(Expression{Func{TParam,EnumTypeHelper.PlaceHolder{T}}},out T, T[])" />
         /// <seealso cref="Case{T}" />
-        /// <seealso cref="Case(SmartTests.Criteria)" />
-        /// <seealso cref="Case(string,SmartTests.Criteria)" />
+        /// <seealso cref="Case(Criteria)" />
+        /// <seealso cref="Case(string,Criteria)" />
         /// <seealso cref="SmartTests.Case" />
-        public static Case Case<TParam, T>( Expression<Func<TParam, EnumTypeHelper.PlaceHolder<T>>> path, out T value )
+        public static Case Case<TParam, T>( Expression<Func<TParam, EnumTypeHelper.PlaceHolder<T>>> path, out T value, params T[] avoidedValues )
             where T: struct, IComparable
         {
             var range = ExtractNameAndValues( path.Body, out var name );
             if( range == null )
             {
-                value = default(T);
+                value = default;
                 return null;
             }
 
             var typedRange = range.Cast<T>().ToArray();
             var enumType = new EnumType();
-            return new Case( name, enumType.Values( out value, typedRange[ 0 ], typedRange.Skip( 1 ).ToArray() ) );
+            return new Case( name, enumType.GetValidValue( typedRange, out value, avoidedValues ) );
         }
 
 
@@ -479,13 +486,11 @@ namespace SmartTests
         ///  }
         ///  </code>
         /// </example>
-        /// <seealso
-        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
-        /// <seealso
-        ///     cref="Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.INumericType{T}}},out T)" />
+        /// <seealso cref="Case{TParam,T}(Expression{Func{TParam,EnumTypeHelper.PlaceHolder{T}}},out T, T[])" />
+        /// <seealso cref="Case{TParam,T}(Expression{Func{TParam,INumericType{T}}},out T, T[])" />
         /// <seealso cref="Case{T}" />
-        /// <seealso cref="Case(SmartTests.Criteria)" />
-        /// <seealso cref="Case(string,SmartTests.Criteria)" />
+        /// <seealso cref="Case(Criteria)" />
+        /// <seealso cref="Case(string,Criteria)" />
         /// <seealso cref="SmartTests.Case" />
         public static Case ErrorCase<TParam, T>( Expression<Func<TParam, EnumTypeHelper.PlaceHolder<T>>> path, out T value )
             where T: struct, IComparable
@@ -493,7 +498,7 @@ namespace SmartTests
             var range = ExtractNameAndValues( path.Body, out var name );
             if( range == null )
             {
-                value = default(T);
+                value = default;
                 return null;
             }
 
@@ -656,7 +661,7 @@ namespace SmartTests
         /// <example>
         ///     <para>
         ///         In this example, the
-        ///         <see cref="WaitAssertions.WaitContextHandle(SmartTests.SmartAssertPlaceHolder,double)"></see> wait for the
+        ///         <see cref="WaitAssertions.WaitContextHandle(SmartAssertPlaceHolder,double)"></see> wait for the
         ///         implicit wait handle set by <see cref="WaitAssertions.SetHandle" />.
         ///     </para>
         ///     <code>
@@ -830,6 +835,7 @@ namespace SmartTests
         /// <seealso cref="Assertion" />
         /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
         /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
+        // ReSharper disable once UnusedParameter.Global
         public static T RunTest<T>( Case cases, Act<T> act, params Assertion[] assertions )
         {
             if( act == null )
@@ -1039,6 +1045,7 @@ namespace SmartTests
         /// <seealso cref="Assertion" />
         /// <exception cref="SmartTestException">In case a Smart <see cref="Assertion" /> fails after the <paramref name="act" />.</exception>
         /// <exception cref="BadTestException">In case a Smart <see cref="Assertion" /> fails before the <paramref name="act" />.</exception>
+        // ReSharper disable once UnusedParameter.Global
         public static void RunTest( Case cases, Act act, params Assertion[] assertions )
         {
             if( act == null )
@@ -1077,6 +1084,7 @@ namespace SmartTests
         ///     extension methods.
         /// </remarks>
         /// <seealso cref="Assertion" />
+        // ReSharper disable once UnassignedGetOnlyAutoProperty
         public static SmartAssertPlaceHolder SmartAssert { get; }
 
         #endregion
@@ -1278,7 +1286,7 @@ namespace SmartTests
             if( value is ulong ulg )
                 return ToString( ulg );
             if( value is ushort ush )
-                return ToString( value );
+                return ToString( ush );
 
             throw new NotSupportedException( $"Type {value.GetType().FullName} not supported yet!" );
         }
@@ -1316,8 +1324,10 @@ namespace SmartTests
 
         internal static string ToString( double value )
         {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if( value == double.MinValue )
                 return "double.MinValue";
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if( value == double.MaxValue )
                 return "double.MaxValue";
 
@@ -1327,8 +1337,10 @@ namespace SmartTests
 
         internal static string ToString( float value )
         {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if( value == float.MinValue )
                 return "float.MinValue";
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if( value == float.MaxValue )
                 return "float.MaxValue";
 
