@@ -57,8 +57,9 @@ namespace SmartTestsAnalyzer
             foreach( var rangeMethod in rangeMethods )
             {
                 Debug.Assert( rangeMethod != null, $"Problem with SmartTest.{methodName}<T> method" );
-                if( rangeMethod.Parameters.Length == parameterCount ||
-                    ( rangeMethod.Parameters.Length == parameterCount + 1 && rangeMethod.Parameters[ parameterCount ].RefKind == RefKind.Out ) )
+                if( ( rangeMethod.Parameters.Length == parameterCount && rangeMethod.Parameters[ parameterCount - 2 ].RefKind != RefKind.Out ) ||
+                    // (min, max, out, avoided) we do not car about out and avoided values
+                    ( rangeMethod.Parameters.Length == parameterCount + 2 && rangeMethod.Parameters[ parameterCount ].RefKind == RefKind.Out ) )
                     _RangeMethods[ rangeMethod ] = action;
             }
         }

@@ -848,6 +848,186 @@ namespace TestingProject
         }
 
 
+        #region AvoidedValues
+
+
+        [Test]
+        public void FullRange2_Avoided1()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + @" Same(" + _Type + @" i) => i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( (" + _Type + @" i) => i.Range( " + _Type + @".MinValue, 10 ), out var value, (" + _Type + @")1 ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( (" + _Type + @" i) => i.Range( 10, false, " + _Type + @".MaxValue, true ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+
+        [Test]
+        public void ErrorCase_Avoided1()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + @" Min(" + _Type + @" a, " + _Type + @" b) => a < b ? a : b;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( (" + _Type + @" i) => i.Range( 0, " + _Type + @".MaxValue ), out var value1, (" + _Type + @")1 ) &
+                                  ErrorCase( (" + _Type + @" b) => b.Value( 10 ), out var value2 ), 
+                                  () => Class1.Min( value1, value2 ) );
+
+            Assert.That( result, Is.EqualTo( 0 ) );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_MissingCases",
+                Message = $"Tests for 'TestingProject.Class1.Min({_Type}, {_Type})' has some missing Test Cases: b:{_SmartType}.Below(10).Above(10)",
+                Severity = DiagnosticSeverity.Warning,
+                Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 20, 46 )
+                                           }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
+        public void FullRange2_Avoided2()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + @" Same(" + _Type + @" i) => i;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( (" + _Type + @" i) => i.Range( " + _Type + @".MinValue, 10 ), out var value, (" + _Type + @")1, (" + _Type + @")2 ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( (" + _Type + @" i) => i.Range( 10, false, " + _Type + @".MaxValue, true ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+
+        [Test]
+        public void ErrorCase_Avoided2()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + @" Min(" + _Type + @" a, " + _Type + @" b) => a < b ? a : b;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( (" + _Type + @" i) => i.Range( 0, " + _Type + @".MaxValue ), out var value1, (" + _Type + @")1, (" + _Type + @")2 ) &
+                                  ErrorCase( (" + _Type + @" b) => b.Value( 10 ), out var value2 ), 
+                                  () => Class1.Min( value1, value2 ) );
+
+            Assert.That( result, Is.EqualTo( 0 ) );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_MissingCases",
+                Message = $"Tests for 'TestingProject.Class1.Min({_Type}, {_Type})' has some missing Test Cases: b:{_SmartType}.Below(10).Above(10)",
+                Severity = DiagnosticSeverity.Warning,
+                Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 20, 46 )
+                                           }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        #endregion
+
+
         protected override SmartTestsAnalyzerAnalyzer GetCSharpDiagnosticAnalyzer() => new SmartTestsAnalyzerAnalyzer();
     }
 }
