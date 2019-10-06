@@ -1,5 +1,10 @@
 # What's new
 
+## version 1.10
+
+It's now possible to [avoid generation of some values](Cases/readme.md#With-excluded-values) when generating random number from equivalence classes.
+Especially useful for tests of properties: when you change the property value, you do not want the actual value to be randomly chosen.
+
 ## version 1.9
 
 [`Criteria`](Criteria/readme.md) can now be [`Ranges`](Criteria/ranges.md) of `decimal` or `DateTime` values.

@@ -81,6 +81,8 @@ You can not use it directly as a criteria as:
 
 Once you have a filled Range, call its `GetValidValue( out var value )` to have the testing value. This method returns a Criteria.
 
+Since v1.10, the signature is `GetValidValue( out T value, params T[] avoidedValues)`. It enables you to specify the values not avoid when generating random values (for example, you want to avoid the current value of a property to test this property setter).
+
 For `DateTime` values, you have to create the `DateTime` instance with constants in the `RunTest` statement, except for `Min` and `Max`.
 For example: `DateTimeRange.Range( DateTime.Min, new DateTime( 2019, 6, 23 ) )`.
 
@@ -107,12 +109,14 @@ Ranges have lots of helper methods to make it easier (these examples use `IntRan
 For simple usage, `Range` method has an overload that calls `GetValidValue`.
 Thus, `Int32Range.Range( 0, 10, out var value )` is exactly the same as `Int32Range.Range( 0, 10 ).GetValidValue( out var value )`.
 
+Since v1.10, `Int32Range.Range(0, 10, out var value, 5)` is exactly the same as `Int32Range.Range( 0, 10 ).GetValidValue( out var value, 5 )`.
+
 In the same way, all helper methods have the same overload:
 
-1. `Int32Range.AboveOrEqual( min, out var value )`
-2. `Int32Range.Above( min, out var value )`
-3. `Int32Range.BelowOrEqual( min, out var value )`
-4. `Int32Range.Below( min, out var value )`
+1. `Int32Range.AboveOrEqual( min, out var value, avoidedValues )`
+2. `Int32Range.Above( min, out var value, avoidedValues )`
+3. `Int32Range.BelowOrEqual( min, out var value, avoidedValues )`
+4. `Int32Range.Below( min, out var value, avoidedValues )`
 
 They have to be the last ones when you use multiple ranges as they return a Criteria.
 
@@ -120,7 +124,7 @@ They have to be the last ones when you use multiple ranges as they return a Crit
 
 ### GetErrorValue
 
-`GetValidValue( out var value )` enables you to:
+`GetValidValue( out var value, avoidedValues )` enables you to:
 
 1. Use a *Range* where a Criteria is expected
 2. Have a valid value, from the *Range*, to use in your test.

@@ -852,6 +852,52 @@ namespace TestingProject
 
 
         [Test]
+        public void PropertySet_Avoided()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Assertions;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class MyClass
+    {
+        public " + _Type + @" MyProperty { get; set; }
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyPropertyTest_Set()
+        {
+            var mc = new MyClass();
+
+            RunTest( Case( (" + _Type + @" value) => value.Above(10), out var val, mc.MyProperty),
+                     Assign( () => mc.MyProperty, val),
+                     SmartAssert.ChangedTo() );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.MyClass.MyProperty [set]' has some missing Test Cases: value:{_SmartType}.BelowOrEqual(10)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 22, 28 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
         public void FullRange2_Avoided1()
         {
             var test = @"

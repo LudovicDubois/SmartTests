@@ -198,6 +198,44 @@ public class TestClass
 
 The `Smart Tests` analyzer will then warn you that some tests are missing for `date.DayOfWeek`.
 
+### With excluded values
+
+Since v1.10, you can exclude some values from the equivalence class.
+
+Suppose you want to test something that should change a property value (a property setter, a method...)
+
+You want to ensure the property is not the expected value, then it is the expected value. That means the value you want to set should be different from actual value (otherwise no code at all will pass the test as the value is the expected one!)
+
+Problem is that the value to set can be randomly generated from an equivalence class, from which the current value is probably a valid value... Thus, the test can randomly do nothing (or fail in a 4A approach), but it is a false negative.
+
+You can specify which value(s) to avoid when generating random numbers for equivalence classes.
+
+For a property change:
+
+```C#
+using NUnit.Framework;
+using SmartTests.Assertions;
+using static SmartTests.SmartTest;
+
+[TestFixture]
+public class MyClassTest
+{
+    [Test]
+    public void MyPropertyTest_Set()
+    {
+        var mc = new MyClass();
+
+        RunTest( Case( (int value) => value.Above(0),
+                       out var val, // Randomly generated value
+                       mc.MyProperty ), // avoided value
+                 Assign( () => mc.MyProperty, val),
+                 SmartAssert.ChangedTo() );
+    }
+}
+```
+
+This can be used for testing anything that change a property (or a field). You only have to specify the avoided values after the `out var ...` parameter, for any form of `Criteria` or `Case`.
+
 ## Combining Cases
 
 If your member has several parameters you have to specify which parameter has which Criteria using `Case`s.

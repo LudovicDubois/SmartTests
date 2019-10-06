@@ -12,10 +12,10 @@ i.e.
 
 We have different `ChangedTo` overloads:
 
-- [ChangedTo Smart Assertions](#ChangedTo-Smart-Assertions)
-  - [`ChangedTo`](#ChangedTo)
-  - [`ChangedTo()`](#ChangedTo)
-  - [`ChangedTo<T>(Expression<Func<T>>, T)`](#ChangedToTExpressionFuncT-T)
+- [ChangedTo Smart Assertions](#changedto-smart-assertions)
+  - [`ChangedTo`](#changedto)
+  - [`ChangedTo()`](#changedto)
+  - [`ChangedTo<T>(Expression<Func<T>>, T)`](#changedtotexpressionfunct-t)
 
 ## `ChangedTo()`
 
@@ -25,6 +25,7 @@ The instance and property involved are the one you want to assign in the *Act*.
 
 ```C#
 using NUnit.Framework;
+using SmartTests.Assertions;
 using static SmartTests.SmartTest;
 
 [TestFixture]
@@ -50,6 +51,7 @@ The instance and property involved are provided as arguments.
 
 ```C#
 using NUnit.Framework;
+using SmartTests.Assertions;
 using static SmartTests.SmartTest;
 
 [TestFixture]
