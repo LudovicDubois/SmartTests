@@ -148,7 +148,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public Criteria AboveOrEqual( T min, out T value ) => Range( min, MaxValue, out value );
+        public Criteria AboveOrEqual( T min, out T value, params T[] avoidedValues) => Range( min, MaxValue, out value, avoidedValues );
 
 
         /// <inheritdoc />
@@ -156,7 +156,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public Criteria Above( T min, out T value ) => Range( min, false, MaxValue, true, out value );
+        public Criteria Above( T min, out T value, params T[] avoidedValues ) => Range( min, false, MaxValue, true, out value, avoidedValues );
 
 
         /// <inheritdoc />
@@ -164,7 +164,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public Criteria BelowOrEqual( T max, out T value ) => Range( MinValue, max, out value );
+        public Criteria BelowOrEqual( T max, out T value, params T[] avoidedValues ) => Range( MinValue, max, out value, avoidedValues );
 
 
         /// <inheritdoc />
@@ -172,7 +172,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public Criteria Below( T max, out T value ) => Range( MinValue, true, max, false, out value );
+        public Criteria Below( T max, out T value, params T[] avoidedValues ) => Range( MinValue, true, max, false, out value, avoidedValues );
 
 
         /// <inheritdoc />

@@ -131,8 +131,13 @@ namespace SmartTests.Ranges
         /// </summary>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <param name="value">A random value within this range.</param>
+        /// <param name="avoidedValues">
+        ///     A value to avoid in the range.
+        ///     For example, when testing a property setter with a different value, you do not want the value to be the current
+        ///     value, even if it is within the tested range.
+        /// </param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        Criteria AboveOrEqual( T min, out T value );
+        Criteria AboveOrEqual( T min, out T value, params T[] avoidedValues );
 
 
         /// <summary>
@@ -148,8 +153,13 @@ namespace SmartTests.Ranges
         /// </summary>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <param name="value">A random value within this range.</param>
+        /// <param name="avoidedValues">
+        ///     A value to avoid in the range.
+        ///     For example, when testing a property setter with a different value, you do not want the value to be the current
+        ///     value, even if it is within the tested range.
+        /// </param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        Criteria Above( T min, out T value );
+        Criteria Above( T min, out T value, params T[] avoidedValues );
 
 
         /// <summary>
@@ -165,8 +175,13 @@ namespace SmartTests.Ranges
         /// </summary>
         /// <param name="max">The max value (included) of the created chunk.</param>
         /// <param name="value">A random value within this range.</param>
+        /// <param name="avoidedValues">
+        ///     A value to avoid in the range.
+        ///     For example, when testing a property setter with a different value, you do not want the value to be the current
+        ///     value, even if it is within the tested range.
+        /// </param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        Criteria BelowOrEqual( T max, out T value );
+        Criteria BelowOrEqual( T max, out T value, params T[] avoidedValues);
 
 
         /// <summary>
@@ -182,8 +197,13 @@ namespace SmartTests.Ranges
         /// </summary>
         /// <param name="max">The max value (excluded) of the created chunk.</param>
         /// <param name="value">A random value within this range.</param>
+        /// <param name="avoidedValues">
+        ///     A value to avoid in the range.
+        ///     For example, when testing a property setter with a different value, you do not want the value to be the current
+        ///     value, even if it is within the tested range.
+        /// </param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        Criteria Below( T max, out T value );
+        Criteria Below( T max, out T value, params T[] avoidedValues );
 
 
         /// <summary>

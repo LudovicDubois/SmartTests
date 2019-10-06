@@ -1128,6 +1128,275 @@ namespace TestingProject
         #region Avoided Values
 
         [Test]
+        public void String_Range1_Avoided()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Assertions;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class MyClass
+    {
+        public " + _Type + @" MyProperty { get; set; }
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyPropertyTest_Set()
+        {
+            var mc = new MyClass();
+
+            RunTest( " + _SmartType + @".Range( 10, " + _Type + @".MaxValue, out var val, mc.MyProperty ),
+                     Assign( () => mc.MyProperty, val),
+                     SmartAssert.ChangedTo() );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_MissingCases",
+                Message = $"Tests for 'TestingProject.MyClass.MyProperty [set]' has some missing Test Cases: {_SmartType}.Below(10)",
+                Severity = DiagnosticSeverity.Warning,
+                Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 22 )
+                                           }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
+        public void String_Range2_Avoided()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Assertions;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class MyClass
+    {
+        public " + _Type + @" MyProperty { get; set; }
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyPropertyTest_Set()
+        {
+            var mc = new MyClass();
+
+            RunTest( " + _SmartType + @".Range( 10, false, " + _Type + @".MaxValue, true, out var val, mc.MyProperty ),
+                     Assign( () => mc.MyProperty, val),
+                     SmartAssert.ChangedTo() );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_MissingCases",
+                Message = $"Tests for 'TestingProject.MyClass.MyProperty [set]' has some missing Test Cases: {_SmartType}.BelowOrEqual(10)",
+                Severity = DiagnosticSeverity.Warning,
+                Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 22 )
+                                           }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
+        public void String_Above_Avoided()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Assertions;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class MyClass
+    {
+        public " + _Type + @" MyProperty { get; set; }
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyPropertyTest_Set()
+        {
+            var mc = new MyClass();
+
+            RunTest( " + _SmartType + @".Above( 10, out var val, mc.MyProperty ),
+                     Assign( () => mc.MyProperty, val),
+                     SmartAssert.ChangedTo() );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_MissingCases",
+                Message = $"Tests for 'TestingProject.MyClass.MyProperty [set]' has some missing Test Cases: {_SmartType}.BelowOrEqual(10)",
+                Severity = DiagnosticSeverity.Warning,
+                Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 22 )
+                                           }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
+        public void String_AboveOrEqual_Avoided()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Assertions;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class MyClass
+    {
+        public " + _Type + @" MyProperty { get; set; }
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyPropertyTest_Set()
+        {
+            var mc = new MyClass();
+
+            RunTest( " + _SmartType + @".AboveOrEqual( 10, out var val, mc.MyProperty ),
+                     Assign( () => mc.MyProperty, val),
+                     SmartAssert.ChangedTo() );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_MissingCases",
+                Message = $"Tests for 'TestingProject.MyClass.MyProperty [set]' has some missing Test Cases: {_SmartType}.Below(10)",
+                Severity = DiagnosticSeverity.Warning,
+                Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 22 )
+                                           }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
+        public void String_Below_Avoided()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Assertions;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class MyClass
+    {
+        public " + _Type + @" MyProperty { get; set; }
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyPropertyTest_Set()
+        {
+            var mc = new MyClass();
+
+            RunTest( " + _SmartType + @".Below( 10, out var val, mc.MyProperty ),
+                     Assign( () => mc.MyProperty, val),
+                     SmartAssert.ChangedTo() );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_MissingCases",
+                Message = $"Tests for 'TestingProject.MyClass.MyProperty [set]' has some missing Test Cases: {_SmartType}.AboveOrEqual(10)",
+                Severity = DiagnosticSeverity.Warning,
+                Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 22 )
+                                           }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+        [Test]
+        public void String_BelowOrEqual_Avoided()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Assertions;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class MyClass
+    {
+        public " + _Type + @" MyProperty { get; set; }
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void MyPropertyTest_Set()
+        {
+            var mc = new MyClass();
+
+            RunTest( " + _SmartType + @".BelowOrEqual( 10, out var val, mc.MyProperty ),
+                     Assign( () => mc.MyProperty, val),
+                     SmartAssert.ChangedTo() );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+            {
+                Id = "SmartTestsAnalyzer_MissingCases",
+                Message = $"Tests for 'TestingProject.MyClass.MyProperty [set]' has some missing Test Cases: {_SmartType}.Above(10)",
+                Severity = DiagnosticSeverity.Warning,
+                Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 22 )
+                                           }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+        [Test]
         public void FullRange2_Avoided1()
         {
             var test = @"
