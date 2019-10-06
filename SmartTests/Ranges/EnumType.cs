@@ -39,7 +39,11 @@ namespace SmartTests.Ranges
         /// <typeparam name="T">An enum type.</typeparam>
         /// <param name="values">The other values as an equivalence class for the current test.</param>
         /// <param name="value">A random value within these values.</param>
-        /// <param name="avoidedValues"></param>
+        /// <param name="avoidedValues">
+        ///     A value to avoid in the range.
+        ///     For example, when testing a property setter with a different value, you do not want the value to be the current
+        ///     value, even if it is within the tested range.
+        /// </param>
         /// <returns>The criteria representing the full range.</returns>
         public Criteria GetValidValue<T>( T[] values, out T value, params T[] avoidedValues )
         {
@@ -109,7 +113,7 @@ namespace SmartTests.Ranges
     {
         /// <summary>
         ///     A place holder type to distinguish the right
-        ///     <see cref="SmartTest.Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T)" />
+        ///     <see cref="SmartTest.Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T, T[])" />
         ///     .
         /// </summary>
         /// <typeparam name="T"></typeparam>

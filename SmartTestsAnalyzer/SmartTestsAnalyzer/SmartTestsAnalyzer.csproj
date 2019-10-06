@@ -15,16 +15,16 @@
     <RepositoryUrl>https://github.com/LudovicDubois/SmartTests</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>An analyzer to find missing tests for tests written with SmartTests.</Description>
-    <PackageReleaseNotes>- Criteria can now be Ranges decimal or DateTime values.
-- All ranges are now System type names with Range suffix (Int is now Int32Range, Float is now SingleRange....)</PackageReleaseNotes>
+    <PackageReleaseNotes>It's now possible to avoid generation of some values when generating random values from equivalence classes.
+Especially useful for tests of properties: when you change the property value, you do not want the actual value to be randomly chosen.</PackageReleaseNotes>
     <Copyright>Copyright (c) Pretty Objects Computers inc</Copyright>
     <PackageTags>SmartTests test testing tdd framework assert analyzer NUnit MSTests Xunit</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <ApplicationIcon>SmartTests-perspective.ico</ApplicationIcon>
     <RepositoryType>git</RepositoryType>
-    <Version>1.9.0</Version>
-    <AssemblyVersion>1.9.0.0</AssemblyVersion>
-    <FileVersion>1.9.0.0</FileVersion>
+    <Version>1.10.0</Version>
+    <AssemblyVersion>1.10.0.0</AssemblyVersion>
+    <FileVersion>1.10.0.0</FileVersion>
     <NeutralLanguage></NeutralLanguage>
     <Company>Pretty Objects Computers inc.</Company>
     <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
