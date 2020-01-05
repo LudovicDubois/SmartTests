@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+// ReSharper disable UnusedMember.Global
 
 
 namespace SmartTests.Ranges
@@ -98,6 +99,7 @@ namespace SmartTests.Ranges
         /// </param>
         /// <returns>The criteria representing the full range.</returns>
         /// <seealso cref="Criteria" />
+        // ReSharper disable once UnusedMemberInSuper.Global
         Criteria Range( T min, T max, out T value, params T[] avoidedValues );
 
 
@@ -115,6 +117,7 @@ namespace SmartTests.Ranges
         ///     value, even if it is within the tested range.
         /// </param>
         /// <returns>Return <c>this</c> so that adding chunks can be chained.</returns>
+        // ReSharper disable once UnusedMemberInSuper.Global
         Criteria Range( T min, bool minIncluded, T max, bool maxIncluded, out T value, params T[] avoidedValues );
 
 
@@ -181,7 +184,7 @@ namespace SmartTests.Ranges
         ///     value, even if it is within the tested range.
         /// </param>
         /// <returns>Any <see cref="Criteria" /> so that it can be used everywhere a criteria is expected.</returns>
-        Criteria BelowOrEqual( T max, out T value, params T[] avoidedValues);
+        Criteria BelowOrEqual( T max, out T value, params T[] avoidedValues );
 
 
         /// <summary>

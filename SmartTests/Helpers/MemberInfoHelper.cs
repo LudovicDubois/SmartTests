@@ -63,6 +63,7 @@ namespace SmartTests.Helpers
         }
 
 
+        // ReSharper disable once InconsistentNaming
         private static bool IsVisibility( MethodInfo method, Visibility visibility )
         {
             if( method.IsPublic &&
@@ -85,6 +86,7 @@ namespace SmartTests.Helpers
         }
 
 
+        // ReSharper disable once InconsistentNaming
         private static bool IsVisibility( FieldInfo field, Visibility visibility )
         {
             if( field.IsPublic &&

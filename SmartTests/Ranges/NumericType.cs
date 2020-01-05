@@ -148,7 +148,7 @@ namespace SmartTests.Ranges
 
 
         /// <inheritdoc />
-        public Criteria AboveOrEqual( T min, out T value, params T[] avoidedValues) => Range( min, MaxValue, out value, avoidedValues );
+        public Criteria AboveOrEqual( T min, out T value, params T[] avoidedValues ) => Range( min, MaxValue, out value, avoidedValues );
 
 
         /// <inheritdoc />
@@ -245,6 +245,7 @@ namespace SmartTests.Ranges
         ///     <c>true</c> if <c>this</c> and <paramref name="other" /> have the same <see cref="Chunks" />; <c>false</c>
         ///     otherwise
         /// </returns>
+        // ReSharper disable once MemberCanBePrivate.Global
         protected bool Equals( TType other ) => other?.GetType() == typeof(TType) && Equals( Chunks, other.Chunks );
 
 

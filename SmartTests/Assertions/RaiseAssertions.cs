@@ -6,8 +6,6 @@ using SmartTests.Helpers;
 
 // ReSharper disable UnusedMember.Global
 
-// ReSharper disable UnusedParameter.Global
-
 
 namespace SmartTests.Assertions
 {
@@ -22,7 +20,7 @@ namespace SmartTests.Assertions
         /// <summary>
         ///     Creates an <see cref="Assertion" /> that ensure an standard event is raised in the Act part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="expectedEventName">The name of the event that should raise.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="ArgumentNullException">
@@ -72,14 +70,15 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion Raised( this SmartAssertPlaceHolder @this, string expectedEventName ) => new RaiseAssertion( null, true, expectedEventName );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion Raised( this SmartAssertPlaceHolder _, string expectedEventName ) => new RaiseAssertion( null, true, expectedEventName );
 
 
         /// <summary>
         ///     Creates an <see cref="Assertion" /> that ensure an standard event is raised in the Act part of your test.
         /// </summary>
         /// <typeparam name="T">The type of the <see cref="EventHandler{TEventArgs}" /> of the event that should raise.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="expectedEventName">The name of the event that should raise.</param>
         /// <param name="assert">The handler that must be run in Act part to do specific assertions.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
@@ -145,7 +144,8 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion Raised<T>( this SmartAssertPlaceHolder @this, string expectedEventName, EventHandler<T> assert )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion Raised<T>( this SmartAssertPlaceHolder _, string expectedEventName, EventHandler<T> assert )
             where T: EventArgs
             => assert != null
                    ? new RaiseAssertion<T>( null, true, expectedEventName, assert )
@@ -155,7 +155,7 @@ namespace SmartTests.Assertions
         /// <summary>
         ///     Creates an <see cref="Assertion" /> that ensure an standard event is raised in the Act part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="instance">The instance for which the event should raise.</param>
         /// <param name="expectedEventName">The name of the event that should raise.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
@@ -208,14 +208,15 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion Raised( this SmartAssertPlaceHolder @this, object instance, string expectedEventName ) => new RaiseAssertion( instance, true, expectedEventName );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion Raised( this SmartAssertPlaceHolder _, object instance, string expectedEventName ) => new RaiseAssertion( instance, true, expectedEventName );
 
 
         /// <summary>
         ///     Creates an <see cref="Assertion" /> that ensure an standard event is raised in the Act part of your test.
         /// </summary>
         /// <typeparam name="T">The type of the <see cref="EventHandler{TEventArgs}" /> of the event that should raise.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="instance">The instance for which the event should raise.</param>
         /// <param name="expectedEventName">The name of the event that should raise.</param>
         /// <param name="assert">The handler that must be run in Act part to do specific assertions.</param>
@@ -284,7 +285,8 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion Raised<T>( this SmartAssertPlaceHolder @this, object instance, string expectedEventName, EventHandler<T> assert )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion Raised<T>( this SmartAssertPlaceHolder _, object instance, string expectedEventName, EventHandler<T> assert )
             where T: EventArgs
             => assert != null
                    ? new RaiseAssertion<T>( instance, true, expectedEventName, assert )
@@ -294,7 +296,7 @@ namespace SmartTests.Assertions
         /// <summary>
         ///     Creates an <see cref="Assertion" /> that ensure an standard event is not raised in the Act part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="eventName">The name of the event that should not raise.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="ArgumentNullException">
@@ -344,13 +346,14 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotRaised( this SmartAssertPlaceHolder @this, string eventName ) => new RaiseAssertion( null, false, eventName );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotRaised( this SmartAssertPlaceHolder _, string eventName ) => new RaiseAssertion( null, false, eventName );
 
 
         /// <summary>
         ///     Creates an <see cref="Assertion" /> that ensure an standard event is not raised in the Act part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="instance">The instance for which the event should not raise.</param>
         /// <param name="eventName">The name of the event that should not raise.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
@@ -401,7 +404,8 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotRaised( this SmartAssertPlaceHolder @this, object instance, string eventName ) => new RaiseAssertion( instance, false, eventName );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotRaised( this SmartAssertPlaceHolder _, object instance, string eventName ) => new RaiseAssertion( instance, false, eventName );
 
 
         private class RaiseAssertion: Assertion

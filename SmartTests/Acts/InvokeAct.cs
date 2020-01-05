@@ -46,7 +46,7 @@ namespace SmartTests.Acts
 
         /// <summary>
         ///     Creates an instance of <see cref="InvokeAct" /> to represent a specific <c>void</c> method invocation in the Act
-        ///     part of your test while using the <see cref="ActContext"/>.
+        ///     part of your test while using the <see cref="ActContext" />.
         /// </summary>
         /// <param name="invocation"> The invocation expression of the Act part of your test.</param>
         /// <remarks>
@@ -77,6 +77,7 @@ namespace SmartTests.Acts
                 Constructor = member as ConstructorInfo;
                 Method = member as MethodInfo;
             }
+
             if( Method == null )
                 throw new BadTestException();
         }
@@ -124,7 +125,8 @@ namespace SmartTests.Acts
 
 
         /// <summary>
-        ///     Creates an instance of <see cref="InvokeAct{T}" /> to represent an expression in the Act part of your test while using the <see cref="ActContext"/>.
+        ///     Creates an instance of <see cref="InvokeAct{T}" /> to represent an expression in the Act part of your test while
+        ///     using the <see cref="ActContext" />.
         /// </summary>
         /// <param name="invocation">The invocation expression of the Act part of your test.</param>
         /// <remarks>
@@ -166,7 +168,7 @@ namespace SmartTests.Acts
                 else if( Method.IsSpecialName )
                     // An indexer
                     foreach( var property in Method.DeclaringType.GetRuntimeProperties() )
-                        if( property.GetMethod == Method )
+                        if( Equals( property.GetMethod, Method ) )
                         {
                             Property = property;
                             break;

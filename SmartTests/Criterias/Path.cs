@@ -10,6 +10,7 @@ namespace SmartTests.Criterias
         ///     When the path is <c>null</c>
         ///     <para>THIS IS AN ERROR</para>
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         [Error]
         public static readonly Criteria IsNull = new Path();
         /// <summary>
@@ -28,5 +29,6 @@ namespace SmartTests.Criterias
         ///     When the path is valid and references a resource
         /// </summary>
         public static readonly Criteria IsValid = new Path();
+        // ReSharper restore UnusedMember.Global
     }
 }

@@ -36,6 +36,7 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Within(10) );
         /// }</code>
         /// </example>
+        // ReSharper disable once UnusedParameter.Global
         public static Assertion Within( this SmartAssertPlaceHolder _, long maximumDuration ) => new WithinAssertion( maximumDuration );
 
 
@@ -61,6 +62,7 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Within( TimeSpan.FromMilliseconds( 10 ) ) );
         /// }</code>
         /// </example>
+        // ReSharper disable once UnusedParameter.Global
         public static Assertion Within( this SmartAssertPlaceHolder _, TimeSpan maximumDuration ) => new WithinAssertion( (long)maximumDuration.TotalMilliseconds );
 
 

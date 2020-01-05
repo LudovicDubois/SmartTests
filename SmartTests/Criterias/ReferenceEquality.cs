@@ -9,6 +9,7 @@ namespace SmartTests.Criterias
         /// <summary>
         ///     When the left side is <c>null</c> while the right side is not <c>null</c>
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         public static readonly Criteria HasNullLeftOperand = new ReferenceEquality();
         /// <summary>
         ///     When the left side is not <c>null</c> while the right side is <c>null</c>
@@ -28,5 +29,6 @@ namespace SmartTests.Criterias
         ///     <c>true</c>)
         /// </summary>
         public static readonly Criteria HasSameNotNullOperands = new ReferenceEquality();
+        // ReSharper restore UnusedMember.Global
     }
 }

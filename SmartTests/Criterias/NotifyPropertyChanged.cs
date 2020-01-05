@@ -9,6 +9,7 @@ namespace SmartTests.Criterias
         /// <summary>
         ///     When there are no subscriber to <c>PropertyChanged</c> event
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         public static readonly Criteria HasNoSubscriber = new NotifyPropertyChanged();
         /// <summary>
         ///     When there are subscribers to <c>PropertyChanged</c> event, but the new property value is the same as the original
@@ -20,5 +21,6 @@ namespace SmartTests.Criterias
         ///     original property value
         /// </summary>
         public static readonly Criteria HasSubscriberOtherValue = new NotifyPropertyChanged();
+        // ReSharper restore UnusedMember.Global
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using SmartTests.Criterias;
 using SmartTests.Helpers;
 
+// ReSharper disable UnusedMember.Global
 
 
 namespace SmartTests.Ranges
@@ -79,20 +80,21 @@ namespace SmartTests.Ranges
         /// <summary>
         ///     Adds a chunk of numeric values
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A DateTime we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     DateTime.
         /// </param>
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> Range( this DateTime @this, DateTime min, DateTime max ) => SmartTest.DateTimeRange.Range( min, max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<DateTime> Range( this DateTime _, DateTime min, DateTime max ) => SmartTest.DateTimeRange.Range( min, max );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A DateTime we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     DateTime.
         /// </param>
@@ -101,66 +103,72 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> Range( this DateTime @this, DateTime min, bool minIncluded, DateTime max, bool maxIncluded ) => SmartTest.DateTimeRange.Range( min, minIncluded, max, maxIncluded );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<DateTime> Range( this DateTime _, DateTime min, bool minIncluded, DateTime max, bool maxIncluded ) => SmartTest.DateTimeRange.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values above a min
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A DateTime we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     DateTime.
         /// </param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> AboveOrEqual( this DateTime @this, DateTime min ) => SmartTest.DateTimeRange.AboveOrEqual( min );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<DateTime> AboveOrEqual( this DateTime _, DateTime min ) => SmartTest.DateTimeRange.AboveOrEqual( min );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values above min
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A DateTime we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     DateTime.
         /// </param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> Above( this DateTime @this, DateTime min ) => SmartTest.DateTimeRange.Above( min );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<DateTime> Above( this DateTime _, DateTime min ) => SmartTest.DateTimeRange.Above( min );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values below or equal to max
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A DateTime we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     DateTime.
         /// </param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> BelowOrEqual( this DateTime @this, DateTime max ) => SmartTest.DateTimeRange.BelowOrEqual( max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<DateTime> BelowOrEqual( this DateTime _, DateTime max ) => SmartTest.DateTimeRange.BelowOrEqual( max );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values below max
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A DateTime we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     DateTime.
         /// </param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> Below( this DateTime @this, DateTime max ) => SmartTest.DateTimeRange.Below( max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<DateTime> Below( this DateTime _, DateTime max ) => SmartTest.DateTimeRange.Below( max );
 
 
         /// <summary>
         ///     Adds a chunk of one numeric value
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A DateTime we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     DateTime.
         /// </param>
-        /// <param name="value">A random value within this range.</param>
+        /// <param name="value">A random value within _ range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for DateTime so that adding chunks can be chained.</returns>
-        public static INumericType<DateTime> Value( this DateTime @this, DateTime value ) => SmartTest.DateTimeRange.Value( value );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<DateTime> Value( this DateTime _, DateTime value ) => SmartTest.DateTimeRange.Value( value );
     }
 }

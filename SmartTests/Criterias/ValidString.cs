@@ -10,6 +10,7 @@ namespace SmartTests.Criterias
         ///     When the value is <c>null</c>
         ///     <para>THIS IS AN ERROR</para>
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         [Error]
         public static readonly Criteria IsNull = new ValidString();
         /// <summary>
@@ -22,5 +23,6 @@ namespace SmartTests.Criterias
         ///     When the value is not well formatted
         /// </summary>
         public static readonly Criteria HasContent = new ValidString();
+        // ReSharper restore UnusedMember.Global
     }
 }

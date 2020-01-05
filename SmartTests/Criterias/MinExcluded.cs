@@ -10,6 +10,7 @@ namespace SmartTests.Criterias
         ///     When the value is below the lower bound
         ///     <para>THIS IS AN ERROR</para>
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         [Error]
         public static readonly Criteria IsBelowMin = new MinExcluded();
         /// <summary>
@@ -22,5 +23,6 @@ namespace SmartTests.Criterias
         ///     When the value is above the lower bound
         /// </summary>
         public static readonly Criteria IsAboveMin = new MinExcluded();
+        // ReSharper restore UnusedMember.Global
     }
 }

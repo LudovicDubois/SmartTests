@@ -1,6 +1,4 @@
-﻿// ReSharper disable UnusedParameter.Global
-
-using System;
+﻿using System;
 using System.Linq.Expressions;
 
 
@@ -18,9 +16,9 @@ namespace SmartTests.Assertions
         ///     Creates an <see cref="Assertion" /> that ensure relative changes to a property/indexer of an object.
         /// </summary>
         /// <typeparam name="T">The <see cref="Type" /> of the property/indexer.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="after">
-        ///     The expressionn involving a property/indexer whose value should be equal to the value of the member
+        ///     The expression involving a property/indexer whose value should be equal to the value of the member
         ///     only after the Act.
         /// </param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
@@ -69,7 +67,8 @@ namespace SmartTests.Assertions
         /// <seealso cref="Assertion" />
         /// <seealso cref="SmartTest.SmartAssert" />
         /// <seealso cref="SmartTest" />
-        public static Assertion Change<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> after ) => new ChangeAssertion<T>( after );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion Change<T>( this SmartAssertPlaceHolder _, Expression<Func<T>> after ) => new ChangeAssertion<T>( after );
 
 
         private class ChangeAssertion<T>: Assertion

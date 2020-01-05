@@ -4,6 +4,7 @@ using System.Linq;
 using SmartTests.Criterias;
 using SmartTests.Helpers;
 
+// ReSharper disable UnusedMember.Global
 
 
 namespace SmartTests.Ranges
@@ -81,67 +82,74 @@ namespace SmartTests.Ranges
         /// <summary>
         ///     Adds a chunk of numeric values
         /// </summary>
-        /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
+        /// <param name="_">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> Range( this float @this, float min, float max ) => SmartTest.SingleRange.Range( min, max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<float> Range( this float _, float min, float max ) => SmartTest.SingleRange.Range( min, max );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values
         /// </summary>
-        /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
+        /// <param name="_">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="minIncluded"><c>true</c> to include min, <c>false</c> otherwise.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> Range( this float @this, float min, bool minIncluded, float max, bool maxIncluded ) => SmartTest.SingleRange.Range( min, minIncluded, max, maxIncluded );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<float> Range( this float _, float min, bool minIncluded, float max, bool maxIncluded ) => SmartTest.SingleRange.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values above a min
         /// </summary>
-        /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
+        /// <param name="_">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> AboveOrEqual( this float @this, float min ) => SmartTest.SingleRange.AboveOrEqual( min );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<float> AboveOrEqual( this float _, float min ) => SmartTest.SingleRange.AboveOrEqual( min );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values above min
         /// </summary>
-        /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
+        /// <param name="_">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> Above( this float @this, float min ) => SmartTest.SingleRange.Above( min );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<float> Above( this float _, float min ) => SmartTest.SingleRange.Above( min );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values below or equal to max
         /// </summary>
-        /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
+        /// <param name="_">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> BelowOrEqual( this float @this, float max ) => SmartTest.SingleRange.BelowOrEqual( max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<float> BelowOrEqual( this float _, float max ) => SmartTest.SingleRange.BelowOrEqual( max );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values below max
         /// </summary>
-        /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
+        /// <param name="_">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> Below( this float @this, float max ) => SmartTest.SingleRange.Below( max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<float> Below( this float _, float max ) => SmartTest.SingleRange.Below( max );
 
 
         /// <summary>
         ///     Adds a chunk of one numeric value
         /// </summary>
-        /// <param name="this">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
-        /// <param name="value">A random value within this range.</param>
+        /// <param name="_">A float we do not care about, except to know to create a <see cref="INumericType{T}" /> for float.</param>
+        /// <param name="value">A random value within _ range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for float so that adding chunks can be chained.</returns>
-        public static INumericType<float> Value( this float @this, float value ) => SmartTest.SingleRange.Value( value );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<float> Value( this float _, float value ) => SmartTest.SingleRange.Value( value );
     }
 }

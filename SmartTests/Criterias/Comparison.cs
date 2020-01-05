@@ -9,6 +9,7 @@ namespace SmartTests.Criterias
         /// <summary>
         ///     When the value is lesser than another value
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         public static readonly Criteria IsBelow = new Comparison();
         /// <summary>
         ///     When the value is equal to another value
@@ -18,5 +19,6 @@ namespace SmartTests.Criterias
         ///     When the value is greater than another value
         /// </summary>
         public static readonly Criteria IsAbove = new Comparison();
+        // ReSharper restore UnusedMember.Global
     }
 }

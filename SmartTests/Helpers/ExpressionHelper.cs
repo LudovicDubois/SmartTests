@@ -4,6 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
+// ReSharper disable UnusedMember.Global
+
+// ReSharper disable MemberCanBePrivate.Global
 
 
 namespace SmartTests.Helpers
@@ -35,10 +38,8 @@ namespace SmartTests.Helpers
         public static object GetInstance( this Expression @this )
         {
             var closureExpression = @this as MemberExpression;
-            if( closureExpression == null )
-                return null;
-            var closure = ( closureExpression.Expression as ConstantExpression )?.Value;
-            return ( closureExpression.Member as FieldInfo )?.GetValue( closure );
+            var closure = ( closureExpression?.Expression as ConstantExpression )?.Value;
+            return ( closureExpression?.Member as FieldInfo )?.GetValue( closure );
         }
 
 
@@ -46,8 +47,7 @@ namespace SmartTests.Helpers
                                                 out object instance,
                                                 out MemberInfo member )
         {
-            var memberExpression = @this.Body as MemberExpression;
-            if( memberExpression != null )
+            if( @this.Body is MemberExpression memberExpression )
             {
                 instance = memberExpression.Expression.GetInstance();
                 member = memberExpression.Member;
@@ -55,16 +55,14 @@ namespace SmartTests.Helpers
                 return true;
             }
 
-            var methodCall = @this.Body as MethodCallExpression;
-            if( methodCall != null )
+            if( @this.Body is MethodCallExpression methodCall )
             {
                 instance = methodCall.Object.GetInstance();
                 member = methodCall.Method;
                 return true;
             }
 
-            var newExpression = @this.Body as NewExpression;
-            if( newExpression != null )
+            if( @this.Body is NewExpression newExpression )
             {
                 instance = null;
                 member = newExpression.Constructor;
@@ -82,8 +80,7 @@ namespace SmartTests.Helpers
                                                 out MemberInfo member,
                                                 out Expression[] arguments )
         {
-            var memberExpression = @this.Body as MemberExpression;
-            if( memberExpression != null )
+            if( @this.Body is MemberExpression memberExpression )
             {
                 instance = memberExpression.Expression.GetInstance();
                 member = memberExpression.Member;
@@ -92,8 +89,7 @@ namespace SmartTests.Helpers
                 return true;
             }
 
-            var methodCall = @this.Body as MethodCallExpression;
-            if( methodCall != null )
+            if( @this.Body is MethodCallExpression methodCall )
             {
                 instance = methodCall.Object.GetInstance();
                 var method = methodCall.Method;
@@ -112,8 +108,7 @@ namespace SmartTests.Helpers
         public static bool GetMemberContext( this LambdaExpression @this,
                                              out object instance, out MemberInfo member )
         {
-            var memberExpression = @this.Body as MemberExpression;
-            if( memberExpression != null )
+            if( @this.Body is MemberExpression memberExpression )
             {
                 instance = memberExpression.Expression.GetInstance();
                 member = memberExpression.Member;
@@ -121,16 +116,14 @@ namespace SmartTests.Helpers
                 return true;
             }
 
-            var methodCall = @this.Body as MethodCallExpression;
-            if( methodCall != null )
+            if( @this.Body is MethodCallExpression methodCall )
             {
                 member = methodCall.Method;
                 instance = methodCall.Object.GetInstance();
                 return true;
             }
 
-            var newExpression = @this.Body as NewExpression;
-            if( newExpression != null )
+            if( @this.Body is NewExpression newExpression )
             {
                 instance = null;
                 member = newExpression.Constructor;

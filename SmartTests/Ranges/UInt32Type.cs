@@ -4,6 +4,7 @@ using System.Linq;
 using SmartTests.Criterias;
 using SmartTests.Helpers;
 
+// ReSharper disable UnusedMember.Global
 
 
 namespace SmartTests.Ranges
@@ -85,67 +86,74 @@ namespace SmartTests.Ranges
         /// <summary>
         ///     Adds a chunk of numeric values
         /// </summary>
-        /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
+        /// <param name="_">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> Range( this uint @this, uint min, uint max ) => SmartTest.UInt32Range.Range( min, max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<uint> Range( this uint _, uint min, uint max ) => SmartTest.UInt32Range.Range( min, max );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values
         /// </summary>
-        /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
+        /// <param name="_">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="minIncluded"><c>true</c> to include min, <c>false</c> otherwise.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> Range( this uint @this, uint min, bool minIncluded, uint max, bool maxIncluded ) => SmartTest.UInt32Range.Range( min, minIncluded, max, maxIncluded );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<uint> Range( this uint _, uint min, bool minIncluded, uint max, bool maxIncluded ) => SmartTest.UInt32Range.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values above a min
         /// </summary>
-        /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
+        /// <param name="_">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> AboveOrEqual( this uint @this, uint min ) => SmartTest.UInt32Range.AboveOrEqual( min );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<uint> AboveOrEqual( this uint _, uint min ) => SmartTest.UInt32Range.AboveOrEqual( min );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values above min
         /// </summary>
-        /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
+        /// <param name="_">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> Above( this uint @this, uint min ) => SmartTest.UInt32Range.Above( min );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<uint> Above( this uint _, uint min ) => SmartTest.UInt32Range.Above( min );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values below or equal to max
         /// </summary>
-        /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
+        /// <param name="_">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> BelowOrEqual( this uint @this, uint max ) => SmartTest.UInt32Range.BelowOrEqual( max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<uint> BelowOrEqual( this uint _, uint max ) => SmartTest.UInt32Range.BelowOrEqual( max );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values below max
         /// </summary>
-        /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
+        /// <param name="_">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> Below( this uint @this, uint max ) => SmartTest.UInt32Range.Below( max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<uint> Below( this uint _, uint max ) => SmartTest.UInt32Range.Below( max );
 
 
         /// <summary>
         ///     Adds a chunk of one numeric value
         /// </summary>
-        /// <param name="this">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
-        /// <param name="value">A random value within this range.</param>
+        /// <param name="_">A uint we do not care about, except to know to create a <see cref="INumericType{T}" /> for uint.</param>
+        /// <param name="value">A random value within _ range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for uint so that adding chunks can be chained.</returns>
-        public static INumericType<uint> Value( this uint @this, uint value ) => SmartTest.UInt32Range.Value( value );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<uint> Value( this uint _, uint value ) => SmartTest.UInt32Range.Value( value );
     }
 }

@@ -8,6 +8,7 @@ namespace SmartTests.Criterias
         /// <summary>
         ///     When the value is below the upper bound
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         public static readonly Criteria IsBelowMax = new MaxIncluded();
         /// <summary>
         ///     When the value is equal to the upper bound
@@ -19,5 +20,6 @@ namespace SmartTests.Criterias
         /// </summary>
         [Error]
         public static readonly Criteria IsAboveMax = new MaxIncluded();
+        // ReSharper restore UnusedMember.Global
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable MemberCanBePrivate.Global
 
 
 namespace SmartTests.Helpers
@@ -58,6 +59,7 @@ namespace SmartTests.Helpers
         /// <returns>The greatest value that is smaller than <paramref name="n" /></returns>
         public static float Previous( float n )
         {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if( n == 0 )
                 return -Int32BitsToFloat( FloatToInt32Bits( 0 ) + 1 );
             return Int32BitsToFloat( FloatToInt32Bits( n ) - 1 );
@@ -79,6 +81,7 @@ namespace SmartTests.Helpers
         /// <returns>The greatest value that is smaller than <paramref name="n" /></returns>
         public static double Previous( double n )
         {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if( n == 0 )
                 return -BitConverter.Int64BitsToDouble( BitConverter.DoubleToInt64Bits( n ) + 1 );
             return BitConverter.Int64BitsToDouble( BitConverter.DoubleToInt64Bits( n ) - 1 );
@@ -111,21 +114,22 @@ namespace SmartTests.Helpers
         /// <returns>The smallest value that is greater than <paramref name="n" /></returns>
         public static decimal Next( decimal n ) => PreviousNext( n, false );
 
+
         /// <summary>
         ///     A union used to convert between a float and the bits of its representation
         /// </summary>
-        [StructLayout(LayoutKind.Explicit)]
+        [StructLayout( LayoutKind.Explicit )]
         private struct DecimalUnion
         {
-            [FieldOffset(sizeof(byte) * 2)]
+            [FieldOffset( sizeof(byte) * 2 )]
             public byte Exp;
-            [FieldOffset(sizeof(byte) * 3)]
+            [FieldOffset( sizeof(byte) * 3 )]
             public byte Sign;
-            [FieldOffset(sizeof(uint))]
+            [FieldOffset( sizeof(uint) )]
             public uint Data1;
-            [FieldOffset(sizeof(uint) * 2)]
+            [FieldOffset( sizeof(uint) * 2 )]
             public ulong Data0;
-            [FieldOffset(0)]
+            [FieldOffset( 0 )]
             public decimal DecimalData;
         }
 

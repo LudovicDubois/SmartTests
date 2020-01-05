@@ -51,9 +51,7 @@ namespace SmartTests.Acts
             _Assignee = assignee;
             _Value = value;
 
-            object instance;
-            MemberInfo member;
-            if( _Assignee.GetMemberContext( out instance, out member, out _Arguments ) )
+            if( _Assignee.GetMemberContext( out var instance, out var member, out _Arguments ) )
             {
                 Instance = instance;
                 Field = member as FieldInfo;
@@ -72,12 +70,11 @@ namespace SmartTests.Acts
                     //An indexer?
                     foreach( var property in Method.DeclaringType.GetRuntimeProperties() )
                     {
-                        if( property.GetMethod == Method )
-                        {
-                            Property = property;
-                            Method = property.SetMethod;
-                            break;
-                        }
+                        if( !Equals( property.GetMethod, Method ) )
+                            continue;
+                        Property = property;
+                        Method = property.SetMethod;
+                        break;
                     }
                 }
                 else
@@ -86,6 +83,7 @@ namespace SmartTests.Acts
                     Method = Property.SetMethod;
                 }
             }
+
             if( Property == null &&
                 Field == null &&
                 Method == null )
@@ -102,8 +100,7 @@ namespace SmartTests.Acts
         /// <inheritdoc />
         public override T Invoke( ActContext context )
         {
-            var memberGetExpression = _Assignee.Body as MemberExpression;
-            if( memberGetExpression != null )
+            if( _Assignee.Body is MemberExpression memberGetExpression )
             {
                 var closureExpression = memberGetExpression.Expression as MemberExpression;
 
@@ -138,9 +135,6 @@ namespace SmartTests.Acts
         }
 
         /// <inheritdoc />
-        public object AssignedValue
-        {
-            get { return _Value; }
-        }
+        public object AssignedValue => _Value;
     }
 }

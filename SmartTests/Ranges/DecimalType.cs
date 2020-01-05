@@ -4,6 +4,7 @@ using System.Linq;
 using SmartTests.Criterias;
 using SmartTests.Helpers;
 
+// ReSharper disable UnusedMember.Global
 
 
 namespace SmartTests.Ranges
@@ -80,20 +81,21 @@ namespace SmartTests.Ranges
         /// <summary>
         ///     Adds a chunk of numeric values
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A decimal we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     decimal.
         /// </param>
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for decimal so that adding chunks can be chained.</returns>
-        public static INumericType<decimal> Range( this decimal @this, decimal min, decimal max ) => SmartTest.DecimalRange.Range( min, max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<decimal> Range( this decimal _, decimal min, decimal max ) => SmartTest.DecimalRange.Range( min, max );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A decimal we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     decimal.
         /// </param>
@@ -102,66 +104,72 @@ namespace SmartTests.Ranges
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for decimal so that adding chunks can be chained.</returns>
-        public static INumericType<decimal> Range( this decimal @this, decimal min, bool minIncluded, decimal max, bool maxIncluded ) => SmartTest.DecimalRange.Range( min, minIncluded, max, maxIncluded );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<decimal> Range( this decimal _, decimal min, bool minIncluded, decimal max, bool maxIncluded ) => SmartTest.DecimalRange.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values above a min
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A decimal we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     decimal.
         /// </param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for decimal so that adding chunks can be chained.</returns>
-        public static INumericType<decimal> AboveOrEqual( this decimal @this, decimal min ) => SmartTest.DecimalRange.AboveOrEqual( min );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<decimal> AboveOrEqual( this decimal _, decimal min ) => SmartTest.DecimalRange.AboveOrEqual( min );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values above min
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A decimal we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     decimal.
         /// </param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for decimal so that adding chunks can be chained.</returns>
-        public static INumericType<decimal> Above( this decimal @this, decimal min ) => SmartTest.DecimalRange.Above( min );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<decimal> Above( this decimal _, decimal min ) => SmartTest.DecimalRange.Above( min );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values below or equal to max
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A decimal we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     decimal.
         /// </param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for decimal so that adding chunks can be chained.</returns>
-        public static INumericType<decimal> BelowOrEqual( this decimal @this, decimal max ) => SmartTest.DecimalRange.BelowOrEqual( max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<decimal> BelowOrEqual( this decimal _, decimal max ) => SmartTest.DecimalRange.BelowOrEqual( max );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values below max
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A decimal we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     decimal.
         /// </param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for decimal so that adding chunks can be chained.</returns>
-        public static INumericType<decimal> Below( this decimal @this, decimal max ) => SmartTest.DecimalRange.Below( max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<decimal> Below( this decimal _, decimal max ) => SmartTest.DecimalRange.Below( max );
 
 
         /// <summary>
         ///     Adds a chunk of one numeric value
         /// </summary>
-        /// <param name="this">
+        /// <param name="_">
         ///     A decimal we do not care about, except to know to create a <see cref="INumericType{T}" /> for
         ///     decimal.
         /// </param>
-        /// <param name="value">A random value within this range.</param>
+        /// <param name="value">A random value within _ range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for decimal so that adding chunks can be chained.</returns>
-        public static INumericType<decimal> Value( this decimal @this, decimal value ) => SmartTest.DecimalRange.Value( value );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<decimal> Value( this decimal _, decimal value ) => SmartTest.DecimalRange.Value( value );
     }
 }

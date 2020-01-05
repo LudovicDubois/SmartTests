@@ -68,6 +68,7 @@ namespace SmartTests.Ranges
         /// <typeparam name="T">An enum type.</typeparam>
         /// <param name="value">A single value of the enum type.</param>
         /// <returns>The criteria representing the full range.</returns>
+        // ReSharper disable once UnusedParameter.Global
         public Criteria Value<T>( T value )
             where T: struct, IComparable
             => AnyValue.IsValid;
@@ -100,6 +101,7 @@ namespace SmartTests.Ranges
         /// <typeparam name="T">An enum type.</typeparam>
         /// <param name="value">A single value of the enum type.</param>
         /// <returns>The criteria representing the full range.</returns>
+        // ReSharper disable once UnusedParameter.Global
         public Criteria ErrorValue<T>( T value )
             where T: struct, IComparable
             => AnyValue.IsValid;
@@ -113,10 +115,12 @@ namespace SmartTests.Ranges
     {
         /// <summary>
         ///     A place holder type to distinguish the right
-        ///     <see cref="SmartTest.Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T, T[])" />
+        ///     <see
+        ///         cref="SmartTest.Case{TParam,T}(System.Linq.Expressions.Expression{System.Func{TParam,SmartTests.Ranges.EnumTypeHelper.PlaceHolder{T}}},out T, T[])" />
         ///     .
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        // ReSharper disable once UnusedTypeParameter
         public class PlaceHolder<T>
             where T: struct, IComparable
         { }
@@ -126,10 +130,11 @@ namespace SmartTests.Ranges
         ///     Adds enum values to test for as an equivalence class.
         /// </summary>
         /// <typeparam name="T">An enum type.</typeparam>
-        /// <param name="this">An enum we do not care about, except to know to create a <see cref="EnumType" />.</param>
+        /// <param name="_">An enum we do not care about, except to know to create a <see cref="EnumType" />.</param>
         /// <param name="values">The values as an equivalence class for the current test.</param>
         /// <returns>The criteria representing the full range.</returns>
-        public static PlaceHolder<T> Values<T>( this T @this, params T[] values )
+        // ReSharper disable once UnusedParameter.Global
+        public static PlaceHolder<T> Values<T>( this T _, params T[] values )
             where T: struct, IComparable
             => new PlaceHolder<T>();
     }

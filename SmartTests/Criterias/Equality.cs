@@ -9,6 +9,7 @@ namespace SmartTests.Criterias
         /// <summary>
         ///     When two values are different
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         public static readonly Criteria AreDifferent = new Equality();
         /// <summary>
         ///     When two values are similar (<c>object.Equals</c> returns <c>true</c>, but <c>object.ReferenceEquals</c> returns
@@ -19,5 +20,6 @@ namespace SmartTests.Criterias
         ///     When two values are identical (<c>object.ReferenceEquals</c> returns <c>true</c>)
         /// </summary>
         public static readonly Criteria AreSame = new Equality();
+        // ReSharper restore UnusedMember.Global
     }
 }

@@ -25,9 +25,7 @@ namespace SmartTests
         /// <exception cref="ArgumentNullException">If <paramref name="criteria" /> is <c>null</c>.</exception>
         public Case( Criteria criteria )
         {
-            if( criteria == null )
-                throw new ArgumentNullException( nameof(criteria) );
-            Criteria = criteria;
+            Criteria = criteria ?? throw new ArgumentNullException( nameof(criteria) );
         }
 
 
@@ -45,10 +43,8 @@ namespace SmartTests
         /// <exception cref="ArgumentNullException">If <paramref name="criteria" /> is <c>null</c>.</exception>
         public Case( string parameterName, Criteria criteria )
         {
-            if( criteria == null )
-                throw new ArgumentNullException( nameof(criteria) );
             ParameterName = parameterName;
-            Criteria = criteria;
+            Criteria = criteria ?? throw new ArgumentNullException( nameof(criteria) );
         }
 
 
@@ -59,6 +55,8 @@ namespace SmartTests
         /// <summary>
         ///     The <see cref="SmartTests.Criteria" /> expression.
         /// </summary>
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // ReSharper disable once MemberCanBePrivate.Global
         public Criteria Criteria { get; }
 
 
@@ -87,6 +85,7 @@ namespace SmartTests
         }
 
 
+        // ReSharper disable once MemberCanBeProtected.Global
         internal virtual Case Combine( Case other )
         {
             if( other == null )
@@ -112,7 +111,7 @@ namespace SmartTests
 
         private class MultiCase: Case
         {
-            public List<Case> Cases { get; } = new List<Case>();
+            private List<Case> Cases { get; } = new List<Case>();
 
             public void Add( Case cas ) => Cases.Add( cas );
 

@@ -1,6 +1,4 @@
-﻿// ReSharper disable UnusedParameter.Global
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -43,6 +41,7 @@ namespace SmartTests.Assertions
         /// <summary>
         ///     Specifies that all visible properties (i.e. public and protected) have to be checked for modification.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         VisibleProperties = PublicProperties | ProtectedProperties,
         /// <summary>
         ///     Specifies that all properties (i.e. public, protected, internal and private) have to be checked for modification.
@@ -71,6 +70,7 @@ namespace SmartTests.Assertions
         /// <summary>
         ///     Specifies that all visible fields (i.e. public and protected) have to be checked for modification.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         VisibleFields = PublicFields | ProtectedFields,
         /// <summary>
         ///     Specifies that all fields (i.e. public, protected, internal and private) have to be checked for modification.
@@ -80,6 +80,7 @@ namespace SmartTests.Assertions
         ///     Specifies that all properties and all fields (i.e. public, protected, internal and private) have to be checked for
         ///     modification.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global
         All = AllProperties | AllFields
     }
 
@@ -93,7 +94,7 @@ namespace SmartTests.Assertions
         ///     Creates an <see cref="Assertion" /> that ensure object properties/fields did not change in the Act part of your
         ///     test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="kind">
         ///     The kind of tested members and their visibility. Default value is
         ///     <see cref="NotChangedKind.PublicProperties" />
@@ -136,14 +137,15 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotChanged( this SmartAssertPlaceHolder @this, NotChangedKind kind = NotChangedKind.PublicProperties ) => new NotChangedAssertion( null, kind, null );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotChanged( this SmartAssertPlaceHolder _, NotChangedKind kind = NotChangedKind.PublicProperties ) => new NotChangedAssertion( null, kind, null );
 
 
         /// <summary>
         ///     Creates an <see cref="Assertion" /> that ensure object properties/fields did not change in the Act part of your
         ///     test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="instance">The instance for which the properties/fields should not change.</param>
         /// <param name="kind">
         ///     The kind of tested members and their visibility. Default value is
@@ -188,14 +190,15 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotChanged( this SmartAssertPlaceHolder @this, object instance, NotChangedKind kind = NotChangedKind.PublicProperties ) => new NotChangedAssertion( instance, kind, null );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotChanged( this SmartAssertPlaceHolder _, object instance, NotChangedKind kind = NotChangedKind.PublicProperties ) => new NotChangedAssertion( instance, kind, null );
 
 
         /// <summary>
         ///     Creates an <see cref="Assertion" /> that ensure object public properties did not change, except the one involved in
         ///     the Act part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="BadTestException">
         ///     If the Act does not involve a property nor field.
@@ -239,7 +242,8 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this ) => new NotChangedAssertion( true );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder _ ) => new NotChangedAssertion( true );
 
 
         /// <summary>
@@ -247,7 +251,7 @@ namespace SmartTests.Assertions
         ///     in
         ///     the Act part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="exceptions">The names of the public properties that can change during the Act.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="BadTestException">
@@ -295,14 +299,15 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, params string[] exceptions ) => new NotChangedAssertion( null, NotChangedKind.PublicProperties, exceptions );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder _, params string[] exceptions ) => new NotChangedAssertion( null, NotChangedKind.PublicProperties, exceptions );
 
 
         /// <summary>
         ///     Creates an <see cref="Assertion" /> that ensure object properties/fields did not change, except the specified ones,
         ///     in the Act part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="kind">The kind of members and visibility to check for changes.</param>
         /// <param name="exceptions">The names of the properties/fields that can change during the Act.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
@@ -352,22 +357,24 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, NotChangedKind kind, params string[] exceptions ) => new NotChangedAssertion( null, kind, exceptions );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder _, NotChangedKind kind, params string[] exceptions ) => new NotChangedAssertion( null, kind, exceptions );
 
 
         /// <summary>
-        ///     Creates an <see cref="Assertion" /> that ensure object public properties of the specified instance did not change, except the specified ones,
+        ///     Creates an <see cref="Assertion" /> that ensure object public properties of the specified instance did not change,
+        ///     except the specified ones,
         ///     in the Act part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="instance">The instance for which to test public property changes.</param>
         /// <param name="exceptions">The names of the public properties that can change during the Act.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="BadTestException">
-        ///     If <paramref name="exceptions" /> are not public properties of <paramref name="instance"/>.
+        ///     If <paramref name="exceptions" /> are not public properties of <paramref name="instance" />.
         /// </exception>
         /// <exception cref="SmartTestException">
-        ///     If any public property of <paramref name="instance"/>, except the <paramref name="exceptions" /> have changed.
+        ///     If any public property of <paramref name="instance" />, except the <paramref name="exceptions" /> have changed.
         /// </exception>
         /// <remarks>
         ///     This <see cref="Assertion" /> ensures that:
@@ -376,7 +383,8 @@ namespace SmartTests.Assertions
         ///             <term>Before the Act</term>
         ///             <description>
         ///                 <para>
-        ///                     If names in <paramref name="exceptions" /> are not public properties of <paramref name="instance"/>, a <see cref="BadTestException" /> is thrown.
+        ///                     If names in <paramref name="exceptions" /> are not public properties of
+        ///                     <paramref name="instance" />, a <see cref="BadTestException" /> is thrown.
         ///                 </para>
         ///             </description>
         ///         </item>
@@ -384,7 +392,8 @@ namespace SmartTests.Assertions
         ///             <term>After the Act</term>
         ///             <description>
         ///                 <para>
-        ///                     If a public property of <paramref name="instance"/> changed during the Act (except <paramref name="exceptions" />), a
+        ///                     If a public property of <paramref name="instance" /> changed during the Act (except
+        ///                     <paramref name="exceptions" />), a
         ///                     <see cref="SmartTestException" /> is thrown.
         ///                 </para>
         ///             </description>
@@ -407,23 +416,25 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, object instance, params string[] exceptions ) => new NotChangedAssertion( instance, NotChangedKind.PublicProperties, exceptions );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder _, object instance, params string[] exceptions ) => new NotChangedAssertion( instance, NotChangedKind.PublicProperties, exceptions );
 
 
         /// <summary>
-        ///     Creates an <see cref="Assertion" /> that ensure object properties/fields of the specified instance did not change, except the specified ones,
+        ///     Creates an <see cref="Assertion" /> that ensure object properties/fields of the specified instance did not change,
+        ///     except the specified ones,
         ///     in the Act part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="instance">The instance for which to test public property changes.</param>
         /// <param name="kind">The kind of members and visibility to check for changes.</param>
         /// <param name="exceptions">The names of the properties/fields that can change during the Act.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="BadTestException">
-        ///     If <paramref name="exceptions" /> are not properties/fields of <paramref name="instance"/>.
+        ///     If <paramref name="exceptions" /> are not properties/fields of <paramref name="instance" />.
         /// </exception>
         /// <exception cref="SmartTestException">
-        ///     If any property/field checked (see <paramref name="kind" />) of <paramref name="instance"/>, except the
+        ///     If any property/field checked (see <paramref name="kind" />) of <paramref name="instance" />, except the
         ///     <paramref name="exceptions" /> have changed.
         /// </exception>
         /// <remarks>
@@ -433,7 +444,8 @@ namespace SmartTests.Assertions
         ///             <term>Before the Act</term>
         ///             <description>
         ///                 <para>
-        ///                     If names in <paramref name="exceptions" /> are not properties/fields of <paramref name="instance"/>, a <see cref="BadTestException" /> is thrown.
+        ///                     If names in <paramref name="exceptions" /> are not properties/fields of
+        ///                     <paramref name="instance" />, a <see cref="BadTestException" /> is thrown.
         ///                 </para>
         ///             </description>
         ///         </item>
@@ -441,7 +453,8 @@ namespace SmartTests.Assertions
         ///             <term>After the Act</term>
         ///             <description>
         ///                 <para>
-        ///                     If a property/field of <paramref name="instance"/> changed during the Act (except <paramref name="exceptions" />), a
+        ///                     If a property/field of <paramref name="instance" /> changed during the Act (except
+        ///                     <paramref name="exceptions" />), a
         ///                     <see cref="SmartTestException" /> is thrown.
         ///                 </para>
         ///             </description>
@@ -464,20 +477,26 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder @this, object instance, NotChangedKind kind, params string[] exceptions ) => new NotChangedAssertion( instance, kind, exceptions );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotChangedExcept( this SmartAssertPlaceHolder _, object instance, NotChangedKind kind, params string[] exceptions ) => new NotChangedAssertion( instance, kind, exceptions );
 
 
         /// <summary>
-        ///     Creates an <see cref="Assertion" /> that ensure object properties/fields of the specified instance did not change, except the specified ones,
+        ///     Creates an <see cref="Assertion" /> that ensure object properties/fields of the specified instance did not change,
+        ///     except the specified ones,
         ///     in the Act part of your test.
         /// </summary>
-        /// <typeparam name="T">The <see cref="Type"/> of the expression that can change.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <typeparam name="T">The <see cref="Type" /> of the expression that can change.</typeparam>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="expression">The expression of an instance and a property/field.</param>
-        /// <param name="kind">The kind of members and visibility to check for changes. Default value is <see cref="NotChangedKind.PublicProperties"/>.</param>
+        /// <param name="kind">
+        ///     The kind of members and visibility to check for changes. Default value is
+        ///     <see cref="NotChangedKind.PublicProperties" />.
+        /// </param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="SmartTestException">
-        ///     If any property/field checked (see <paramref name="kind" />) of the instance in <paramref name="expression"/>, except the
+        ///     If any property/field checked (see <paramref name="kind" />) of the instance in <paramref name="expression" />,
+        ///     except the
         ///     property/field in <paramref name="expression" /> has changed.
         /// </exception>
         /// <remarks>
@@ -495,7 +514,8 @@ namespace SmartTests.Assertions
         ///             <term>After the Act</term>
         ///             <description>
         ///                 <para>
-        ///                     If a property/field of the instance in <paramref name="expression"/> changed during the Act (except the property/field in <paramref name="expression" />), a
+        ///                     If a property/field of the instance in <paramref name="expression" /> changed during the Act
+        ///                     (except the property/field in <paramref name="expression" />), a
         ///                     <see cref="SmartTestException" /> is thrown.
         ///                 </para>
         ///             </description>
@@ -518,19 +538,17 @@ namespace SmartTests.Assertions
         /// }
         /// </code>
         /// </example>
-        public static Assertion NotChangedExcept<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> expression, NotChangedKind kind = NotChangedKind.PublicProperties )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotChangedExcept<T>( this SmartAssertPlaceHolder _, Expression<Func<T>> expression, NotChangedKind kind = NotChangedKind.PublicProperties )
         {
-            object instance;
-            PropertyInfo property;
-            GetInstanceAndProperty( expression, out instance, out property );
+            GetInstanceAndProperty( expression, out var instance, out var property );
             return new NotChangedAssertion( instance, kind, new[] { property.Name } );
         }
 
 
         private static void GetInstanceAndProperty<T>( Expression<Func<T>> expression, out object instance, out PropertyInfo property )
         {
-            MemberInfo member;
-            if( !expression.GetMemberContext( out instance, out member ) )
+            if( !expression.GetMemberContext( out instance, out var member ) )
                 throw new BadTestException( Resource.BadTest_NotPropertyNorIndexer );
 
             property = member as PropertyInfo;
@@ -635,6 +653,7 @@ namespace SmartTests.Assertions
                         message.AppendLine();
                         message.Append( string.Format( Resource.PropertyChanged, pair.Key.GetFullName() ) );
                     }
+
                 foreach( var pair in _FieldValues )
                     if( !Equals( _FieldValues[ pair.Key ], pair.Key.GetValue( _Instance ) ) )
                     {

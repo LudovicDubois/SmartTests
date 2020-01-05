@@ -59,6 +59,7 @@ namespace SmartTests
         }
 
 
+        // ReSharper disable UnusedParameter.Local
         private class AndCriteria: Criteria
         {
             public AndCriteria( Criteria case1, Criteria case2 )
@@ -71,5 +72,6 @@ namespace SmartTests
             public OrCriteria( Criteria case1, Criteria case2 )
             { }
         }
+        // ReSharper restore UnusedParameter.Local
     }
 }

@@ -7,9 +7,9 @@ using System.Reflection;
 
 using SmartTests.Acts;
 using SmartTests.Helpers;
+
 // ReSharper disable UnusedMember.Global
 
-// ReSharper disable UnusedParameter.Global
 
 namespace SmartTests.Assertions
 {
@@ -26,7 +26,7 @@ namespace SmartTests.Assertions
         ///     Creates an <see cref="Assertion" /> that ensure an object property/indexer changed to a different value in the Act
         ///     part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="BadTestException">
         ///     <para>If the instance is <c>null</c> or the property/indexer cannot be inferred from the Act.</para>
@@ -95,7 +95,8 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Raised_PropertyChanged() );
         /// }</code>
         /// </example>
-        public static Assertion Raised_PropertyChanged( this SmartAssertPlaceHolder @this ) => new RaisePropertyChangedAssertion( null, true, null, null );
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion Raised_PropertyChanged( this SmartAssertPlaceHolder _ ) => new RaisePropertyChangedAssertion( null, true, null, null );
 
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace SmartTests.Assertions
         ///     part of your test.
         /// </summary>
         /// <typeparam name="T">The type of the property/indexer that should change.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="instance">The instance for which the property/indexer should change.</param>
         /// <param name="propertyNames">The names of the property/indexer that should change.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
@@ -158,7 +159,8 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Raised_PropertyChanged( mc, nameof(MyClass.MyProperty), nameof(MyClass.OtherProperty) ) );
         /// }</code>
         /// </example>
-        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, T instance, params string[] propertyNames )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder _, T instance, params string[] propertyNames )
             where T: INotifyPropertyChanged
         {
             if( instance == null )
@@ -172,7 +174,7 @@ namespace SmartTests.Assertions
         ///     part of your test.
         /// </summary>
         /// <typeparam name="T">The type of the property/indexer that should change.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="instance">The instance for which the property/indexer should change.</param>
         /// <param name="propertyName">The name of the property/indexer that should change.</param>
         /// <param name="expectedValue">The expected value of the property/indexer once the Act part is done.</param>
@@ -253,7 +255,8 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Raised_PropertyChanged( mc, nameof(MyClass.MyProperty), 10 ) );
         /// }</code>
         /// </example>
-        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, T instance, string propertyName, object expectedValue )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder _, T instance, string propertyName, object expectedValue )
             where T: INotifyPropertyChanged
         {
             if( instance == null )
@@ -269,7 +272,7 @@ namespace SmartTests.Assertions
         ///     part of your test.
         /// </summary>
         /// <typeparam name="T">The type of the property/indexer that should change.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="expression">The expression that will change, directly or indirectly, the property/indexer.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="BadTestException">
@@ -332,11 +335,10 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Raised_PropertyChanged( () => mc.MyProperty ) );
         /// }</code>
         /// </example>
-        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> expression )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder _, Expression<Func<T>> expression )
         {
-            INotifyPropertyChanged sender;
-            PropertyInfo property;
-            GetInstanceAndProperty( expression, out sender, out property );
+            GetInstanceAndProperty( expression, out var sender, out var property );
 
             return new RaisePropertyChangedAssertion( sender, true, new[] { property.Name } );
         }
@@ -347,7 +349,7 @@ namespace SmartTests.Assertions
         ///     part of your test.
         /// </summary>
         /// <typeparam name="T">The type of the property/indexer that should change.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="expression">The expression that will change, directly or indirectly, the property/indexer.</param>
         /// <param name="expectedValue">The expected value of the property/indexer once the Act part is done.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
@@ -427,11 +429,10 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Raised_PropertyChanged( () => mc.MyProperty, 10 ) );
         /// }</code>
         /// </example>
-        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> expression, T expectedValue )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion Raised_PropertyChanged<T>( this SmartAssertPlaceHolder _, Expression<Func<T>> expression, T expectedValue )
         {
-            INotifyPropertyChanged sender;
-            PropertyInfo property;
-            GetInstanceAndProperty( expression, out sender, out property );
+            GetInstanceAndProperty( expression, out var sender, out var property );
 
             return new RaisePropertyChangedAssertion( sender, true, property.Name, expectedValue );
         }
@@ -439,9 +440,7 @@ namespace SmartTests.Assertions
 
         private static void GetInstanceAndProperty<T>( Expression<Func<T>> expression, out INotifyPropertyChanged sender, out PropertyInfo property )
         {
-            MemberInfo member;
-            object instance;
-            if( !expression.GetMemberContext( out instance, out member ) )
+            if( !expression.GetMemberContext( out var instance, out var member ) )
                 throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer ) );
 
             sender = instance as INotifyPropertyChanged;
@@ -458,7 +457,7 @@ namespace SmartTests.Assertions
         ///     Creates an <see cref="Assertion" /> that ensure an object property/indexer did not change at all in the Act
         ///     part of your test.
         /// </summary>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="BadTestException">
         ///     If the involved instance in the Act is not an <see cref="INotifyPropertyChanged" /> instance.
@@ -505,7 +504,8 @@ namespace SmartTests.Assertions
         ///              SmartAssert.NotRaised_PropertyChanged() );
         /// }</code>
         /// </example>
-        public static Assertion NotRaised_PropertyChanged( this SmartAssertPlaceHolder @this )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotRaised_PropertyChanged( this SmartAssertPlaceHolder _ )
         {
             return new RaisePropertyChangedAssertion( null, false, null );
         }
@@ -516,7 +516,7 @@ namespace SmartTests.Assertions
         ///     part of your test.
         /// </summary>
         /// <typeparam name="T">The type of the property/indexer that should not change.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="instance">The instance for which the property/indexer should change.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="ArgumentNullException">
@@ -564,7 +564,8 @@ namespace SmartTests.Assertions
         ///              SmartAssert.NotRaised_PropertyChanged( mc ) );
         /// }</code>
         /// </example>
-        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, T instance )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder _, T instance )
             where T: INotifyPropertyChanged
         {
             if( instance == null )
@@ -578,7 +579,7 @@ namespace SmartTests.Assertions
         ///     part of your test.
         /// </summary>
         /// <typeparam name="T">The type of the property/indexer that should not change.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="instance">The instance for which the property/indexer should change.</param>
         /// <param name="propertyNames">The names of the property/indexer that should not change.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
@@ -630,7 +631,8 @@ namespace SmartTests.Assertions
         ///              SmartAssert.NotRaised_PropertyChanged( mc, nameof(MyClass.MyProperty), nameof(MyClass.OtherProperty) ) );
         /// }</code>
         /// </example>
-        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, T instance, params string[] propertyNames )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder _, T instance, params string[] propertyNames )
             where T: INotifyPropertyChanged
         {
             if( instance == null )
@@ -644,7 +646,7 @@ namespace SmartTests.Assertions
         ///     part of your test.
         /// </summary>
         /// <typeparam name="T">The type of the property/indexer that should not change.</typeparam>
-        /// <param name="this">The dummy place holder for all Smart Assertions.</param>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
         /// <param name="expression">The expression involving an instance an a property/indexer that should not change.</param>
         /// <returns>The newly created <see cref="Assertion" />.</returns>
         /// <exception cref="ArgumentNullException">
@@ -692,13 +694,12 @@ namespace SmartTests.Assertions
         ///              SmartAssert.NotRaised_PropertyChanged( () => mc.MyProperty ) );
         /// }</code>
         /// </example>
-        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder @this, Expression<Func<T>> expression )
+        // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotRaised_PropertyChanged<T>( this SmartAssertPlaceHolder _, Expression<Func<T>> expression )
         {
             if( expression == null )
                 throw new ArgumentNullException( nameof(expression) );
-            INotifyPropertyChanged sender;
-            PropertyInfo property;
-            GetInstanceAndProperty( expression, out sender, out property );
+            GetInstanceAndProperty( expression, out var sender, out var property );
 
             return new RaisePropertyChangedAssertion( sender, false, new[] { property.Name } );
         }
@@ -794,6 +795,7 @@ namespace SmartTests.Assertions
                             _Raised = true;
                         return;
                     }
+
                     _Raised = true;
                     return;
                 }

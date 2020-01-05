@@ -4,6 +4,7 @@ using System.Linq;
 using SmartTests.Criterias;
 using SmartTests.Helpers;
 
+// ReSharper disable UnusedMember.Global
 
 
 namespace SmartTests.Ranges
@@ -80,67 +81,74 @@ namespace SmartTests.Ranges
         /// <summary>
         ///     Adds a chunk of numeric values
         /// </summary>
-        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="_">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
-        public static INumericType<short> Range( this short @this, short min, short max ) => SmartTest.Int16Range.Range( min, max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<short> Range( this short _, short min, short max ) => SmartTest.Int16Range.Range( min, max );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values
         /// </summary>
-        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="_">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
         /// <param name="min">The min value (included) of the chunk.</param>
         /// <param name="minIncluded"><c>true</c> to include min, <c>false</c> otherwise.</param>
         /// <param name="max">The max value (included) of the chunk.</param>
         /// <param name="maxIncluded"><c>true</c> to include max, <c>false</c> otherwise.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
-        public static INumericType<short> Range( this short @this, short min, bool minIncluded, short max, bool maxIncluded ) => SmartTest.Int16Range.Range( min, minIncluded, max, maxIncluded );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<short> Range( this short _, short min, bool minIncluded, short max, bool maxIncluded ) => SmartTest.Int16Range.Range( min, minIncluded, max, maxIncluded );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values above a min
         /// </summary>
-        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="_">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
         /// <param name="min">The min value (included) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
-        public static INumericType<short> AboveOrEqual( this short @this, short min ) => SmartTest.Int16Range.AboveOrEqual( min );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<short> AboveOrEqual( this short _, short min ) => SmartTest.Int16Range.AboveOrEqual( min );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values above max
         /// </summary>
-        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="_">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
         /// <param name="min">The min value (excluded) of the created chunk.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
-        public static INumericType<short> Above( this short @this, short min ) => SmartTest.Int16Range.Above( min );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<short> Above( this short _, short min ) => SmartTest.Int16Range.Above( min );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values below or equal to max
         /// </summary>
-        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="_">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
-        public static INumericType<short> BelowOrEqual( this short @this, short max ) => SmartTest.Int16Range.BelowOrEqual( max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<short> BelowOrEqual( this short _, short max ) => SmartTest.Int16Range.BelowOrEqual( max );
 
 
         /// <summary>
         ///     Adds a chunk of numeric values below max
         /// </summary>
-        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="_">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
         /// <param name="max">The max value (included) of the range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
-        public static INumericType<short> Below( this short @this, short max ) => SmartTest.Int16Range.Below( max );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<short> Below( this short _, short max ) => SmartTest.Int16Range.Below( max );
 
 
         /// <summary>
         ///     Adds a chunk of one numeric value
         /// </summary>
-        /// <param name="this">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
-        /// <param name="value">A random value within this range.</param>
+        /// <param name="_">A short we do not care about, except to know to create a <see cref="INumericType{T}" /> for short.</param>
+        /// <param name="value">A random value within _ range.</param>
         /// <returns>Return a new <see cref="INumericType{T}" /> for short so that adding chunks can be chained.</returns>
-        public static INumericType<short> Value( this short @this, short value ) => SmartTest.Int16Range.Value( value );
+        // ReSharper disable once UnusedParameter.Global
+        public static INumericType<short> Value( this short _, short value ) => SmartTest.Int16Range.Value( value );
     }
 }

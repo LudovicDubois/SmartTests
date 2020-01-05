@@ -87,6 +87,7 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Wait( handle, 1000 ) );
         /// }</code>
         /// </example>
+        // ReSharper disable once UnusedParameter.Global
         public static Assertion Wait( this SmartAssertPlaceHolder _, WaitHandle evt, double timeout )
         {
             if( evt == null )
@@ -124,6 +125,7 @@ namespace SmartTests.Assertions
         ///   Assert.IsNull( mc.Exception ); // There was no exception in the parallel code thread.
         /// }</code>
         /// </example>
+        // ReSharper disable once UnusedParameter.Global
         public static Assertion WaitContextHandle( this SmartAssertPlaceHolder _, double timeout ) => new WaitAssertion( null, TimeSpan.FromMilliseconds( timeout ) );
 
 
@@ -158,6 +160,7 @@ namespace SmartTests.Assertions
         ///              SmartAssert.Wait( handle, TimeSpan.FromSeconds( 1 ) ) );
         /// }</code>
         /// </example>
+        // ReSharper disable once UnusedParameter.Global
         public static Assertion Wait( this SmartAssertPlaceHolder _, WaitHandle evt, TimeSpan timeout )
         {
             if( evt == null )
@@ -194,6 +197,7 @@ namespace SmartTests.Assertions
         ///   Assert.IsNull( mc.Exception ); // There was no exception in the parallel code thread.
         /// }</code>
         /// </example>
+        // ReSharper disable once UnusedParameter.Global
         public static Assertion WaitContextHandle( this SmartAssertPlaceHolder _, TimeSpan timeout ) => new WaitAssertion( null, timeout );
 
 

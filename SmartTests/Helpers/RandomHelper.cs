@@ -1,5 +1,6 @@
 ﻿using System;
 
+// ReSharper disable MemberCanBePrivate.Global
 
 
 namespace SmartTests.Helpers
@@ -70,7 +71,7 @@ namespace SmartTests.Helpers
         public static float NextSingle( this Random rnd, float minValue, float maxValue ) => (float)rnd.NextDouble() * ( maxValue - minValue ) + minValue;
 
 
-        public static double NextDouble( this Random rnd, double minValue, double maxValue ) => rnd.NextDouble() * (maxValue - minValue) + minValue;
+        public static double NextDouble( this Random rnd, double minValue, double maxValue ) => rnd.NextDouble() * ( maxValue - minValue ) + minValue;
 
         public static decimal NextDecimal( this Random rnd ) => rnd.NextDecimal( decimal.MinValue, decimal.MaxValue );
 

@@ -9,6 +9,7 @@ namespace SmartTests.Criterias
         /// <summary>
         ///     When the collection is empty
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         public static readonly Criteria IsEmpty = new Collection();
         /// <summary>
         ///     When the collection has 1 item only
@@ -18,5 +19,6 @@ namespace SmartTests.Criterias
         ///     When the collection has more than one item
         /// </summary>
         public static readonly Criteria HasManyItems = new Collection();
+        // ReSharper restore UnusedMember.Global
     }
 }

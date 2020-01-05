@@ -11,6 +11,7 @@ namespace SmartTests.Criterias
         ///     <para>THIS IS AN ERROR</para>
         /// </summary>
         [Error]
+        // ReSharper disable UnusedMember.Global
         public static readonly Criteria IsNull = new CollectionItem();
         /// <summary>
         ///     When the item is not in the collection
@@ -20,5 +21,6 @@ namespace SmartTests.Criterias
         ///     When the item is in the collection
         /// </summary>
         public static readonly Criteria IsInCollection = new CollectionItem();
+        // ReSharper restore UnusedMember.Global
     }
 }

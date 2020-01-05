@@ -11,14 +11,16 @@ using SmartTests.Assertions;
 namespace SmartTests
 {
     /// <summary>
-    /// Context of the Act part of your test.
+    ///     Context of the Act part of your test.
     /// </summary>
     /// <remarks>
-    /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
-    /// <para>This context enables you to store information that can be accessible in your Act if needed.</para>
-    /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
-    /// you have meaningful names and right types.</para>
-    /// <para>see cref="WaitAssertions.SetHandle"/> for an example.</para>
+    ///     <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+    ///     <para>This context enables you to store information that can be accessible in your Act if needed.</para>
+    ///     <para>
+    ///         The best is to encapsulate this information using some extensions methods on this class; thus,
+    ///         you have meaningful names and right types.
+    ///     </para>
+    ///     <para>see cref="WaitAssertions.SetHandle"/> for an example.</para>
     /// </remarks>
     public class ActContext
     {
@@ -26,91 +28,108 @@ namespace SmartTests
 
 
         /// <summary>
-        /// Gets or sets the value associated with the specified name.
+        ///     Gets or sets the value associated with the specified name.
         /// </summary>
         /// <param name="name">The name of the value to get or set.</param>
         /// <returns>
-        /// The value associated with the specified name. 
-        /// If the specified name is not found, a get operation throws a <see cref="KeyNotFoundException"/>, 
-        /// and a set operation creates a new element with the specified name.
+        ///     The value associated with the specified name.
+        ///     If the specified name is not found, a get operation throws a <see cref="KeyNotFoundException" />,
+        ///     and a set operation creates a new element with the specified name.
         /// </returns>
         /// <remarks>
-        /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
-        /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
-        /// you have meaningful names and right types.</para>
-        /// <para><see cref="WaitAssertions.SetHandle"/> for an example.</para>
+        ///     <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+        ///     <para>
+        ///         The best is to encapsulate this information using some extensions methods on this class; thus,
+        ///         you have meaningful names and right types.
+        ///     </para>
+        ///     <para><see cref="WaitAssertions.SetHandle" /> for an example.</para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
-        /// <exception cref="KeyNotFoundException">The property is retrieved and <paramref name="name"/> does not exist in the dictionary.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name" /> is <c>null</c>.</exception>
+        /// <exception cref="KeyNotFoundException">
+        ///     The property is retrieved and <paramref name="name" /> does not exist in the
+        ///     dictionary.
+        /// </exception>
         public object this[ string name ]
         {
+            // ReSharper disable once MemberCanBePrivate.Global
             get => _Context[ name ];
             set => _Context[ name ] = value;
         }
 
 
         /// <summary>
-        /// Gets the value associated with the specified name.
+        ///     Gets the value associated with the specified name.
         /// </summary>
-        /// <typeparam name="T">The type of the value of the specified <paramref name="name"/>.</typeparam>
+        /// <typeparam name="T">The type of the value of the specified <paramref name="name" />.</typeparam>
         /// <param name="name">The name of the value to get.</param>
         /// <returns>
-        /// The value associated with the specified name. 
-        /// If the specified name is not found, throws a <see cref="KeyNotFoundException"/>.
+        ///     The value associated with the specified name.
+        ///     If the specified name is not found, throws a <see cref="KeyNotFoundException" />.
         /// </returns>
         /// <remarks>
-        /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
-        /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
-        /// you have meaningful names and right types.</para>
+        ///     <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+        ///     <para>
+        ///         The best is to encapsulate this information using some extensions methods on this class; thus,
+        ///         you have meaningful names and right types.
+        ///     </para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
-        /// <exception cref="KeyNotFoundException"><paramref name="name"/> does not exist in the dictionary.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name" /> is <c>null</c>.</exception>
+        /// <exception cref="KeyNotFoundException"><paramref name="name" /> does not exist in the dictionary.</exception>
+        // ReSharper disable once UnusedMember.Global
         public T GetValue<T>( string name ) => (T)this[ name ];
 
 
         /// <summary>
-        /// Gets the value associated with the specified name.
+        ///     Gets the value associated with the specified name.
         /// </summary>
         /// <param name="name">The name of the value to get.</param>
-        /// <param name="value">The value associated with the specified name.
-        /// If the specified name is not found, returns <c>false</c> and <paramref name="value"/> is <c>null</c>.
+        /// <param name="value">
+        ///     The value associated with the specified name.
+        ///     If the specified name is not found, returns <c>false</c> and <paramref name="value" /> is <c>null</c>.
         /// </param>
         /// <returns>
-        /// <c>true</c> if the context contains an element with the specified name; otherwise, <c>false</c>.
+        ///     <c>true</c> if the context contains an element with the specified name; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>
-        /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
-        /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
-        /// you have meaningful names and right types.</para>
+        ///     <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+        ///     <para>
+        ///         The best is to encapsulate this information using some extensions methods on this class; thus,
+        ///         you have meaningful names and right types.
+        ///     </para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name" /> is <c>null</c>.</exception>
+        // ReSharper disable once UnusedMember.Global
         public bool TryGetValue( string name, out object value ) => _Context.TryGetValue( name, out value );
 
 
         /// <summary>
-        /// Gets the value associated with the specified name.
+        ///     Gets the value associated with the specified name.
         /// </summary>
-        /// <typeparam name="T">The type of the value of the specified <paramref name="name"/>.</typeparam>
+        /// <typeparam name="T">The type of the value of the specified <paramref name="name" />.</typeparam>
         /// <param name="name">The name of the value to get.</param>
-        /// <param name="value">The value associated with the specified name.
-        /// If the specified name is not found, returns <c>false</c> and <paramref name="value"/> is <c>null</c>.
+        /// <param name="value">
+        ///     The value associated with the specified name.
+        ///     If the specified name is not found, returns <c>false</c> and <paramref name="value" /> is <c>null</c>.
         /// </param>
         /// <returns>
-        /// <c>true</c> if the context contains an element with the specified name; otherwise, <c>false</c>.
+        ///     <c>true</c> if the context contains an element with the specified name; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>
-        /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
-        /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
-        /// you have meaningful names and right types.</para>
+        ///     <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+        ///     <para>
+        ///         The best is to encapsulate this information using some extensions methods on this class; thus,
+        ///         you have meaningful names and right types.
+        ///     </para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="name" /> is <c>null</c>.</exception>
         public bool TryGetValue<T>( string name, out T value )
         {
-            if( !_Context.TryGetValue( name, out object val ) )
+            if( !_Context.TryGetValue( name, out var val ) )
             {
                 value = default(T);
                 return false;
             }
+
             value = (T)val;
             return true;
         }
@@ -169,6 +188,7 @@ namespace SmartTests
         /// <remarks>
         ///     This property is <c>null</c> if the Act nor Smart Assertions threw an exception.
         /// </remarks>
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public Exception Exception { get; internal set; }
 
         /// <summary>
@@ -183,6 +203,7 @@ namespace SmartTests
         ///     The Smart <see cref="Assertion" /> implied in the Associated <see cref="O:SmartTests.SmartTest.RunTest" /> methods,
         ///     if any.
         /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         public Assertion[] Assertions { get; internal set; }
         private readonly List<Assertion> _DoneAssertions = new List<Assertion>();
 
@@ -209,15 +230,17 @@ namespace SmartTests
         #region Context        
 
         /// <summary>
-        /// Gets the context of this Act.
+        ///     Gets the context of this Act.
         /// </summary>
         /// <returns>
-        /// The <see cref="ActContext"/> of this Act instance.
+        ///     The <see cref="ActContext" /> of this Act instance.
         /// </returns>
         /// <remarks>
-        /// <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
-        /// <para>The best is to encapsulate this information using some extensions methods on this class; thus, 
-        /// you have meaningful names and right types.</para>
+        ///     <para>Do not use it directly. It is only useful for Smart Assertions development.</para>
+        ///     <para>
+        ///         The best is to encapsulate this information using some extensions methods on this class; thus,
+        ///         you have meaningful names and right types.
+        ///     </para>
         /// </remarks>
         /// <para>see cref="WaitAssertions.SetHandle"/> for an example.</para>
         public ActContext Context { get; } = new ActContext();
@@ -241,7 +264,7 @@ namespace SmartTests
         /// <summary>
         ///     Run the Act part of your test with a context.
         /// </summary>
-        /// <param name="context">The <see cref="ActContext"/> of the test.</param>
+        /// <param name="context">The <see cref="ActContext" /> of the test.</param>
         public abstract void Invoke( ActContext context );
     }
 
@@ -262,7 +285,7 @@ namespace SmartTests
         /// <summary>
         ///     Run the Act part of your test.
         /// </summary>
-        /// <param name="context">The <see cref="ActContext"/> of the test.</param>
+        /// <param name="context">The <see cref="ActContext" /> of the test.</param>
         /// <returns>The result of the Act part of your test.</returns>
         public abstract T Invoke( ActContext context );
     }

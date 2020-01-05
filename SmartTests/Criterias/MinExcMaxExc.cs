@@ -10,6 +10,7 @@
         ///     When the value is below the lower bound
         ///     <para>THIS IS AN ERROR</para>
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         [Error]
         public static readonly Criteria IsBelowMin = new MinIncMaxInc();
         /// <summary>
@@ -34,5 +35,6 @@
         /// </summary>
         [Error]
         public static readonly Criteria IsAboveMax = new MinIncMaxInc();
+        // ReSharper restore UnusedMember.Global
     }
 }

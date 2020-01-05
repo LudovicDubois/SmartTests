@@ -12,6 +12,7 @@ namespace SmartTests.Criterias
         /// <summary>
         ///     When the value is valid
         /// </summary>
+        // ReSharper disable UnusedMember.Global
         public static readonly Criteria IsValid = new ValidValue();
         /// <summary>
         ///     When the value is invalid
@@ -19,5 +20,6 @@ namespace SmartTests.Criterias
         /// </summary>
         [Error]
         public static readonly Criteria IsInvalid = new ValidValue();
+        // ReSharper restore UnusedMember.Global
     }
 }

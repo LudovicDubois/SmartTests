@@ -77,6 +77,7 @@ namespace SmartTests.Ranges
         /// </summary>
         /// <param name="other">The other <see cref="Chunk{T}" /> to compare with</param>
         /// <returns><c>true</c> if <c>this</c> have the same <see cref="Min" /> and <see cref="Max" />; <c>false</c> otherwise</returns>
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool Equals( Chunk<T> other ) => Equals( IncludedMin, other.IncludedMin ) && Equals( IncludedMax, other.IncludedMax );
 
 
