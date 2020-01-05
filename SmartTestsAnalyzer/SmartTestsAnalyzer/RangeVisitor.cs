@@ -14,13 +14,14 @@ using SmartTestsAnalyzer.Helpers;
 
 namespace SmartTestsAnalyzer
 {
-    class RangeVisitor: CSharpSyntaxVisitor<IRangeVisitor>
+    internal class RangeVisitor: CSharpSyntaxVisitor<IRangeVisitor>
     {
         public RangeVisitor( SemanticModel model, Action<Diagnostic> reportDiagnostic )
         {
             _Model = model;
 
             var smartTestType = model.Compilation.GetTypeByMetadataName( "SmartTests.SmartTest" );
+#pragma warning disable 618
             AddType( smartTestType, "Byte", () => new RangeVisitor<byte>( model, SmartTest.Byte, null, reportDiagnostic ) );
             AddType( smartTestType, "ByteRange", () => new RangeVisitor<byte>( model, SmartTest.ByteRange, null, reportDiagnostic ) );
             AddType( smartTestType, "SByte", () => new RangeVisitor<sbyte>( model, SmartTest.SByte, null, reportDiagnostic ) );
@@ -45,6 +46,7 @@ namespace SmartTestsAnalyzer
             AddType( smartTestType, "DateTimeRange", () => new RangeVisitor<DateTime>( model, SmartTest.DateTimeRange, null, reportDiagnostic ) );
             AddType( smartTestType, "Enum", () => new EnumVisitor( model, reportDiagnostic ) );
             AddType( smartTestType, "EnumRange", () => new EnumVisitor( model, reportDiagnostic ) );
+#pragma warning restore 618
         }
 
 

@@ -16,11 +16,8 @@ namespace SmartTestsAnalyzer
 
         public MemberTestCases GetOrCreate( TestedMember testedMember )
         {
-            MemberTestCases cases;
-            if( MemberCases.TryGetValue( testedMember, out cases ) )
-            {
+            if( MemberCases.TryGetValue( testedMember, out var cases ) )
                 return cases;
-            }
 
             cases = new MemberTestCases( testedMember );
             MemberCases[ testedMember ] = cases;

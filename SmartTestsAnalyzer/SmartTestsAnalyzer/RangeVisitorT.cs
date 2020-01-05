@@ -14,7 +14,7 @@ using SmartTestsAnalyzer.Helpers;
 
 namespace SmartTestsAnalyzer
 {
-    class RangeVisitor<T>: BaseVisitor, IRangeVisitor
+    internal class RangeVisitor<T>: BaseVisitor, IRangeVisitor
         where T: struct, IComparable<T>
     {
         public RangeVisitor( SemanticModel model, INumericType<T> root, Type helperType, Action<Diagnostic> reportDiagnostic )
@@ -35,6 +35,7 @@ namespace SmartTestsAnalyzer
 
         private INumericType<T> _Root;
         public IType Root => _Root;
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool IsError { get; set; }
 
 

@@ -1,5 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 // ReSharper disable UnusedMember.Global
 
 

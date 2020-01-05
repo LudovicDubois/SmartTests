@@ -22,6 +22,7 @@ namespace SmartTestsAnalyzer.Criterias
 
 
             public CriteriaAnalysis Analysis { get; }
+            // ReSharper disable once InconsistentNaming
             public bool IsError { get; }
         }
 
@@ -33,6 +34,9 @@ namespace SmartTestsAnalyzer.Criterias
 
 
         public abstract void AddCurrentValues();
+
+
+        // ReSharper disable once UnusedMember.Global
         public abstract void AddMissingValues();
     }
 
@@ -123,15 +127,15 @@ namespace SmartTestsAnalyzer.Criterias
         {
             var first = currentValues.First();
             var type = first.ContainingType;
-            var missings = new List<IFieldSymbol>();
-            foreach( IFieldSymbol value in type.GetMembers().Where( m => m.Kind == SymbolKind.Field ) )
-            {
-                if( !currentValues.Contains( value ) )
-                    missings.Add( value );
-            }
+            var missing = type.GetMembers()
+                              .Where( m => m.Kind == SymbolKind.Field )
+                              .Cast<IFieldSymbol>()
+                              .Where( value => !currentValues.Contains( value ) )
+                              .ToArray();
 
-            if( missings.Count > 0 )
-                Values.Add( new CriteriaValue( new RangeAnalysis( new EnumTypeAnalyzer( null, missings.ToArray() ), false ), false ) );
+            if( missing.Length > 0 )
+                // ReSharper disable once CoVariantArrayConversion
+                Values.Add( new CriteriaValue( new RangeAnalysis( new EnumTypeAnalyzer( null, missing ), false ), false ) );
         }
     }
 }

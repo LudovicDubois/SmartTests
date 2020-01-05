@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.CodeAnalysis;
@@ -71,12 +70,12 @@ namespace SmartTestsAnalyzer
                                                                                                        LocalizeString( nameof(Resources.NotADate_Description) ) );
 
         private static readonly DiagnosticDescriptor _MinShouldBeLessThanMax = new DiagnosticDescriptor( "SmartTestsAnalyzer_MinShouldBeLessThanMax",
-                                                                                                   LocalizeString( nameof(Resources.MinShouldBeLessThanMax_Title) ),
-                                                                                                   LocalizeString( nameof(Resources.MinShouldBeLessThanMax_MessageFormat) ),
-                                                                                                   _Category,
-                                                                                                   DiagnosticSeverity.Error,
-                                                                                                   true,
-                                                                                                   LocalizeString( nameof(Resources.MinShouldBeLessThanMax_Description) ) );
+                                                                                                         LocalizeString( nameof(Resources.MinShouldBeLessThanMax_Title) ),
+                                                                                                         LocalizeString( nameof(Resources.MinShouldBeLessThanMax_MessageFormat) ),
+                                                                                                         _Category,
+                                                                                                         DiagnosticSeverity.Error,
+                                                                                                         true,
+                                                                                                         LocalizeString( nameof(Resources.MinShouldBeLessThanMax_Description) ) );
 
         public static ImmutableArray<DiagnosticDescriptor> DiagnosticDescriptors { get; } = ImmutableArray.Create( _MissingCases,
                                                                                                                    _WrongParameterName,

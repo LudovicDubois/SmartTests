@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 namespace SmartTestsAnalyzer
 {
     [DiagnosticAnalyzer( LanguageNames.CSharp )]
+    // ReSharper disable once PartialTypeWithSinglePart
     public partial class SmartTestsAnalyzerAnalyzer: DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => SmartTestsDiagnostics.DiagnosticDescriptors;
@@ -30,7 +31,9 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private bool _AlreadyDone; // To avoid repetition of the errors (6 times when compling and I do not know why :-()
+        private bool _AlreadyDone; // To avoid repetition of the errors (6 times when compiling and I do not know why :-()
+
+
         private void Analyze( SemanticModelAnalysisContext context )
         {
             if( _AlreadyDone )
@@ -100,6 +103,7 @@ namespace SmartTestsAnalyzer
                 if( fileName.EndsWith( _AssemblyInfoPath ) )
                     return fileName.Substring( 0, fileName.Length - _AssemblyInfoPath.Length );
             }
+
             return null;
         }
     }

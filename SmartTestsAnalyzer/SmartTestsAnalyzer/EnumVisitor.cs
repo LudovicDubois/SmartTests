@@ -10,6 +10,7 @@ using SmartTests.Ranges;
 
 using SmartTestsAnalyzer.Helpers;
 
+// ReSharper disable MemberCanBePrivate.Global
 
 
 namespace SmartTestsAnalyzer

@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-#if !EXTENSION
-using System.Diagnostics;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SmartTestsAnalyzer.Helpers;
 using SmartTestsAnalyzer.Criterias;
+#if !EXTENSION
+using SmartTestsAnalyzer.Helpers;
 
 #endif
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 
 namespace SmartTestsAnalyzer
@@ -63,6 +64,7 @@ namespace SmartTestsAnalyzer
         }
 
 
+        // ReSharper disable MemberCanBePrivate.Global
         public string TestNamespaceName { get; private set; }
         public string TestClassName { get; private set; }
         public string TestName { get; private set; }
@@ -70,17 +72,21 @@ namespace SmartTestsAnalyzer
         public int TestLine { get; private set; }
         public Dictionary<TestedParameter, Case> Cases { get; } = new Dictionary<TestedParameter, Case>();
         public bool HasError { get; private set; }
+        // ReSharper disable once InconsistentNaming
         public bool IsMissing { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
 
 
         public CasesAnd CombineAnd( CasesAnd otherCases )
         {
-            var result = new CasesAnd();
-            result.TestNamespaceName = otherCases.TestNamespaceName;
-            result.TestClassName = otherCases.TestClassName;
-            result.TestName = otherCases.TestName;
-            result.TestFileName = otherCases.TestFileName;
-            result.TestLine = otherCases.TestLine;
+            var result = new CasesAnd
+                         {
+                             TestNamespaceName = otherCases.TestNamespaceName,
+                             TestClassName = otherCases.TestClassName,
+                             TestName = otherCases.TestName,
+                             TestFileName = otherCases.TestFileName,
+                             TestLine = otherCases.TestLine
+                         };
             result.FillCasesWith( Cases );
             result.FillCasesWith( otherCases.Cases );
             result.HasError = HasError || otherCases.HasError;

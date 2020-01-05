@@ -1,17 +1,15 @@
-﻿#if !EXTENSION
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using Newtonsoft.Json;
+#if !EXTENSION
+using System.Linq;
 
 #endif
-
+// ReSharper disable MemberCanBePrivate.Global
 
 
 namespace SmartTestsAnalyzer

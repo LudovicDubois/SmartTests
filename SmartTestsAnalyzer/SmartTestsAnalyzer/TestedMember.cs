@@ -19,9 +19,10 @@ namespace SmartTestsAnalyzer
         public TestedMemberKind Kind { get; }
 
 
-        public override bool Equals( object other ) => other is TestedMember && Equals( (TestedMember)other );
+        public override bool Equals( object other ) => other is TestedMember member && Equals( member );
 
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool Equals( TestedMember other ) => Equals( Symbol, other.Symbol ) && Kind == other.Kind;
 
 

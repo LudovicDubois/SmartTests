@@ -93,7 +93,7 @@ namespace SmartTestsAnalyzer
             if( !constant.HasValue )
             {
                 ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( expression ) );
-                value = default(bool);
+                value = false;
                 return false;
             }
 

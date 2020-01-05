@@ -30,6 +30,7 @@ namespace SmartTestsAnalyzer
         private readonly SemanticModel _Model;
         private readonly ExpressionSyntax _CasesExpression;
         private readonly ExpressionSyntax _ParameterNameExpression;
+        // ReSharper disable once NotAccessedField.Local
         private readonly Action<Diagnostic> _ReportDiagnostic;
         private readonly INamedTypeSymbol _ErrorAttribute;
         private readonly RangeVisitor _RangeVisitor;

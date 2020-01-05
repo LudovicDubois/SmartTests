@@ -40,6 +40,8 @@ namespace SmartTestsAnalyzer.Criterias
 
 
         public IType Type { get; }
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool IsError { get; }
 
 

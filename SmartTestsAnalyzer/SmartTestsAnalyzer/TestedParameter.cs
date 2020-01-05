@@ -54,7 +54,7 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public TestedParameter( string parameterName, string parameterPath = null)
+        public TestedParameter( string parameterName, string parameterPath = null )
         {
             Name = parameterName;
             Path = parameterPath ?? Name;
@@ -65,13 +65,14 @@ namespace SmartTestsAnalyzer
 
         public string Name { get; }
         public ITypeSymbol Type { get; }
+        // ReSharper disable once InconsistentNaming
         public bool IsLambda { get; }
         public ExpressionSyntax PathExpression { get; }
         public string Path { get; }
         public bool PathHasErrors { get; }
 
 
-        protected bool Equals( TestedParameter other ) => string.Equals( Name, other.Name ) && string.Equals( Path, other.Path );
+        public bool Equals( TestedParameter other ) => string.Equals( Name, other.Name ) && string.Equals( Path, other.Path );
 
 
         public override bool Equals( object obj )

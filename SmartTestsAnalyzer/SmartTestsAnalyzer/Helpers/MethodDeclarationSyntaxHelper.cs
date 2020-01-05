@@ -9,10 +9,9 @@ namespace SmartTestsAnalyzer.Helpers
 {
     static class SyntaxNodeHelper
     {
-        public static string GetFullName( this MemberDeclarationSyntax @this, bool includeNamespace  = true )
+        public static string GetFullName( this MemberDeclarationSyntax @this, bool includeNamespace = true )
         {
-            var parent = @this.Parent as MemberDeclarationSyntax;
-            var result = parent != null &&
+            var result = @this.Parent is MemberDeclarationSyntax parent &&
                          ( includeNamespace || !( parent is NamespaceDeclarationSyntax ) )
                              ? parent.GetFullName( includeNamespace ) + '.'
                              : "";

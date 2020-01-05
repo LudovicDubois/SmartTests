@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Microsoft.CodeAnalysis;
+// ReSharper disable UnusedMember.Global
 
 
 
@@ -24,10 +25,10 @@ namespace SmartTestsAnalyzer.Helpers
             foreach( var method in methods )
                 if( method.IsGenericMethod )
                 {
-                    if( method == symbol.ConstructedFrom )
+                    if( method.Equals( symbol.ConstructedFrom ) )
                         return method;
                 }
-                else if( method == symbol )
+                else if( method.Equals( symbol ) )
                     return method;
 
             // Not found!

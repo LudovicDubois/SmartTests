@@ -176,7 +176,7 @@ namespace SmartTestsAnalyzer
 #endif
 
 
-        public void ToString( StringBuilder result )
+        private void ToString( StringBuilder result )
         {
             foreach( var criterias in CasesAnd )
             {

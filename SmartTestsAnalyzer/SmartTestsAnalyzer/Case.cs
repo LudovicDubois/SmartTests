@@ -1,17 +1,18 @@
 using System.Collections.Generic;
-using System.Text;
-
-#if !EXTENSION
 using System.Diagnostics;
-using System.Linq;
+using System.Text;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using Newtonsoft.Json;
 
-using SmartTestsAnalyzer.Helpers;
 using SmartTestsAnalyzer.Criterias;
+using SmartTestsAnalyzer.Helpers;
+#if !EXTENSION
+using System.Linq;
+
+// ReSharper disable MemberCanBePrivate.Global
 
 #endif
 

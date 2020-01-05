@@ -54,7 +54,10 @@ namespace SmartTestsAnalyzer
         private readonly IMethodSymbol[] _AssignMethods;
 
 
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool IsTestProject => _TestingFrameworks.IsTestProject;
+        // ReSharper disable once InconsistentNaming
         public bool IsSmartTestProject { get; }
 
         public MembersTestCases MembersTestCases { get; } = new MembersTestCases();
@@ -111,7 +114,7 @@ namespace SmartTestsAnalyzer
                     // ?!?!?
                     return;
 
-                var aCase = runTestSymbol.Parameters[ 0 ].Type == _CaseType
+                var aCase = runTestSymbol.Parameters[ 0 ].Type.Equals( _CaseType )
                                 ? GetCases( model, argument0Syntax.Expression, argument0Syntax.Expression )
                                 : argument0Syntax.Expression.Accept( new CriteriaVisitor( model, argument0Syntax.Expression, null, _ReportDiagnostic ) );
                 if( aCase == null )
@@ -154,21 +157,22 @@ namespace SmartTestsAnalyzer
 
         private ISymbol AnalyzeMember( SemanticModel model, ExpressionSyntax expression )
         {
-            var lambda = expression as ParenthesizedLambdaExpressionSyntax;
-            if( lambda != null )
-                return model.GetSymbol( lambda.Body );
-
-            var ctxLambda = expression as SimpleLambdaExpressionSyntax;
-            if( ctxLambda != null )
-                return model.GetSymbol( ctxLambda.Body );
-
-            var invocation = expression as InvocationExpressionSyntax;
-            if( invocation != null )
+            switch( expression )
             {
-                // Can be Assign method
-                var invoked = model.FindMethodSymbol( invocation, _AssignMethods );
-                if( invoked != null )
-                    return AnalyzeMember( model, invocation.ArgumentList.Arguments[ 0 ].Expression );
+                case ParenthesizedLambdaExpressionSyntax lambda:
+                    return model.GetSymbol( lambda.Body );
+
+                case SimpleLambdaExpressionSyntax ctxLambda:
+                    return model.GetSymbol( ctxLambda.Body );
+
+                case InvocationExpressionSyntax invocation:
+                {
+                    // Can be Assign method
+                    var invoked = model.FindMethodSymbol( invocation, _AssignMethods );
+                    if( invoked != null )
+                        return AnalyzeMember( model, invocation.ArgumentList.Arguments[ 0 ].Expression );
+                    break;
+                }
             }
 
             return null;
@@ -177,8 +181,7 @@ namespace SmartTestsAnalyzer
 
         private CasesAndOr GetCases( SemanticModel model, ExpressionSyntax casesExpression, ExpressionSyntax caseExpression )
         {
-            var binaryExpression = caseExpression as BinaryExpressionSyntax;
-            if( binaryExpression != null )
+            if( caseExpression is BinaryExpressionSyntax binaryExpression )
             {
                 var left = GetCases( model, casesExpression, binaryExpression.Left );
                 if( left == null )
@@ -199,6 +202,7 @@ namespace SmartTestsAnalyzer
                 if( caseMethod != null ) // Logical, even if it does not do anything in case caseMethod == null
                     isError = true;
             }
+
             if( caseMethod == null )
                 return null;
 

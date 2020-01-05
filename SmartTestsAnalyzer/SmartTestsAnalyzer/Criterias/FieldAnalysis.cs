@@ -10,7 +10,7 @@ using SmartTestsAnalyzer.Helpers;
 
 namespace SmartTestsAnalyzer.Criterias
 {
-    class FieldAnalysis: CriteriaAnalysis
+    internal class FieldAnalysis: CriteriaAnalysis
     {
         public FieldAnalysis( IFieldSymbol field )
         {
@@ -19,9 +19,11 @@ namespace SmartTestsAnalyzer.Criterias
         }
 
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public IFieldSymbol Field { get; }
 
-        public virtual ITypeSymbol ContainingType => Field.ContainingType;
+        // ReSharper disable once MemberCanBePrivate.Global
+        public ITypeSymbol ContainingType => Field.ContainingType;
 
 
         public override void AddValues( Dictionary<TestedParameter, CriteriaValues> values, INamedTypeSymbol errorType )
@@ -44,6 +46,7 @@ namespace SmartTestsAnalyzer.Criterias
         public override bool Equals( object obj ) => Equals( obj as FieldAnalysis );
 
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool Equals( FieldAnalysis other ) => Equals( Field, other?.Field );
 
 

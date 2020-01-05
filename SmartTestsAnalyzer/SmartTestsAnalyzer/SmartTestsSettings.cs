@@ -1,7 +1,10 @@
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+
 namespace SmartTestsAnalyzer
 {
-    class SmartTestsSettings
+    internal class SmartTestsSettings
     {
+        // ReSharper disable once InconsistentNaming
         public bool IsEnabled { get; set; } = true;
         public string File { get; set; } = @"obj\SmartTestsData.json";
 
