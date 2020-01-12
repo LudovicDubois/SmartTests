@@ -107,7 +107,7 @@ namespace SmartTests.Acts
                 var member = Method != null
                                  ? Expression.Property( closureExpression, Method )
                                  : Expression.Field( closureExpression, Field );
-                var lambda = Expression.Lambda( Expression.Assign( member, Expression.Constant( _Value ) ) ).Compile();
+                var lambda = Expression.Lambda( Expression.Assign( member, Expression.Constant( _Value, typeof(T) ) ) ).Compile();
 
                 return (T)lambda.DynamicInvoke();
             }
