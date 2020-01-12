@@ -33,6 +33,7 @@ namespace SmartTestsExtension
         private bool _Pause;
         public bool Pause
         {
+            // ReSharper disable once MemberCanBePrivate.Global
             get => _Pause;
             set
             {
@@ -116,6 +117,7 @@ namespace SmartTestsExtension
                 return null;
 
             // We have SmartTests to show
+            // ReSharper disable once AssignNullToNotNullAttribute
             return Path.Combine( Path.GetDirectoryName( project.FullName ), settings.File );
         }
 

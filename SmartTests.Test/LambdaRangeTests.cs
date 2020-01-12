@@ -26,7 +26,9 @@ namespace SmartTests.Test
 
         class Data
         {
+            // ReSharper disable once UnassignedGetOnlyAutoProperty
             public byte Info { get; }
+            // ReSharper disable once UnassignedGetOnlyAutoProperty
             public DayOfWeek Day { get; }
         }
 

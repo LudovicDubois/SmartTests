@@ -14,7 +14,7 @@ namespace SmartTestsExtension.Results
         {
             _Items = new DataTable();
             _Items.TableName = "Tests";
-            _Items.Columns.Add( "Test");
+            _Items.Columns.Add( "Test" );
             _Items.Columns.Add( "TestFileName" );
             _Items.Columns.Add( "TestLine" );
             _Items.Columns.Add( "TestLocation" );
@@ -25,6 +25,7 @@ namespace SmartTestsExtension.Results
 
 
         private DataTable _Items;
+        // ReSharper disable once MemberCanBePrivate.Global
         public DataView Items { get; }
 
 
@@ -67,6 +68,7 @@ namespace SmartTestsExtension.Results
                 row[ "TestFileName" ] = casesAnd.TestFileName;
                 row[ "TestLine" ] = casesAnd.TestLine;
             }
+
             row[ "HasError" ] = casesAnd.HasError;
             row[ "IsMissing" ] = casesAnd.IsMissing;
 
@@ -74,7 +76,7 @@ namespace SmartTestsExtension.Results
             {
                 foreach( var expression in cases.Value.Expressions )
                 {
-                    var criterion = expression.Split( new char[] { '.' }, 2 );
+                    var criterion = expression.Split( new[] { '.' }, 2 );
                     if( !_Items.Columns.Contains( criterion[ 0 ] ) )
                         _Items.Columns.Add( criterion[ 0 ] );
                     row[ criterion[ 0 ] ] = criterion[ 1 ];

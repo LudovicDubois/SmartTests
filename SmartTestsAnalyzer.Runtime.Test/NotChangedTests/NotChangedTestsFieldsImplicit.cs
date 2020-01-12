@@ -32,7 +32,10 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
             public int MyField1;
             public int MyField2;
+            // ReSharper disable once InconsistentNaming
+#pragma warning disable 414
             private int MyField3;
+#pragma warning restore 414
             protected int MyField4;
 
 

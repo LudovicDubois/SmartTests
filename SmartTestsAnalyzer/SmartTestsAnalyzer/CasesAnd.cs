@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
+
+#if !EXTENSION
+using System.Diagnostics;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using SmartTestsAnalyzer.Criterias;
-#if !EXTENSION
 using SmartTestsAnalyzer.Helpers;
 
 #endif
@@ -17,16 +18,20 @@ using SmartTestsAnalyzer.Helpers;
 
 namespace SmartTestsAnalyzer
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class CasesAnd
     {
 #if EXTENSION
+        // ReSharper disable once UnusedMember.Global
         public string TestNamespaceName { get; set; }
         public string TestClassName { get; set; }
         public string TestName { get; set; }
         public string TestFileName { get; set; }
         public int TestLine { get; set; }
+        // ReSharper disable once CollectionNeverUpdated.Global
         public Dictionary<string, Case> Cases { get; } = new Dictionary<string, Case>();
         public bool HasError { get; set; }
+        // ReSharper disable once InconsistentNaming
         public bool IsMissing { get; set; }
 
 #else

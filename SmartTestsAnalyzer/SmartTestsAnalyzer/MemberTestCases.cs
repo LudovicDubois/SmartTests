@@ -1,14 +1,15 @@
-﻿using System;
+﻿#if !EXTENSION
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
 using Microsoft.CodeAnalysis;
 
 using Newtonsoft.Json;
-#if !EXTENSION
-using System.Linq;
 
 #endif
+
 // ReSharper disable MemberCanBePrivate.Global
 
 
@@ -17,13 +18,17 @@ namespace SmartTestsAnalyzer
     /// <summary>
     ///     Test Cases for a tested member, i.e. all combined cases (normalized form) for a tested member.
     /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class MemberTestCases
     {
 #if EXTENSION
+        // ReSharper disable UnusedMember.Global
         public string TestedType { get; set; }
         public TestedMemberKind TestedMemberKind { get; set; }
         public string TestedMemberName { get; set; }
+        // ReSharper restore UnusedMember.Global
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public CasesAndOr CasesAndOr { get; set; }
 
 #else

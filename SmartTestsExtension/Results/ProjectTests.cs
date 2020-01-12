@@ -32,6 +32,8 @@ namespace SmartTestsExtension.Results
         }
 
 
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool IsDirty { get; set; }
 
 
@@ -41,6 +43,7 @@ namespace SmartTestsExtension.Results
 
         public Tests Tests
         {
+            // ReSharper disable once UnusedMember.Global
             get => _Tests;
             set
             {

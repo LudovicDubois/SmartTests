@@ -1,6 +1,9 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
+
+#if !EXTENSION
+using System.Diagnostics;
+using System.Linq;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -9,26 +12,28 @@ using Newtonsoft.Json;
 
 using SmartTestsAnalyzer.Criterias;
 using SmartTestsAnalyzer.Helpers;
-#if !EXTENSION
-using System.Linq;
-
-// ReSharper disable MemberCanBePrivate.Global
 
 #endif
 
+// ReSharper disable MemberCanBePrivate.Global
 
 
 namespace SmartTestsAnalyzer
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class Case
     {
         public static string NoParameter => "";
 
 
 #if EXTENSION
+        // ReSharper disable once UnassignedGetOnlyAutoProperty
         public string ParameterName { get; }
+        // ReSharper disable once UnassignedGetOnlyAutoProperty
         public string ParameterPath { get; }
+        // ReSharper disable once CollectionNeverUpdated.Global
         public List<string> Expressions { get; } = new List<string>();
+        // ReSharper disable once UnusedMember.Global
         public bool HasError { get; set; }
 
 

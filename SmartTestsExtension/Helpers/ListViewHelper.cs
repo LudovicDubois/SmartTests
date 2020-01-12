@@ -6,10 +6,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
+// ReSharper disable UnusedMember.Global
+
+// ReSharper disable MemberCanBePrivate.Global
 
 
 namespace SmartTestsExtension.Helpers
 {
+    // ReSharper disable once UnusedMember.Global
     public class ListViewHelper
     {
         public static int GetAutoGenerateFromColumn( DependencyObject element )

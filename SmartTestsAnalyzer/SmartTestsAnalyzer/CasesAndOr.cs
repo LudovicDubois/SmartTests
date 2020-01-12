@@ -38,9 +38,11 @@ namespace SmartTestsAnalyzer
     ///         CriteriaAnd
     ///     </para>
     /// </example>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class CasesAndOr
     {
 #if EXTENSION
+        // ReSharper disable once CollectionNeverUpdated.Global
         public List<CasesAnd> CasesAnd { get; } = new List<CasesAnd>();
 
 #else

@@ -8,6 +8,7 @@ namespace SmartTestsAnalyzer
         public bool IsEnabled { get; set; } = true;
         public string File { get; set; } = @"obj\SmartTestsData.json";
 
+        // ReSharper disable once UnusedMember.Global
         internal string FullPath { get; set; }
     }
 }

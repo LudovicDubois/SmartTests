@@ -1,3 +1,5 @@
+// ReSharper disable UnusedMember.Global
+
 namespace SmartTestsAnalyzer
 {
     public enum TestedMemberKind
