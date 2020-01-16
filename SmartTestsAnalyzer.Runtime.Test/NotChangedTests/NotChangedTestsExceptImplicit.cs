@@ -28,7 +28,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
             RunTest( AnyValue.IsValid,
                      Assign( () => mc.MyProperty1, 1 ),
-                     SmartAssert.NotChangedExcept(),
+                     SmartAssert.NotChangedExceptAct(),
                      SmartAssert.ChangedTo() );
         }
 
@@ -42,7 +42,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
 
                                                                   RunTest( AnyValue.IsValid,
                                                                            Assign( () => mc.MyProperty2, 1 ),
-                                                                           SmartAssert.NotChangedExcept(),
+                                                                           SmartAssert.NotChangedExceptAct(),
                                                                            SmartAssert.ChangedTo() );
                                                               } );
 

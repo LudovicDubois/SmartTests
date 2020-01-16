@@ -238,11 +238,63 @@ namespace SmartTests.Assertions
         ///     var mc = new MyClass();
         ///     RunTest( ValidValue.IsValid,
         ///              Assign( () => mc.MyProperty, 10 ),
-        ///              SmartAssert.NotChangedExcept() );
+        ///              SmartAssert.NotChangedExceptAct() );
         /// }
         /// </code>
         /// </example>
         // ReSharper disable once UnusedParameter.Global
+        public static Assertion NotChangedExceptAct( this SmartAssertPlaceHolder _ ) => new NotChangedAssertion( true );
+
+
+        /// <summary>
+        ///     Creates an <see cref="Assertion" /> that ensure object public properties did not change, except the one involved in
+        ///     the Act part of your test.
+        /// </summary>
+        /// <param name="_">The dummy place holder for all Smart Assertions.</param>
+        /// <returns>The newly created <see cref="Assertion" />.</returns>
+        /// <exception cref="BadTestException">
+        ///     If the Act does not involve a property nor field.
+        /// </exception>
+        /// <exception cref="SmartTestException">
+        ///     If any public property, of the instance involved in the Act, except the property implied in the Act, have changed.
+        /// </exception>
+        /// <remarks>
+        ///     This <see cref="Assertion" /> ensures that:
+        ///     <list type="number">
+        ///         <item>
+        ///             <term>Before the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If there is no public property involved in the Act, a <see cref="BadTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///         <item>
+        ///             <term>After the Act</term>
+        ///             <description>
+        ///                 <para>
+        ///                     If a public property changed during the Act (except the one involved in the Act itself), a
+        ///                     <see cref="SmartTestException" /> is thrown.
+        ///                 </para>
+        ///             </description>
+        ///         </item>
+        ///     </list>
+        /// </remarks>
+        /// <example>
+        ///     In this example, the Smart Assertion verifies that no public property of <c>mc</c>, except <c>MyProperty</c>
+        ///     changed while assigning <c>MyProperty</c>.
+        ///     <code>
+        /// [Test]
+        /// public void CopyFromTest()
+        /// {
+        ///     var mc = new MyClass();
+        ///     RunTest( ValidValue.IsValid,
+        ///              Assign( () => mc.MyProperty, 10 ),
+        ///              SmartAssert.NotChangedExceptAct() );
+        /// }
+        /// </code>
+        /// </example>
+        [Obsolete( "Use NotChangedExceptAct instead" )]
         public static Assertion NotChangedExcept( this SmartAssertPlaceHolder _ ) => new NotChangedAssertion( true );
 
 
