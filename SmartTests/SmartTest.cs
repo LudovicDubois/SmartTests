@@ -852,7 +852,7 @@ namespace SmartTests
                 e = e.NoInvocation();
                 act.Exception = e;
                 act.AfterAct();
-                if( e is SmartTestException )
+                if( act.Exception == null )
                     // Exception was handled
                     return act.Result;
                 // Exception still present

@@ -20,7 +20,7 @@ namespace SmartTests {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resource {
@@ -107,7 +107,7 @@ namespace SmartTests {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a property of type &apos;{1}&apos;.
+        ///   Looks up a localized string similar to BAD TEST: &apos;{0}&apos; is not a property.
         /// </summary>
         internal static string BadTest_NotProperty {
             get {
@@ -202,6 +202,42 @@ namespace SmartTests {
         internal static string PropertyChanged {
             get {
                 return ResourceManager.GetString("PropertyChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception&apos;s Message should be &apos;{0}&apos;, but was &apos;{1}&apos;.
+        /// </summary>
+        internal static string ThrowBadMessage {
+            get {
+                return ResourceManager.GetString("ThrowBadMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception&apos;s ParamName should be &apos;{0}&apos;, but was &apos;{1}&apos;.
+        /// </summary>
+        internal static string ThrowBadParameterName {
+            get {
+                return ResourceManager.GetString("ThrowBadParameterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception &apos;{0}&apos; was expected.
+        /// </summary>
+        internal static string ThrowNoException {
+            get {
+                return ResourceManager.GetString("ThrowNoException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception &apos;{0}&apos; was expected, but was &apos;{1}&apos;.
+        /// </summary>
+        internal static string ThrowWrongException {
+            get {
+                return ResourceManager.GetString("ThrowWrongException", resourceCulture);
             }
         }
         

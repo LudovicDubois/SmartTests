@@ -130,7 +130,7 @@
     <value>BAD TEST: class '{0}' does not implement INotifyPropertyChanged</value>
   </data>
   <data name="BadTest_NotProperty" xml:space="preserve">
-    <value>BAD TEST: '{0}' is not a property of type '{1}'</value>
+    <value>BAD TEST: '{0}' is not a property</value>
   </data>
   <data name="BadTest_NotWritablePropertyNorIndexer" xml:space="preserve">
     <value>BAD TEST: '{0}' is not a writable property nor indexer</value>
@@ -173,5 +173,17 @@
   </data>
   <data name="BadTest_ExpectedContextSetHandle" xml:space="preserve">
     <value>BAD TEST: ActContext.SetHandle expected</value>
+  </data>
+  <data name="ThrowNoException" xml:space="preserve">
+    <value>Exception '{0}' was expected</value>
+  </data>
+  <data name="ThrowWrongException" xml:space="preserve">
+    <value>Exception '{0}' was expected, but was '{1}'</value>
+  </data>
+  <data name="ThrowBadParameterName" xml:space="preserve">
+    <value>Exception's ParamName should be '{0}', but was '{1}'</value>
+  </data>
+  <data name="ThrowBadMessage" xml:space="preserve">
+    <value>Exception's Message should be '{0}', but was '{1}'</value>
   </data>
 </root>

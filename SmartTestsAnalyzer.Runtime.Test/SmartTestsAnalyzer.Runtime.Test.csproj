@@ -51,6 +51,7 @@
     <Compile Include="ChangedToTests\ChangedToTests.cs" />
     <Compile Include="ChangeTests\ChangeTestsSetup.cs" />
     <Compile Include="ChangeTests\ChangeTests.cs" />
+    <Compile Include="ThrowTests\ThrowTests.cs" />
     <Compile Include="EventTests\EventHandlerTestsAssertImplicit.cs" />
     <Compile Include="EventTests\EventHandlerTestsImplicit.cs" />
     <Compile Include="NotChangedTests\NotChangedTestsExceptLambda.cs" />
