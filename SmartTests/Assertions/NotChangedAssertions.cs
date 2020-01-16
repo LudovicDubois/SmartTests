@@ -347,7 +347,7 @@ namespace SmartTests.Assertions
         ///     var mc = new MyClass();
         ///     RunTest( ValidValue.IsValid,
         ///              () => mc.MyMethod(),
-        ///              SmartAssert.NotChangedExcept() );
+        ///              SmartAssert.NotChangedExcept("MyProperty", "OtherProperty") );
         /// }
         /// </code>
         /// </example>
