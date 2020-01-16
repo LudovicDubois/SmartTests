@@ -288,5 +288,14 @@ namespace SmartTests
         /// <param name="context">The <see cref="ActContext" /> of the test.</param>
         /// <returns>The result of the Act part of your test.</returns>
         public abstract T Invoke( ActContext context );
+
+
+        /// <summary>
+        ///     The returned value of the Act.
+        /// </summary>
+        /// <returns>
+        ///     The value returned by the Act.
+        /// </returns>
+        public T Result { get; set; }
     }
 }

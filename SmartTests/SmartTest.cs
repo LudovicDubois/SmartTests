@@ -842,11 +842,10 @@ namespace SmartTests
                 throw new ArgumentNullException( nameof(act) );
 
             act.Assertions = assertions;
-            T result;
             try
             {
                 act.BeforeAct();
-                result = act.Invoke( act.Context );
+                act.Result = act.Invoke( act.Context );
             }
             catch( Exception e )
             {
@@ -854,13 +853,17 @@ namespace SmartTests
                 act.Exception = e;
                 act.AfterAct();
                 if( e is SmartTestException )
+                    // Exception was handled
+                    return act.Result;
+                // Exception still present
+                if( act.Exception is SmartTestException )
                     // ReSharper disable once PossibleIntendedRethrow
                     throw e;
                 throw new SmartTestException( "Unexpected error occurred!", e );
             }
 
             act.AfterAct();
-            return result;
+            return act.Result;
         }
 
 
