@@ -230,6 +230,9 @@ namespace SmartTests.Assertions
 
             public override void AfterAct( ActBase act )
             {
+                if( act.Exception != null )
+                    return;
+
                 if( _Event.WaitOne( _Timeout ) )
                     // Everything is OK
                     return;

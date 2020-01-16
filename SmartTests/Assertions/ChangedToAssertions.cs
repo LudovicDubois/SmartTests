@@ -149,6 +149,9 @@ namespace SmartTests.Assertions
 
             public override void AfterAct( ActBase act )
             {
+                if( act.Exception != null )
+                    return;
+
                 var actualValue = _Assignee.AssigneeValue;
                 if( !Equals( actualValue, _Value ) )
                     throw new SmartTestException( string.Format( Resource.ChangeWrongly, _Value, actualValue ) );
@@ -180,6 +183,9 @@ namespace SmartTests.Assertions
 
             public override void AfterAct( ActBase act )
             {
+                if( act.Exception != null )
+                    return;
+
                 var actualValue = _Compiled();
                 if( !Equals( actualValue, _Value ) )
                     throw new SmartTestException( string.Format( Resource.ChangeWrongly, _Value, actualValue ) );

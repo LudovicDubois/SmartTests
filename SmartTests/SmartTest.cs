@@ -849,17 +849,7 @@ namespace SmartTests
             }
             catch( Exception e )
             {
-                e = e.NoInvocation();
-                act.Exception = e;
-                act.AfterAct();
-                if( act.Exception == null )
-                    // Exception was handled
-                    return act.Result;
-                // Exception still present
-                if( act.Exception is SmartTestException )
-                    // ReSharper disable once PossibleIntendedRethrow
-                    throw e;
-                throw new SmartTestException( "Unexpected error occurred!", e );
+                act.Exception = e.NoInvocation();
             }
 
             act.AfterAct();
@@ -1062,13 +1052,7 @@ namespace SmartTests
             }
             catch( Exception e )
             {
-                e = e.NoInvocation();
-                act.Exception = e;
-                act.AfterAct();
-                if( e is SmartTestException )
-                    // ReSharper disable once PossibleIntendedRethrow
-                    throw e;
-                throw new SmartTestException( "Unexpected error occurred!", e );
+                act.Exception = e.NoInvocation();
             }
 
             act.AfterAct();

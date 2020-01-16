@@ -775,6 +775,9 @@ namespace SmartTests.Assertions
                 if( _Instance != null )
                     _Instance.PropertyChanged -= InstanceOnPropertyChanged;
 
+                if( act.Exception != null )
+                    return;
+
                 if( _Raised != _ExpectedRaised )
                     throw new SmartTestException( string.Format( _ExpectedRaised
                                                                      ? Resource.ExpectedRaisedEvent

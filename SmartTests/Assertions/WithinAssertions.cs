@@ -90,6 +90,10 @@ namespace SmartTests.Assertions
             public override void AfterAct( ActBase act )
             {
                 _Stopwatch.Stop();
+
+                if( act.Exception != null )
+                    return;
+
                 if( _Stopwatch.ElapsedMilliseconds > _MaximumMilliseconds )
                     throw new SmartTestException( Resource.TimespanExceeded, _MaximumMilliseconds, _Stopwatch.ElapsedMilliseconds );
             }

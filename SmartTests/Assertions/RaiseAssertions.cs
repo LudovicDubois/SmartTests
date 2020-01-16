@@ -451,6 +451,9 @@ namespace SmartTests.Assertions
             {
                 _Event.RemoveEventHandler( _Instance, _RealDelegate );
 
+                if( act.Exception != null )
+                    return;
+
                 if( _Raised != _ExpectedRaised )
                     throw new SmartTestException( string.Format( _ExpectedRaised
                                                                      ? Resource.ExpectedRaisedEvent

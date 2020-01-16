@@ -223,7 +223,25 @@ namespace SmartTests
         internal void AfterAct()
         {
             foreach( var assertion in _DoneAssertions )
-                assertion.AfterAct( this );
+                try
+                {
+                    assertion.AfterAct( this );
+                }
+                catch( Exception e )
+                {
+                    if( Exception == null )
+                        Exception = e;
+                }
+
+            switch( Exception )
+            {
+                case null:
+                    return;
+                case SmartTestException _:
+                    throw Exception;
+                default:
+                    throw new SmartTestException( "Unexpected error occurred!", Exception );
+            }
         }
 
 

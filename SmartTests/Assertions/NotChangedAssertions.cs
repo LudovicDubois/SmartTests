@@ -700,6 +700,9 @@ namespace SmartTests.Assertions
 
             public override void AfterAct( ActBase act )
             {
+                if( act.Exception != null )
+                    return;
+
                 var message = new StringBuilder();
                 foreach( var pair in _PropertyValues )
                     if( !Equals( _PropertyValues[ pair.Key ], pair.Key.GetValue( _Instance ) ) )

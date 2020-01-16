@@ -107,15 +107,16 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, true );
             var assert2 = new AssertionTest( false, false );
 
-            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.IsValid,
-                                                                   () => Math.Sqrt( 0 ),
-                                                                   assert1,
-                                                                   assert2 ) );
+            var exception = Assert.Throws<SmartTestException>( () => RunTest( AnyValue.IsValid,
+                                                                              () => Math.Sqrt( 0 ),
+                                                                              assert1,
+                                                                              assert2 ) );
 
+            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException.GetType() );
             Assert.AreEqual( 1, assert2.Before );
             Assert.AreEqual( 1, assert1.Before );
             Assert.AreEqual( 0, assert1.After );
-            Assert.AreEqual( 0, assert2.After );
+            Assert.AreEqual( 1, assert2.After );
         }
 
 
@@ -125,11 +126,12 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, false );
             var assert2 = new AssertionTest( false, true );
 
-            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.IsValid,
-                                                                   () => Math.Sqrt( 0 ),
-                                                                   assert1,
-                                                                   assert2 ) );
+            var exception = Assert.Throws<SmartTestException>( () => RunTest( AnyValue.IsValid,
+                                                                              () => Math.Sqrt( 0 ),
+                                                                              assert1,
+                                                                              assert2 ) );
 
+            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException.GetType() );
             Assert.AreEqual( 1, assert2.Before );
             Assert.AreEqual( 1, assert1.Before );
             Assert.AreEqual( 1, assert1.After );
@@ -201,15 +203,16 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, true );
             var assert2 = new AssertionTest( false, false );
 
-            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.IsValid,
-                                                                   () => DoNothing(),
-                                                                   assert1,
-                                                                   assert2 ) );
+            var exception = Assert.Throws<SmartTestException>( () => RunTest( AnyValue.IsValid,
+                                                                              () => DoNothing(),
+                                                                              assert1,
+                                                                              assert2 ) );
 
+            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException.GetType() );
             Assert.AreEqual( 1, assert2.Before );
             Assert.AreEqual( 1, assert1.Before );
             Assert.AreEqual( 0, assert1.After );
-            Assert.AreEqual( 0, assert2.After );
+            Assert.AreEqual( 1, assert2.After );
         }
 
 
@@ -219,11 +222,12 @@ namespace SmartTestsAnalyzer.Runtime.Test
             var assert1 = new AssertionTest( false, false );
             var assert2 = new AssertionTest( false, true );
 
-            Assert.Throws<NotImplementedException>( () => RunTest( AnyValue.IsValid,
-                                                                   () => DoNothing(),
-                                                                   assert1,
-                                                                   assert2 ) );
+            var exception = Assert.Throws<SmartTestException>( () => RunTest( AnyValue.IsValid,
+                                                                              () => DoNothing(),
+                                                                              assert1,
+                                                                              assert2 ) );
 
+            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException.GetType() );
             Assert.AreEqual( 1, assert2.Before );
             Assert.AreEqual( 1, assert1.Before );
             Assert.AreEqual( 1, assert1.After );

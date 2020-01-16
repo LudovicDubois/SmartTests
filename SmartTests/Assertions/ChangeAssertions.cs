@@ -113,6 +113,9 @@ namespace SmartTests.Assertions
 
             public override void AfterAct( ActBase act )
             {
+                if( act.Exception != null )
+                    return;
+
                 var visitor = new ChangeVisitor();
                 visitor.Visit( _After.Body );
 
