@@ -71,7 +71,22 @@ namespace SmartTests.Helpers
         public static float NextSingle( this Random rnd, float minValue, float maxValue ) => (float)rnd.NextDouble() * ( maxValue - minValue ) + minValue;
 
 
-        public static double NextDouble( this Random rnd, double minValue, double maxValue ) => rnd.NextDouble() * ( maxValue - minValue ) + minValue;
+        public static double NextDouble( this Random rnd, double minValue, double maxValue )
+        {
+            var range = maxValue - minValue;
+            if( range < double.MaxValue )
+                return rnd.NextDouble() * range + minValue;
+
+            // Compute a random number
+            double result;
+            do
+            {
+                result = BitConverter.Int64BitsToDouble( rnd.NextInt64() );
+            } while( result < minValue );
+
+            return result;
+        }
+
 
         public static decimal NextDecimal( this Random rnd ) => rnd.NextDecimal( decimal.MinValue, decimal.MaxValue );
 
