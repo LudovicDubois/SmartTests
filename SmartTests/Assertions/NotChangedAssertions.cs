@@ -670,7 +670,9 @@ namespace SmartTests.Assertions
                 }
 
                 foreach( var property in _Properties )
-                    _PropertyValues[ property ] = property.GetValue( _Instance );
+                    if( property.CanRead &&
+                        property.GetMethod.GetParameters().Length == 0 )
+                        _PropertyValues[ property ] = property.GetValue( _Instance );
                 foreach( var field in _Fields )
                     _FieldValues[ field ] = field.GetValue( _Instance );
             }
