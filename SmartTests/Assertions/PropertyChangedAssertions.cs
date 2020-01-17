@@ -753,7 +753,8 @@ namespace SmartTests.Assertions
                 }
 
 
-                if( _PropertyNames == null )
+                if( _ExpectedRaised &&
+                    _PropertyNames == null )
                 {
                     if( act.Property == null )
                         throw new BadTestException( string.Format( Resource.BadTest_NotProperty, act.Method.GetFullName() ) );
@@ -763,7 +764,8 @@ namespace SmartTests.Assertions
                                      };
                 }
 
-                if( implicitSource )
+                if( implicitSource &&
+                    _PropertyNames != null )
                     _PropertyNameVerifications = true;
 
                 _Instance.PropertyChanged += InstanceOnPropertyChanged;
