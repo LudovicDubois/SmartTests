@@ -31,36 +31,22 @@ namespace SmartTests.Ranges
         /// <inheritdoc />
         public override Criteria GetValidValue( out float value, params float[] avoidedValues )
         {
-            // Ensure values are well distributed
-            var max = MinValue;
-            foreach( var chunk in Chunks )
-                max += GetNext( chunk.IncludedMax - chunk.IncludedMin ); // GetNext because both are included
-
+            // Impossible to ensure well distributed values (because of MinValue and MaxValue and the imprecision of double)
+            // => choose a random chunk, then a random value in the chunk
             var random = new Random();
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if( max == MaxValue )
-                while( true )
-                {
-                    value = random.NextSingle();
-                    if( !avoidedValues.Contains( value ) )
-                        return AnyValue.IsValid;
-                }
+            var index = random.Next( Chunks.Count );
+            var chunk = Chunks[ index ];
 
             while( true )
             {
-                var val = random.NextSingle( MinValue, max );
-
-                max = MinValue;
-                foreach( var chunk in Chunks )
-                {
-                    var min = max;
-                    max += GetNext( chunk.IncludedMax - chunk.IncludedMin );
-                    if( val >= max )
-                        continue;
-                    value = val - min + chunk.IncludedMin;
-                    if( !avoidedValues.Contains( value ) )
-                        return AnyValue.IsValid;
-                }
+                value = (float)random.NextDouble( chunk.IncludedMin, chunk.IncludedMax );
+                // Ensure it is valid for the chunk (because of the representation error)
+                if( value < chunk.IncludedMin )
+                    continue;
+                if( value > chunk.IncludedMax )
+                    continue;
+                if( !avoidedValues.Contains( value ) )
+                    return AnyValue.IsValid;
             }
         }
 
