@@ -1,5 +1,23 @@
 # What's new
 
+## version 1.11
+
+A brand new [example project](https://github.com/LudovicDubois/SmartTests/tree/master/Examples) with lots of explanations. Learn how to maximize Smart Tests usage.
+
+Many enhancements:
+
+- [`Throw`](Assertions/throw.md) Smart Assertion exist now. This enables you to ensure the expected exception is thrown and following Smart Assertions are done.
+- When an exception is thrown somewhere, we try to run all the `AfterAct` methods for which the `BeforeAct` method was called. However, the first exception is reported.
+- [`NotChangedExcept()`](Assertions/notchanged.md#NotChangedExceptAct()) Smart Assertion method is renamed `NotChangedExceptAct` to better reflect what is excepted.
+- [`Optional`](Criteria/Optional.md) criteria added, with two values: `Present` and `Absent`.
+- Act Result is now accessible from `Act<T>.Result` property. Making it accessible from within the Smart Assertion implementations.
+
+And some bug fixes:
+
+- `NotChangedAssertion` do not try to save/verify indexers.
+- No need to specify a Property Name when testing `NotRaised_PropertyChanged`.
+- Random generators for floating point numbers have better values, but is no more well distributed.
+
 ## version 1.10
 
 It's now possible to [avoid generation of some values](Cases/readme.md#With-excluded-values) when generating random number from equivalence classes.

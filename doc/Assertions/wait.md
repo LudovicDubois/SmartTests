@@ -3,16 +3,18 @@
 *Wait Smart Assertions* are assertions that wait for a handle set in the *Act* part of your test.
 
 1. Before *Act*
+
    Creates an implicit `AutoResetEvent` in the Act Context, if none is specified.
-1. After *Act*
+
+2. After *Act*
    Waits for the handle (specified or implicit) for the maximum specified amount of time. If this timeout is reached, the assertion fails.
 
 We have four *Wait* assertions:
 
-- [`Wait(WaitHandle,double)`](#WaitWaitHandledouble)
-- [`Wait(WaitHandle,TimeSpan)`](#WaitWaitHandleTimeSpan)
-- [`WaitContextHandle(double)`](#WaitContextHandledouble)
-- [`WaitContextHandle(TimeSpan)`](#WaitContextHandleTimeSpan)
+- [`Wait(WaitHandle,double)`](#waitwaithandledouble)
+- [`Wait(WaitHandle,TimeSpan)`](#waitwaithandletimespan)
+- [`WaitContextHandle(double)`](#waitcontexthandledouble)
+- [`WaitContextHandle(TimeSpan)`](#waitcontexthandletimespan)
 
 ## `Wait(WaitHandle,double)`
 

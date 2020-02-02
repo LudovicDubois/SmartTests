@@ -142,15 +142,17 @@ Thus, if you test a property assignment, for example, the property itself should
 
 We have different `NotChangedExcept` overloads:
 
-* [`NotChangedExcept()`](#NotChangedExcept)
-* [`NotChangedExcept(params string[])`](#NotChangedExceptparams-string)
-* [`NotChangedExcept(NotChangedKind, params string[])`](#NotChangedExceptNotChangedKind-params-string)
-* [`NotChangedExcept(object, params string[])`](#NotChangedExceptobject-params-string)
-* [`NotChangedExcept(object, NotChangedKind, params string[])`](#NotChangedExceptobject-NotChangedKind-params-string)
-* [`NotChangedExcept(Expression<Func<T>>)`](#NotChangedExceptExpressionFuncT)
-* [`NotChangedExcept(Expression<Func<T>>, NotChangedKind)`](#NotChangedExceptExpressionFuncT-NotChangedKind)
+- [`NotChangedExceptAct()`](#NotChangedExceptAct)
+- [`NotChangedExcept(params string[])`](#NotChangedExceptparams-string)
+- [`NotChangedExcept(NotChangedKind, params string[])`](#NotChangedExceptNotChangedKind-params-string)
+- [`NotChangedExcept(object, params string[])`](#NotChangedExceptobject-params-string)
+- [`NotChangedExcept(object, NotChangedKind, params string[])`](#NotChangedExceptobject-NotChangedKind-params-string)
+- [`NotChangedExcept(Expression<Func<T>>)`](#NotChangedExceptExpressionFuncT)
+- [`NotChangedExcept(Expression<Func<T>>, NotChangedKind)`](#NotChangedExceptExpressionFuncT-NotChangedKind)
 
-### `NotChangedExcept()`
+### `NotChangedExceptAct()`
+
+Before v1.11, was `NotChangedExcept`.
 
 This method enables you to deduce the public property name and instance of which property you do not want to be checked for changes.
 
@@ -168,7 +170,7 @@ public class MyClassTest
 
         RunTest( ValidValue.IsValid,
                  Assign( () => mc.MyProperty, 10 ),
-                 SmartAssert.NotChangedExcept() );
+                 SmartAssert.NotChangedExceptAct() );
     }
 }
 ```
