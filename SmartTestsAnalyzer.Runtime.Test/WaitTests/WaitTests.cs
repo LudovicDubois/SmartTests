@@ -55,6 +55,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.WaitTests
 
 
         [Test]
+        // ReSharper disable once InconsistentNaming
         public void OK()
         {
             var handle = new AutoResetEvent( false );
@@ -109,6 +110,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.WaitTests
 
 
         [Test]
+        // ReSharper disable once InconsistentNaming
         public void Context_OK()
         {
             var mc = new MyClass( 300 );

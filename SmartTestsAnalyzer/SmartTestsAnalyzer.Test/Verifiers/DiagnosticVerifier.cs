@@ -86,9 +86,9 @@ namespace TestHelper
         protected void VerifyCSharpDiagnostic( string[] sources, params DiagnosticResult[] expected )
         {
             VerifyDiagnostics( sources, LanguageNames.CSharp, GetCSharpDiagnosticAnalyzer(), 1, expected );
-        } 
-        
-        
+        }
+
+
         /// <summary>
         ///     Called to test a C# DiagnosticAnalyzer when applied on the inputted strings as a source
         ///     Note: input a DiagnosticResult for each Diagnostic expected

@@ -69,7 +69,7 @@
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedWithPropertyNameTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedWithLambdaTests.cs" />
     <Compile Include="NotifyPropertyChangedTests\NotifyPropertyChangedTests.cs" />
-    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Annotations\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClosureTests.cs" />
     <Compile Include="AssertionsTests.cs" />

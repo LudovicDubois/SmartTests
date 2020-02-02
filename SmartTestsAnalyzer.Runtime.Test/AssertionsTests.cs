@@ -6,6 +6,7 @@ using SmartTests;
 using SmartTests.Criterias;
 
 using static SmartTests.SmartTest;
+// ReSharper disable InconsistentNaming
 
 
 
@@ -112,7 +113,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
                                                                               assert1,
                                                                               assert2 ) );
 
-            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException.GetType() );
+            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException?.GetType() );
             Assert.AreEqual( 1, assert2.Before );
             Assert.AreEqual( 1, assert1.Before );
             Assert.AreEqual( 0, assert1.After );
@@ -131,7 +132,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
                                                                               assert1,
                                                                               assert2 ) );
 
-            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException.GetType() );
+            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException?.GetType() );
             Assert.AreEqual( 1, assert2.Before );
             Assert.AreEqual( 1, assert1.Before );
             Assert.AreEqual( 1, assert1.After );
@@ -208,7 +209,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
                                                                               assert1,
                                                                               assert2 ) );
 
-            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException.GetType() );
+            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException?.GetType() );
             Assert.AreEqual( 1, assert2.Before );
             Assert.AreEqual( 1, assert1.Before );
             Assert.AreEqual( 0, assert1.After );
@@ -227,7 +228,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
                                                                               assert1,
                                                                               assert2 ) );
 
-            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException.GetType() );
+            Assert.AreEqual( typeof(NotImplementedException), exception.InnerException?.GetType() );
             Assert.AreEqual( 1, assert2.Before );
             Assert.AreEqual( 1, assert1.Before );
             Assert.AreEqual( 1, assert1.After );

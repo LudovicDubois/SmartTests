@@ -12,6 +12,7 @@ namespace SmartTestsAnalyzer.Test.TypeTests
     class DateTimeTypeTests: CodeFixVerifier
     {
         [Test]
+        // ReSharper disable once InconsistentNaming
         public void STFullRange()
         {
             var test = @"

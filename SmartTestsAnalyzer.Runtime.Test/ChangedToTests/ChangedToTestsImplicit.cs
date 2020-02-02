@@ -7,6 +7,9 @@ using SmartTests.Assertions;
 using SmartTests.Criterias;
 
 using static SmartTests.SmartTest;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable ValueParameterNotUsed
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 
 

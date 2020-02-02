@@ -177,9 +177,9 @@ namespace SmartTestsExtension
         private void SafeUpdateProject( ProjectTests projectTests, Project project, Tests tests )
         {
             if( projectTests == null )
-                Application.Current.Dispatcher.Invoke( () => TestedProjects.Add( new ProjectTests( project, tests ) ) );
+                Application.Current.Dispatcher?.Invoke( () => TestedProjects.Add( new ProjectTests( project, tests ) ) );
             else
-                Application.Current.Dispatcher.Invoke( () => projectTests.Tests = tests );
+                Application.Current.Dispatcher?.Invoke( () => projectTests.Tests = tests );
         }
 
 

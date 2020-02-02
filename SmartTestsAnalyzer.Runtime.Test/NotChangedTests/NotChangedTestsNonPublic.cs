@@ -30,10 +30,13 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
             private readonly bool _Change4;
 
 
+            // ReSharper disable UnusedAutoPropertyAccessor.Global
             public int MyProperty1 { get; set; }
             public int MyProperty2 { get; set; }
+            // ReSharper disable once UnusedAutoPropertyAccessor.Local
             private int MyProperty3 { get; set; }
             protected int MyProperty4 { get; set; }
+            // ReSharper restore UnusedAutoPropertyAccessor.Global
 
 
             public void Method()

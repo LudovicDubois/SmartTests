@@ -43,6 +43,7 @@ namespace SmartTestsAnalyzer.Runtime.Test
 
 
         private static readonly FieldInfo _MyField = typeof(MyClass).GetField( nameof(MyClass.MyField) );
+        // ReSharper disable once UnusedMember.Local
         private static readonly PropertyInfo _MyIndexer = typeof(MyClass).GetProperty( "Item", new[] { typeof(int) } );
         private static readonly MethodInfo _MyMethod0 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethod), Type.EmptyTypes );
         private static readonly MethodInfo _MyMethod1 = typeof(MyClass).GetMethod( nameof(MyClass.MyMethod), new[] { typeof(int) } );
