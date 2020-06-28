@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
@@ -11,7 +11,7 @@
     <Authors>Ludovic Dubois</Authors>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/LudovicDubois/SmartTests</PackageProjectUrl>
-    <PackageIconUrl>https://github.com/LudovicDubois/SmartTests/raw/master/SmartTests.png</PackageIconUrl>
+    <PackageIcon>SmartTests.png</PackageIcon>
     <RepositoryUrl>https://github.com/LudovicDubois/SmartTests</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>An analyzer to find missing tests for tests written with SmartTests.</Description>
@@ -66,6 +66,10 @@ And some bug fixes:
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\9.0.1\lib\netstandard1.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="images\SmartTests.png" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 </Project>

@@ -42,7 +42,7 @@ They are Smart in the sense that:
     <PackageTags>SmartTests test testing tdd framework assert NUnit MSTests Xunit</PackageTags>
     <PackageProjectUrl>https://github.com/LudovicDubois/SmartTests</PackageProjectUrl>
     <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageIconUrl>https://github.com/LudovicDubois/SmartTests/raw/master/SmartTests.png</PackageIconUrl>
+    <PackageIcon>SmartTests.png</PackageIcon>
     <RepositoryUrl>https://github.com/LudovicDubois/SmartTests</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage></NeutralLanguage>
@@ -74,5 +74,8 @@ They are Smart in the sense that:
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <None Include="images\SmartTests.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
 </Project>
