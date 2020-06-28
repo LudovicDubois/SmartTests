@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="SmartTestsExtension.b14ea0e3-351e-4f51-bee3-3b32cab5a1fd" Version="1.11.0" Language="en-US" Publisher="Ludovic Dubois" />
+        <Identity Id="SmartTestsExtension.b14ea0e3-351e-4f51-bee3-3b32cab5a1fd" Version="1.12.0" Language="en-US" Publisher="Ludovic Dubois" />
         <DisplayName>SmartTests.Extension</DisplayName>
         <Description xml:space="preserve">Smart Tests Extension is an extension to show current and missing tests for NUnit, Xunit and MSTests, providing you use Smart Tests (c) library and Smart Tests Analyzer (c).</Description>
         <Icon>SmartTests-256.png</Icon>
