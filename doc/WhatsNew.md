@@ -1,5 +1,13 @@
 # What's new
 
+## version 1.12
+
+Instead of using `BadTestException` when an error occurs before running the Act (from within `RunTest` method), the exception type for Inconclusive is used. This enables your Tests Runner to distinguish them from other failing tests.
+
+Thus; for NUnit, this is `NUnit.Framework.InconclusiveException`; for MSTests, this is `Microsoft.VisualStudio.TestTools.UnitTesting.AssertInconclusiveException` and no such type exist for xUnit.
+
+However, you can force any Exception type by setting `SmartTest.InconclusiveExceptionType` property. Especially useful if you mix MSTests and NUnit tests...
+
 ## version 1.11
 
 A brand new [example project](https://github.com/LudovicDubois/SmartTests/tree/master/Examples) with lots of explanations. Learn how to maximize Smart Tests usage.
