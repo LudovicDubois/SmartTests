@@ -1,6 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 using System;
+// ReSharper disable ArrangeThisQualifier
 
+// ReSharper disable once CheckNamespace
 namespace TestHelper
 {
     /// <summary>
@@ -35,6 +37,7 @@ namespace TestHelper
     /// </summary>
     public struct DiagnosticResult
     {
+        // ReSharper disable once InconsistentNaming
         private DiagnosticResultLocation[] locations;
 
         public DiagnosticResultLocation[] Locations

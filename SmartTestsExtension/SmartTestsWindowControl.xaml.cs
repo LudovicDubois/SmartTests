@@ -5,15 +5,10 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Threading;
 
 using EnvDTE;
 
 using Microsoft.VisualStudio.Shell;
-
-using SmartTestsAnalyzer;
-
-using SmartTestsExtension.Results;
 
 using TextSelection = EnvDTE.TextSelection;
 
@@ -24,7 +19,7 @@ namespace SmartTestsExtension
     /// <summary>
     ///     Interaction logic for SmartTestsWindowControl.
     /// </summary>
-    public partial class SmartTestsWindowControl: UserControl
+    public partial class SmartTestsWindowControl
     {
         static SmartTestsWindowControl()
         {
@@ -58,7 +53,7 @@ namespace SmartTestsExtension
         /// </summary>
         public SmartTestsWindowControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
 
@@ -82,6 +77,8 @@ namespace SmartTestsExtension
         {
             AnalyzerResults.Instance.Pause = true;
         }
+
+
         private static readonly HashSet<string> _HiddenColumns = new HashSet<string>( new[] { "Test", "TestFileName", "TestLine", "TestLocation", "HasError", "IsMissing" } );
 
 

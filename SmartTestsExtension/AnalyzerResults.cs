@@ -135,7 +135,7 @@ namespace SmartTestsExtension
         private void Load( Project project, string testsPath )
         {
             var projectTests = GetTests( project );
-            if ( Pause )
+            if( Pause )
             {
                 _LastText = null;
                 SafeUpdateProject( projectTests, project, null );
@@ -185,7 +185,9 @@ namespace SmartTestsExtension
 
         private void Watch( Project project, string testsPath )
         {
+            // ReSharper disable AssignNullToNotNullAttribute
             var watcher = new FileSystemWatcher( Path.GetDirectoryName( testsPath ), Path.GetFileName( testsPath ) )
+                          // ReSharper restore AssignNullToNotNullAttribute
                           {
                               NotifyFilter = NotifyFilters.LastWrite
                           };

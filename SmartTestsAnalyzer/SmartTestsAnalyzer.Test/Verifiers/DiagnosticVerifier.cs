@@ -12,6 +12,7 @@ using SmartTestsAnalyzer;
 
 
 
+// ReSharper disable once CheckNamespace
 namespace TestHelper
 {
     /// <summary>
@@ -61,7 +62,7 @@ namespace TestHelper
         /// <param name="expected"> DiagnosticResults that should appear after the analyzer is run on the source</param>
         protected void VerifyCSharpDiagnostic( string source, int expectedMemberCount, params DiagnosticResult[] expected )
         {
-            VerifyDiagnostics( new[] { source }, LanguageNames.CSharp, GetCSharpDiagnosticAnalyzer(),expectedMemberCount, expected );
+            VerifyDiagnostics( new[] { source }, LanguageNames.CSharp, GetCSharpDiagnosticAnalyzer(), expectedMemberCount, expected );
         }
 
 
@@ -121,6 +122,7 @@ namespace TestHelper
         /// <param name="sources">An array of strings to create source documents from to run the analyzers on</param>
         /// <param name="language">The language of the classes represented by the source strings</param>
         /// <param name="analyzer">The analyzer to be run on the source code</param>
+        /// <param name="memberCount">The number of Tests found</param>
         /// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the sources</param>
         private void VerifyDiagnostics( string[] sources, string language, SmartTestsAnalyzerAnalyzer analyzer, int memberCount, params DiagnosticResult[] expected )
         {
@@ -148,18 +150,19 @@ namespace TestHelper
         private static void VerifyDiagnosticResults( IEnumerable<Diagnostic> actualResults, DiagnosticAnalyzer analyzer, params DiagnosticResult[] expectedResults )
         {
             int expectedCount = expectedResults.Count();
-            int actualCount = actualResults.Count();
+            var actualResultList = actualResults.ToList();
+            int actualCount = actualResultList.Count();
 
             if( expectedCount != actualCount )
             {
-                string diagnosticsOutput = actualResults.Any() ? FormatDiagnostics( analyzer, actualResults.ToArray() ) : "    NONE.";
+                string diagnosticsOutput = actualResultList.Any() ? FormatDiagnostics( analyzer, actualResultList.ToArray() ) : "    NONE.";
 
                 Assert.Fail( $"Mismatch between number of diagnostics returned, expected \"{expectedCount}\" actual \"{actualCount}\"\r\n\r\nDiagnostics:\r\n{diagnosticsOutput}\r\n" );
             }
 
             for( int i = 0; i < expectedResults.Length; i++ )
             {
-                var actual = actualResults.ElementAt( i );
+                var actual = actualResultList.ElementAt( i );
                 var expected = expectedResults[ i ];
 
                 if( expected.Line == -1 && expected.Column == -1 )
@@ -255,7 +258,7 @@ namespace TestHelper
             var builder = new StringBuilder();
             for( int i = 0; i < diagnostics.Length; ++i )
             {
-                builder.AppendLine( "// " + diagnostics[ i ].ToString() );
+                builder.AppendLine( "// " + diagnostics[ i ] );
 
                 var analyzerType = analyzer.GetType();
                 var rules = analyzer.SupportedDiagnostics;
@@ -295,6 +298,7 @@ namespace TestHelper
                     }
                 }
             }
+
             return builder.ToString();
         }
 

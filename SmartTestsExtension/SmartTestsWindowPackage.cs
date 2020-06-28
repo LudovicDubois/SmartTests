@@ -91,6 +91,7 @@ namespace SmartTestsExtension
         ///     A cancellation token to monitor for initialization cancellation, which can occur when
         ///     VS is shutting down.
         /// </param>
+        /// <param name="progress">The callback to notify for progress.</param>
         /// <returns>
         ///     A task representing the async work of package initialization, or an already completed task if there is none.
         ///     Do not return null from this method.
@@ -125,10 +126,10 @@ namespace SmartTestsExtension
                     if( project.Globals.VariableExists[ "UseSmartTests" ] )
                         continue;
 
-                    if( !IsTestProject( project ) )
+                    if( !TestProject( project ) )
                         continue;
 
-                    if( !IsSmartProject( project ) )
+                    if( !SmartProject( project ) )
                         // Do not want to use SmartTests
                         if( !InstallSmartTests( project ) )
                         {
@@ -151,7 +152,7 @@ namespace SmartTestsExtension
         }
 
 
-        private bool IsTestProject( Project project )
+        private bool TestProject( Project project )
         {
             if( PackageInstallerServices.IsPackageInstalled( project, "NUnit" ) )
                 return true;
@@ -179,7 +180,7 @@ namespace SmartTestsExtension
         }
 
 
-        private bool IsSmartProject( Project project ) => PackageInstallerServices.IsPackageInstalled( project, "SmartTests" );
+        private bool SmartProject( Project project ) => PackageInstallerServices.IsPackageInstalled( project, "SmartTests" );
 
 
         private bool HasSmartAnalyzer( Project project ) => PackageInstallerServices.IsPackageInstalled( project, "SmartTests.Analyzer" );
