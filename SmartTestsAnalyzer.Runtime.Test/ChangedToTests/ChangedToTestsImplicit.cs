@@ -7,10 +7,10 @@ using SmartTests.Assertions;
 using SmartTests.Criterias;
 
 using static SmartTests.SmartTest;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable ValueParameterNotUsed
 // ReSharper disable UnusedAutoPropertyAccessor.Global
-
 
 
 namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
@@ -58,14 +58,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void PropertyNotAssignment()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass();
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass();
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc.MyProperty,
-                                                                         SmartAssert.ChangedTo() );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.MyProperty,
+                                                                              SmartAssert.ChangedTo() );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: Act is not an assignment", exception.Message );
         }
@@ -74,14 +74,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void PropertyBad()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass();
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass();
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         Assign( () => mc.MyProperty, 0 ),
-                                                                         SmartAssert.ChangedTo() );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              Assign( () => mc.MyProperty, 0 ),
+                                                                              SmartAssert.ChangedTo() );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: unexpected value 0", exception.Message );
         }
@@ -117,14 +117,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void IndexerNotAssignment()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass();
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass();
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc[ 0 ],
-                                                                         SmartAssert.ChangedTo() );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc[ 0 ],
+                                                                              SmartAssert.ChangedTo() );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: Act is not an assignment", exception.Message );
         }
@@ -133,14 +133,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void IndexerBad()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass();
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass();
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         Assign( () => mc[ 0 ], 0 ),
-                                                                         SmartAssert.ChangedTo() );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              Assign( () => mc[ 0 ], 0 ),
+                                                                              SmartAssert.ChangedTo() );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: unexpected value 0", exception.Message );
         }
@@ -176,14 +176,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void FieldNotAssignment()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass();
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass();
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc.MyField,
-                                                                         SmartAssert.ChangedTo() );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.MyField,
+                                                                              SmartAssert.ChangedTo() );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: Act is not an assignment", exception.Message );
         }
@@ -192,14 +192,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void FieldBad()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass();
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass();
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         Assign( () => mc.MyField, 0 ),
-                                                                         SmartAssert.ChangedTo() );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              Assign( () => mc.MyField, 0 ),
+                                                                              SmartAssert.ChangedTo() );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: unexpected value 0", exception.Message );
         }

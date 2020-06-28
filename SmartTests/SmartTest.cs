@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 
 using SmartTests.Acts;
 using SmartTests.Assertions;
@@ -23,6 +25,58 @@ namespace SmartTests
     /// </remarks>
     public static class SmartTest
     {
+        /// <summary>
+        /// The Type to use for Inconclusive Exception (when the Arrange or Assume fails)
+        /// </summary>
+        /// <remarks>
+        /// <para>By default, value is <c>null</c>, meaning that default Inconclusive Exception for the current Testing Framework should be used. </para>
+        /// <list type="bullet">
+        /// <item>
+        ///<term>NUnit</term>
+        /// <desccription>This is <c>NUnit.Framework.InconclusiveException</c>.</desccription>
+        /// </item>
+        /// <item>
+        /// <term>MSTests</term>
+        /// <description>This is <c>Microsoft.VisualStudio.TestTools.UnitTesting.AssertInconclusiveException</c>.</description>
+        /// </item>
+        /// <item>
+        /// <term>xUnit</term>
+        /// <description>No such Exception type exist.</description>
+        /// </item>
+        /// </list>
+        /// <para>When there is no such Inconclusive type or if there are multiple ones (if you mix Testing Framework), the one of SmartTests is used by default (<see cref="SmartTestException"/>).</para>
+        /// <para>If you want to force any Exception type, set this property with this Exception type.</para>
+        /// </remarks>
+        public static Type InconclusiveExceptionType { get; set; }
+        private static readonly Type _FrameworkInconclusiveExceptionType;
+
+        private static readonly List<Type> _InconclusiveTypes;
+
+        internal static bool Inconclusive( Exception exception ) => _InconclusiveTypes.Contains( exception.GetType() );
+
+        static SmartTest()
+        {
+            // Search for one and only one Testing Framework
+            _InconclusiveTypes = new List<Type>
+                                 {
+                                     Type.GetType( "NUnit.Framework.InconclusiveException, NUnit.Framework" ),
+                                     Type.GetType( "Microsoft.VisualStudio.TestTools.UnitTesting.AssertInconclusiveException, Microsoft.VisualStudio.QualityTools.UnitTestFramework" )
+                                 }
+                                 .Where( t => t != null )
+                                 .ToList();
+            _FrameworkInconclusiveExceptionType = _InconclusiveTypes.Count == 1
+                                                      ? _InconclusiveTypes[ 0 ]
+                                                      : typeof(BadTestException);
+        }
+
+
+        internal static Exception InconclusiveException() => InconclusiveException( null, (Exception)null );
+        internal static Exception InconclusiveException( string message ) => InconclusiveException( message, (Exception)null );
+        internal static Exception InconclusiveException( string message, params object[] args ) => InconclusiveException( string.Format( message, args ), (Exception)null );
+        internal static Exception InconclusiveException( StringBuilder message, params object[] args ) => InconclusiveException( message.ToString(), args );
+        internal static Exception InconclusiveException( string message, Exception innerException ) => (Exception)Activator.CreateInstance( InconclusiveExceptionType ?? _FrameworkInconclusiveExceptionType ?? typeof(BadTestException), message, innerException );
+
+
         #region Case
 
         /// <summary>

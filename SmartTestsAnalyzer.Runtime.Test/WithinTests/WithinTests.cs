@@ -60,14 +60,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.WithinTests
         [Test]
         public void NegativeTimeout()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass( 100 );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( 100 );
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc.Method(),
-                                                                         SmartAssert.Within( -90 ) );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.Method(),
+                                                                              SmartAssert.Within( -90 ) );
+                                                                 } );
 
             Assert.AreEqual( @"BAD TEST: Time should be strictly positive, but was -90ms", exception.Message );
         }

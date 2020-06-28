@@ -601,11 +601,11 @@ namespace SmartTests.Assertions
         private static void GetInstanceAndProperty<T>( Expression<Func<T>> expression, out object instance, out PropertyInfo property )
         {
             if( !expression.GetMemberContext( out instance, out var member ) )
-                throw new BadTestException( Resource.BadTest_NotPropertyNorIndexer );
+                throw SmartTest.InconclusiveException( Resource.BadTest_NotPropertyNorIndexer );
 
             property = member as PropertyInfo;
             if( property == null )
-                throw new BadTestException( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() );
+                throw SmartTest.InconclusiveException( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() );
         }
 
 
@@ -646,7 +646,7 @@ namespace SmartTests.Assertions
                     if( _IsImplicit )
                     {
                         if( act.Property == null )
-                            throw new BadTestException( Resource.BadTest_NotPropertyNorField, act.Member.Name, _Instance.GetType().GetFullName() );
+                            throw SmartTest.InconclusiveException( Resource.BadTest_NotPropertyNorField, act.Member.Name, _Instance.GetType().GetFullName() );
                         _Exceptions = new[] { act.Property.Name };
                     }
                 }
@@ -694,7 +694,7 @@ namespace SmartTests.Assertions
                 }
 
                 if( message.Length > 0 )
-                    throw new BadTestException( message.ToString( Environment.NewLine.Length, message.Length - Environment.NewLine.Length ) );
+                    throw SmartTest.InconclusiveException( message.ToString( Environment.NewLine.Length, message.Length - Environment.NewLine.Length ) );
             }
 
 

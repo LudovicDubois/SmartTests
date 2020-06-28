@@ -441,15 +441,15 @@ namespace SmartTests.Assertions
         private static void GetInstanceAndProperty<T>( Expression<Func<T>> expression, out INotifyPropertyChanged sender, out PropertyInfo property )
         {
             if( !expression.GetMemberContext( out var instance, out var member ) )
-                throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer ) );
+                throw SmartTest.InconclusiveException( Resource.BadTest_NotPropertyNorIndexer );
 
             sender = instance as INotifyPropertyChanged;
             if( sender == null )
-                throw new BadTestException( string.Format( Resource.BadTest_NotINotifyPropertyChanged, instance.GetType().GetFullName() ) );
+                throw SmartTest.InconclusiveException( Resource.BadTest_NotINotifyPropertyChanged, instance.GetType().GetFullName() );
 
             property = member as PropertyInfo;
             if( property == null )
-                throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() ) );
+                throw SmartTest.InconclusiveException( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() );
         }
 
 
@@ -743,12 +743,12 @@ namespace SmartTests.Assertions
                 if( _Instance == null )
                     _Instance = act.Instance as INotifyPropertyChanged;
                 if( _Instance == null )
-                    throw new BadTestException( string.Format( Resource.BadTest_NotINotifyPropertyChanged, act.Instance?.GetType().FullName ) );
+                    throw SmartTest.InconclusiveException( Resource.BadTest_NotINotifyPropertyChanged, act.Instance?.GetType().FullName );
                 if( _CheckValue && implicitSource )
                 {
                     var assignedAct = act as IAssignee;
                     if( assignedAct == null )
-                        throw new BadTestException( Resource.BadTest_NotAssignment );
+                        throw SmartTest.InconclusiveException( Resource.BadTest_NotAssignment );
                     _Value = assignedAct.AssignedValue;
                 }
 
@@ -757,7 +757,7 @@ namespace SmartTests.Assertions
                     _PropertyNames == null )
                 {
                     if( act.Property == null )
-                        throw new BadTestException( string.Format( Resource.BadTest_NotProperty, act.Method.GetFullName() ) );
+                        throw SmartTest.InconclusiveException( Resource.BadTest_NotProperty, act.Method.GetFullName() );
                     _PropertyNames = new List<string>
                                      {
                                          act.Property.Name

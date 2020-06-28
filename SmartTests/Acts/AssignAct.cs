@@ -60,13 +60,13 @@ namespace SmartTests.Acts
 
                 Constructor = member as ConstructorInfo;
                 if( Constructor != null )
-                    throw new BadTestException( string.Format( Resource.BadTest_NotWritablePropertyNorIndexer, member.GetFullName() ) );
+                    throw SmartTest.InconclusiveException( Resource.BadTest_NotWritablePropertyNorIndexer, member.GetFullName() );
 
                 Method = member as MethodInfo;
                 if( Method != null )
                 {
                     if( !Method.IsSpecialName )
-                        throw new BadTestException( string.Format( Resource.BadTest_NotWritablePropertyNorIndexer, member.GetFullName() ) );
+                        throw SmartTest.InconclusiveException( Resource.BadTest_NotWritablePropertyNorIndexer, member.GetFullName() );
                     //An indexer?
                     foreach( var property in Method.DeclaringType.GetRuntimeProperties() )
                     {
@@ -87,7 +87,7 @@ namespace SmartTests.Acts
             if( Property == null &&
                 Field == null &&
                 Method == null )
-                throw new BadTestException( string.Format( Resource.BadTest_NotWritablePropertyNorIndexer, member.GetFullName() ) );
+                throw SmartTest.InconclusiveException( Resource.BadTest_NotWritablePropertyNorIndexer, member.GetFullName() );
         }
 
 

@@ -441,7 +441,7 @@ namespace SmartTests.Assertions
                 Debug.Assert( instanceType != null );
                 _Event = instanceType.GetRuntimeEvent( _EventName );
                 if( _Event == null )
-                    throw new BadTestException( string.Format( Resource.BadTest_NotEvent, _EventName, instanceType.GetFullName() ) );
+                    throw SmartTest.InconclusiveException( Resource.BadTest_NotEvent, _EventName, instanceType.GetFullName() );
 
                 _Event.AddEventHandler( _Instance, _RealDelegate );
             }

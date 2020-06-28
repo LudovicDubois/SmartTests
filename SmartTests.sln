@@ -34,11 +34,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTestsExtension", "Smar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTests.Test", "SmartTests.Test\SmartTests.Test.csproj", "{8798CAF4-4EC3-46E1-9C65-63C7C3C2F694}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example01", "Examples\Example01\Example01.csproj", "{61557A88-0DC3-464E-BC1B-8C2F11931E3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example01", "Examples\Example01\Example01.csproj", "{61557A88-0DC3-464E-BC1B-8C2F11931E3F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{66828B05-8D81-48BB-805F-C63E13CEE744}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example01Tests", "Examples\Example01Tests\Example01Tests.csproj", "{20C601A0-D10F-4007-A92C-3F0947F33FA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTests.MSTests.Test", "SmartTests.MSTests.Test\SmartTests.MSTests.Test.csproj", "{16632A95-8655-4F98-9C99-D4E90C3AC37C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTests.NUnit.Test", "SmartTests.NUnit.Test\SmartTests.NUnit.Test.csproj", "{B3525010-61EB-410D-967C-2D956BC1EFC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +93,14 @@ Global
 		{20C601A0-D10F-4007-A92C-3F0947F33FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20C601A0-D10F-4007-A92C-3F0947F33FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20C601A0-D10F-4007-A92C-3F0947F33FA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16632A95-8655-4F98-9C99-D4E90C3AC37C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16632A95-8655-4F98-9C99-D4E90C3AC37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16632A95-8655-4F98-9C99-D4E90C3AC37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16632A95-8655-4F98-9C99-D4E90C3AC37C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3525010-61EB-410D-967C-2D956BC1EFC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3525010-61EB-410D-967C-2D956BC1EFC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3525010-61EB-410D-967C-2D956BC1EFC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3525010-61EB-410D-967C-2D956BC1EFC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

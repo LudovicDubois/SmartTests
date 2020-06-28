@@ -79,7 +79,7 @@ namespace SmartTests.Acts
             }
 
             if( Method == null )
-                throw new BadTestException();
+                throw SmartTest.InconclusiveException();
         }
 
 
@@ -176,7 +176,7 @@ namespace SmartTests.Acts
             }
 
             if( Constructor == null && Method == null && Field == null )
-                throw new BadTestException( string.Format( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() ) );
+                throw SmartTest.InconclusiveException( Resource.BadTest_NotPropertyNorIndexer, member.GetFullName() );
         }
 
 

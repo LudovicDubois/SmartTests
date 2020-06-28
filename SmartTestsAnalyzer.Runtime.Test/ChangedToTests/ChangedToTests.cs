@@ -74,14 +74,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void PropertyBad()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass( true, false, false, false );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( true, false, false, false );
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc.Method(),
-                                                                         SmartAssert.ChangedTo( () => mc.MyProperty, 0 ) );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.Method(),
+                                                                              SmartAssert.ChangedTo( () => mc.MyProperty, 0 ) );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: unexpected value 0", exception.Message );
         }
@@ -117,14 +117,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void IndirectBad()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass( false, false, true, false );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( false, false, true, false );
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc.Method(),
-                                                                         SmartAssert.ChangedTo( () => mc.Items.Count, 1 ) );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.Method(),
+                                                                              SmartAssert.ChangedTo( () => mc.Items.Count, 1 ) );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: unexpected value 1", exception.Message );
         }
@@ -160,14 +160,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void IndexerBad()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass( false, true, false, false );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( false, true, false, false );
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc.Method(),
-                                                                         SmartAssert.ChangedTo( () => mc[ 0 ], 0 ) );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.Method(),
+                                                                              SmartAssert.ChangedTo( () => mc[ 0 ], 0 ) );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: unexpected value 0", exception.Message );
         }
@@ -203,14 +203,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void MethodBad()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass( true, false, false, false );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( true, false, false, false );
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc.Method(),
-                                                                         SmartAssert.ChangedTo( () => mc.MyMethod(), 0 ) );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.Method(),
+                                                                              SmartAssert.ChangedTo( () => mc.MyMethod(), 0 ) );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: unexpected value 0", exception.Message );
         }
@@ -246,14 +246,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.ChangedToTests
         [Test]
         public void FieldBad()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass( false, false, false, true );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( false, false, false, true );
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc.Method(),
-                                                                         SmartAssert.ChangedTo( () => mc.MyField, 0 ) );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.Method(),
+                                                                              SmartAssert.ChangedTo( () => mc.MyField, 0 ) );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: unexpected value 0", exception.Message );
         }

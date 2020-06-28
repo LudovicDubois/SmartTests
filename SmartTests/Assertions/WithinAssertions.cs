@@ -71,7 +71,7 @@ namespace SmartTests.Assertions
             public WithinAssertion( long maximumMilliseconds )
             {
                 if( maximumMilliseconds <= 0 )
-                    throw new BadTestException( Resource.BadTest_NegativeTimeSpan, maximumMilliseconds );
+                    throw SmartTest.InconclusiveException( Resource.BadTest_NegativeTimeSpan, maximumMilliseconds );
                 _MaximumMilliseconds = maximumMilliseconds;
             }
 

@@ -147,14 +147,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
         [Test]
         public void ReadonlyProperty()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass( true );
-                                                                Assert.AreNotEqual( 20, mc.MyProperty );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( true );
+                                                                     Assert.AreNotEqual( 20, mc.MyProperty );
 
-                                                                RunTest( NotifyPropertyChanged.HasNoSubscriber,
-                                                                         Assign( () => mc.Method(), 20 ) );
-                                                            } );
+                                                                     RunTest( NotifyPropertyChanged.HasNoSubscriber,
+                                                                              Assign( () => mc.Method(), 20 ) );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: 'NotifyPropertyChangedTests+MyClass.Method' is not a writable property nor indexer", exception.Message );
         }
@@ -163,14 +163,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotifyPropertyChangedTests
         [Test]
         public void NotAProperty()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass( true );
-                                                                Assert.AreNotEqual( 20, mc.MyProperty );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( true );
+                                                                     Assert.AreNotEqual( 20, mc.MyProperty );
 
-                                                                RunTest( NotifyPropertyChanged.HasNoSubscriber,
-                                                                         Assign( () => mc.Method(), 20 ) );
-                                                            } );
+                                                                     RunTest( NotifyPropertyChanged.HasNoSubscriber,
+                                                                              Assign( () => mc.Method(), 20 ) );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: 'NotifyPropertyChangedTests+MyClass.Method' is not a writable property nor indexer", exception.Message );
         }

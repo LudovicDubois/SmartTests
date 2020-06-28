@@ -240,6 +240,8 @@ namespace SmartTests
                 case SmartTestException _:
                     throw Exception;
                 default:
+                    if( SmartTest.Inconclusive( Exception ) )
+                        throw Exception;
                     throw new SmartTestException( "Unexpected error occurred!", Exception );
             }
         }

@@ -67,14 +67,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
         [Test]
         public void BadProperty()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                              {
-                                                                  var mc = new MyClass( false, false, false, false );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( false, false, false, false );
 
-                                                                  RunTest( AnyValue.IsValid,
-                                                                           () => mc.Method(),
-                                                                           SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "BadProperty" ) );
-                                                              } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.Method(),
+                                                                              SmartAssert.NotChangedExcept( mc, NotChangedKind.AllProperties, "BadProperty" ) );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: 'BadProperty' is not a property nor a field of type 'NotChangedTestsExcept+MyClass'", exception.Message );
         }
@@ -215,14 +215,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.NotChangedTests
         [Test]
         public void AllPropertiesChanged_ImplicitPublicWithNonPublic()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                              {
-                                                                  var mc = new MyClass( true, true, true, true );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( true, true, true, true );
 
-                                                                  RunTest( AnyValue.IsValid,
-                                                                           () => mc.Method(),
-                                                                           SmartAssert.NotChangedExcept( mc, "MyProperty1", "MyProperty3" ) );
-                                                              } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.Method(),
+                                                                              SmartAssert.NotChangedExcept( mc, "MyProperty1", "MyProperty3" ) );
+                                                                 } );
 
             Assert.AreEqual( "BAD TEST: 'MyProperty3' is not a property nor a field of type 'NotChangedTestsExcept+MyClass'", exception.Message );
         }

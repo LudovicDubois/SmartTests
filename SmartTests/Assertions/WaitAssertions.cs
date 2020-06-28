@@ -51,7 +51,7 @@ namespace SmartTests.Assertions
         {
             context[ _ContextHandleSet ] = true;
             if( !context.TryGetValue( _ContextHandle, out EventWaitHandle obj ) )
-                throw new BadTestException( Resource.BadTest_UnexpectedContextSetHandle );
+                throw SmartTest.InconclusiveException( Resource.BadTest_UnexpectedContextSetHandle );
             obj.Set();
         }
 
@@ -244,7 +244,7 @@ namespace SmartTests.Assertions
 
                 // context handle is set? => waiting for the wrong handle!
                 if( handleSet )
-                    throw new BadTestException( Resource.BadTest_UnexpectedContextSetHandle );
+                    throw SmartTest.InconclusiveException( Resource.BadTest_UnexpectedContextSetHandle );
                 throw new SmartTestException( Resource.TimeoutReached, _Timeout.TotalMilliseconds );
             }
         }

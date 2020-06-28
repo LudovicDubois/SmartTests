@@ -42,6 +42,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.WaitTests
                                                                                       Thread.Sleep( _Wait / 2 );
                                                                                       throw new Exception( "OOPS!" );
                                                                                   }
+
                                                                                   Thread.Sleep( _Wait );
                                                                                   Done = true;
                                                                                   action();
@@ -168,12 +169,12 @@ namespace SmartTestsAnalyzer.Runtime.Test.WaitTests
             var handle = new AutoResetEvent( false );
             var mc = new MyClass( 300 );
 
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                                RunTest( AnyValue.IsValid,
-                                                                         ctx => mc.Method( ctx.SetHandle ),
-                                                                         SmartAssert.Within( 100 ),
-                                                                         SmartAssert.Wait( handle, 500 ) )
-                                                          );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              ctx => mc.Method( ctx.SetHandle ),
+                                                                              SmartAssert.Within( 100 ),
+                                                                              SmartAssert.Wait( handle, 500 ) )
+                                                               );
 
             Assert.IsTrue( mc.Done );
             Assert.AreEqual( "BAD TEST: ActContext.SetHandle called, but specified handle expected", mc.Exception.Message );

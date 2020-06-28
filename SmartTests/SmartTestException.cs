@@ -94,26 +94,6 @@ namespace SmartTests
         { }
 
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="BadTestException" /> class with a specified formatted error message.
-        /// </summary>
-        /// <param name="message">The error message that explains the reason for the exception.</param>
-        /// <param name="args">The arguments to format the message.</param>
-        public BadTestException( string message, params object[] args )
-            : this( string.Format( message, args ) )
-        { }
-
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="BadTestException" /> class with a specified formatted error message.
-        /// </summary>
-        /// <param name="message">The error message that explains the reason for the exception.</param>
-        /// <param name="args">The arguments to format the message.</param>
-        // ReSharper disable once UnusedMember.Global
-        public BadTestException( StringBuilder message, params object[] args )
-            : this( string.Format( message.ToString(), args ) )
-        { }
-
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BadTestException" /> class with a specified error message and a

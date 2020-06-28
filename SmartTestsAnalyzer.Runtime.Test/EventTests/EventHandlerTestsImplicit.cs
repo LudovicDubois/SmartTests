@@ -57,14 +57,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.EventTests
         [Test]
         public void NotEvent()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass( true );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( true );
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc.Method(),
-                                                                         SmartAssert.Raised( "NotEvent" ) );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.Method(),
+                                                                              SmartAssert.Raised( "NotEvent" ) );
+                                                                 } );
             Assert.AreEqual( "BAD TEST: 'NotEvent' is not an event of type 'EventHandlerTestsImplicit+MyClass'", exception.Message );
         }
 
@@ -104,14 +104,14 @@ namespace SmartTestsAnalyzer.Runtime.Test.EventTests
         [Test]
         public void UnexpectedNotEvent()
         {
-            var exception = Assert.Catch<BadTestException>( () =>
-                                                            {
-                                                                var mc = new MyClass( true );
+            var exception = Assert.Catch<InconclusiveException>( () =>
+                                                                 {
+                                                                     var mc = new MyClass( true );
 
-                                                                RunTest( AnyValue.IsValid,
-                                                                         () => mc.Method(),
-                                                                         SmartAssert.NotRaised( "NotEvent" ) );
-                                                            } );
+                                                                     RunTest( AnyValue.IsValid,
+                                                                              () => mc.Method(),
+                                                                              SmartAssert.NotRaised( "NotEvent" ) );
+                                                                 } );
             Assert.AreEqual( "BAD TEST: 'NotEvent' is not an event of type 'EventHandlerTestsImplicit+MyClass'", exception.Message );
         }
 

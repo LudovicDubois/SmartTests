@@ -139,11 +139,11 @@ namespace SmartTests.Assertions
             {
                 _Assignee = act as IAssignee;
                 if( _Assignee == null )
-                    throw new BadTestException( Resource.BadTest_NotAssignment );
+                    throw SmartTest.InconclusiveException( Resource.BadTest_NotAssignment );
 
                 _Value = _Assignee.AssignedValue;
                 if( Equals( _Assignee.AssigneeValue, _Value ) )
-                    throw new BadTestException( string.Format( Resource.BadTest_UnexpectedValue, _Value ) );
+                    throw SmartTest.InconclusiveException( Resource.BadTest_UnexpectedValue, _Value );
             }
 
 
@@ -177,7 +177,7 @@ namespace SmartTests.Assertions
             {
                 _Compiled = _After.Compile();
                 if( Equals( _Compiled(), _Value ) )
-                    throw new BadTestException( string.Format( Resource.BadTest_UnexpectedValue, _Value ) );
+                    throw SmartTest.InconclusiveException( Resource.BadTest_UnexpectedValue, _Value );
             }
 
 
