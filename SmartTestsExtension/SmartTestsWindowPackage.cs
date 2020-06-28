@@ -9,6 +9,7 @@ using System.Windows;
 
 using EnvDTE;
 
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.Win32;
 
@@ -73,6 +74,10 @@ namespace SmartTestsExtension
                     Trace.Listeners.Add( new TextWriterTraceListener( Path.Combine( Path.GetTempPath(), $"SmartTests{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.log" ) ) );
                     Trace.TraceInformation( "Trace Started" );
                 }
+
+                var componentModel = (IComponentModel)GetGlobalService( typeof(SComponentModel) );
+                _PackageInstaller = componentModel.GetService<IVsPackageInstaller2>();
+                _PackageInstallerServices = componentModel.GetService<IVsPackageInstallerServices>();
             }
             catch( Exception e )
             {
@@ -154,11 +159,11 @@ namespace SmartTestsExtension
 
         private bool TestProject( Project project )
         {
-            if( PackageInstallerServices.IsPackageInstalled( project, "NUnit" ) )
+            if( _PackageInstallerServices.IsPackageInstalled( project, "NUnit" ) )
                 return true;
-            if( PackageInstallerServices.IsPackageInstalled( project, "xunit" ) )
+            if( _PackageInstallerServices.IsPackageInstalled( project, "xunit" ) )
                 return true;
-            if( PackageInstallerServices.IsPackageInstalled( project, "MSTest.TestFramework" ) )
+            if( _PackageInstallerServices.IsPackageInstalled( project, "MSTest.TestFramework" ) )
                 return true;
 
             // MSTests or referenced directly?
@@ -180,16 +185,14 @@ namespace SmartTestsExtension
         }
 
 
-        private bool SmartProject( Project project ) => PackageInstallerServices.IsPackageInstalled( project, "SmartTests" );
+        private bool SmartProject( Project project ) => _PackageInstallerServices.IsPackageInstalled( project, "SmartTests" );
 
 
-        private bool HasSmartAnalyzer( Project project ) => PackageInstallerServices.IsPackageInstalled( project, "SmartTests.Analyzer" );
+        private bool HasSmartAnalyzer( Project project ) => _PackageInstallerServices.IsPackageInstalled( project, "SmartTests.Analyzer" );
 
 
-        [Import]
-        public IVsPackageInstaller2 PackageInstaller;
-        [Import]
-        public IVsPackageInstallerServices PackageInstallerServices;
+        private readonly IVsPackageInstaller2 _PackageInstaller;
+        private readonly IVsPackageInstallerServices _PackageInstallerServices;
 
 
         private bool InstallSmartTests( Project project )
@@ -203,14 +206,14 @@ namespace SmartTestsExtension
                 return false;
             }
 
-            PackageInstaller.InstallLatestPackage( null, project, "SmartTests", false, false );
+            _PackageInstaller.InstallLatestPackage( null, project, "SmartTests", false, false );
             return true;
         }
 
 
         private void InstallSmartAnalyzer( Project project )
         {
-            PackageInstaller.InstallLatestPackage( null, project, "SmartTests.Analyzer", false, false );
+            _PackageInstaller.InstallLatestPackage( null, project, "SmartTests.Analyzer", false, false );
         }
 
         #endregion
