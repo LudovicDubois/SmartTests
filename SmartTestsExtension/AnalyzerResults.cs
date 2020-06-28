@@ -8,6 +8,7 @@ using System.Windows;
 using EnvDTE;
 
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
 
 using Newtonsoft.Json;
 
@@ -176,10 +177,14 @@ namespace SmartTestsExtension
 
         private void SafeUpdateProject( ProjectTests projectTests, Project project, Tests tests )
         {
-            if( projectTests == null )
-                Application.Current.Dispatcher?.Invoke( () => TestedProjects.Add( new ProjectTests( project, tests ) ) );
-            else
-                Application.Current.Dispatcher?.Invoke( () => projectTests.Tests = tests );
+            ThreadHelper.JoinableTaskFactory.Run( async delegate
+                                                  {
+                                                      await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                                                      if( projectTests == null )
+                                                          TestedProjects.Add( new ProjectTests( project, tests ) );
+                                                      else
+                                                          projectTests.Tests = tests;
+                                                  } );
         }
 
 
