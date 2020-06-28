@@ -81,7 +81,22 @@ namespace SmartTests
         internal static Exception InconclusiveException( string message ) => InconclusiveException( message, (Exception)null );
         internal static Exception InconclusiveException( string message, params object[] args ) => InconclusiveException( string.Format( message, args ), (Exception)null );
         internal static Exception InconclusiveException( StringBuilder message, params object[] args ) => InconclusiveException( message.ToString(), args );
-        internal static Exception InconclusiveException( string message, Exception innerException ) => (Exception)Activator.CreateInstance( InconclusiveExceptionType ?? _FrameworkInconclusiveExceptionType ?? typeof(BadTestException), message, innerException );
+
+
+        internal static Exception InconclusiveException( string message, Exception innerException )
+        {
+            if( InconclusiveExceptionType != null )
+                try
+                {
+                    return (Exception)Activator.CreateInstance( InconclusiveExceptionType, message, innerException );
+                }
+                catch
+                {
+                    // ignored
+                }
+
+            return (Exception)Activator.CreateInstance( _FrameworkInconclusiveExceptionType ?? typeof(BadTestException), message, innerException );
+        }
 
 
         #region Case
