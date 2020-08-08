@@ -247,7 +247,7 @@ namespace SmartTests
         }
 
 
-        #region Context        
+        #region Context
 
         /// <summary>
         ///     Gets the context of this Act.

@@ -24,6 +24,7 @@ namespace SmartTestsAnalyzer.Runtime.Test.ThrowTests
                     throw new ArgumentOutOfRangeException( nameof(p) );
                 if( p == "throw" )
                     throw new ArithmeticException( "Wrong Computation" );
+                Console.WriteLine( p );
             }
         }
 

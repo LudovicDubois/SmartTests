@@ -414,8 +414,766 @@ namespace TestingProject
         }
 
 
+        #region Symbolic Limits
+
+        #region Fields
+
+        #region 1 Limit
+
         [Test]
-        public void OneChunk_RangeMinNotAConstant()
+        public void OneLimit_RangeMinField()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit = 100;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit, " + _Type + @".MaxValue ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Below(Class1.Limit)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 20, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void OneLimit_RangeMaxField()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit = 100;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( " + _Type + @".MinValue, Class1.Limit ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Above(Class1.Limit)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 20, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void OneLimit_RangeMinMaxField()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit = 100;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod1()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( " + _Type + @".MinValue, Class1.Limit ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit, " + _Type + @".MaxValue ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void OneLimit_ExceptField()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit = 100;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod1()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( " + _Type + @".MinValue, true, Class1.Limit, false ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit, false, " + _Type + @".MaxValue, true ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Value(Class1.Limit)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 20, 41 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 29, 41 ),
+                                           }
+                           };
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+        #endregion
+
+
+        #region 2 Limits
+
+        [Test]
+        public void TwoLimits_RangeMinMaxField()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit1 = 100;
+        public static readonly " + _Type + @" Limit2 = 110;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit1, Class1.Limit2 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Below(Class1.Limit1).Above(Class1.Limit2)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void TwoLimits_RangeMaxRangeMinField()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit1 = 100;
+        public static readonly " + _Type + @" Limit2 = 110;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( " + _Type + @".MinValue, Class1.Limit1 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit2, " + _Type + @".MaxValue ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Range(Class1.Limit1, false, Class1.Limit2, false)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 41 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 30, 41 ),
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void TwoLimits_FullRangeField()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit1 = 100;
+        public static readonly " + _Type + @" Limit2 = 110;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( " + _Type + @".MinValue, Class1.Limit1 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit1, false, Class1.Limit2, false ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod3()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit2, " + _Type + @".MaxValue ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+
+        [Test]
+        public void TwoLimits_100_RangeMinMaxField()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit1 = 100;
+        public static readonly " + _Type + @" Limit2 = 110;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod0()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( 100, 100 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit1, Class1.Limit2 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Range(?, true, Class1.Limit1, false).Range(Class1.Limit2, false, ?, true)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 41 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 30, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+        #endregion
+
+        #endregion
+
+
+        #region Properties
+
+        #region 1 Limit
+
+        [Test]
+        public void OneLimit_RangeMinProperty()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static " + _Type + @" Limit => 100;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit, " + _Type + @".MaxValue ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Below(Class1.Limit)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 20, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void OneLimit_RangeMaxProperty()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static " + _Type + @" Limit => 100;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( " + _Type + @".MinValue, Class1.Limit ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Above(Class1.Limit)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 20, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void OneLimit_RangeMinMaxProperty()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static " + _Type + @" Limit => 100;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod1()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( " + _Type + @".MinValue, Class1.Limit ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit, " + _Type + @".MaxValue ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic( test );
+        }
+
+
+        [Test]
+        public void OneLimit_ExceptProperty()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static " + _Type + @" Limit => 100;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod1()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( " + _Type + @".MinValue, true, Class1.Limit, false ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit, false, " + _Type + @".MaxValue, true ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Value(Class1.Limit)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 20, 41 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 29, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+        #endregion
+
+
+        #region 2 Limits
+
+        [Test]
+        public void TwoLimits_RangeMinMaxProperty()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static " + _Type + @" Limit1 => 100;
+        public static " + _Type + @" Limit2 => 110;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit1, Class1.Limit2 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Below(Class1.Limit1).Above(Class1.Limit2)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void TwoLimits_RangeMaxRangeMinProperty()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static " + _Type + @" Limit1 => 100;
+        public static " + _Type + @" Limit2 => 110;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( " + _Type + @".MinValue, Class1.Limit1 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit2, " + _Type + @".MaxValue ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Range(Class1.Limit1, false, Class1.Limit2, false)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 41 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 30, 41 ),
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void TwoLimits_FullRangeProperty()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static " + _Type + @" Limit1 => 100;
+        public static " + _Type + @" Limit2 => 110;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( " + _Type + @".MinValue, Class1.Limit1 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod2()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit1, false, Class1.Limit2, false ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod3()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit2, " + _Type + @".MaxValue ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            VerifyCSharpDiagnostic( test );
+        }
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+
+        [Test]
+        public void OneLimit_RangeMinNotAConstant()
         {
             var test = @"
 using NUnit.Framework;
@@ -850,7 +1608,6 @@ namespace TestingProject
 
         #region AvoidedValues
 
-
         [Test]
         public void Lambda_Range1_Avoided()
         {
@@ -893,7 +1650,7 @@ namespace TestingProject
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -939,7 +1696,7 @@ namespace TestingProject
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -985,7 +1742,7 @@ namespace TestingProject
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -1012,7 +1769,7 @@ namespace TestingProject
         {
             var mc = new MyClass();
 
-            RunTest( Case( ""value"", "+ _SmartType + @".Range(10, " + _Type + @".MaxValue, out var val, mc.MyProperty) ),
+            RunTest( Case( ""value"", " + _SmartType + @".Range(10, " + _Type + @".MaxValue, out var val, mc.MyProperty) ),
                      Assign( () => mc.MyProperty, val),
                      SmartAssert.ChangedTo() );
         }
@@ -1030,7 +1787,7 @@ namespace TestingProject
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -1075,7 +1832,7 @@ namespace TestingProject
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -1120,7 +1877,7 @@ namespace TestingProject
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -1165,7 +1922,7 @@ namespace TestingProject
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -1210,7 +1967,7 @@ namespace TestingProject
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -1255,7 +2012,7 @@ namespace TestingProject
                                            }
                            };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -1297,7 +2054,7 @@ namespace TestingProject
     }
 }";
 
-            VerifyCSharpDiagnostic(test);
+            VerifyCSharpDiagnostic( test );
         }
 
 
@@ -1332,17 +2089,17 @@ namespace TestingProject
 }";
 
             var expected = new DiagnosticResult
-            {
-                Id = "SmartTestsAnalyzer_MissingCases",
-                Message = $"Tests for 'TestingProject.Class1.Min({_Type}, {_Type})' has some missing Test Cases: b:{_SmartType}.Below(10).Above(10)",
-                Severity = DiagnosticSeverity.Warning,
-                Locations = new[]
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Min({_Type}, {_Type})' has some missing Test Cases: b:{_SmartType}.Below(10).Above(10)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
                                            {
                                                new DiagnosticResultLocation( "Test0.cs", 20, 46 )
                                            }
-            };
+                           };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -1384,7 +2141,7 @@ namespace TestingProject
     }
 }";
 
-            VerifyCSharpDiagnostic(test);
+            VerifyCSharpDiagnostic( test );
         }
 
 
@@ -1419,19 +2176,18 @@ namespace TestingProject
 }";
 
             var expected = new DiagnosticResult
-            {
-                Id = "SmartTestsAnalyzer_MissingCases",
-                Message = $"Tests for 'TestingProject.Class1.Min({_Type}, {_Type})' has some missing Test Cases: b:{_SmartType}.Below(10).Above(10)",
-                Severity = DiagnosticSeverity.Warning,
-                Locations = new[]
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Min({_Type}, {_Type})' has some missing Test Cases: b:{_SmartType}.Below(10).Above(10)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
                                            {
                                                new DiagnosticResultLocation( "Test0.cs", 20, 46 )
                                            }
-            };
+                           };
 
-            VerifyCSharpDiagnostic(test, expected);
+            VerifyCSharpDiagnostic( test, expected );
         }
-
 
         #endregion
 

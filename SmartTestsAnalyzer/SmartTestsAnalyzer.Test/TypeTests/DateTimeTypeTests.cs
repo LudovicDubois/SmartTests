@@ -637,16 +637,16 @@ namespace TestingProject
 }";
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_NotADateCreation",
-                               Message = "A DateTime instantiation with constants is expected",
-                               Severity = DiagnosticSeverity.Error,
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: DateTimeRange.Below(MyTestClass.d)",
+                               Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 20, 56 )
+                                               new DiagnosticResultLocation( "Test0.cs", 20, 35 )
                                            }
                            };
 
-            VerifyCSharpDiagnostic( test, 0, expected );
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 
@@ -681,16 +681,16 @@ namespace TestingProject
 }";
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_NotADateCreation",
-                               Message = "A DateTime instantiation with constants is expected",
-                               Severity = DiagnosticSeverity.Error,
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = "Tests for 'TestingProject.Class1.Same(System.DateTime)' has some missing Test Cases: DateTimeRange.Below(MyTestClass.d)",
+                               Severity = DiagnosticSeverity.Warning,
                                Locations = new[]
                                            {
-                                               new DiagnosticResultLocation( "Test0.cs", 20, 56 )
+                                               new DiagnosticResultLocation( "Test0.cs", 20, 35 )
                                            }
                            };
 
-            VerifyCSharpDiagnostic( test, 0, expected );
+            VerifyCSharpDiagnostic( test, expected );
         }
 
 

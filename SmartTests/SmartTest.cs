@@ -1320,7 +1320,6 @@ namespace SmartTests
         /// <seealso cref="INumericType{T}" />
         public static EnumType EnumRange => new EnumType();
 
-
         /// <summary>
         ///     Convert a value as a string
         /// </summary>
@@ -1344,6 +1343,8 @@ namespace SmartTests
                 return ToString( lng );
             if( value is sbyte sbt )
                 return ToString( sbt );
+            if( value is short sht )
+                return ToString( sht );
             if( value is uint unt )
                 return ToString( unt );
             if( value is ulong ulg )
@@ -1355,7 +1356,7 @@ namespace SmartTests
         }
 
 
-        internal static string ToString( byte value ) => value == byte.MaxValue ? "byte.MaxValue" : value.ToString();
+        private static string ToString( byte value ) => value == byte.MaxValue ? "byte.MaxValue" : value.ToString();
 
 
         internal static string ToString( decimal value )

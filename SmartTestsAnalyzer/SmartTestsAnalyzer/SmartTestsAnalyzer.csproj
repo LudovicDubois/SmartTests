@@ -55,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="images\SmartTests.png" Pack="true" PackagePath=""/>
+    <None Include="images\SmartTests.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

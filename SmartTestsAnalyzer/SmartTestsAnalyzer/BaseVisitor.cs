@@ -52,18 +52,68 @@ namespace SmartTestsAnalyzer
                     return TryCreateDateTime( (ObjectCreationExpressionSyntax)expression, out value );
 
                 if( Equals( ( symbol as ILocalSymbol )?.Type ??
-                            ( symbol as IFieldSymbol )?.Type ??
                             ( symbol as IPropertySymbol )?.Type ??
                             ( symbol as IMethodSymbol )?.ReturnType,
                             _DateTimeType ) )
                     ReportDiagnostic( SmartTestsDiagnostics.CreateNotADateCreation( expression ) );
                 else
                     ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( expression ) );
-                value = default(T);
+                value = default;
                 return false;
             }
 
             value = (T)Convert.ChangeType( constant.Value, typeof(T) );
+            return true;
+        }
+
+
+        protected bool TryGetSymbolicConstant<T>( ExpressionSyntax expression, out SymbolicConstant<T> value, bool acceptSymbolic = true )
+            where T: IComparable<T>
+        {
+            var constant = Model.GetConstantValue( expression );
+            if( !constant.HasValue )
+            {
+                var symbol = Model.GetSymbolInfo( expression ).Symbol;
+                if( _DateTimeConstants.TryGetValue( symbol, out var dt ) ||
+                    _DateTimeConstants.TryGetValue( symbol.OriginalDefinition, out dt ) )
+                {
+                    value = new SymbolicConstant<T>( (T)(object)dt );
+                    return true;
+                }
+
+                if( _DateTimeConstructions.Contains( symbol ) )
+                    return TryCreateDateTime( (ObjectCreationExpressionSyntax)expression, out value );
+
+                if( acceptSymbolic )
+                {
+                    if( symbol is IFieldSymbol field )
+                    {
+                        // Symbolic Range
+                        value = new SymbolicConstant<T>( field );
+                        return true;
+                    }
+
+                    if( symbol is IPropertySymbol property &&
+                        !property.IsIndexer )
+                    {
+                        // Symbolic Range
+                        value = new SymbolicConstant<T>( property );
+                        return true;
+                    }
+                }
+
+                if( Equals( ( symbol as ILocalSymbol )?.Type ??
+                            ( symbol as IPropertySymbol )?.Type ??
+                            ( symbol as IMethodSymbol )?.ReturnType,
+                            _DateTimeType ) )
+                    ReportDiagnostic( SmartTestsDiagnostics.CreateNotADateCreation( expression ) );
+                else
+                    ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( expression ) );
+                value = default;
+                return false;
+            }
+
+            value = new SymbolicConstant<T>( (T)Convert.ChangeType( constant.Value, typeof(T) ) );
             return true;
         }
 
@@ -75,7 +125,7 @@ namespace SmartTestsAnalyzer
                 var args = new List<object>();
                 foreach( var arg in expression.ArgumentList.Arguments )
                     args.Add( Model.GetConstantValue( arg.Expression ).Value );
-                result = (T)Activator.CreateInstance( typeof(DateTime), args.ToArray() );
+                result = (T)Activator.CreateInstance( typeof(T), Activator.CreateInstance( typeof(DateTime), args.ToArray() ) );
                 return true;
             }
             catch

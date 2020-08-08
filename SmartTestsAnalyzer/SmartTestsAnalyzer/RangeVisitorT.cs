@@ -5,10 +5,10 @@ using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-using SmartTests;
 using SmartTests.Ranges;
 
 using SmartTestsAnalyzer.Helpers;
+using SmartTestsAnalyzer.Ranges;
 
 
 
@@ -17,7 +17,7 @@ namespace SmartTestsAnalyzer
     internal class RangeVisitor<T>: BaseVisitor, IRangeVisitor
         where T: struct, IComparable<T>
     {
-        public RangeVisitor( SemanticModel model, INumericType<T> root, Type helperType, Action<Diagnostic> reportDiagnostic )
+        public RangeVisitor( SemanticModel model, ISymbolicNumericType<T> root, Type helperType, Action<Diagnostic> reportDiagnostic )
             : base( model, reportDiagnostic )
         {
             _Root = root;
@@ -33,7 +33,7 @@ namespace SmartTestsAnalyzer
             new Dictionary<IMethodSymbol, Action<InvocationExpressionSyntax>>();
 
 
-        private INumericType<T> _Root;
+        private ISymbolicNumericType<T> _Root;
         public IType Root => _Root;
         // ReSharper disable once MemberCanBePrivate.Global
         public bool IsError { get; set; }
@@ -91,15 +91,13 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void Range( InvocationExpressionSyntax node, Action<T, T> addRange )
+        private void Range( InvocationExpressionSyntax node, Action<SymbolicConstant<T>, SymbolicConstant<T>> addRange )
         {
-            if( TryGetConstant( node.GetArgument( 0 ).Expression, out T min ) &
-                TryGetConstant( node.GetArgument( 1 ).Expression, out T max ) )
+            if( TryGetSymbolicConstant( node.GetArgument( 0 ).Expression, out SymbolicConstant<T> min ) &
+                TryGetSymbolicConstant( node.GetArgument( 1 ).Expression, out SymbolicConstant<T> max ) )
             {
-                if( min.CompareTo( max ) > 0 )
-                {
-                    ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, SmartTest.ToString( min ), SmartTest.ToString( max ) ) );
-                }
+                if( min.ConstantGreaterThan( max ) )
+                    ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, min.ToString(), max.ToString() ) );
                 else if( _Root != null )
                     addRange( min, max );
             }
@@ -108,14 +106,14 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void Range( InvocationExpressionSyntax node, Action<T, bool, T, bool> addRange )
+        private void Range( InvocationExpressionSyntax node, Action<SymbolicConstant<T>, bool, SymbolicConstant<T>, bool> addRange )
         {
-            if( TryGetConstant( node.GetArgument( 0 ).Expression, out T min ) &
+            if( TryGetSymbolicConstant( node.GetArgument( 0 ).Expression, out SymbolicConstant<T> min ) &
                 TryGetConstant( node.GetArgument( 1 ).Expression, out bool minIncluded ) &
-                TryGetConstant( node.GetArgument( 2 ).Expression, out T max ) &
+                TryGetSymbolicConstant( node.GetArgument( 2 ).Expression, out SymbolicConstant<T> max ) &
                 TryGetConstant( node.GetArgument( 3 ).Expression, out bool maxIncluded ) )
             {
-                if( min.CompareTo( max ) > 0 )
+                if( min.ConstantGreaterThan( max ) )
                     ReportDiagnostic( SmartTestsDiagnostics.CreateMinShouldBeLessThanMax( node, min.ToString(), max.ToString() ) );
                 else if( _Root != null )
                     addRange( min, minIncluded, max, maxIncluded );
@@ -125,9 +123,9 @@ namespace SmartTestsAnalyzer
         }
 
 
-        private void Range( InvocationExpressionSyntax node, Action<T> addRange )
+        private void Range( InvocationExpressionSyntax node, Action<SymbolicConstant<T>> addRange )
         {
-            if( TryGetConstant( node.GetArgument( 0 ).Expression, out T value ) )
+            if( TryGetSymbolicConstant( node.GetArgument( 0 ).Expression, out SymbolicConstant<T> value ) )
             {
                 if( _Root != null )
                     addRange( value );

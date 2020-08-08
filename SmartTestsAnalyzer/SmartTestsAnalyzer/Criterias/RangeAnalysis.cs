@@ -5,6 +5,8 @@ using Microsoft.CodeAnalysis;
 
 using SmartTests.Ranges;
 
+using SmartTestsAnalyzer.Ranges;
+
 
 
 namespace SmartTestsAnalyzer.Criterias
@@ -16,18 +18,18 @@ namespace SmartTestsAnalyzer.Criterias
 
         static RangeAnalysis()
         {
-            _CriteriaValuesGenerator[ typeof(ByteType) ] = () => new RangeValues<byte, ByteType>();
-            _CriteriaValuesGenerator[ typeof(SByteType) ] = () => new RangeValues<sbyte, SByteType>();
-            _CriteriaValuesGenerator[ typeof(Int16Type) ] = () => new RangeValues<short, Int16Type>();
-            _CriteriaValuesGenerator[ typeof(UInt16Type) ] = () => new RangeValues<ushort, UInt16Type>();
-            _CriteriaValuesGenerator[ typeof(Int32Type) ] = () => new RangeValues<int, Int32Type>();
-            _CriteriaValuesGenerator[ typeof(UInt32Type) ] = () => new RangeValues<uint, UInt32Type>();
-            _CriteriaValuesGenerator[ typeof(Int64Type) ] = () => new RangeValues<long, Int64Type>();
-            _CriteriaValuesGenerator[ typeof(UInt64Type) ] = () => new RangeValues<ulong, UInt64Type>();
-            _CriteriaValuesGenerator[ typeof(SingleType) ] = () => new RangeValues<float, SingleType>();
-            _CriteriaValuesGenerator[ typeof(DoubleType) ] = () => new RangeValues<double, DoubleType>();
-            _CriteriaValuesGenerator[ typeof(DecimalType) ] = () => new RangeValues<decimal, DecimalType>();
-            _CriteriaValuesGenerator[ typeof(DateTimeType) ] = () => new RangeValues<DateTime, DateTimeType>();
+            _CriteriaValuesGenerator[ typeof(SymbolicByteType) ] = () => new RangeValues<byte, SymbolicByteType>();
+            _CriteriaValuesGenerator[ typeof(SymbolicSByteType) ] = () => new RangeValues<sbyte, SymbolicSByteType>();
+            _CriteriaValuesGenerator[ typeof(SymbolicInt16Type) ] = () => new RangeValues<short, SymbolicInt16Type>();
+            _CriteriaValuesGenerator[ typeof(SymbolicUInt16Type) ] = () => new RangeValues<ushort, SymbolicUInt16Type>();
+            _CriteriaValuesGenerator[ typeof(SymbolicInt32Type) ] = () => new RangeValues<int, SymbolicInt32Type>();
+            _CriteriaValuesGenerator[ typeof(SymbolicUInt32Type) ] = () => new RangeValues<uint, SymbolicUInt32Type>();
+            _CriteriaValuesGenerator[ typeof(SymbolicInt64Type) ] = () => new RangeValues<long, SymbolicInt64Type>();
+            _CriteriaValuesGenerator[ typeof(SymbolicUInt64Type) ] = () => new RangeValues<ulong, SymbolicUInt64Type>();
+            _CriteriaValuesGenerator[ typeof(SymbolicSingleType) ] = () => new RangeValues<float, SymbolicSingleType>();
+            _CriteriaValuesGenerator[ typeof(SymbolicDoubleType) ] = () => new RangeValues<double, SymbolicDoubleType>();
+            _CriteriaValuesGenerator[ typeof(SymbolicDecimalType) ] = () => new RangeValues<decimal, SymbolicDecimalType>();
+            _CriteriaValuesGenerator[ typeof(SymbolicDateTimeType) ] = () => new RangeValues<DateTime, SymbolicDateTimeType>();
             _CriteriaValuesGenerator[ typeof(EnumTypeAnalyzer) ] = () => new EnumValues();
         }
 

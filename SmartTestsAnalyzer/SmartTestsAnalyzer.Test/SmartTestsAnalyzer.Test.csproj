@@ -271,7 +271,7 @@
       <Name>SmartTests</Name>
     </ProjectReference>
     <ProjectReference Include="..\SmartTestsAnalyzer\SmartTestsAnalyzer.csproj">
-      <Project>{C22596FD-95AC-4689-836C-2D0C5DB37D31}</Project>
+      <Project>{c22596fd-95ac-4689-836c-2d0c5db37d31}</Project>
       <Name>SmartTestsAnalyzer</Name>
     </ProjectReference>
   </ItemGroup>

@@ -4,7 +4,7 @@ using System.Linq;
 
 using Microsoft.CodeAnalysis;
 
-using SmartTests.Ranges;
+using SmartTestsAnalyzer.Ranges;
 
 
 
@@ -54,7 +54,7 @@ namespace SmartTestsAnalyzer.Criterias
 
     public class RangeValues<T, TRange>: CriteriaValues
         where T: struct, IComparable<T>
-        where TRange: class, INumericType<T>, new()
+        where TRange: class, ISymbolicNumericType<T>, new()
     {
         public override void AddCurrentValues() => CompleteWithMissingChunks( GetAllCurrentChunks() );
         public override void AddMissingValues() => CompleteWithMissingChunks( GetAllCurrentChunks() );
@@ -77,26 +77,10 @@ namespace SmartTestsAnalyzer.Criterias
         private void CompleteWithMissingChunks( TRange currentRange )
         {
             var missing = new TRange();
-            if( currentRange.Chunks.Count == 0 )
-            {
-                missing.Range( missing.MinValue, missing.MaxValue );
-                Values.Add( new CriteriaValue( new RangeAnalysis( missing, false ), false ) );
-                return;
-            }
-
-            var value = missing.MinValue;
-            var valueIncluded = true;
-            foreach( var chunk in currentRange.Chunks )
-            {
-                if( chunk.IncludedMin.CompareTo( value ) != 0 )
-                    missing.Range( value, valueIncluded, chunk.Min, !chunk.MinIncluded );
-                value = chunk.Max;
-                valueIncluded = !chunk.MaxIncluded;
-            }
-
-            if( currentRange.Chunks.Last().IncludedMax.CompareTo( missing.MaxValue ) < 0 )
-                missing.Range( value, valueIncluded, missing.MaxValue, true );
-
+            var errors = new TRange();
+            missing.Range( missing.MinValue, missing.MaxValue );
+            missing.RemoveRange( currentRange, errors );
+            // LD: What to do with errors?
             if( missing.Chunks.Count > 0 )
                 Values.Add( new CriteriaValue( new RangeAnalysis( missing, false ), false ) );
         }
