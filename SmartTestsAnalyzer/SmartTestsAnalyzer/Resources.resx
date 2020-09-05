@@ -147,14 +147,14 @@
   <data name="MissingParameterCase_Title" xml:space="preserve">
     <value>Missing Parameter Case</value>
   </data>
-  <data name="NotAConstant_Description" xml:space="preserve">
-    <value>A constant is expected so that the Analyzer can use it</value>
+  <data name="NotAConstantPropertyField_Description" xml:space="preserve">
+    <value>A Constant, a Property or a Field is expected so that the Analyzer can use it</value>
   </data>
-  <data name="NotAConstant_MessageFormat" xml:space="preserve">
-    <value>A constant is expected</value>
+  <data name="NotAConstantPropertyField_MessageFormat" xml:space="preserve">
+    <value>A Constant, Property or Field is expected</value>
   </data>
-  <data name="NotAConstant_Title" xml:space="preserve">
-    <value>Not a Constant</value>
+  <data name="NotAConstantPropertyField_Title" xml:space="preserve">
+    <value>Not a Constant, a property or a field</value>
   </data>
   <data name="MinShouldBeLessThanMax_Description" xml:space="preserve">
     <value>Your range is not valid as min value is greater than max value</value>

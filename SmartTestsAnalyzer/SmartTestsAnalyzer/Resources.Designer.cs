@@ -143,29 +143,29 @@ namespace SmartTestsAnalyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A constant is expected so that the Analyzer can use it.
+        ///   Looks up a localized string similar to A Constant, a Property or a Field is expected so that the Analyzer can use it.
         /// </summary>
-        internal static string NotAConstant_Description {
+        internal static string NotAConstantPropertyField_Description {
             get {
-                return ResourceManager.GetString("NotAConstant_Description", resourceCulture);
+                return ResourceManager.GetString("NotAConstantPropertyField_Description", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A constant is expected.
+        ///   Looks up a localized string similar to A Constant, Property or Field is expected.
         /// </summary>
-        internal static string NotAConstant_MessageFormat {
+        internal static string NotAConstantPropertyField_MessageFormat {
             get {
-                return ResourceManager.GetString("NotAConstant_MessageFormat", resourceCulture);
+                return ResourceManager.GetString("NotAConstantPropertyField_MessageFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not a Constant.
+        ///   Looks up a localized string similar to Not a Constant, a property or a field.
         /// </summary>
-        internal static string NotAConstant_Title {
+        internal static string NotAConstantPropertyField_Title {
             get {
-                return ResourceManager.GetString("NotAConstant_Title", resourceCulture);
+                return ResourceManager.GetString("NotAConstantPropertyField_Title", resourceCulture);
             }
         }
         

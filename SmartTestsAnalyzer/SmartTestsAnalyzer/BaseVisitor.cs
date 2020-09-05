@@ -57,7 +57,7 @@ namespace SmartTestsAnalyzer
                             _DateTimeType ) )
                     ReportDiagnostic( SmartTestsDiagnostics.CreateNotADateCreation( expression ) );
                 else
-                    ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( expression ) );
+                    ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstantPropertyField( expression ) );
                 value = default;
                 return false;
             }
@@ -108,7 +108,7 @@ namespace SmartTestsAnalyzer
                             _DateTimeType ) )
                     ReportDiagnostic( SmartTestsDiagnostics.CreateNotADateCreation( expression ) );
                 else
-                    ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( expression ) );
+                    ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstantPropertyField( expression ) );
                 value = default;
                 return false;
             }
@@ -142,7 +142,7 @@ namespace SmartTestsAnalyzer
             var constant = Model.GetConstantValue( expression );
             if( !constant.HasValue )
             {
-                ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstant( expression ) );
+                ReportDiagnostic( SmartTestsDiagnostics.CreateNotAConstantPropertyField( expression ) );
                 value = false;
                 return false;
             }

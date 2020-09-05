@@ -561,8 +561,8 @@ namespace TestingProject
 }";
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_NotAConstant",
-                               Message = "A constant is expected",
+                               Id = "SmartTestsAnalyzer_NotAConstantPropertyField",
+                               Message = "A Constant, Property or Field is expected",
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
@@ -604,8 +604,8 @@ namespace TestingProject
 }";
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_NotAConstant",
-                               Message = "A constant is expected",
+                               Id = "SmartTestsAnalyzer_NotAConstantPropertyField",
+                               Message = "A Constant, Property or Field is expected",
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
@@ -647,8 +647,8 @@ namespace TestingProject
 }";
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_NotAConstant",
-                               Message = "A constant is expected",
+                               Id = "SmartTestsAnalyzer_NotAConstantPropertyField",
+                               Message = "A Constant, Property or Field is expected",
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {
@@ -690,8 +690,8 @@ namespace TestingProject
 }";
             var expected = new DiagnosticResult
                            {
-                               Id = "SmartTestsAnalyzer_NotAConstant",
-                               Message = "A constant is expected",
+                               Id = "SmartTestsAnalyzer_NotAConstantPropertyField",
+                               Message = "A Constant, Property or Field is expected",
                                Severity = DiagnosticSeverity.Error,
                                Locations = new[]
                                            {

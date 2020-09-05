@@ -54,13 +54,13 @@ namespace SmartTestsAnalyzer
                                                                                                        true,
                                                                                                        LocalizeString( nameof(Resources.MissingParameterCase_Description) ) );
 
-        private static readonly DiagnosticDescriptor _ConstantExpected = new DiagnosticDescriptor( "SmartTestsAnalyzer_NotAConstant",
-                                                                                                   LocalizeString( nameof(Resources.NotAConstant_Title) ),
-                                                                                                   LocalizeString( nameof(Resources.NotAConstant_MessageFormat) ),
+        private static readonly DiagnosticDescriptor _ConstantPropertyFieldExpected = new DiagnosticDescriptor( "SmartTestsAnalyzer_NotAConstantPropertyField",
+                                                                                                   LocalizeString( nameof(Resources.NotAConstantPropertyField_Title) ),
+                                                                                                   LocalizeString( nameof(Resources.NotAConstantPropertyField_MessageFormat) ),
                                                                                                    _Category,
                                                                                                    DiagnosticSeverity.Error,
                                                                                                    true,
-                                                                                                   LocalizeString( nameof(Resources.NotAConstant_Description) ) );
+                                                                                                   LocalizeString( nameof(Resources.NotAConstantPropertyField_Description) ) );
         private static readonly DiagnosticDescriptor _DateCreationExpected = new DiagnosticDescriptor( "SmartTestsAnalyzer_NotADateCreation",
                                                                                                        LocalizeString( nameof(Resources.NotADate_Title) ),
                                                                                                        LocalizeString( nameof(Resources.NotADate_MessageFormat) ),
@@ -82,7 +82,7 @@ namespace SmartTestsAnalyzer
                                                                                                                    _WrongParameterType,
                                                                                                                    _WrongParameterPath,
                                                                                                                    _MissingParameterCase,
-                                                                                                                   _ConstantExpected,
+                                                                                                                   _ConstantPropertyFieldExpected,
                                                                                                                    _DateCreationExpected,
                                                                                                                    _MinShouldBeLessThanMax
                                                                                                                  );
@@ -142,9 +142,9 @@ namespace SmartTestsAnalyzer
         }
 
 
-        public static Diagnostic CreateNotAConstant( SyntaxNode expression )
+        public static Diagnostic CreateNotAConstantPropertyField( SyntaxNode expression )
         {
-            return Diagnostic.Create( _ConstantExpected,
+            return Diagnostic.Create( _ConstantPropertyFieldExpected,
                                       expression.GetLocation()
                                     );
         }
