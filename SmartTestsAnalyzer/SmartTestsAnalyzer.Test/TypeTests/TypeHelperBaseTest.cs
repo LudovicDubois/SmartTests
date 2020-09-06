@@ -761,7 +761,6 @@ namespace TestingProject
         }
 
 
-
         [Test]
         public void TwoLimits_100_RangeMinMaxField()
         {
@@ -870,6 +869,123 @@ namespace TestingProject
 
             VerifyCSharpDiagnostic( test, expected );
         }
+
+
+        #region 3 limits
+
+        [Test]
+        public void TwoLimits_Value_RangeMinMaxField()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit1 = 100;
+        public static readonly " + _Type + @" Limit2 = 110;
+        public static readonly " + _Type + @" Limit3 = 120;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod0()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit3, Class1.Limit3 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit1, Class1.Limit2 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Range(?, true, Class1.Limit1, false).Range(Class1.Limit2, false, ?, true)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 22, 41 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 31, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+
+        [Test]
+        public void TwoLimits_RangeMinMaxField_Value()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit1 = 100;
+        public static readonly " + _Type + @" Limit2 = 110;
+        public static readonly " + _Type + @" Limit3 = 120;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit1, Class1.Limit2 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod0()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit3, Class1.Limit3 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Range(?, true, Class1.Limit3, false).Range(Class1.Limit3, false, ?, true)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 22, 41 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 31, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
+
+        #endregion
+
         #endregion
 
         #endregion
