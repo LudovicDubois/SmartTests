@@ -45,7 +45,17 @@ namespace SmartTestsAnalyzer.Ranges
             var order = new SymbolicOrder<T>( range.MinValue, range.MaxValue );
             order.AddRange( Chunks );
             order.AddRange( range.Chunks );
-            range.Chunks.ForEach( chunk => RemoveRange( order, chunk, errors ) );
+            var unknownBounds = false;
+            range.Chunks.ForEach( chunk =>
+                                  {
+                                      if( !chunk.Min.Symbolic && !chunk.Max.Symbolic )
+                                          RemoveRange( order, chunk, errors, ref unknownBounds );
+                                  } );
+            range.Chunks.ForEach( chunk =>
+                                  {
+                                      if( chunk.Min.Symbolic || chunk.Max.Symbolic )
+                                          RemoveRange( order, chunk, errors, ref unknownBounds );
+                                  } );
         }
 
 
@@ -57,8 +67,9 @@ namespace SmartTestsAnalyzer.Ranges
         /// <param name="order">The Partial Order of SymbolicConstants.</param>
         /// <param name="remove"></param>
         /// <param name="errors">The values removed several times.</param>
+        /// <param name="unknownBounds">If we should add unknown bounds Range or all ranges.</param>
         /// <returns>The Range of the errors (removed multiple times)</returns>
-        private void RemoveRange( SymbolicOrder<T> order, SymbolicChunk<T> remove, ISymbolicNumericType<T> errors )
+        private void RemoveRange( SymbolicOrder<T> order, SymbolicChunk<T> remove, ISymbolicNumericType<T> errors, ref bool unknownBounds )
         {
             var comparable = false;
             foreach( var source in Chunks.ToArray() )
@@ -106,7 +117,11 @@ namespace SmartTestsAnalyzer.Ranges
                         if( removeMinIncluded )
                             errors.Value( removeMin );
                         else
-                            Value( removeMin );
+                        {
+                            if( !unknownBounds )
+                                Value( removeMin );
+                        }
+
                         removeMinIncluded = false;
                     }
 
@@ -121,13 +136,20 @@ namespace SmartTestsAnalyzer.Ranges
                         if( removeMaxIncluded )
                             errors.Value( sourceMax );
                         else
-                            Value( sourceMax );
+                        {
+                            if( !unknownBounds )
+                                Value( sourceMax );
+                        }
+
                         removeMaxIncluded = false;
                     }
 
                     sourceMax = removeMin;
                     sourceMaxIncluded = !removeMinIncluded;
                 }
+
+                if( unknownBounds )
+                    continue;
 
                 if( order.LessThan( sourceMin, removeMin ) == true &&
                     order.LessThan( removeMin, sourceMax ) == true &&
@@ -150,7 +172,11 @@ namespace SmartTestsAnalyzer.Ranges
             if( !comparable )
             {
                 // Add ?..remove.Min and remove.Max..?
-                Chunks.Clear();
+                if( !unknownBounds )
+                {
+                    Chunks.Clear();
+                    unknownBounds = true;
+                }
                 Chunks.Add( new SymbolicChunk<T>( new SymbolicConstant<T>(), remove.Min, true, !remove.MinIncluded ) );
                 Chunks.Add( new SymbolicChunk<T>( remove.Max, new SymbolicConstant<T>(), !remove.MaxIncluded, true ) );
             }

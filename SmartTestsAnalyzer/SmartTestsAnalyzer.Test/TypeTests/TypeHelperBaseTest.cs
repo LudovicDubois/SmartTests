@@ -815,6 +815,61 @@ namespace TestingProject
 
             VerifyCSharpDiagnostic( test, expected );
         }
+
+
+        [Test]
+        public void TwoLimits_RangeMinMaxField_100()
+        {
+            var test = @"
+using NUnit.Framework;
+using SmartTests.Ranges;
+using static SmartTests.SmartTest;
+
+namespace TestingProject
+{
+    class Class1
+    {
+        public static " + _Type + " Same(" + _Type + @" i) => i;
+        public static readonly " + _Type + @" Limit1 = 100;
+        public static readonly " + _Type + @" Limit2 = 110;
+    }
+
+    [TestFixture]
+    public class MyTestClass
+    {
+        [Test]
+        public void TestMethod()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( Class1.Limit1, Class1.Limit2 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+
+        [Test]
+        public void TestMethod0()
+        {
+            var result = RunTest( Case( ( " + _Type + @" i ) => i.Range( 100, 100 ), out var value ), 
+                                  () => Class1.Same( value ) );
+
+            Assert.That( result, Is.EqualTo(value) );
+        }
+    }
+}";
+            var expected = new DiagnosticResult
+                           {
+                               Id = "SmartTestsAnalyzer_MissingCases",
+                               Message = $"Tests for 'TestingProject.Class1.Same({_Type})' has some missing Test Cases: i:{_SmartType}.Range(?, true, Class1.Limit1, false).Range(Class1.Limit2, false, ?, true)",
+                               Severity = DiagnosticSeverity.Warning,
+                               Locations = new[]
+                                           {
+                                               new DiagnosticResultLocation( "Test0.cs", 21, 41 ),
+                                               new DiagnosticResultLocation( "Test0.cs", 30, 41 )
+                                           }
+                           };
+
+            VerifyCSharpDiagnostic( test, expected );
+        }
         #endregion
 
         #endregion
